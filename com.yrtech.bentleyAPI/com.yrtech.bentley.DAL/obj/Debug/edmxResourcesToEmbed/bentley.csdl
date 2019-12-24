@@ -339,5 +339,16 @@
     <EntitySet Name="Shop" EntityType="Self.Shop" />
     <EntitySet Name="ShopCommitFileRecord" EntityType="Self.ShopCommitFileRecord" />
     <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
+    <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" />
   </EntityContainer>
+  <EntityType Name="MarketActionAfter30LeadsReportUpdate">
+    <Key>
+      <PropertyRef Name="MarketActionId" />
+      <PropertyRef Name="SeqNO" />
+    </Key>
+    <Property Name="MarketActionId" Type="Int32" Nullable="false" />
+    <Property Name="SeqNO" Type="Int32" Nullable="false" />
+    <Property Name="UpdateUserId" Type="Int32" />
+    <Property Name="UpdateDateTime" Type="DateTime" Precision="3" />
+  </EntityType>
 </Schema>

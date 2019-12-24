@@ -81,6 +81,9 @@
     <Compile Include="MarketActionAfter2LeadsReport.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>
+    <Compile Include="MarketActionAfter30LeadsReportUpdate.cs">
+      <DependentUpon>bentley.tt</DependentUpon>
+    </Compile>
     <Compile Include="MarketActionAfter7.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>

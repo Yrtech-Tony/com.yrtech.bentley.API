@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BentleyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BentleyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Area">
           <Key>
             <PropertyRef Name="AreaId" />
@@ -97,6 +97,16 @@
           <Property Name="InDateTime" Type="datetime" />
           <Property Name="ModifyUserId" Type="int" />
           <Property Name="ModifyDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MarketActionAfter30LeadsReportUpdate">
+          <Key>
+            <PropertyRef Name="MarketActionId" />
+            <PropertyRef Name="SeqNO" />
+          </Key>
+          <Property Name="MarketActionId" Type="int" Nullable="false" />
+          <Property Name="SeqNO" Type="int" Nullable="false" />
+          <Property Name="UpdateUserId" Type="int" />
+          <Property Name="UpdateDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="MarketActionAfter7">
           <Key>
@@ -341,6 +351,7 @@
           <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketAction" EntityType="Self.MarketAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionAfter2LeadsReport" EntityType="Self.MarketActionAfter2LeadsReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="Self.MarketActionAfter30LeadsReportUpdate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionAfter7" EntityType="Self.MarketActionAfter7" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionAfter7ActualExpense" EntityType="Self.MarketActionAfter7ActualExpense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionAfter7ActualProcess" EntityType="Self.MarketActionAfter7ActualProcess" Schema="dbo" store:Type="Tables" />
@@ -356,8 +367,7 @@
           <EntitySet Name="ShopCommitFileRecord" EntityType="Self.ShopCommitFileRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BentleyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -700,7 +710,18 @@
           <EntitySet Name="Shop" EntityType="Self.Shop" />
           <EntitySet Name="ShopCommitFileRecord" EntityType="Self.ShopCommitFileRecord" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
+          <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" />
         </EntityContainer>
+        <EntityType Name="MarketActionAfter30LeadsReportUpdate">
+          <Key>
+            <PropertyRef Name="MarketActionId" />
+            <PropertyRef Name="SeqNO" />
+          </Key>
+          <Property Name="MarketActionId" Type="Int32" Nullable="false" />
+          <Property Name="SeqNO" Type="Int32" Nullable="false" />
+          <Property Name="UpdateUserId" Type="Int32" />
+          <Property Name="UpdateDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1031,6 +1052,16 @@
                 <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
                 <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
                 <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketActionAfter30LeadsReportUpdate">
+            <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter30LeadsReportUpdate">
+              <MappingFragment StoreEntitySet="MarketActionAfter30LeadsReportUpdate">
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+                <ScalarProperty Name="UpdateUserId" ColumnName="UpdateUserId" />
+                <ScalarProperty Name="SeqNO" ColumnName="SeqNO" />
+                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

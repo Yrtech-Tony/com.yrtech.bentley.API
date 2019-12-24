@@ -36,7 +36,7 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND ShopName = @ShopName";
             }
-            if (!string.IsNullOrEmpty(shopId))
+            if (!string.IsNullOrEmpty(shopNameEn))
             {
                 sql += " AND ShopNameEn = @ShopNameEn";
             }

@@ -19,13 +19,13 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region CommitFile
         [HttpGet]
         [Route("CommitFile/ShopCommitFileRecordStatusSearch")]
-        public APIResult ShopCommitFileRecordStatusSearch(string year)
+        public APIResult ShopCommitFileRecordStatusSearch(string year,string shopId)
         {
             try
             {
                 ShopCommitFileRecordListDto shopCommitFileRecordList = new ShopCommitFileRecordListDto();
-                shopCommitFileRecordList.ShopCommitFileRecordStatusList = commitFileService.ShopCommitFileRecordStatusSearch(year);
-                shopCommitFileRecordList.ShopList = masterService.ShopSearch("", "", "", "");
+                shopCommitFileRecordList.ShopCommitFileRecordStatusList = commitFileService.ShopCommitFileRecordStatusSearch(year,shopId);
+                shopCommitFileRecordList.ShopList = masterService.ShopSearch(shopId, "", "", "");
                 shopCommitFileRecordList.CommitFileList = commitFileService.CommitFileSearch(year);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(shopCommitFileRecordList) };

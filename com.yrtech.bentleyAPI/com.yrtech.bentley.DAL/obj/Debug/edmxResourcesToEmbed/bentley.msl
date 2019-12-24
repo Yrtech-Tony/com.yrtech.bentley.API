@@ -328,5 +328,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="MarketActionAfter30LeadsReportUpdate">
+      <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter30LeadsReportUpdate">
+        <MappingFragment StoreEntitySet="MarketActionAfter30LeadsReportUpdate">
+          <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+          <ScalarProperty Name="UpdateUserId" ColumnName="UpdateUserId" />
+          <ScalarProperty Name="SeqNO" ColumnName="SeqNO" />
+          <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

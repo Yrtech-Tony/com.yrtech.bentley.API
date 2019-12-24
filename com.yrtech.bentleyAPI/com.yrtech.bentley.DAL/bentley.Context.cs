@@ -44,5 +44,6 @@ namespace com.yrtech.bentley.DAL
         public virtual DbSet<Shop> Shop { get; set; }
         public virtual DbSet<ShopCommitFileRecord> ShopCommitFileRecord { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
+        public virtual DbSet<MarketActionAfter30LeadsReportUpdate> MarketActionAfter30LeadsReportUpdate { get; set; }
     }
 }

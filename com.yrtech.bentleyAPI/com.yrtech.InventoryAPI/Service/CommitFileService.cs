@@ -19,18 +19,18 @@ namespace com.yrtech.InventoryAPI.Service
         {
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@Year", year) };
             Type t = typeof(CommitFile);
-            string sql = @"SELECT FileId,FileName,UpperFileId FROM CommitFile
-                            WHERE Year = @Year";
+            string sql = @"SELECT * FROM CommitFile
+                            WHERE [Year] = @Year";
             return db.Database.SqlQuery(t, sql, para).Cast<CommitFile>().ToList();
         }
         public List<ShopCommitFileRecord> ShopCommitFileRecordSearch(string shopId, string fileId)
         {
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId),
-                                                    new SqlParameter("@File", fileId) };
+                                                    new SqlParameter("@FileId", fileId) };
             Type t = typeof(ShopCommitFileRecord);
-            string sql = @"SELECT B.ShopId,A.FileId,A.FileName,B.InDateTime,B.ModifyDateTime 
-                            FROM CommitFile A INNER JOIN ShopCommitFileRecord B ON A.FileId = B.FileId
-                            WHERE B.ShopId = @ShopId AND A.FileId = @FileId";
+            string sql = @"SELECT * 
+                            FROM ShopCommitFileRecord 
+                            WHERE ShopId = @ShopId AND FileId = @FileId";
             return db.Database.SqlQuery(t, sql, para).Cast<ShopCommitFileRecord>().ToList();
         }
         public void ShopCommitFileRecordSave(ShopCommitFileRecord shopCommitFileRecord)
@@ -59,14 +59,20 @@ namespace com.yrtech.InventoryAPI.Service
             string sql = @"DELETE ShopCommitFileRecord WHERE ShopId =@ShopId AND FileId = @FileId AND SeqNO = @SeqNO";
              db.Database.ExecuteSqlCommand(sql, para);
         }
-        public List<ShopCommitFileRecordStatusDto> ShopCommitFileRecordStatusSearch(string year)
+        public List<ShopCommitFileRecordStatusDto> ShopCommitFileRecordStatusSearch(string year,string shopId)
         {
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@Year", year) };
+            if (shopId == null) shopId = "";
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@Year", year), new SqlParameter("@ShopId", shopId) };
             Type t = typeof(ShopCommitFileRecordStatusDto);
-            string sql = @"SELECT B.ShopId,A.FileId,Count(*) AS FileCount
+            string sql = "";
+             sql = @"SELECT B.ShopId,A.FileId,Count(*) AS FileCount
                             FROM CommitFile A INNER JOIN ShopCommitFileRecord B ON A.FileId = B.FileId
-                            WHERE A.Year = @Year
-                            GROUP BY B.ShopId,A.FileId";
+                            WHERE 1=1 AND A.[Year] = @Year";
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += @" AND B.ShopId = @ShopId";
+            }
+            sql+=@" GROUP BY B.ShopId,A.FileId";
             return db.Database.SqlQuery(t, sql, para).Cast<ShopCommitFileRecordStatusDto>().ToList();
         }
     }

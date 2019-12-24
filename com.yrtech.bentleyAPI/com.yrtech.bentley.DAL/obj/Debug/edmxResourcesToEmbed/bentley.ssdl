@@ -93,6 +93,16 @@
     <Property Name="ModifyUserId" Type="int" />
     <Property Name="ModifyDateTime" Type="datetime" />
   </EntityType>
+  <EntityType Name="MarketActionAfter30LeadsReportUpdate">
+    <Key>
+      <PropertyRef Name="MarketActionId" />
+      <PropertyRef Name="SeqNO" />
+    </Key>
+    <Property Name="MarketActionId" Type="int" Nullable="false" />
+    <Property Name="SeqNO" Type="int" Nullable="false" />
+    <Property Name="UpdateUserId" Type="int" />
+    <Property Name="UpdateDateTime" Type="datetime" />
+  </EntityType>
   <EntityType Name="MarketActionAfter7">
     <Key>
       <PropertyRef Name="MarketActionId" />
@@ -336,6 +346,7 @@
     <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarketAction" EntityType="Self.MarketAction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarketActionAfter2LeadsReport" EntityType="Self.MarketActionAfter2LeadsReport" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="Self.MarketActionAfter30LeadsReportUpdate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarketActionAfter7" EntityType="Self.MarketActionAfter7" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarketActionAfter7ActualExpense" EntityType="Self.MarketActionAfter7ActualExpense" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarketActionAfter7ActualProcess" EntityType="Self.MarketActionAfter7ActualProcess" Schema="dbo" store:Type="Tables" />

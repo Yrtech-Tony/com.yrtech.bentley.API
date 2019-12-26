@@ -63,7 +63,6 @@ namespace com.yrtech.InventoryAPI.Service
         {
             if (shopId == null) shopId = "";
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@Year", year), new SqlParameter("@ShopId", shopId) };
-            Type t = typeof(ShopCommitFileRecordStatusDto);
             string sql = "";
              sql = @"SELECT B.ShopId,A.FileId,Count(*) AS FileCount
                             FROM CommitFile A INNER JOIN ShopCommitFileRecord B ON A.FileId = B.FileId

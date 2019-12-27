@@ -309,25 +309,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="UserInfo">
-      <EntityTypeMapping TypeName="BentleyModel.UserInfo">
-        <MappingFragment StoreEntitySet="UserInfo">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
-          <ScalarProperty Name="TelNO" ColumnName="TelNO" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="RoleTypeCode" ColumnName="RoleTypeCode" />
-          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
-          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
-          <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-          <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-          <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-          <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="MarketActionAfter30LeadsReportUpdate">
       <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter30LeadsReportUpdate">
         <MappingFragment StoreEntitySet="MarketActionAfter30LeadsReportUpdate">
@@ -335,6 +316,26 @@
           <ScalarProperty Name="UpdateUserId" ColumnName="UpdateUserId" />
           <ScalarProperty Name="SeqNO" ColumnName="SeqNO" />
           <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInfo">
+      <EntityTypeMapping TypeName="BentleyModel.UserInfo">
+        <MappingFragment StoreEntitySet="UserInfo">
+          <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+          <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+          <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+          <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+          <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+          <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+          <ScalarProperty Name="RoleTypeCode" ColumnName="RoleTypeCode" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="TelNO" ColumnName="TelNO" />
+          <ScalarProperty Name="AccountNameEn" ColumnName="AccountNameEn" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

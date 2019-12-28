@@ -35,20 +35,23 @@ namespace com.yrtech.InventoryAPI.Service
         }
         public void ShopCommitFileRecordSave(ShopCommitFileRecord shopCommitFileRecord)
         {
-            ShopCommitFileRecord findOne = db.ShopCommitFileRecord.Where(x => (x.ShopId == shopCommitFileRecord.ShopId && x.FileId == shopCommitFileRecord.FileId)).FirstOrDefault();
-            if (findOne == null)
-            {
-                shopCommitFileRecord.SeqNO = 1;
-            }
-            else
+            if (shopCommitFileRecord.SeqNO == 0)
             {
                 ShopCommitFileRecord findOneMax = db.ShopCommitFileRecord.Where(x => (x.ShopId == shopCommitFileRecord.ShopId && x.FileId == shopCommitFileRecord.FileId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
-                shopCommitFileRecord.SeqNO = findOneMax.SeqNO + 1;
+                if (findOneMax == null)
+                {
+                    shopCommitFileRecord.SeqNO = 1;
+                }
+                else
+                {
+                    shopCommitFileRecord.SeqNO = findOneMax.SeqNO + 1;
+                }
+                shopCommitFileRecord.InDateTime = DateTime.Now;
+                shopCommitFileRecord.ModifyDateTime = DateTime.Now;
+                db.ShopCommitFileRecord.Add(shopCommitFileRecord);
+                db.SaveChanges();
             }
-            shopCommitFileRecord.InDateTime = DateTime.Now;
-            shopCommitFileRecord.ModifyDateTime = DateTime.Now;
-            db.ShopCommitFileRecord.Add(shopCommitFileRecord);
-            db.SaveChanges();
+           
         }
         public void ShopCommitFileRecordDelete(string shopId,string fileId,string seqNO)
         {

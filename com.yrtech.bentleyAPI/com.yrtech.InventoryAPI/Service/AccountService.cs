@@ -29,22 +29,22 @@ namespace com.yrtech.InventoryAPI.Service
         {
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@AccountId", accountId),
                                                        new SqlParameter("@RoleTypeCode",roleTypeCode)};
-            Type t = typeof(AccountDto);
+            Type t = typeof(Shop);
             string sql = "";
-            if (roleTypeCode.ToUpper() == "SYSADMIN" || roleTypeCode.ToUpper() == "MARKET")
+            if (roleTypeCode.ToUpper() == "SYSADMIN" || roleTypeCode.ToUpper() == "MARKET" || roleTypeCode.ToUpper() == "BMC")
             {
-                sql += @"SELECT ShopId,ShopCode,ShopName,ShopNameEn 
+                sql += @"SELECT * 
                         FROM Shop A";
             }
             else if (roleTypeCode.ToUpper() == "AREA")
             {
-                sql += @"SELECT A.ShopId,A.ShopCode,A.ShopName,A.ShopNameEn 
+                sql += @"SELECT A.* 
                         FROM Shop A INNER JOIN UserInfo B ON A.AreaId = B.AreaId
                         WHERE B.AccountId = @AccountId";
             }
             else if (roleTypeCode.ToUpper() == "SHOP")
             {
-                sql += @"SELECT A.ShopId,A.ShopCode,A.ShopName,A.ShopNameEn 
+                sql += @"SELECT A.* 
                         FROM Shop A INNER JOIN UserInfo B ON A.ShopId = B.ShopId
                         WHERE B.AccountId = @AccountId";
             }
@@ -55,22 +55,22 @@ namespace com.yrtech.InventoryAPI.Service
         {
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@AccountId", accountId),
                                                        new SqlParameter("@RoleTypeCode",roleTypeCode)};
-            Type t = typeof(AccountDto);
+            Type t = typeof(Area);
             string sql = "";
-            if (roleTypeCode.ToUpper() == "SYSADMIN" || roleTypeCode.ToUpper() == "MARKET")
+            if (roleTypeCode.ToUpper() == "SYSADMIN" || roleTypeCode.ToUpper() == "MARKET"|| roleTypeCode.ToUpper()=="BMC")
             {
-                sql += @"SELECT AreaId,AreaCode,AreaName,AreaNameEn 
+                sql += @"SELECT * 
                         FROM Area A";
             }
             else if (roleTypeCode.ToUpper() == "AREA")
             {
-                sql += @"SELECT A.AreaId,A.AreaCode,A.AreaName,A.AreaNameEn 
+                sql += @"SELECT A.* 
                         FROM Area A INNER JOIN UserInfo B ON A.AreaId = B.AreaId
                         WHERE B.AccountId = @AccountId";
             }
             else if (roleTypeCode.ToUpper() == "SHOP")
             {
-                sql += @"SELECT C.AreaId,C.AreaCode,C.AreaName,C.AreaNameEn 
+                sql += @"SELECT C.* 
                         FROM Shop A INNER JOIN UserInfo B ON A.ShopId = B.ShopId
                                     INNER JOIN Area C ON A.AreaId = C.AreaId
                         WHERE B.AccountId = @AccountId";

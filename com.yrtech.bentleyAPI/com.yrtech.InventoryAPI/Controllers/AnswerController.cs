@@ -16,6 +16,7 @@ namespace com.yrtech.SurveyAPI.Controllers
     {
         CommitFileService commitFileService = new CommitFileService();
         MasterService masterService = new MasterService();
+        MarketActionService marketActionService = new MarketActionService();
         #region CommitFile
         [HttpGet]
         [Route("CommitFile/ShopCommitFileRecordStatusSearch")]
@@ -72,10 +73,61 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                List<ShopCommitFileRecord> list = CommonHelper.DecodeString<List<ShopCommitFileRecord>>(upload.AnswerListJson);
+                List<ShopCommitFileRecord> list = CommonHelper.DecodeString<List<ShopCommitFileRecord>>(upload.ListJson);
                 foreach (ShopCommitFileRecord record in list)
                 {
                     commitFileService.ShopCommitFileRecordDelete(record.ShopId.ToString(), record.FileId.ToString(), record.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
+        #region MarketAction
+        [HttpGet]
+        [Route("MarketAction/MarketActionSearch")]
+        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId)
+        {
+            try
+            {
+                List<MarketActionDto> marketActionList = marketActionService.MarketActionSearch(actionName,year,month,marketActionStatusCode,shopId,eventTypeId);
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionSave")]
+        public APIResult MarketActionSave(MarketAction marketAction)
+        {
+            try
+            {
+                marketActionService.MarketActionSave(marketAction);
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionDelete")]
+        public APIResult MarketActionDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketAction> list = CommonHelper.DecodeString<List<MarketAction>>(upload.ListJson);
+                foreach (MarketAction marketAction in list)
+                {
+                    marketActionService.MarketActionDelete(marketAction.MarketActionId.ToString());
                 }
                 return new APIResult() { Status = true, Body = "" };
             }

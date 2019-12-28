@@ -335,6 +335,7 @@
           <Property Name="AccountId" Type="nvarchar" MaxLength="100" />
           <Property Name="Password" Type="nvarchar" MaxLength="100" />
           <Property Name="AccountName" Type="nvarchar" MaxLength="100" />
+          <Property Name="AccountNameEn" Type="nvarchar" MaxLength="100" />
           <Property Name="TelNO" Type="nvarchar" MaxLength="100" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
           <Property Name="RoleTypeCode" Type="nvarchar" MaxLength="50" />
@@ -672,24 +673,6 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="UserInfo">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AccountId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="AccountName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="TelNO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="RoleTypeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ShopId" Type="Int32" />
-          <Property Name="AreaId" Type="Int32" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityContainer Name="Bentley" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Area" EntityType="Self.Area" />
           <EntitySet Name="CommitFile" EntityType="Self.CommitFile" />
@@ -709,8 +692,8 @@
           <EntitySet Name="RoleType" EntityType="Self.RoleType" />
           <EntitySet Name="Shop" EntityType="Self.Shop" />
           <EntitySet Name="ShopCommitFileRecord" EntityType="Self.ShopCommitFileRecord" />
-          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
           <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" />
+          <EntitySet Name="UserInfo" EntityType="BentleyModel.UserInfo" />
         </EntityContainer>
         <EntityType Name="MarketActionAfter30LeadsReportUpdate">
           <Key>
@@ -721,6 +704,25 @@
           <Property Name="SeqNO" Type="Int32" Nullable="false" />
           <Property Name="UpdateUserId" Type="Int32" />
           <Property Name="UpdateDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AccountName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AccountNameEn" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TelNO" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RoleTypeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShopId" Type="Int32" />
+          <Property Name="AreaId" Type="Int32" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1036,25 +1038,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserInfo">
-            <EntityTypeMapping TypeName="BentleyModel.UserInfo">
-              <MappingFragment StoreEntitySet="UserInfo">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
-                <ScalarProperty Name="TelNO" ColumnName="TelNO" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="RoleTypeCode" ColumnName="RoleTypeCode" />
-                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
-                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
-                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MarketActionAfter30LeadsReportUpdate">
             <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter30LeadsReportUpdate">
               <MappingFragment StoreEntitySet="MarketActionAfter30LeadsReportUpdate">
@@ -1062,6 +1045,26 @@
                 <ScalarProperty Name="UpdateUserId" ColumnName="UpdateUserId" />
                 <ScalarProperty Name="SeqNO" ColumnName="SeqNO" />
                 <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="BentleyModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="RoleTypeCode" ColumnName="RoleTypeCode" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TelNO" ColumnName="TelNO" />
+                <ScalarProperty Name="AccountNameEn" ColumnName="AccountNameEn" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

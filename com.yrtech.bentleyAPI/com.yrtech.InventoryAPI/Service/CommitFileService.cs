@@ -55,7 +55,7 @@ namespace com.yrtech.InventoryAPI.Service
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId),
                                                     new SqlParameter("@FileId", fileId),
                                                     new SqlParameter("@SeqNO", seqNO)};
-            Type t = typeof(ShopCommitFileRecord);
+            
             string sql = @"DELETE ShopCommitFileRecord WHERE ShopId =@ShopId AND FileId = @FileId AND SeqNO = @SeqNO";
              db.Database.ExecuteSqlCommand(sql, para);
         }

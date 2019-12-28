@@ -188,6 +188,7 @@
     <Compile Include="DTO\Answer\AnswerDto.cs" />
     <Compile Include="DTO\Answer\AnswerPhotoDto.cs" />
     <Compile Include="DTO\Answer\AnswerShopInfoDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionDto.cs" />
     <Compile Include="DTO\Master\OtherPropertyTypeDto.cs" />
     <Compile Include="DTO\ShopCommitFileRecord\ShopCommitFileRecordListDto.cs" />
     <Compile Include="DTO\ShopCommitFileRecord\ShopCommitFileRecordStatusDto.cs" />
@@ -197,6 +198,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\MarketActionService.cs" />
     <Compile Include="Service\MasterService.cs" />
     <Compile Include="Service\CommitFileService.cs" />
     <Compile Include="Service\AccountService.cs" />

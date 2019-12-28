@@ -18,6 +18,7 @@ namespace com.yrtech.bentley.DAL
         public string AccountId { get; set; }
         public string Password { get; set; }
         public string AccountName { get; set; }
+        public string AccountNameEn { get; set; }
         public string TelNO { get; set; }
         public string Email { get; set; }
         public string RoleTypeCode { get; set; }

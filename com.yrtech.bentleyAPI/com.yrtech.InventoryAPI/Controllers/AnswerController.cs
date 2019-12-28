@@ -159,8 +159,8 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
         }
         [HttpPost]
-        [Route("MarketAction/MarketActionBefore21ActivityProcessSave")]
-        public APIResult MarketActionBefore21ActivityProcessSave(MarketActionBefore21MainDto marketActionBefore21MainDto)
+        [Route("MarketAction/MarketActionBefore21Save")]
+        public APIResult MarketActionBefore21Save(MarketActionBefore21MainDto marketActionBefore21MainDto)
         {
             try
             {
@@ -242,6 +242,108 @@ namespace com.yrtech.SurveyAPI.Controllers
                 foreach (MarketActionBefore21ActivityProcess process in list)
                 {
                     marketActionService.MarketActionBefore21ActivityProcessDelete(process.MarketActionId.ToString(),process.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
+        #region Before3
+        [HttpGet]
+        [Route("MarketAction/MarketActionBefore3Search")]
+        public APIResult MarketActionBefore3Search(string marketActionId)
+        {
+            try
+            {
+                MarketActionBefore3MainDto marketActionBefore3MainDto = new MarketActionBefore3MainDto();
+                marketActionBefore3MainDto.BugetDetailList = marketActionService.MarketActionBefore3BugetDetailSearch(marketActionId);
+                marketActionBefore3MainDto.DisplayModelList = marketActionService.MarketActionBefore3DisplayModelSearch(marketActionId);
+                marketActionBefore3MainDto.TestDriverList = marketActionService.MarketActionBefore3TestDriverSearch(marketActionId);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionBefore3MainDto) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionBefore3Save")]
+        public APIResult MarketActionBefore3Save(MarketActionBefore3MainDto marketActionBefore3MainDto)
+        {
+            try
+            {
+                foreach (MarketActionBefore3BugetDetail bugetDetail in marketActionBefore3MainDto.BugetDetailList)
+                {
+                    marketActionService.MarketActionBefore3BugetDetailSave(bugetDetail);
+                }
+                foreach (MarketActionBefore3DisplayModel displayModel in marketActionBefore3MainDto.DisplayModelList)
+                {
+                    marketActionService.MarketActionBefore3DisplayModelSave(displayModel);
+                }
+                foreach (MarketActionBefore3TestDriver testDriver in marketActionBefore3MainDto.TestDriverList)
+                {
+                    marketActionService.MarketActionBefore3TestDriverSave(testDriver);
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionBefore3TestDriverDelete")]
+        public APIResult MarketActionBefore3TestDriverDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionBefore3TestDriver> list = CommonHelper.DecodeString<List<MarketActionBefore3TestDriver>>(upload.ListJson);
+                foreach (MarketActionBefore3TestDriver testDriver in list)
+                {
+                    marketActionService.MarketActionBefore3TestDriverDelete(testDriver.MarketActionId.ToString(),testDriver.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionBefore3DisplayModelDelete")]
+        public APIResult MarketActionBefore3DisplayModelDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionBefore3DisplayModel> list = CommonHelper.DecodeString<List<MarketActionBefore3DisplayModel>>(upload.ListJson);
+                foreach (MarketActionBefore3DisplayModel displayModel in list)
+                {
+                    marketActionService.MarketActionBefore3DisplayModelDelete(displayModel.MarketActionId.ToString(), displayModel.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionBefore3BugetDetailDelete")]
+        public APIResult MarketActionBefore3BugetDetailDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionBefore3BugetDetail> list = CommonHelper.DecodeString<List<MarketActionBefore3BugetDetail>>(upload.ListJson);
+                foreach (MarketActionBefore3BugetDetail bugetDetail in list)
+                {
+                    marketActionService.MarketActionBefore3BugetDetailDelete(bugetDetail.MarketActionId.ToString(), bugetDetail.SeqNO.ToString());
                 }
                 return new APIResult() { Status = true, Body = "" };
             }

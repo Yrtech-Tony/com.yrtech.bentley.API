@@ -189,6 +189,7 @@
     <Compile Include="DTO\Answer\AnswerPhotoDto.cs" />
     <Compile Include="DTO\Answer\AnswerShopInfoDto.cs" />
     <Compile Include="DTO\MarketAction\MarketActionBefore211111Dto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionBefore3MainDto.cs" />
     <Compile Include="DTO\MarketAction\MarketActionBefore21MainDto.cs" />
     <Compile Include="DTO\MarketAction\MarketActionDto.cs" />
     <Compile Include="DTO\Master\EventTypeDto.cs" />

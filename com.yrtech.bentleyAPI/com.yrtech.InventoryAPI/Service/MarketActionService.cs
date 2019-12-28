@@ -242,5 +242,150 @@ namespace com.yrtech.InventoryAPI.Service
             db.Database.ExecuteSqlCommand(sql, para);
         }
         #endregion
+        #region Before three days
+        public List<MarketActionBefore3BugetDetail> MarketActionBefore3BugetDetailSearch(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionBefore3BugetDetail);
+            string sql = "";
+            sql += @"SELECT A.* 
+                    FROM [MarketActionBefore3BugetDetail] A 
+                    WHERE MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionBefore3BugetDetail>().ToList();
+        }
+        public List<MarketActionBefore3DisplayModel> MarketActionBefore3DisplayModelSearch(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionBefore3DisplayModel);
+            string sql = "";
+            sql += @"SELECT A.* 
+                    FROM [MarketActionBefore3DisplayModel] A 
+                    WHERE MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionBefore3DisplayModel>().ToList();
+        }
+        public List<MarketActionBefore3TestDriver> MarketActionBefore3TestDriverSearch(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionBefore3TestDriver);
+            string sql = "";
+            sql += @"SELECT A.* 
+                    FROM [MarketActionBefore3TestDriver] A 
+                    WHERE MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionBefore3TestDriver>().ToList();
+        }
+        public void MarketActionBefore3TestDriverSave(MarketActionBefore3TestDriver marketActionBefore3TestDriver)
+        {
+            if (marketActionBefore3TestDriver.SeqNO == 0)
+            {
+                MarketActionBefore3TestDriver findOneMax = db.MarketActionBefore3TestDriver.Where(x => (x.MarketActionId == marketActionBefore3TestDriver.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+                if (findOneMax == null)
+                {
+                    marketActionBefore3TestDriver.SeqNO = 1;
+                }
+                else
+                {
+                    marketActionBefore3TestDriver.SeqNO = findOneMax.SeqNO + 1;
+                }
+                marketActionBefore3TestDriver.InDateTime = DateTime.Now;
+                marketActionBefore3TestDriver.ModifyDateTime = DateTime.Now;
+                db.MarketActionBefore3TestDriver.Add(marketActionBefore3TestDriver);
+
+            }
+            else
+            {
+                MarketActionBefore3TestDriver findOne = db.MarketActionBefore3TestDriver.Where(x => (x.MarketActionId == marketActionBefore3TestDriver.MarketActionId && x.SeqNO == marketActionBefore3TestDriver.SeqNO)).FirstOrDefault();
+                findOne.DisplayModelColor = marketActionBefore3TestDriver.DisplayModelColor;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = marketActionBefore3TestDriver.ModifyUserId;
+                findOne.Provider = marketActionBefore3TestDriver.Provider;
+            }
+            db.SaveChanges();
+        }
+        public void MarketActionBefore3DisplayModelSave(MarketActionBefore3DisplayModel marketActionBefore3DisplayModel)
+        {
+            if (marketActionBefore3DisplayModel.SeqNO == 0)
+            {
+                MarketActionBefore3DisplayModel findOneMax = db.MarketActionBefore3DisplayModel.Where(x => (x.MarketActionId == marketActionBefore3DisplayModel.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+                if (findOneMax == null)
+                {
+                    marketActionBefore3DisplayModel.SeqNO = 1;
+                }
+                else
+                {
+                    marketActionBefore3DisplayModel.SeqNO = findOneMax.SeqNO + 1;
+                }
+                marketActionBefore3DisplayModel.InDateTime = DateTime.Now;
+                marketActionBefore3DisplayModel.ModifyDateTime = DateTime.Now;
+                db.MarketActionBefore3DisplayModel.Add(marketActionBefore3DisplayModel);
+
+            }
+            else
+            {
+                MarketActionBefore3DisplayModel findOne = db.MarketActionBefore3DisplayModel.Where(x => (x.MarketActionId == marketActionBefore3DisplayModel.MarketActionId && x.SeqNO == marketActionBefore3DisplayModel.SeqNO)).FirstOrDefault();
+                findOne.DisplayModelColor = marketActionBefore3DisplayModel.DisplayModelColor;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = marketActionBefore3DisplayModel.ModifyUserId;
+                findOne.Provider = marketActionBefore3DisplayModel.Provider;
+            }
+            db.SaveChanges();
+        }
+        public void MarketActionBefore3BugetDetailSave(MarketActionBefore3BugetDetail marketActionBefore3BugetDetail)
+        {
+            if (marketActionBefore3BugetDetail.SeqNO == 0)
+            {
+                MarketActionBefore3BugetDetail findOneMax = db.MarketActionBefore3BugetDetail.Where(x => (x.MarketActionId == marketActionBefore3BugetDetail.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+                if (findOneMax == null)
+                {
+                    marketActionBefore3BugetDetail.SeqNO = 1;
+                }
+                else
+                {
+                    marketActionBefore3BugetDetail.SeqNO = findOneMax.SeqNO + 1;
+                }
+                marketActionBefore3BugetDetail.InDateTime = DateTime.Now;
+                marketActionBefore3BugetDetail.ModifyDateTime = DateTime.Now;
+                db.MarketActionBefore3BugetDetail.Add(marketActionBefore3BugetDetail);
+
+            }
+            else
+            {
+                MarketActionBefore3BugetDetail findOne = db.MarketActionBefore3BugetDetail.Where(x => (x.MarketActionId == marketActionBefore3BugetDetail.MarketActionId && x.SeqNO == marketActionBefore3BugetDetail.SeqNO)).FirstOrDefault();
+                findOne.Counts = marketActionBefore3BugetDetail.Counts;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = marketActionBefore3BugetDetail.ModifyUserId;
+                findOne.Descs = marketActionBefore3BugetDetail.Descs;
+                findOne.ItemName = marketActionBefore3BugetDetail.ItemName;
+                findOne.UnitPrice = marketActionBefore3BugetDetail.UnitPrice;
+            }
+            db.SaveChanges();
+        }
+        public void MarketActionBefore3TestDriverDelete(string marketActionId, string seqNO)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            string sql = @"DELETE MarketActionBefore3TestDriver WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        public void MarketActionBefore3BugetDetailDelete(string marketActionId, string seqNO)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            string sql = @"DELETE arketActionBefore3BugetDetail WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        public void MarketActionBefore3DisplayModelDelete(string marketActionId, string seqNO)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            string sql = @"DELETE MarketActionBefore3DisplayModel WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
     }
 }

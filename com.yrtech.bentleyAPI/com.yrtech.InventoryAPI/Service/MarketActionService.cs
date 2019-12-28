@@ -387,5 +387,50 @@ namespace com.yrtech.InventoryAPI.Service
             db.Database.ExecuteSqlCommand(sql, para);
         }
         #endregion
+        #region TheDays
+        public List<MarketActionTheDayFile> MarketActionTheDayFileSearch(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionTheDayFile);
+            string sql = "";
+            sql += @"SELECT A.* 
+                    FROM [MarketActionTheDayFile] A 
+                    WHERE MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionTheDayFile>().ToList();
+        }
+        public void MarketActionTheDayFileSave(MarketActionTheDayFile marketActionTheDayFile)
+        {
+            if (marketActionTheDayFile.SeqNO == 0)
+            {
+                MarketActionTheDayFile findOneMax = db.MarketActionTheDayFile.Where(x => (x.MarketActionId == marketActionTheDayFile.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+                if (findOneMax == null)
+                {
+                    marketActionTheDayFile.SeqNO = 1;
+                }
+                else
+                {
+                    marketActionTheDayFile.SeqNO = findOneMax.SeqNO + 1;
+                }
+                marketActionTheDayFile.InDateTime = DateTime.Now;
+                marketActionTheDayFile.ModifyDateTime = DateTime.Now;
+                db.MarketActionTheDayFile.Add(marketActionTheDayFile);
+
+            }
+            else
+            {
+               
+            }
+            db.SaveChanges();
+        }
+        public void MarketActionTheDayFileDelete(string marketActionId, string seqNO)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            string sql = @"DELETE MarketActionTheDayFile WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
     }
 }

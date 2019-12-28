@@ -241,7 +241,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 List<MarketActionBefore21ActivityProcess> list = CommonHelper.DecodeString<List<MarketActionBefore21ActivityProcess>>(upload.ListJson);
                 foreach (MarketActionBefore21ActivityProcess process in list)
                 {
-                    marketActionService.MarketActionBefore21ActivityProcessDelete(process.MarketActionId.ToString(),process.SeqNO.ToString());
+                    marketActionService.MarketActionBefore21ActivityProcessDelete(process.MarketActionId.ToString(), process.SeqNO.ToString());
                 }
                 return new APIResult() { Status = true, Body = "" };
             }
@@ -305,7 +305,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 List<MarketActionBefore3TestDriver> list = CommonHelper.DecodeString<List<MarketActionBefore3TestDriver>>(upload.ListJson);
                 foreach (MarketActionBefore3TestDriver testDriver in list)
                 {
-                    marketActionService.MarketActionBefore3TestDriverDelete(testDriver.MarketActionId.ToString(),testDriver.SeqNO.ToString());
+                    marketActionService.MarketActionBefore3TestDriverDelete(testDriver.MarketActionId.ToString(), testDriver.SeqNO.ToString());
                 }
                 return new APIResult() { Status = true, Body = "" };
             }
@@ -344,6 +344,57 @@ namespace com.yrtech.SurveyAPI.Controllers
                 foreach (MarketActionBefore3BugetDetail bugetDetail in list)
                 {
                     marketActionService.MarketActionBefore3BugetDetailDelete(bugetDetail.MarketActionId.ToString(), bugetDetail.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
+        #region TheDays
+        [HttpGet]
+        [Route("MarketAction/MarketActionTheDayFileSearch")]
+        public APIResult MarketActionTheDayFileSearch(string marketActionId)
+        {
+            try
+            {
+                List<MarketActionTheDayFile> marketActionTheDayFile = marketActionService.MarketActionTheDayFileSearch(marketActionId);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionTheDayFile) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionTheDayFileSave")]
+        public APIResult MarketActionTheDayFileSave(MarketActionTheDayFile marketActionTheDayFile)
+        {
+            try
+            {
+
+                marketActionService.MarketActionTheDayFileSave(marketActionTheDayFile);
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionTheDayFileDelete")]
+        public APIResult MarketActionTheDayFileDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionTheDayFile> list = CommonHelper.DecodeString<List<MarketActionTheDayFile>>(upload.ListJson);
+                foreach (MarketActionTheDayFile theDayFile in list)
+                {
+                    marketActionService.MarketActionTheDayFileDelete(theDayFile.MarketActionId.ToString(), theDayFile.SeqNO.ToString());
                 }
                 return new APIResult() { Status = true, Body = "" };
             }

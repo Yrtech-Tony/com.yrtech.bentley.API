@@ -38,8 +38,8 @@ namespace com.yrtech.InventoryAPI.Service
 	                            ,A.MarketActionTargetModelCode,E.HiddenCodeName AS MarketActionTargetModelName,E.HiddenCodeNameEn AS MarketActionTargetModelNameEn
                             FROM MarketAction A INNER JOIN Shop B ON A.ShopId = B.ShopId
 					                            INNER JOIN EventType C ON A.EventTypeId = C.EventTypeId
-					                            INNER JOIN HiddenCode D ON A.MarketActionStatusCode = D.HiddenCode AND D.HiddenCodeGroup = 'MarketActionStatus'
-					                            INNER JOIN HiddenCode E ON A.MarketActionTargetModelCode  = E.HiddenCode AND E.HiddenCodeGroup = 'TargetModels'
+					                            INNER JOIN HiddenCode D ON A.MarketActionStatusCode = D.HiddenCodeId AND D.HiddenCodeGroup = 'MarketActionStatus'
+					                            INNER JOIN HiddenCode E ON A.MarketActionTargetModelCode  = E.HiddenCodeId AND E.HiddenCodeGroup = 'TargetModels'
                             WHERE 1=1";
             if (!string.IsNullOrEmpty(actionName))
             {

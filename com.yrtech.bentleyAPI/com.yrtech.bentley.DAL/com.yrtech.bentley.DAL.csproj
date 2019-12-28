@@ -75,6 +75,9 @@
     <Compile Include="EventType.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>
+    <Compile Include="HiddenCode.cs">
+      <DependentUpon>bentley.tt</DependentUpon>
+    </Compile>
     <Compile Include="MarketAction.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>

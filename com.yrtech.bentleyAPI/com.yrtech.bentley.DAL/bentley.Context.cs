@@ -27,7 +27,6 @@ namespace com.yrtech.bentley.DAL
     
         public virtual DbSet<Area> Area { get; set; }
         public virtual DbSet<CommitFile> CommitFile { get; set; }
-        public virtual DbSet<EventType> EventType { get; set; }
         public virtual DbSet<MarketAction> MarketAction { get; set; }
         public virtual DbSet<MarketActionAfter2LeadsReport> MarketActionAfter2LeadsReport { get; set; }
         public virtual DbSet<MarketActionAfter7> MarketActionAfter7 { get; set; }
@@ -45,5 +44,7 @@ namespace com.yrtech.bentley.DAL
         public virtual DbSet<ShopCommitFileRecord> ShopCommitFileRecord { get; set; }
         public virtual DbSet<MarketActionAfter30LeadsReportUpdate> MarketActionAfter30LeadsReportUpdate { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
+        public virtual DbSet<EventType> EventType { get; set; }
+        public virtual DbSet<HiddenCode> HiddenCode { get; set; }
     }
 }

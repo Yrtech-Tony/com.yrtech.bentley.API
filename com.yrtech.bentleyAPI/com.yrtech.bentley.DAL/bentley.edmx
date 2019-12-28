@@ -41,23 +41,25 @@
           <Property Name="EventMode" Type="nvarchar" MaxLength="50" />
           <Property Name="AreaId" Type="int" />
           <Property Name="ApprovalMaxAmt" Type="decimal" Precision="19" Scale="2" />
-          <Property Name="ShowStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="ShowStatus" Type="bit" />
           <Property Name="InUserId" Type="int" />
           <Property Name="InDateTime" Type="datetime" />
           <Property Name="ModifyUserId" Type="int" />
           <Property Name="ModifyDateTime" Type="datetime" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6013: 表/视图“Bentley.dbo.HiddenCode”未定义主键，并且无法推断有效的主键。已排除了此表/视图。若要使用实体，将需要检查您的架构、添加正确的键并取消对实体的注释。
         <EntityType Name="HiddenCode">
-          <Property Name="HiddenCodeGroup" Type="nvarchar" MaxLength="50" />
-          <Property Name="HiddenCode" Type="nvarchar" MaxLength="50" />
+          <Key>
+            <PropertyRef Name="HiddenCodeGroup" />
+            <PropertyRef Name="HiddenCodeId" />
+          </Key>
+          <Property Name="HiddenCodeGroup" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="HiddenCodeId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HiddenCodeName" Type="nvarchar" MaxLength="100" />
           <Property Name="HiddenCodeNameEn" Type="nvarchar" MaxLength="100" />
           <Property Name="Remark" Type="nvarchar" MaxLength="500" />
           <Property Name="InUserId" Type="int" />
-          <Property Name="InDateTime" Type="nchar" MaxLength="10" />
-        </EntityType>-->
+          <Property Name="InDateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="MarketAction">
           <Key>
             <PropertyRef Name="MarketActionId" />
@@ -350,6 +352,7 @@
           <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommitFile" EntityType="Self.CommitFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HiddenCode" EntityType="Self.HiddenCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketAction" EntityType="Self.MarketAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionAfter2LeadsReport" EntityType="Self.MarketActionAfter2LeadsReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="Self.MarketActionAfter30LeadsReportUpdate" Schema="dbo" store:Type="Tables" />
@@ -393,22 +396,6 @@
           <Property Name="FileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="UpperFileId" Type="Int32" />
           <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="EventType">
-          <Key>
-            <PropertyRef Name="EventTypeId" />
-          </Key>
-          <Property Name="EventTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EventTypeName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="EventTypeNameEn" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="EventMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AreaId" Type="Int32" />
-          <Property Name="ApprovalMaxAmt" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="ShowStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InUserId" Type="Int32" />
           <Property Name="InDateTime" Type="DateTime" Precision="3" />
           <Property Name="ModifyUserId" Type="Int32" />
@@ -676,7 +663,6 @@
         <EntityContainer Name="Bentley" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Area" EntityType="Self.Area" />
           <EntitySet Name="CommitFile" EntityType="Self.CommitFile" />
-          <EntitySet Name="EventType" EntityType="Self.EventType" />
           <EntitySet Name="MarketAction" EntityType="Self.MarketAction" />
           <EntitySet Name="MarketActionAfter2LeadsReport" EntityType="Self.MarketActionAfter2LeadsReport" />
           <EntitySet Name="MarketActionAfter7" EntityType="Self.MarketActionAfter7" />
@@ -694,6 +680,8 @@
           <EntitySet Name="ShopCommitFileRecord" EntityType="Self.ShopCommitFileRecord" />
           <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" />
           <EntitySet Name="UserInfo" EntityType="BentleyModel.UserInfo" />
+          <EntitySet Name="EventType" EntityType="BentleyModel.EventType" />
+          <EntitySet Name="HiddenCode" EntityType="BentleyModel.HiddenCode" />
         </EntityContainer>
         <EntityType Name="MarketActionAfter30LeadsReportUpdate">
           <Key>
@@ -724,6 +712,35 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="EventTypeId" />
+          </Key>
+          <Property Name="EventTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventTypeName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EventTypeNameEn" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EventMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AreaId" Type="Int32" />
+          <Property Name="ApprovalMaxAmt" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="ShowStatus" Type="Boolean" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="HiddenCode">
+          <Key>
+            <PropertyRef Name="HiddenCodeGroup" />
+            <PropertyRef Name="HiddenCodeId" />
+          </Key>
+          <Property Name="HiddenCodeGroup" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HiddenCodeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HiddenCodeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="HiddenCodeNameEn" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -751,23 +768,6 @@
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="UpperFileId" ColumnName="UpperFileId" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EventType">
-            <EntityTypeMapping TypeName="BentleyModel.EventType">
-              <MappingFragment StoreEntitySet="EventType">
-                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
-                <ScalarProperty Name="EventTypeName" ColumnName="EventTypeName" />
-                <ScalarProperty Name="EventTypeNameEn" ColumnName="EventTypeNameEn" />
-                <ScalarProperty Name="EventMode" ColumnName="EventMode" />
-                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
-                <ScalarProperty Name="ApprovalMaxAmt" ColumnName="ApprovalMaxAmt" />
-                <ScalarProperty Name="ShowStatus" ColumnName="ShowStatus" />
                 <ScalarProperty Name="InUserId" ColumnName="InUserId" />
                 <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
                 <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
@@ -1065,6 +1065,36 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventType">
+            <EntityTypeMapping TypeName="BentleyModel.EventType">
+              <MappingFragment StoreEntitySet="EventType">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="ShowStatus" ColumnName="ShowStatus" />
+                <ScalarProperty Name="ApprovalMaxAmt" ColumnName="ApprovalMaxAmt" />
+                <ScalarProperty Name="AreaId" ColumnName="AreaId" />
+                <ScalarProperty Name="EventMode" ColumnName="EventMode" />
+                <ScalarProperty Name="EventTypeNameEn" ColumnName="EventTypeNameEn" />
+                <ScalarProperty Name="EventTypeName" ColumnName="EventTypeName" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HiddenCode">
+            <EntityTypeMapping TypeName="BentleyModel.HiddenCode">
+              <MappingFragment StoreEntitySet="HiddenCode">
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="HiddenCodeNameEn" ColumnName="HiddenCodeNameEn" />
+                <ScalarProperty Name="HiddenCodeName" ColumnName="HiddenCodeName" />
+                <ScalarProperty Name="HiddenCodeId" ColumnName="HiddenCodeId" />
+                <ScalarProperty Name="HiddenCodeGroup" ColumnName="HiddenCodeGroup" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

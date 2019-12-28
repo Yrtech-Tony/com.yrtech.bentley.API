@@ -12,18 +12,14 @@ namespace com.yrtech.bentley.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class EventType
+    public partial class HiddenCode
     {
-        public int EventTypeId { get; set; }
-        public string EventTypeName { get; set; }
-        public string EventTypeNameEn { get; set; }
-        public string EventMode { get; set; }
-        public Nullable<int> AreaId { get; set; }
-        public Nullable<decimal> ApprovalMaxAmt { get; set; }
-        public Nullable<bool> ShowStatus { get; set; }
+        public string HiddenCodeGroup { get; set; }
+        public string HiddenCodeId { get; set; }
+        public string HiddenCodeName { get; set; }
+        public string HiddenCodeNameEn { get; set; }
+        public string Remark { get; set; }
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
-        public Nullable<int> ModifyUserId { get; set; }
-        public Nullable<System.DateTime> ModifyDateTime { get; set; }
     }
 }

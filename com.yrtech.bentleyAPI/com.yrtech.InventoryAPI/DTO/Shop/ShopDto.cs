@@ -7,27 +7,20 @@ namespace com.yrtech.InventoryAPI.DTO
 {
     public class ShopDto
     {
-        public int TenantId { get; set; }
-        public string TenantCode { get; set; }
-        public string TenantName { get; set; }
-        public int BrandId { get; set; }
-        public string BrandCode { get; set;  }
-        public string BrandName { get; set; }
-        public int ProjectId { get; set; }
-        public string ProjectCode { get; set; }
-        public string ProjectName { get; set; }
-        public string AreaCode { get; set; }
         public int ShopId { get; set; }
         public string ShopCode { get; set; }
         public string ShopName { get; set; }
-        public string Password { get; set; }
-        public string Province { get; set; }
+        public string ShopNameEn { get; set; }
         public string City { get; set; }
-        public string UserId { get; set; }
-        public DateTime ExpirTime { get; set; }
-        public string InUserId { get; set; }
-        public DateTime InDateTime { get; set; }
-        public string ModifyUserId { get; set; }
-        public DateTime ModifyDateTime { get; set; }
+        public Nullable<decimal> Budget { get; set; }
+        public Nullable<decimal> Balance { get; set; }
+        public Nullable<int> AreaId { get; set; }
+        public Nullable<int> InUserId { get; set; }
+        public Nullable<System.DateTime> InDateTime { get; set; }
+        public Nullable<int> ModifyUserId { get; set; }
+        public Nullable<System.DateTime> ModifyDateTime { get; set; }
+        public string AreaCode { get; set; }
+        public string AreaName { get; set; }
+        public string AreaNameEn { get; set; }
     }
 }

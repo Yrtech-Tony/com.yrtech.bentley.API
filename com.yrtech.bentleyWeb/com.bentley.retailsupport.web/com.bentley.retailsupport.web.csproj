@@ -160,6 +160,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Home\Index.html" />
     <Content Include="Home\Promotion.html" />
+    <Content Include="Home\PromotionReport.html" />
+    <Content Include="Scripts\api\common.js" />
     <Content Include="Scripts\bootstrap-fileinput\js\bootstrap-fileinput.js" />
     <Content Include="Scripts\bootstrap-select\css\bootstrap-select.min.css" />
     <Content Include="Scripts\bootstrap-select\js\bootstrap-select.js" />
@@ -234,6 +236,7 @@
     <Content Include="Views\Document\Index.cshtml" />
     <Content Include="Views\Marketing\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Document\DocList.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

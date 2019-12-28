@@ -17,5 +17,12 @@ namespace com.bentley.retailsupport.web.Controllers
         {
             return View();
         }
+
+        public ActionResult DocList(string ShopId, string FileId)
+        {
+            ViewBag.ShopId = ShopId;
+            ViewBag.FileId = FileId;
+            return View();
+        }
 	}
 }

@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" ng-app="MyApp">
+<head>
+    <title translate>Login</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Content/Login2.css">
+</head>
+<body class="pushCanvas">
+    <section class="loginWrap">
+        <div class="loginBox">
+            <h1 id="bentleyLogo">Bentley Dealer Marketing News</h1>
+            <h2 id="dmn_subtitle"><a href="#">RETAILER ACTIVITY ONLINE MANAGEMENT SYSTEM</a></h2>
+            <form action="/Account/Login" class="lgoinForm" method="post" role="form">
+                <div class="formItem">
+                    <label for="UserName">USERNAME</label>
+                    <input class="dmn-login" data-val="true" data-val-required="The User Name field is required." id="UserName" name="UserName" type="text" value="" />
+                </div>
+                <div class="formItem">
+                    <label for="Password">PASSWORD</label>
+
+                    <input class="dmn-login" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" type="password" />
+                </div>
+                <div class="formItem">
+                    <div class="col-lg-12" align="left">
+                        <div class="col-lg-9">
+                            <span style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit">LOG IN</button>
+            </form>
+        </div>
+    </section>
+</body>
+
+</html>

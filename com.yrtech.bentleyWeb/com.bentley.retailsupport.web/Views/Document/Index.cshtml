@@ -1,0 +1,368 @@
+﻿@{
+    ViewBag.Title = "Document";
+}
+<div id="page-wrapper">
+    <!--BEGIN CONTENT-->
+    <div class="page-content">
+        <div id="tab-general">
+            <div class="row mbl">
+                <div class="col-lg-12">
+                    <div class="col-md-12">
+                        <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <!--BEGIN CONTENT-->
+                    <script type="text/javascript">
+                        $(function () {
+                            $.get("/data/shop.json", {}, function (data) {
+                                if (data) {
+                                    data = JSON.parse(data);
+                                    data.forEach(function (item) {
+                                        $("#pdealer").append($("<option>").val(item.ShopId).text(item.ShopName))
+                                    });
+                                }
+                            });
+                        })
+                    </script>
+                    <style>
+                        html {
+                            overflow: auto;
+                            overflow-y: hidden;
+                            overflow-x: hidden;
+                        }
+
+                        .widget {
+                            margin-bottom: 5px !important;
+                        }
+
+                        .widget-body {
+                            padding: 5px 5px 1px 5px !important;
+                        }
+
+                        .page-content {
+                            padding: 5px 5px 1px 5px !important;
+                        }
+
+                        .fixed-table-pagination div.pagination, .fixed-table-pagination .pagination-detail {
+                            margin-top: 5px !important;
+                            margin-bottom: 0px !important;
+                        }
+                    </style>
+
+                    <div id="main-content">
+                        <div class="container-fluid">
+                            <div class="row-fluid">
+                                <div class="span12">
+
+                                    <div class="widget">
+                                        <div class="widget-title">
+                                            <h4><i class="icon-reorder"></i><span translate>Document Submit</span></h4>
+                                            <span class="tools">
+                                                <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+                                            </span>
+
+                                            <select class="input-small m-wrap no-margin" id="pdealer" name="pdealer" style="background-color: white;" onchange="NameQuery()">
+                                                <option value="" translate>Dealer Name</option>
+
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="widget-body" style="display: block;">
+
+                                        <div class="dataTables_wrapper form-inline" role="grid">
+                                            @*<table id="myPromotion"
+                                                   data-toggle="table"
+                                                   data-url="data1.json"
+                                                   data-pagination="true"
+                                                   data-search="true">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-sortable="true" data-field="Dealer">经销商</th>
+                                                        <th data-field="name">非凡人物背景板</th>
+                                                        <th data-field="price">Item Price</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th data-sortable="true" data-field="Dealer">经销商</th>
+                                                        <th data-field="name">非凡人物背景板</th>
+                                                        <th data-field="price">Item Price</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>*@
+                                            <table id="myPromotion" class="table table-striped table-bordered table-hover" style="margin-top: 0px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align: center; vertical-align: middle; " rowspan="2" colspan="1" data-field="Dealer">
+                                                            <div class="th-inner sortable both asc">经销商</div>
+                                                            <div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="text-align: center; vertical-align: middle; " rowspan="1" colspan="3"><div class="th-inner "></div><div class="fht-cell"></div></th>
+                                                        <th style="text-align: center; vertical-align: middle; " rowspan="1" colspan="2"><div class="th-inner ">2019年市场计划</div><div class="fht-cell"></div></th>
+                                                        <th style="text-align: center; vertical-align: middle; " rowspan="1" colspan="2"><div class="th-inner ">2019年市场基金</div><div class="fht-cell"></div></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="text-align: center; vertical-align: middle; " data-field="Q11">
+                                                            <div class="th-inner ">非凡人物背景板</div><div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="text-align: center; vertical-align: middle; " data-field="Q12">
+                                                            <div class="th-inner ">窗贴</div><div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="text-align: center; vertical-align: middle; " data-field="Q13">
+                                                            <div class="th-inner ">照片墙</div><div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="text-align: center; vertical-align: middle; " data-field="Q1">
+                                                            <div class="th-inner ">电子版</div><div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="text-align: center; vertical-align: middle; " data-field="Q2">
+                                                            <div class="th-inner ">扫描版</div><div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="text-align: center; vertical-align: middle; " data-field="Q3">
+                                                            <div class="th-inner ">电子版</div><div class="fht-cell"></div>
+                                                        </th>
+                                                        <th style="text-align: center; vertical-align: middle; " data-field="Q4">
+                                                            <div class="th-inner ">扫描版</div><div class="fht-cell"></div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-index="0">
+                                                        <td style="text-align: center; vertical-align: middle; ">Test</td>
+                                                        <td style="text-align: center; vertical-align: middle; ">
+                                                            <a href="/Home/PromotionReport?id=e972e001-34d1-45a5-a098-0e0620d71f5b&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="">
+                                                                <i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span>
+                                                            </a><br>
+                                                        </td>
+                                                        <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e972e001-34d1-45a5-a098-0e0620d71f5b&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td>
+                                                        <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e972e001-34d1-45a5-a098-0e0620d71f5b&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td>
+                                                        <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e972e001-34d1-45a5-a098-0e0620d71f5b&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td>
+                                                        <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e972e001-34d1-45a5-a098-0e0620d71f5b&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td>
+                                                        <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e972e001-34d1-45a5-a098-0e0620d71f5b&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td>
+                                                        <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e972e001-34d1-45a5-a098-0e0620d71f5b&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td>
+                                                    </tr>
+                                                    <tr data-index="1"> <td style="text-align: center; vertical-align: middle; ">宾利上海-浦东</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=479cec5c-f1cc-41cf-8cbc-ee50044b7220&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=479cec5c-f1cc-41cf-8cbc-ee50044b7220&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=479cec5c-f1cc-41cf-8cbc-ee50044b7220&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=479cec5c-f1cc-41cf-8cbc-ee50044b7220&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=479cec5c-f1cc-41cf-8cbc-ee50044b7220&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=479cec5c-f1cc-41cf-8cbc-ee50044b7220&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=479cec5c-f1cc-41cf-8cbc-ee50044b7220&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="2"> <td style="text-align: center; vertical-align: middle; ">宾利上海-静安</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=0859bb7a-6db5-4c0c-8a32-e94412456ee0&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=0859bb7a-6db5-4c0c-8a32-e94412456ee0&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=0859bb7a-6db5-4c0c-8a32-e94412456ee0&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=0859bb7a-6db5-4c0c-8a32-e94412456ee0&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=0859bb7a-6db5-4c0c-8a32-e94412456ee0&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=0859bb7a-6db5-4c0c-8a32-e94412456ee0&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=0859bb7a-6db5-4c0c-8a32-e94412456ee0&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="3"> <td style="text-align: center; vertical-align: middle; ">宾利东莞</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4db38fba-d76d-42e5-b64d-56192a8968bb&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4db38fba-d76d-42e5-b64d-56192a8968bb&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4db38fba-d76d-42e5-b64d-56192a8968bb&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4db38fba-d76d-42e5-b64d-56192a8968bb&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4db38fba-d76d-42e5-b64d-56192a8968bb&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4db38fba-d76d-42e5-b64d-56192a8968bb&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4db38fba-d76d-42e5-b64d-56192a8968bb&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="4"> <td style="text-align: center; vertical-align: middle; ">宾利佛山</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=a9013ca9-c89c-4a07-b752-b402d739aef6&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=a9013ca9-c89c-4a07-b752-b402d739aef6&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=a9013ca9-c89c-4a07-b752-b402d739aef6&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=a9013ca9-c89c-4a07-b752-b402d739aef6&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=a9013ca9-c89c-4a07-b752-b402d739aef6&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=a9013ca9-c89c-4a07-b752-b402d739aef6&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=a9013ca9-c89c-4a07-b752-b402d739aef6&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="5"> <td style="text-align: center; vertical-align: middle; ">宾利北京-三里屯</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c9ceb1f5-a13d-4222-a009-996e36218f60&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c9ceb1f5-a13d-4222-a009-996e36218f60&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c9ceb1f5-a13d-4222-a009-996e36218f60&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c9ceb1f5-a13d-4222-a009-996e36218f60&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c9ceb1f5-a13d-4222-a009-996e36218f60&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c9ceb1f5-a13d-4222-a009-996e36218f60&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c9ceb1f5-a13d-4222-a009-996e36218f60&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="6"> <td style="text-align: center; vertical-align: middle; ">宾利北京-五棵松</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=ed382830-a7b9-4b71-8488-86333dfd79d5&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=ed382830-a7b9-4b71-8488-86333dfd79d5&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=ed382830-a7b9-4b71-8488-86333dfd79d5&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=ed382830-a7b9-4b71-8488-86333dfd79d5&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=ed382830-a7b9-4b71-8488-86333dfd79d5&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=ed382830-a7b9-4b71-8488-86333dfd79d5&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=ed382830-a7b9-4b71-8488-86333dfd79d5&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> </tr>
+                                                    <tr data-index="7"> <td style="text-align: center; vertical-align: middle; ">宾利南京</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c93ce903-39ed-4f48-bc28-9a0e77c06bba&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c93ce903-39ed-4f48-bc28-9a0e77c06bba&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c93ce903-39ed-4f48-bc28-9a0e77c06bba&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c93ce903-39ed-4f48-bc28-9a0e77c06bba&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c93ce903-39ed-4f48-bc28-9a0e77c06bba&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c93ce903-39ed-4f48-bc28-9a0e77c06bba&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c93ce903-39ed-4f48-bc28-9a0e77c06bba&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="8"> <td style="text-align: center; vertical-align: middle; ">宾利厦门</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4a572663-3cbf-42cd-bf78-61d8e3232126&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4a572663-3cbf-42cd-bf78-61d8e3232126&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4a572663-3cbf-42cd-bf78-61d8e3232126&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4a572663-3cbf-42cd-bf78-61d8e3232126&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4a572663-3cbf-42cd-bf78-61d8e3232126&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4a572663-3cbf-42cd-bf78-61d8e3232126&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4a572663-3cbf-42cd-bf78-61d8e3232126&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="9"> <td style="text-align: center; vertical-align: middle; ">宾利合肥</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2beea562-7921-4ee6-ac77-78c917eb409d&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2beea562-7921-4ee6-ac77-78c917eb409d&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2beea562-7921-4ee6-ac77-78c917eb409d&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2beea562-7921-4ee6-ac77-78c917eb409d&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2beea562-7921-4ee6-ac77-78c917eb409d&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2beea562-7921-4ee6-ac77-78c917eb409d&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2beea562-7921-4ee6-ac77-78c917eb409d&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="10"> <td style="text-align: center; vertical-align: middle; ">宾利哈尔滨</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c0d2fd7c-c598-4311-b3b7-df84101020d5&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c0d2fd7c-c598-4311-b3b7-df84101020d5&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c0d2fd7c-c598-4311-b3b7-df84101020d5&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c0d2fd7c-c598-4311-b3b7-df84101020d5&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c0d2fd7c-c598-4311-b3b7-df84101020d5&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c0d2fd7c-c598-4311-b3b7-df84101020d5&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=c0d2fd7c-c598-4311-b3b7-df84101020d5&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="11"> <td style="text-align: center; vertical-align: middle; ">宾利嘉兴</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=6b1d03fc-1dad-45e8-9e61-e55cdbb3d983&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=6b1d03fc-1dad-45e8-9e61-e55cdbb3d983&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=6b1d03fc-1dad-45e8-9e61-e55cdbb3d983&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=6b1d03fc-1dad-45e8-9e61-e55cdbb3d983&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=6b1d03fc-1dad-45e8-9e61-e55cdbb3d983&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=6b1d03fc-1dad-45e8-9e61-e55cdbb3d983&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=6b1d03fc-1dad-45e8-9e61-e55cdbb3d983&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a><br></td> </tr>
+                                                    <tr data-index="12"> <td style="text-align: center; vertical-align: middle; ">宾利大连</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=af5970f9-9f84-445b-9cae-8d3ea3756fa0&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=af5970f9-9f84-445b-9cae-8d3ea3756fa0&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=af5970f9-9f84-445b-9cae-8d3ea3756fa0&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=af5970f9-9f84-445b-9cae-8d3ea3756fa0&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=af5970f9-9f84-445b-9cae-8d3ea3756fa0&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=af5970f9-9f84-445b-9cae-8d3ea3756fa0&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=af5970f9-9f84-445b-9cae-8d3ea3756fa0&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="13"> <td style="text-align: center; vertical-align: middle; ">宾利天津</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4fd3853e-6286-40a9-a2fa-9071130f4f6c&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4fd3853e-6286-40a9-a2fa-9071130f4f6c&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4fd3853e-6286-40a9-a2fa-9071130f4f6c&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4fd3853e-6286-40a9-a2fa-9071130f4f6c&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4fd3853e-6286-40a9-a2fa-9071130f4f6c&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4fd3853e-6286-40a9-a2fa-9071130f4f6c&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=4fd3853e-6286-40a9-a2fa-9071130f4f6c&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="14"> <td style="text-align: center; vertical-align: middle; ">宾利太原</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=9642098c-acf1-4551-9893-b63c343814f4&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=9642098c-acf1-4551-9893-b63c343814f4&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=9642098c-acf1-4551-9893-b63c343814f4&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=9642098c-acf1-4551-9893-b63c343814f4&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=9642098c-acf1-4551-9893-b63c343814f4&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=9642098c-acf1-4551-9893-b63c343814f4&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=9642098c-acf1-4551-9893-b63c343814f4&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="15"> <td style="text-align: center; vertical-align: middle; ">宾利宁波</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2deb6a68-fc4a-4744-86f5-1a126a61d74e&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2deb6a68-fc4a-4744-86f5-1a126a61d74e&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2deb6a68-fc4a-4744-86f5-1a126a61d74e&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2deb6a68-fc4a-4744-86f5-1a126a61d74e&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2deb6a68-fc4a-4744-86f5-1a126a61d74e&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2deb6a68-fc4a-4744-86f5-1a126a61d74e&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=2deb6a68-fc4a-4744-86f5-1a126a61d74e&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="16"> <td style="text-align: center; vertical-align: middle; ">宾利广州-体育中心</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=afeede19-385a-4277-a6c8-c180b711448d&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=afeede19-385a-4277-a6c8-c180b711448d&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=afeede19-385a-4277-a6c8-c180b711448d&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=afeede19-385a-4277-a6c8-c180b711448d&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=afeede19-385a-4277-a6c8-c180b711448d&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=afeede19-385a-4277-a6c8-c180b711448d&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=afeede19-385a-4277-a6c8-c180b711448d&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="17"> <td style="text-align: center; vertical-align: middle; ">宾利广州-珠江新城</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=feb2ca2f-5df3-4a84-8b7d-d55773c96437&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=feb2ca2f-5df3-4a84-8b7d-d55773c96437&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=feb2ca2f-5df3-4a84-8b7d-d55773c96437&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=feb2ca2f-5df3-4a84-8b7d-d55773c96437&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=feb2ca2f-5df3-4a84-8b7d-d55773c96437&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=feb2ca2f-5df3-4a84-8b7d-d55773c96437&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=feb2ca2f-5df3-4a84-8b7d-d55773c96437&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="18"> <td style="text-align: center; vertical-align: middle; ">宾利成都</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=8625c24a-a346-4d96-ba75-1a43c6d8294b&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=8625c24a-a346-4d96-ba75-1a43c6d8294b&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=8625c24a-a346-4d96-ba75-1a43c6d8294b&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=8625c24a-a346-4d96-ba75-1a43c6d8294b&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=8625c24a-a346-4d96-ba75-1a43c6d8294b&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=8625c24a-a346-4d96-ba75-1a43c6d8294b&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=8625c24a-a346-4d96-ba75-1a43c6d8294b&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                    <tr data-index="19"> <td style="text-align: center; vertical-align: middle; ">宾利无锡</td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e36b87c2-ca9a-4863-af1b-fc108687cf9e&amp;field=Q11" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e36b87c2-ca9a-4863-af1b-fc108687cf9e&amp;field=Q12" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e36b87c2-ca9a-4863-af1b-fc108687cf9e&amp;field=Q13" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e36b87c2-ca9a-4863-af1b-fc108687cf9e&amp;field=Q1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e36b87c2-ca9a-4863-af1b-fc108687cf9e&amp;field=Q2" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e36b87c2-ca9a-4863-af1b-fc108687cf9e&amp;field=Q3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> <td style="text-align: center; vertical-align: middle; "><a href="/Home/PromotionReport?id=e36b87c2-ca9a-4863-af1b-fc108687cf9e&amp;field=Q4" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a><br></td> </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END CONTENT-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END CONTENT-->
+    <!--BEGIN FOOTER-->
+
+    <div id="footer" style="display:none">
+        <div class="copyright">
+
+        </div>
+    </div>
+    <!--END FOOTER-->
+</div>
+
+<script>
+
+
+    $("#nav_promotion2").addClass("active");
+    var docTypes = [
+                                            { Id: 1, Name: '2019年百年礼赞物料',FieldName:'', ParentId: 0 },
+                                            { Id: 2, Name: '2019年市场计划', FieldName: '', ParentId: 0 },
+                                            { Id: 3, Name: '2019年市场基金', FieldName: '', ParentId: 0 },
+                                            { Id: 4, Name: '非凡人物背景板', FieldName: 'Q11', ParentId: 1 },
+                                            { Id: 5, Name: '窗贴', FieldName: 'Q12', ParentId: 1 },
+                                            { Id: 6, Name: '照片墙', FieldName: 'Q13', ParentId: 1 },
+                                            { Id: 1, Name: '照片墙', FieldName: 'Q21', ParentId: 2 },
+                                            { Id: 1, Name: '电子版', FieldName: 'Q21', ParentId: 2 },
+                                            { Id: 1, Name: '照片墙', FieldName: 'Q31', ParentId: 3 },
+                                            { Id: 1, Name: '电子版', FieldName: 'Q31', ParentId: 3 },
+    ]
+    $(function () {
+        $("#myPromotion").dataTable({
+            lengthMenu: [10, 20, 30, 40],//定义在每页显示记录数的select中显示的选项。
+            lengthChange: false,
+            processing: true,//是否显示表格加载状态，在数据量大的时候需要
+            destroy: true,//允许销毁替换，在表格重新查询时，可以自动销毁以前的data
+            paging: true,//分页
+            serverSide: true,//开启后端分页
+            height: 500,
+            pagingType: "full_numbers",//分页样式的类型
+            ordering: false,//是否启用排序
+            searching: false,//搜索
+            ajax: {
+                type: "GET",
+                url: "http://39.106.71.65:8001/bentley/api/CommitFile/ShopCommitFileRecordStatusSearch",
+                queryParams:{year:2020, shopid:1},
+                dataType: "json",
+                async: false
+            },
+            language: {
+                "lengthMenu": "10",//默认每页小时条数
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sInfoThousands": ",",
+                "paginate": {
+                    "first": "首页",
+                    "previous": "上页",
+                    "next": "下页",
+                    "last": "末页",
+                    "processing": "正在处理中。。。"
+                },
+            },
+            columns: [//定义行数据字段
+                { data: 'SUMPAGE' },
+                { data: 'PROVINCENAME' },
+                { data: 'CITYNAME' },
+                { data: 'DCMC' },
+                { data: 'JZH' },
+                { data: 'GZORQX' },
+                { data: 'GZSBMC' },
+                { data: 'SBLXMC' },
+                { data: 'SBXH' },
+                { data: 'FXRQS' },
+                { data: 'GZLX' },
+                { data: 'GZYY' },
+                { data: 'GZWZ' },
+                { data: 'GJZ' },
+                { data: 'GZXX' },
+                { data: 'CZ' }
+            ],
+            columnDefs: [//自定义处理行数据，和行样式
+                { "width": "3%", "targets": 0 },
+                { "width": "4%", "targets": 1 },
+                { "width": "4%", "targets": 2 },
+                { "width": "6%", "targets": 3 },
+                {
+                    "width": "5%", "targets": 4, "render": function (data, type, row, meta) {
+                        var jzh = row.JZH;
+
+                        return jzh + "号机组";
+                    }
+                },
+                {
+                    "width": "4%", "targets": 5, "render": function (data, type, row, meta) {
+                        var gzorqx = row.GZORQX;
+                        if (gzorqx != undefined && gzorqx == 1) {
+                            gzorqx = '故障';
+                        } else {
+                            gzorqx = '缺陷';
+                        }
+                        return gzorqx;
+                    }
+                },
+                { "width": "4%", "targets": 6 },
+                { "width": "4%", "targets": 7 },
+                {
+                    "width": "5%", "targets": 8, "render": function (data, type, row, meta) {
+                        var sbxh = row.SBXH;
+                        var fullsbxh = "";
+                        if (sbxh != undefined && sbxh.length > 10) {
+                            var fullsbxh = row.SBXH;
+                            sbxh = sbxh.substring(1, 10);
+                        } else {
+                            sbxh = "";
+                        }
+                        return "<label  data-toggle='tooltip' data-placement='top' title='" + fullsbxh + "'>" + sbxh + "</label>";
+                    }
+                },
+
+
+                { "width": "5%", "targets": 9 },
+                {
+                    "width": "8%", "targets": 10, "render": function (data, type, row, meta) {
+                        var gzlx = row.GZLX;
+                        if (gzlx != undefined && gzlx.length > 10) {
+                            gzlx = gzlx.substring(1, 10);
+                        }
+                        return gzlx;
+                    }
+                },
+                {
+                    "width": "8%", "targets": 11, "render": function (data, type, row, meta) {
+                        var gzyy = row.GZYY;
+                        if (gzyy != undefined && gzyy.length > 10) {
+                            gzyy = gzyy.substring(1, 10);
+                        }
+                        return "<label  data-toggle='tooltip' data-placement='top' title='" + row.GZYY + "'>" + gzyy + "</label>";
+                    }
+                },
+                {
+                    "width": "8%", "targets": 12, "render": function (data, type, row, meta) {
+                        var gzwz = row.GZWZ;
+                        if (gzwz != undefined && gzwz.length > 10) {
+                            gzwz = gzwz.substring(1, 10);
+                        }
+                        return "<label  data-toggle='tooltip' data-placement='top' title='" + row.GZWZ + "'>" + gzwz + "</label>";
+                    }
+                },
+                {
+                    "width": "8%", "targets": 13, "render": function (data, type, row, meta) {
+                        var gjz = row.GJZ;
+                        if (gjz != undefined && gjz.length > 10) {
+                            gjz = gjz.substring(1, 10);
+                        }
+                        return "<label  data-toggle='tooltip' data-placement='top' title='" + row.GJZ + "'>" + gjz + "</label>";
+                    }
+                },
+                {
+                    "width": "8%", "targets": 14, "render": function (data, type, row, meta) {
+                        var gzxx = row.GZXX;
+                        if (gzxx != undefined && gzxx.length > 10) {
+                            gzxx = gzxx.substring(1, 10);
+                        }
+                        return "<label  data-toggle='tooltip' data-placement='top' title='" + row.GZXX + "'>" + gzxx + "</label>";
+                    }
+                },
+
+                {
+                    //   指定第四列，从0开始，0表示第一列，1表示第二列……
+                    "width": "6%",
+                    "targets": 15,
+                    "render": function (data, type, row, meta) {
+                        var rowIndex = meta.row;//获取到该行的rowIndex
+                        var gzbh = row.GZBH;
+                        return "<div style='display:inline-block; cursor:pointer;' data-toggle='modal' data-target='#exampleModalDCupdate'  class='edit' onclick = 'info.bjclick(" + rowIndex + ")'   class='edit' title='编辑'><span class='iconfont icon-bianji'></span></div>" +
+                            "&nbsp&nbsp <div style='display:inline-block; cursor:pointer;' onclick = 'info.scclick(this)' onespt = '" + row.GZBH + "' class='delete' title='删除'><span class='iconfont icon-lajitong'></span></div>" +
+                            "&nbsp&nbsp<div style='display:inline-block; cursor:pointer;' data-toggle='modal' data-target='#exampleModalGZfile' οnclick=openWindow('" + gzbh + "',2)   class='file_manage' title='文件管理'>" +
+                            "<span class='iconfont icon-wenjianjia' style='font-size:18px;'></span></div>"
+                    }
+                }]
+
+
+        });
+    })
+
+</script>

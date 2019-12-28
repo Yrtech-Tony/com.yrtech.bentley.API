@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div id="page-wrapper">
+    <!--BEGIN CONTENT-->
+    <div class="page-content">
+        <div id="tab-general">
+            <div class="row mbl">
+                <div class="col-lg-12">
+                    <div class="col-md-12">
+                        <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <!--BEGIN CONTENT-->
+
+                    <div id="main-content">
+                        <div class="container-fluid">
+                            <!-- BEGIN PAGE HEADER-->
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <!-- BEGIN THEME CUSTOMIZER-->
+                                    <h3 class="page-title" translate style="font-family: BentleySemiBold;">Pending Reports Overview</h3>
+                                </div>
+                            </div>
+                            <div id="page" class="dashboard">
+                                <h4 class="page-title" translate style="font-family: BentleySemiBold;">Marketing Events</h4>
+                                <div class="row-fluid circle-state-overview">
+
+                                    <div id="activity-all" class="span2 responsive clearfix" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
+                                        <div class="circle-wrap">
+                                            <div class="stats-circle turquoise-color" style="background-color:#9AC1E6">
+                                                <i class="icon-book"></i>
+                                            </div>
+                                            <p>
+                                                <strong style="color:#9AC1E6">
+                                                    <a href="#">
+                                                        18
+                                                    </a>
+                                                </strong>
+                                                <span translate>Pending Plans</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="todo-list" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
+                                        <div class="circle-wrap">
+                                            <div class="stats-circle red-color" style="background-color:#284e1e">
+                                                <i class="icon-book"></i>
+                                            </div>
+                                            <p>
+                                                <strong style="color: #284e1e">
+                                                    <a style="color: #284e1e" href="#">
+                                                        29
+                                                    </a>
+                                                </strong>
+                                                <span translate>Pending Final Plans</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="non-passed" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
+                                        <div class="circle-wrap">
+                                            <div class="stats-circle purple-color" style="background-color:#edb700">
+                                                <i class="icon-book"></i>
+                                            </div>
+                                            <p>
+                                                <strong style="color: #edb700">
+                                                    <a style="color: #edb700" href="#">
+                                                        60
+                                                    </a>
+                                                </strong>
+                                                <span translate>Pending Leads Reports</span>
+                                            </p>
+                                        </div>
+                                    </div> 
+                                    <div id="non-passed" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
+                                        <div class="circle-wrap">
+                                            <div class="stats-circle brown-color" style="background-color:#d63f20">
+                                                <i class="icon-book"></i>
+                                            </div>
+                                            <p>
+                                                <strong style="color: #d63f20">
+                                                    <a style="color: #d63f20" href="#">
+                                                        23
+                                                    </a>
+                                                </strong>
+                                                <span translate>Pending Event Reports</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="non-passed" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
+                                        <div class="circle-wrap">
+                                            <div class="stats-circle red-color" style="background-color:#00aad2">
+                                                <i class="icon-book"></i>
+                                            </div>
+                                            <p>
+                                                <strong style="color: #00aad2">
+                                                    <a style="color: #00aad2" href="#">
+                                                        71
+                                                    </a>
+                                                </strong>
+                                                <span translate>Pending Updated Leads Reports</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <h4 class="page-title" translate style="font-family: BentleySemiBold;">Reimbursement</h4>
+                                <div class="row-fluid circle-state-overview">
+                                    <div id="non-passed" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
+                                        <div class="circle-wrap">
+                                            <div class="stats-circle blue-color" style="background-color:#44474e">
+                                                <i class="icon-book"></i>
+                                            </div>
+                                            <p>
+                                                <strong style="color: #44474e">
+                                                    <a style="color: #44474e" href="#">
+                                                        63
+                                                    </a>
+                                                </strong>
+                                                <span translate>Modification Requests for Application Documents</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div id="non-passed" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
+                                        <div class="circle-wrap">
+                                            <div class="stats-circle green-color" style="background-color:#232323">
+                                                <i class="icon-book"></i>
+                                            </div>
+                                            <p>
+                                                <strong style="color: #232323">
+                                                    <a style="color: #232323" href="#">
+                                                        76
+                                                    </a>
+                                                </strong>
+                                                <span translate>Modification Requests for Supporting Documents</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- END OVERVIEW STATISTIC BARS-->
+                            </div>
+                            <!-- END PAGE CONTENT-->
+
+                        </div>
+                    </div>
+                    <script>
+                        var csstxt = isZH() ? "'黑体'" : "'BentleySemiBold'";
+                        $(".page-title").css("font-family", csstxt);
+                        angular.module('MyApp').run(function (gettextCatalog) {
+                            var ov = gettextCatalog.getString('Overview');
+                            $('.nav_name')[0].innerText = ov;
+                            $('.nav_name')[1].innerText = ov;
+                            $('.nav_name')[2].innerText = ov;
+                        });
+                    </script>
+
+                    <!--END CONTENT-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END CONTENT-->
+    <!--BEGIN FOOTER-->
+
+    <div id="footer" style="display:none">
+        <div class="copyright">
+
+        </div>
+    </div>
+    <!--END FOOTER-->
+</div>

@@ -69,7 +69,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpPost]
         [Route("CommitFile/ShopCommitFileRecordDelete")]
-        public APIResult ShopCommitFileRecordDelete(UploadData upload)
+        public APIResult ShopCommitFileRecordDelete([FromBody]UploadData upload)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpPost]
         [Route("MarketAction/MarketActionBefore21Save")]
-        public APIResult MarketActionBefore21Save(MarketActionBefore21MainDto marketActionBefore21MainDto)
+        public APIResult MarketActionBefore21Save(UploadData upload)
         {
             try
             {
@@ -219,6 +219,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 //marketActionBefore21.TestDriverRoadMapPic03 = marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic03;
                 //marketActionBefore21.TestDriverRoadMapPic04 = marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic04;
                 #endregion
+                MarketActionBefore21MainDto marketActionBefore21MainDto = CommonHelper.DecodeString<MarketActionBefore21MainDto>(upload.ListJson);
                 marketActionService.MarketActionBefore21Save(marketActionBefore21MainDto.MarketActionBefore21);
                 foreach (MarketActionBefore21ActivityProcess process in marketActionBefore21MainDto.ActivityProcess)
                 {
@@ -272,10 +273,12 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpPost]
         [Route("MarketAction/MarketActionBefore3Save")]
-        public APIResult MarketActionBefore3Save(MarketActionBefore3MainDto marketActionBefore3MainDto)
+        public APIResult MarketActionBefore3Save(UploadData upload)
         {
             try
             {
+               MarketActionBefore3MainDto marketActionBefore3MainDto = CommonHelper.DecodeString<MarketActionBefore3MainDto> (upload.ListJson);
+
                 foreach (MarketActionBefore3BugetDetail bugetDetail in marketActionBefore3MainDto.BugetDetailList)
                 {
                     marketActionService.MarketActionBefore3BugetDetailSave(bugetDetail);
@@ -473,6 +476,143 @@ namespace com.yrtech.SurveyAPI.Controllers
             {
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
+        }
+        #endregion
+        #region After7
+        [HttpGet]
+        [Route("MarketAction/MarketActionAfter7Search")]
+        public APIResult MarketActionAfter7Search(string marketActionId)
+        {
+            try
+            {
+                MarketActionAfter7MainDto marketActionAfter7MainDto = new MarketActionAfter7MainDto();
+                List<MarketActionAfter7> marketActionAfter7List = marketActionService.MarketActionAfter7Search(marketActionId);
+                if (marketActionAfter7List != null && marketActionAfter7List.Count > 0)
+                {
+                    marketActionAfter7MainDto.MarketActionAfter7 = marketActionAfter7List[0];
+                }
+                marketActionAfter7MainDto.ActualExpense = marketActionService.MarketActionAfter7ActualExpenseSearch(marketActionId);
+                marketActionAfter7MainDto.ActualProcess = marketActionService.MarketActionAfter7ActualProcessSearch(marketActionId);
+                marketActionAfter7MainDto.LeadsCount = new MarketActionLeadsCountDto();// 需要和客户确认计算逻辑
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionAfter7MainDto) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter7Save")]
+        public APIResult MarketActionAfter7Save(UploadData upload)
+        {
+            try
+            {
+                MarketActionAfter7MainDto marketActionAfter7MainDto = CommonHelper.DecodeString<MarketActionAfter7MainDto>(upload.ListJson);
+                marketActionService.MarketActionAfter7Save(marketActionAfter7MainDto.MarketActionAfter7);
+                foreach (MarketActionAfter7ActualExpense expense in marketActionAfter7MainDto.ActualExpense)
+                {
+                    marketActionService.MarketActionAfter7ActualExpenseSave(expense);
+                }
+                foreach (MarketActionAfter7ActualProcess process in marketActionAfter7MainDto.ActualProcess)
+                {
+                    marketActionService.MarketActionAfter7ActualProcessSave(process);
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter7ActualExpenseDelete")]
+        public APIResult MarketActionAfter7ActualExpenseDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionAfter7ActualExpense> list = CommonHelper.DecodeString<List<MarketActionAfter7ActualExpense>>(upload.ListJson);
+                foreach (MarketActionAfter7ActualExpense expense in list)
+                {
+                    marketActionService.MarketActionAfter7ActualExpenseDelete(expense.MarketActionId.ToString(), expense.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter7ActualProcessDelete")]
+        public APIResult MarketActionAfter7ActualProcessDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionAfter7ActualProcess> list = CommonHelper.DecodeString<List<MarketActionAfter7ActualProcess>>(upload.ListJson);
+                foreach (MarketActionAfter7ActualProcess process in list)
+                {
+                    marketActionService.MarketActionAfter7ActualProcessDelete(process.MarketActionId.ToString(), process.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
+        #region 3 months after
+        [HttpGet]
+        [Route("MarketAction/MarketActionAfter90FileSearch")]
+        public APIResult MarketActionAfter90FileSearch(string marketActionId)
+        {
+            try
+            {
+                List<MarketActionAfter90File> marketActionAfter90File = marketActionService.MarketActionAfter90FileSearch(marketActionId);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionAfter90File) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter90FileSave")]
+        public APIResult MarketActionAfter90FileSave(MarketActionAfter90File marketActionAfter90File)
+        {
+            try
+            {
+
+                marketActionService.MarketActionAfter90FileSave(marketActionAfter90File);
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter90FileDelete")]
+        public APIResult MarketActionAfter90FileDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionAfter90File> list = CommonHelper.DecodeString<List<MarketActionAfter90File>>(upload.ListJson);
+                foreach (MarketActionAfter90File file in list)
+                {
+                    marketActionService.MarketActionAfter90FileDelete(file.MarketActionId.ToString(), file.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
         }
         #endregion
         #endregion

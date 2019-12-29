@@ -440,11 +440,11 @@ namespace com.yrtech.InventoryAPI.Service
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
             Type t = typeof(MarketActionAfter2LeadsReportDto);
             string sql = "";
-            sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn，
-                    CASE WHEN OwnerCheck=1 THEN '是' ESLE '否' END AS OwnerCheckName,
-                    CASE WHEN TestDriverCheck=1 THEN '是' ESLE '否' END AS TestDriverCheckName,
-                    CASE WHEN LeadsCheck=1 THEN '是' ESLE '否' END AS LeadsCheckName,
-                    CASE WHEN DealCheck=1 THEN '是' ESLE '否' END AS DealCheckName
+            sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn,
+                    CASE WHEN OwnerCheck=1 THEN '是' ELSE '否' END AS OwnerCheckName,
+                    CASE WHEN TestDriverCheck=1 THEN '是' ELSE '否' END AS TestDriverCheckName,
+                    CASE WHEN LeadsCheck=1 THEN '是' ELSE '否' END AS LeadsCheckName,
+                    CASE WHEN DealCheck=1 THEN '是' ELSE '否' END AS DealCheckName
                     FROM [MarketActionAfter2LeadsReport] A  INNER JOIN MarketAction B ON A.MarketActionId = B.MarketActionId
                                                             INNER JOIN Shop C ON B.ShopId = C.ShopId
                     WHERE A.MarketActionId = @MarketActionId";
@@ -473,6 +473,7 @@ namespace com.yrtech.InventoryAPI.Service
                 MarketActionAfter2LeadsReport findOne = db.MarketActionAfter2LeadsReport.Where(x => (x.MarketActionId == marketActionAfter2LeadsReport.MarketActionId && x.SeqNO == marketActionAfter2LeadsReport.SeqNO)).FirstOrDefault();
                 findOne.BPNO = marketActionAfter2LeadsReport.BPNO;
                 findOne.CustomerName = marketActionAfter2LeadsReport.CustomerName;
+                findOne.TelNO = marketActionAfter2LeadsReport.TelNO;
                 findOne.DealCheck = marketActionAfter2LeadsReport.DealCheck;
                 findOne.DealModel = marketActionAfter2LeadsReport.DealModel;
                 findOne.InterestedModel = marketActionAfter2LeadsReport.InterestedModel;
@@ -491,6 +492,235 @@ namespace com.yrtech.InventoryAPI.Service
                         ";
             db.Database.ExecuteSqlCommand(sql, para);
         }
+        #endregion
+        #region Seven days after
+        public List<MarketActionAfter7> MarketActionAfter7Search(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionAfter7);
+            string sql = "";
+            sql += @"SELECT A.* 
+                    FROM [MarketActionAfter7] A 
+                    WHERE MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionAfter7>().ToList();
+        }
+        public void MarketActionAfter7Save(MarketActionAfter7 marketActionAfter7)
+        {
+            MarketActionAfter7 findOne = db.MarketActionAfter7.Where(x => (x.MarketActionId == marketActionAfter7.MarketActionId)).FirstOrDefault();
+            if (findOne == null)
+            {
+                marketActionAfter7.InDateTime = DateTime.Now;
+                marketActionAfter7.ModifyDateTime = DateTime.Now;
+                db.MarketActionAfter7.Add(marketActionAfter7);
+            }
+            else
+            {
+                findOne.AttendenceOwnerCount = marketActionAfter7.AttendenceOwnerCount;
+                findOne.AttendencePCCount = marketActionAfter7.AttendencePCCount;
+                findOne.CarDisplayDesc01 = marketActionAfter7.CarDisplayDesc01;
+                findOne.CarDisplayDesc02 = marketActionAfter7.CarDisplayDesc02;
+                findOne.CarDisplayDesc03 = marketActionAfter7.CarDisplayDesc03;
+                findOne.CarDisplayDesc04 = marketActionAfter7.CarDisplayDesc04;
+                findOne.CarDisplayPic01 = marketActionAfter7.CarDisplayPic01;
+                findOne.CarDisplayPic02 = marketActionAfter7.CarDisplayPic02;
+                findOne.CarDisplayPic03 = marketActionAfter7.CarDisplayPic03;
+                findOne.CarDisplayPic04 = marketActionAfter7.CarDisplayPic04;
+                findOne.CustomerFeedback = marketActionAfter7.CustomerFeedback;
+                findOne.CustomerStaffModelDesc01 = marketActionAfter7.CustomerStaffModelDesc01;
+                findOne.CustomerStaffModelDesc02 = marketActionAfter7.CustomerStaffModelDesc02;
+                findOne.CustomerStaffModelDesc03 = marketActionAfter7.CustomerStaffModelDesc03;
+                findOne.CustomerStaffModelDesc04 = marketActionAfter7.CustomerStaffModelDesc04;
+                findOne.CustomerStaffModelPic01 = marketActionAfter7.CustomerStaffModelPic01;
+                findOne.CustomerStaffModelPic02 = marketActionAfter7.CustomerStaffModelPic02;
+                findOne.CustomerStaffModelPic03 = marketActionAfter7.CustomerStaffModelPic03;
+                findOne.CustomerStaffModelPic04 = marketActionAfter7.CustomerStaffModelPic04;
+                findOne.HightLights = marketActionAfter7.HightLights;
+                findOne.ImproveArea = marketActionAfter7.ImproveArea;
+                findOne.MarketSaleTeamAdvice = marketActionAfter7.MarketSaleTeamAdvice;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = marketActionAfter7.ModifyUserId;
+                findOne.OnLineAdDesc01 = marketActionAfter7.OnLineAdDesc01;
+                findOne.OnLineAdDesc02 = marketActionAfter7.OnLineAdDesc02;
+                findOne.OnLineAdDesc03 = marketActionAfter7.OnLineAdDesc03;
+                findOne.OnLineAdDesc04 = marketActionAfter7.OnLineAdDesc04;
+                findOne.OnLineAdPic01 = marketActionAfter7.OnLineAdPic01;
+                findOne.OnLineAdPic02 = marketActionAfter7.OnLineAdPic02;
+                findOne.OnLineAdPic03 = marketActionAfter7.OnLineAdPic03;
+                findOne.OnLineAdPic04 = marketActionAfter7.OnLineAdPic04;
+                findOne.OthersDesc01 = marketActionAfter7.OthersDesc01;
+                findOne.OthersDesc02 = marketActionAfter7.OthersDesc02;
+                findOne.OthersDesc03 = marketActionAfter7.OthersDesc03;
+                findOne.OthersDesc04 = marketActionAfter7.OthersDesc04;
+                findOne.OthersPic01 = marketActionAfter7.OthersPic01;
+                findOne.OthersPic02 = marketActionAfter7.OthersPic02;
+                findOne.OthersPic03 = marketActionAfter7.OthersPic03;
+                findOne.OthersPic04 = marketActionAfter7.OthersPic04;
+                findOne.PlaceDesc01 = marketActionAfter7.PlaceDesc01;
+                findOne.PlaceDesc02 = marketActionAfter7.PlaceDesc02;
+                findOne.PlaceDesc03 = marketActionAfter7.PlaceDesc03;
+                findOne.PlaceDesc04 = marketActionAfter7.PlaceDesc04;
+                findOne.PlacePic01 = marketActionAfter7.PlacePic01;
+                findOne.PlacePic02 = marketActionAfter7.PlacePic02;
+                findOne.PlacePic03 = marketActionAfter7.PlacePic03;
+                findOne.PlacePic04 = marketActionAfter7.PlacePic04;
+                findOne.RegisterLiveShowDesc01 = marketActionAfter7.RegisterLiveShowDesc01;
+                findOne.RegisterLiveShowDesc02 = marketActionAfter7.RegisterLiveShowDesc02;
+                findOne.RegisterLiveShowDesc03 = marketActionAfter7.RegisterLiveShowDesc03;
+                findOne.RegisterLiveShowDesc04 = marketActionAfter7.RegisterLiveShowDesc04;
+                findOne.RegisterLiveShowPic01 = marketActionAfter7.RegisterLiveShowPic01;
+                findOne.RegisterLiveShowPic02 = marketActionAfter7.RegisterLiveShowPic02;
+                findOne.RegisterLiveShowPic03 = marketActionAfter7.RegisterLiveShowPic03;
+                findOne.RegisterLiveShowPic04 = marketActionAfter7.RegisterLiveShowPic04;
+       
+            }
+
+            db.SaveChanges();
+        }
+        public List<MarketActionAfter7ActualExpense> MarketActionAfter7ActualExpenseSearch(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionAfter7ActualExpense);
+            string sql = "";
+            sql += @"SELECT *  FROM [MarketActionAfter7ActualExpense] WHERE MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionAfter7ActualExpense>().ToList();
+        }
+        public void MarketActionAfter7ActualExpenseSave(MarketActionAfter7ActualExpense marketActionAfter7ActualExpense)
+        {
+            if (marketActionAfter7ActualExpense.SeqNO == 0)
+            {
+                MarketActionAfter7ActualExpense findOneMax = db.MarketActionAfter7ActualExpense.Where(x => (x.MarketActionId == marketActionAfter7ActualExpense.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+                if (findOneMax == null)
+                {
+                    marketActionAfter7ActualExpense.SeqNO = 1;
+                }
+                else
+                {
+                    marketActionAfter7ActualExpense.SeqNO = findOneMax.SeqNO + 1;
+                }
+                marketActionAfter7ActualExpense.InDateTime = DateTime.Now;
+                marketActionAfter7ActualExpense.ModifyDateTime = DateTime.Now;
+                db.MarketActionAfter7ActualExpense.Add(marketActionAfter7ActualExpense);
+
+            }
+            else
+            {
+                MarketActionAfter7ActualExpense findOne = db.MarketActionAfter7ActualExpense.Where(x => (x.MarketActionId == marketActionAfter7ActualExpense.MarketActionId && x.SeqNO == marketActionAfter7ActualExpense.SeqNO)).FirstOrDefault();
+                findOne.Descs = marketActionAfter7ActualExpense.Descs;
+                findOne.Item = marketActionAfter7ActualExpense.Item;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = marketActionAfter7ActualExpense.ModifyUserId;
+                findOne.Counts = marketActionAfter7ActualExpense.Counts;
+                findOne.UnitPrice = marketActionAfter7ActualExpense.UnitPrice;
+            }
+            db.SaveChanges();
+        }
+        public void MarketActionAfter7ActualExpenseDelete(string marketActionId, string seqNO)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            string sql = @"DELETE MarketActionAfter7ActualExpense WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+
+        public List<MarketActionAfter7ActualProcess> MarketActionAfter7ActualProcessSearch(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionAfter7ActualProcess);
+            string sql = "";
+            sql += @"SELECT *  FROM [MarketActionAfter7ActualProcess] WHERE MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionAfter7ActualProcess>().ToList();
+        }
+        public void MarketActionAfter7ActualProcessSave(MarketActionAfter7ActualProcess marketActionAfter7ActualProcess)
+        {
+            if (marketActionAfter7ActualProcess.SeqNO == 0)
+            {
+                MarketActionAfter7ActualProcess findOneMax = db.MarketActionAfter7ActualProcess.Where(x => (x.MarketActionId == marketActionAfter7ActualProcess.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+                if (findOneMax == null)
+                {
+                    marketActionAfter7ActualProcess.SeqNO = 1;
+                }
+                else
+                {
+                    marketActionAfter7ActualProcess.SeqNO = findOneMax.SeqNO + 1;
+                }
+                marketActionAfter7ActualProcess.InDateTime = DateTime.Now;
+                marketActionAfter7ActualProcess.ModifyDateTime = DateTime.Now;
+                db.MarketActionAfter7ActualProcess.Add(marketActionAfter7ActualProcess);
+
+            }
+            else
+            {
+                MarketActionAfter7ActualProcess findOne = db.MarketActionAfter7ActualProcess.Where(x => (x.MarketActionId == marketActionAfter7ActualProcess.MarketActionId && x.SeqNO == marketActionAfter7ActualProcess.SeqNO)).FirstOrDefault();
+                findOne.ActivityDateTime = marketActionAfter7ActualProcess.ActivityDateTime;
+                findOne.Contents = marketActionAfter7ActualProcess.Contents;
+                findOne.Item = marketActionAfter7ActualProcess.Item;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = marketActionAfter7ActualProcess.ModifyUserId;
+                findOne.Remark = marketActionAfter7ActualProcess.Remark;
+                
+            }
+            db.SaveChanges();
+        }
+        public void MarketActionAfter7ActualProcessDelete(string marketActionId, string seqNO)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            string sql = @"DELETE MarketActionAfter7ActualProcess WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
+        #region 3 months  after
+        #region TheDays
+        public List<MarketActionAfter90File> MarketActionAfter90FileSearch(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionAfter90File);
+            string sql = "";
+            sql += @"SELECT A.* 
+                    FROM [MarketActionAfter90File] A 
+                    WHERE MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionAfter90File>().ToList();
+        }
+        public void MarketActionAfter90FileSave(MarketActionAfter90File marketActionAfter90File)
+        {
+            if (marketActionAfter90File.SeqNO == 0)
+            {
+                MarketActionAfter90File findOneMax = db.MarketActionAfter90File.Where(x => (x.MarketActionId == marketActionAfter90File.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+                if (findOneMax == null)
+                {
+                    marketActionAfter90File.SeqNO = 1;
+                }
+                else
+                {
+                    marketActionAfter90File.SeqNO = findOneMax.SeqNO + 1;
+                }
+                marketActionAfter90File.InDateTime = DateTime.Now;
+                marketActionAfter90File.ModifyDateTime = DateTime.Now;
+                db.MarketActionAfter90File.Add(marketActionAfter90File);
+
+            }
+            else
+            {
+
+            }
+            db.SaveChanges();
+        }
+        public void MarketActionAfter90FileDelete(string marketActionId, string seqNO)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            string sql = @"DELETE MarketActionAfter90File WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
         #endregion
     }
 }

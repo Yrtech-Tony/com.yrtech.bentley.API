@@ -188,8 +188,10 @@
     <Compile Include="DTO\Answer\AnswerDto.cs" />
     <Compile Include="DTO\Answer\AnswerPhotoDto.cs" />
     <Compile Include="DTO\Answer\AnswerShopInfoDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionLeadsCountDto.cs" />
     <Compile Include="DTO\MarketAction\MarketActionBefore211111Dto.cs" />
     <Compile Include="DTO\MarketAction\MarketActionAfter2LeadsReportDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionAfter7MainDto.cs" />
     <Compile Include="DTO\MarketAction\MarketActionBefore3MainDto.cs" />
     <Compile Include="DTO\MarketAction\MarketActionBefore21MainDto.cs" />
     <Compile Include="DTO\MarketAction\MarketActionDto.cs" />

@@ -14,6 +14,7 @@ namespace com.yrtech.InventoryAPI.DTO
             public string ShopNameEn { get; set; }
             public int SeqNO { get; set; }
             public string CustomerName { get; set; }//顾客姓名
+            public string TelNO { get; set; } //顾客电话
             public string BPNO { get; set; }//BPNO
             public Nullable<bool> OwnerCheck { get; set; }//是否车主
             public string OwnerCheckName { get; set; }//是否车主显示:是或者否

@@ -17,6 +17,7 @@ namespace com.yrtech.bentley.DAL
         public int MarketActionId { get; set; }
         public int SeqNO { get; set; }
         public string FileName { get; set; }
+        public string FileUrl { get; set; }
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
         public Nullable<int> ModifyUserId { get; set; }

@@ -18,8 +18,8 @@ namespace com.yrtech.bentley.DAL
         public int SeqNO { get; set; }
         public string Item { get; set; }
         public string Descs { get; set; }
-        public Nullable<decimal> unitPrice { get; set; }
-        public Nullable<decimal> Quantity { get; set; }
+        public Nullable<decimal> UnitPrice { get; set; }
+        public Nullable<decimal> Counts { get; set; }
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
         public Nullable<int> ModifyUserId { get; set; }

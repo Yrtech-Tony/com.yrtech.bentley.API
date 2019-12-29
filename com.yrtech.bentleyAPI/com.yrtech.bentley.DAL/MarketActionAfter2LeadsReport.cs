@@ -17,6 +17,7 @@ namespace com.yrtech.bentley.DAL
         public int MarketActionId { get; set; }
         public int SeqNO { get; set; }
         public string CustomerName { get; set; }
+        public string TelNO { get; set; }
         public string BPNO { get; set; }
         public Nullable<bool> OwnerCheck { get; set; }
         public Nullable<bool> TestDriverCheck { get; set; }

@@ -18,15 +18,9 @@ namespace com.yrtech.bentley.DAL
         public string HightLights { get; set; }
         public string ImproveArea { get; set; }
         public string CustomerFeedback { get; set; }
-        public Nullable<decimal> ActualExpense { get; set; }
+        public string MarketSaleTeamAdvice { get; set; }
         public Nullable<int> AttendenceOwnerCount { get; set; }
         public Nullable<int> AttendencePCCount { get; set; }
-        public Nullable<int> LeadOwnerCount { get; set; }
-        public Nullable<int> LeadPCCount { get; set; }
-        public Nullable<int> TestDriverOwnerCount { get; set; }
-        public Nullable<int> TestDriverPCCount { get; set; }
-        public Nullable<int> ActualOrderOwnerCount { get; set; }
-        public Nullable<int> ActualOrderPCCount { get; set; }
         public string OnLineAdPic01 { get; set; }
         public string OnLineAdPic02 { get; set; }
         public string OnLineAdPic03 { get; set; }

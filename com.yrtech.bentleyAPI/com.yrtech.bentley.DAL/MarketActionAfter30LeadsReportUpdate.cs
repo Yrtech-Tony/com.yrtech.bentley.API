@@ -15,8 +15,9 @@ namespace com.yrtech.bentley.DAL
     public partial class MarketActionAfter30LeadsReportUpdate
     {
         public int MarketActionId { get; set; }
-        public int SeqNO { get; set; }
-        public Nullable<int> UpdateUserId { get; set; }
-        public Nullable<System.DateTime> UpdateDateTime { get; set; }
+        public Nullable<int> InUserId { get; set; }
+        public Nullable<System.DateTime> InDateTime { get; set; }
+        public Nullable<int> ModifyUserId { get; set; }
+        public Nullable<System.DateTime> ModifyDateTime { get; set; }
     }
 }

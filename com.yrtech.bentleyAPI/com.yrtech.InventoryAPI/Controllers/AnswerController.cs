@@ -493,7 +493,11 @@ namespace com.yrtech.SurveyAPI.Controllers
                 }
                 marketActionAfter7MainDto.ActualExpense = marketActionService.MarketActionAfter7ActualExpenseSearch(marketActionId);
                 marketActionAfter7MainDto.ActualProcess = marketActionService.MarketActionAfter7ActualProcessSearch(marketActionId);
-                marketActionAfter7MainDto.LeadsCount = new MarketActionLeadsCountDto();// 需要和客户确认计算逻辑
+                List< MarketActionLeadsCountDto> marketActionLeadsCountList= marketActionService.MarketActionLeadsCountSearch(marketActionId);// 需要和客户确认计算逻辑
+                if (marketActionLeadsCountList!=null&& marketActionLeadsCountList.Count>0)
+                {
+                    marketActionAfter7MainDto.LeadsCount = marketActionLeadsCountList[0];
+                }
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionAfter7MainDto) };
             }
             catch (Exception ex)
@@ -554,6 +558,29 @@ namespace com.yrtech.SurveyAPI.Controllers
                 foreach (MarketActionAfter7ActualProcess process in list)
                 {
                     marketActionService.MarketActionAfter7ActualProcessDelete(process.MarketActionId.ToString(), process.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
+        #region 30 days after
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter30LeadsReportUpdate")]
+        public APIResult MarketActionAfter30LeadsReportUpdate(UploadData upload)
+        {
+            try
+            {
+                MarketActionAfter30MainDto marketActionAfter30MainDto = CommonHelper.DecodeString<MarketActionAfter30MainDto>(upload.ListJson);
+                marketActionService.MarketActionAfter30LeadsReportUpdate(marketActionAfter30MainDto.MarketActionAfter30LeadsReportUpdate);
+                foreach (MarketActionAfter2LeadsReport report in marketActionAfter30MainDto.LeadsReportList)
+                {
+                    marketActionService.MarketActionAfter2LeadsReportSave(report);
+
                 }
                 return new APIResult() { Status = true, Body = "" };
             }

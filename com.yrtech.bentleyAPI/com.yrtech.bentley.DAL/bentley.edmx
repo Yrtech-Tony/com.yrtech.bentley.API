@@ -104,12 +104,12 @@
         <EntityType Name="MarketActionAfter30LeadsReportUpdate">
           <Key>
             <PropertyRef Name="MarketActionId" />
-            <PropertyRef Name="SeqNO" />
           </Key>
           <Property Name="MarketActionId" Type="int" Nullable="false" />
-          <Property Name="SeqNO" Type="int" Nullable="false" />
-          <Property Name="UpdateUserId" Type="int" />
-          <Property Name="UpdateDateTime" Type="datetime" />
+          <Property Name="InUserId" Type="int" />
+          <Property Name="InDateTime" Type="datetime" />
+          <Property Name="ModifyUserId" Type="int" />
+          <Property Name="ModifyDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="MarketActionAfter7">
           <Key>
@@ -636,7 +636,6 @@
           <EntitySet Name="RoleType" EntityType="Self.RoleType" />
           <EntitySet Name="Shop" EntityType="Self.Shop" />
           <EntitySet Name="ShopCommitFileRecord" EntityType="Self.ShopCommitFileRecord" />
-          <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" />
           <EntitySet Name="UserInfo" EntityType="BentleyModel.UserInfo" />
           <EntitySet Name="EventType" EntityType="BentleyModel.EventType" />
           <EntitySet Name="HiddenCode" EntityType="BentleyModel.HiddenCode" />
@@ -645,17 +644,8 @@
           <EntitySet Name="MarketActionAfter7ActualExpense" EntityType="BentleyModel.MarketActionAfter7ActualExpense" />
           <EntitySet Name="MarketActionAfter2LeadsReport" EntityType="BentleyModel.MarketActionAfter2LeadsReport" />
           <EntitySet Name="MarketActionAfter90File" EntityType="BentleyModel.MarketActionAfter90File" />
+          <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" />
         </EntityContainer>
-        <EntityType Name="MarketActionAfter30LeadsReportUpdate">
-          <Key>
-            <PropertyRef Name="MarketActionId" />
-            <PropertyRef Name="SeqNO" />
-          </Key>
-          <Property Name="MarketActionId" Type="Int32" Nullable="false" />
-          <Property Name="SeqNO" Type="Int32" Nullable="false" />
-          <Property Name="UpdateUserId" Type="Int32" />
-          <Property Name="UpdateDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="UserInfo">
           <Key>
             <PropertyRef Name="UserId" />
@@ -877,6 +867,16 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="MarketActionAfter30LeadsReportUpdate">
+          <Key>
+            <PropertyRef Name="MarketActionId" />
+          </Key>
+          <Property Name="MarketActionId" Type="Int32" Nullable="false" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1064,16 +1064,6 @@
                 <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
                 <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
                 <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MarketActionAfter30LeadsReportUpdate">
-            <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter30LeadsReportUpdate">
-              <MappingFragment StoreEntitySet="MarketActionAfter30LeadsReportUpdate">
-                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
-                <ScalarProperty Name="UpdateUserId" ColumnName="UpdateUserId" />
-                <ScalarProperty Name="SeqNO" ColumnName="SeqNO" />
-                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1298,6 +1288,17 @@
                 <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="SeqNO" ColumnName="SeqNO" />
+                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketActionAfter30LeadsReportUpdate">
+            <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter30LeadsReportUpdate">
+              <MappingFragment StoreEntitySet="MarketActionAfter30LeadsReportUpdate">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
                 <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
               </MappingFragment>
             </EntityTypeMapping>

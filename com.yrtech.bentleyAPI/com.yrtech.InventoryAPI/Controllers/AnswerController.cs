@@ -405,6 +405,60 @@ namespace com.yrtech.SurveyAPI.Controllers
 
         }
         #endregion
+        #region After2
+        [HttpGet]
+        [Route("MarketAction/MarketActionAfter2LeadsReportSearch")]
+        public APIResult MarketActionAfter2LeadsReportSearch(string marketActionId)
+        {
+            try
+            {
+                List<MarketActionAfter2LeadsReportDto> marketActionTheDayFile = marketActionService.MarketActionAfter2LeadsReportSearch(marketActionId);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionTheDayFile) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter2LeadsReportSave")]
+        public APIResult MarketActionAfter2LeadsReportSave(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionAfter2LeadsReport> list = CommonHelper.DecodeString<List<MarketActionAfter2LeadsReport>>(upload.ListJson);
+                foreach (MarketActionAfter2LeadsReport leadsReport in list)
+                {
+                    marketActionService.MarketActionAfter2LeadsReportSave(leadsReport);
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter2LeadsReportDelete")]
+        public APIResult MarketActionAfter2LeadsReportDelete(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionAfter2LeadsReport> list = CommonHelper.DecodeString<List<MarketActionAfter2LeadsReport>>(upload.ListJson);
+                foreach (MarketActionAfter2LeadsReport leadsReport in list)
+                {
+                    marketActionService.MarketActionAfter2LeadsReportDelete(leadsReport.MarketActionId.ToString(), leadsReport.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
         #endregion
 
 

@@ -27,12 +27,54 @@ namespace com.yrtech.bentley.DAL
         public Nullable<int> TestDriverPCCount { get; set; }
         public Nullable<int> ActualOrderOwnerCount { get; set; }
         public Nullable<int> ActualOrderPCCount { get; set; }
-        public string OnLineAd { get; set; }
-        public string CarDisplay { get; set; }
-        public string Place { get; set; }
-        public string RegisterLiveShow { get; set; }
-        public string CustomerStaffModel { get; set; }
-        public string Others { get; set; }
+        public string OnLineAdPic01 { get; set; }
+        public string OnLineAdPic02 { get; set; }
+        public string OnLineAdPic03 { get; set; }
+        public string OnLineAdPic04 { get; set; }
+        public string OnLineAdDesc01 { get; set; }
+        public string OnLineAdDesc02 { get; set; }
+        public string OnLineAdDesc03 { get; set; }
+        public string OnLineAdDesc04 { get; set; }
+        public string CarDisplayPic01 { get; set; }
+        public string CarDisplayPic02 { get; set; }
+        public string CarDisplayPic03 { get; set; }
+        public string CarDisplayPic04 { get; set; }
+        public string CarDisplayDesc01 { get; set; }
+        public string CarDisplayDesc02 { get; set; }
+        public string CarDisplayDesc03 { get; set; }
+        public string CarDisplayDesc04 { get; set; }
+        public string PlacePic01 { get; set; }
+        public string PlacePic02 { get; set; }
+        public string PlacePic03 { get; set; }
+        public string PlacePic04 { get; set; }
+        public string PlaceDesc01 { get; set; }
+        public string PlaceDesc02 { get; set; }
+        public string PlaceDesc03 { get; set; }
+        public string PlaceDesc04 { get; set; }
+        public string RegisterLiveShowPic01 { get; set; }
+        public string RegisterLiveShowPic02 { get; set; }
+        public string RegisterLiveShowPic03 { get; set; }
+        public string RegisterLiveShowPic04 { get; set; }
+        public string RegisterLiveShowDesc01 { get; set; }
+        public string RegisterLiveShowDesc02 { get; set; }
+        public string RegisterLiveShowDesc03 { get; set; }
+        public string RegisterLiveShowDesc04 { get; set; }
+        public string CustomerStaffModelPic01 { get; set; }
+        public string CustomerStaffModelPic02 { get; set; }
+        public string CustomerStaffModelPic03 { get; set; }
+        public string CustomerStaffModelPic04 { get; set; }
+        public string CustomerStaffModelDesc01 { get; set; }
+        public string CustomerStaffModelDesc02 { get; set; }
+        public string CustomerStaffModelDesc03 { get; set; }
+        public string CustomerStaffModelDesc04 { get; set; }
+        public string OthersPic01 { get; set; }
+        public string OthersPic02 { get; set; }
+        public string OthersPic03 { get; set; }
+        public string OthersPic04 { get; set; }
+        public string OthersDesc01 { get; set; }
+        public string OthersDesc02 { get; set; }
+        public string OthersDesc03 { get; set; }
+        public string OthersDesc04 { get; set; }
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
         public Nullable<int> ModifyUserId { get; set; }

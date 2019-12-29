@@ -432,5 +432,61 @@ namespace com.yrtech.InventoryAPI.Service
             db.Database.ExecuteSqlCommand(sql, para);
         }
         #endregion
+        #region two days after
+        public List<MarketActionAfter2LeadsReportDto> MarketActionAfter2LeadsReportSearch(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            Type t = typeof(MarketActionAfter2LeadsReportDto);
+            string sql = "";
+            sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn 
+                    FROM [MarketActionAfter2LeadsReport] A  INNER JOIN MarketAction B ON A.MarketActionId = B.MarketActionId
+                                                            INNER JOIN Shop C ON B.ShopId = C.ShopId
+                    WHERE A.MarketActionId = @MarketActionId";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionAfter2LeadsReportDto>().ToList();
+        }
+        public void MarketActionAfter2LeadsReportSave(MarketActionAfter2LeadsReport marketActionAfter2LeadsReport)
+        {
+            if (marketActionAfter2LeadsReport.SeqNO == 0)
+            {
+                MarketActionTheDayFile findOneMax = db.MarketActionTheDayFile.Where(x => (x.MarketActionId == marketActionAfter2LeadsReport.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+                if (findOneMax == null)
+                {
+                    marketActionAfter2LeadsReport.SeqNO = 1;
+                }
+                else
+                {
+                    marketActionAfter2LeadsReport.SeqNO = findOneMax.SeqNO + 1;
+                }
+                marketActionAfter2LeadsReport.InDateTime = DateTime.Now;
+                marketActionAfter2LeadsReport.ModifyDateTime = DateTime.Now;
+                db.MarketActionAfter2LeadsReport.Add(marketActionAfter2LeadsReport);
+
+            }
+            else
+            {
+                MarketActionAfter2LeadsReport findOne = db.MarketActionAfter2LeadsReport.Where(x => (x.MarketActionId == marketActionAfter2LeadsReport.MarketActionId && x.SeqNO == marketActionAfter2LeadsReport.SeqNO)).FirstOrDefault();
+                findOne.BPNO = marketActionAfter2LeadsReport.BPNO;
+                findOne.CustomerName = marketActionAfter2LeadsReport.CustomerName;
+                findOne.DealCheck = marketActionAfter2LeadsReport.DealCheck;
+                findOne.DealModel = marketActionAfter2LeadsReport.DealModel;
+                findOne.InterestedModel = marketActionAfter2LeadsReport.InterestedModel;
+                findOne.LeadsCheck = marketActionAfter2LeadsReport.LeadsCheck;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = marketActionAfter2LeadsReport.ModifyUserId;
+                findOne.OwnerCheck = marketActionAfter2LeadsReport.OwnerCheck;
+                findOne.TestDriverCheck = marketActionAfter2LeadsReport.TestDriverCheck;
+            }
+            db.SaveChanges();
+        }
+        public void MarketActionAfter2LeadsReportDelete(string marketActionId, string seqNO)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            string sql = @"DELETE MarketActionAfter2LeadsReport WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
     }
 }

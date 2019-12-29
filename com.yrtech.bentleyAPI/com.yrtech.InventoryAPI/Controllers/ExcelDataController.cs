@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace com.yrtech.InventoryAPI.Controllers
 {
-    public class CommonController : Controller
+    public class FileDownLoadController : Controller
     {
         //AnswerService answerService = new AnswerService();
         //MasterService masterService = new MasterService();
@@ -49,9 +49,9 @@ namespace com.yrtech.InventoryAPI.Controllers
         public void DownloadReport(string projectId, string shopId)
         {
             //List<AnswerDto> answerList = answerService.GetShopAnswerList(projectId, shopId, "", "", "", "");
-            //Workbook book = Workbook.Load(Server.MapPath("~") + @"Content\Excel\" + "easyPhotoExport.xls", false);
-            ////填充数据
-            //Worksheet sheet = book.Worksheets[0];
+            Workbook book = Workbook.Load(Server.MapPath("~") + @"Content\Excel\" + "easyPhotoExport.xls", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
             //Worksheet sheet1 = book.Worksheets[1];
             //int rowIndex = 1;
             //int rowIndex1 = 1;
@@ -185,6 +185,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             string filePath = dirPath_Copy + dirPath_Copy + fileName + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xls";
             DownloadExcel(fileName+".xls", filePath, true);
         }
+       
 
 
     }

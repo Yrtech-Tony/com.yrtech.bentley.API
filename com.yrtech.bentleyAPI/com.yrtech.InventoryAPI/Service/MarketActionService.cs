@@ -440,7 +440,11 @@ namespace com.yrtech.InventoryAPI.Service
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
             Type t = typeof(MarketActionAfter2LeadsReportDto);
             string sql = "";
-            sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn 
+            sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn，
+                    CASE WHEN OwnerCheck=1 THEN '是' ESLE '否' END AS OwnerCheckName,
+                    CASE WHEN TestDriverCheck=1 THEN '是' ESLE '否' END AS TestDriverCheckName,
+                    CASE WHEN LeadsCheck=1 THEN '是' ESLE '否' END AS LeadsCheckName,
+                    CASE WHEN DealCheck=1 THEN '是' ESLE '否' END AS DealCheckName
                     FROM [MarketActionAfter2LeadsReport] A  INNER JOIN MarketAction B ON A.MarketActionId = B.MarketActionId
                                                             INNER JOIN Shop C ON B.ShopId = C.ShopId
                     WHERE A.MarketActionId = @MarketActionId";

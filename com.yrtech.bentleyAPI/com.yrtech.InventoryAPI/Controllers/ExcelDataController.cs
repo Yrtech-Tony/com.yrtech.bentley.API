@@ -13,9 +13,9 @@ using System.Web.Mvc;
 
 namespace com.yrtech.InventoryAPI.Controllers
 {
-    public class FileDownLoadController : Controller
+    public class ExcelDataController : Controller
     {
-        //AnswerService answerService = new AnswerService();
+        MarketActionService mardetActionService = new MarketActionService();
         //MasterService masterService = new MasterService();
         // GET: Common
         public ActionResult Index()
@@ -185,7 +185,52 @@ namespace com.yrtech.InventoryAPI.Controllers
             string filePath = dirPath_Copy + dirPath_Copy + fileName + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xls";
             DownloadExcel(fileName+".xls", filePath, true);
         }
-       
+
+        #region MarketAction
+        #region 2 days after leads report
+        public void MarketActionAfter2LeadsReportDownload(string marketActionId)
+        {
+            List<MarketActionAfter2LeadsReportDto> list = mardetActionService.MarketActionAfter2LeadsReportSearch(marketActionId);
+            Workbook book = Workbook.Load(Server.MapPath("~") + @"Content\Excel\" + "LeadsReport.xlsx", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
+            int rowIndex = 1;
+
+            foreach (MarketActionAfter2LeadsReportDto item in list)
+            {
+                //客户姓名
+                sheet.GetCell("D" + (rowIndex + 1)).Value = item.CustomerName;
+                //BPNO
+                sheet.GetCell("E" + (rowIndex + 1)).Value = item.BPNO;
+                //是否车主
+                sheet.GetCell("F" + (rowIndex + 1)).Value = item.OwnerCheckName;
+                // 是否试驾
+                sheet.GetCell("G" + (rowIndex + 1)).Value = item.TestDriverCheckName;
+                // 是否线索
+                sheet.GetCell("H" + (rowIndex + 1)).Value = item.LeadsCheckName;
+                //感兴趣车型
+                sheet.GetCell("I" + (rowIndex + 1)).Value = item.InterestedModel;
+                //是否成交
+                sheet.GetCell("J" + (rowIndex + 1)).Value = item.DealCheckName;
+                // 成交车型
+                sheet.GetCell("K" + (rowIndex + 1)).Value = item.DealCheckName;
+                rowIndex++;
+            }
+
+            //保存excel文件
+            string fileName = "线索报告" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string dirPath = Server.MapPath("~") + @"\Temp\";
+            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+            string filePath = dirPath + fileName;
+            book.Save(filePath);
+            DownloadExcel(fileName, filePath, true);
+        }
+        #endregion
+        #endregion
 
 
     }

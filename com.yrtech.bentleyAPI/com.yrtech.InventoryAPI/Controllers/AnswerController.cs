@@ -458,6 +458,22 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
 
         }
+        [HttpGet]
+        [Route("MarketAction/MarketActionAfter2LeadsReportDownload")]
+        public APIResult MarketActionAfter2LeadsReportDownload(string marketActionId)
+        {
+            try
+            {
+                ExcelDataController excelData = new ExcelDataController();
+                excelData.MarketActionAfter2LeadsReportDownload(marketActionId);
+                
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
         #endregion
         #endregion
 

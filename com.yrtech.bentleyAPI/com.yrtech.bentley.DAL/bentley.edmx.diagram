@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="BentleyModel.RoleType" Width="1.5" PointX="6.625" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BentleyModel.Shop" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BentleyModel.ShopCommitFileRecord" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" Width="1.5" PointX="8.875" PointY="9.125" />
         <EntityTypeShape EntityType="BentleyModel.UserInfo" Width="1.5" PointX="6.625" PointY="12" />
         <EntityTypeShape EntityType="BentleyModel.EventType" Width="1.5" PointX="13.375" PointY="8.75" />
         <EntityTypeShape EntityType="BentleyModel.HiddenCode" Width="1.5" PointX="13.375" PointY="4.75" />
@@ -26,6 +25,7 @@
         <EntityTypeShape EntityType="BentleyModel.MarketActionAfter7ActualExpense" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="BentleyModel.MarketActionAfter2LeadsReport" Width="1.5" PointX="11.375" PointY="12.75" />
         <EntityTypeShape EntityType="BentleyModel.MarketActionAfter90File" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" Width="1.5" PointX="0.75" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

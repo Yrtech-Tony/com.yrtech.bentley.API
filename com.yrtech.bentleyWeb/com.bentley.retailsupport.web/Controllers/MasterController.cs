@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace com.bentley.retailsupport.web.Controllers
 {
-    public class MasterController : Controller
+    public class MasterController : BaseController
     {
         //
         // GET: /Master/

@@ -1,0 +1,798 @@
+<form action="/Account/LogOff" class="navbar-right" id="logoutForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="CpkVTQEG63WCS_qmXRD6AmMGaqZibTqbcVB0R14omQjsnEIVnFwCD07YRHrVAZ9W9HEyKauNiuburcQVYWAzcX8ZCBqWrBJT2pb8GYVPNXmUjMtO47D51GNkbTv4JWG1uHhucwGTj4NkNgrcarzv8A2" /></form>
+
+<!DOCTYPE html>
+<html ng-app="MyApp">
+<head>
+    <title translate>Dealer Activity Online Management System</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--Loading bootstrap css-->
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
+    <link type="text/css" rel="stylesheet" href="/Content/style/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrap-table/bootstrap-table.css">
+
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrapValidator/css/bootstrapValidator.min.css">
+
+    <link type="text/css" rel="stylesheet" href="/Content/style/bootstrap-responsive.min.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/bootstrap-toggle-buttons.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/bootstrap-switch.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrap-select/css/bootstrap-select.min.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrap3-editable/css/bootstrap-editable.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bower_components/Font-Awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bower_components/Font-Awesome/css/checkbox.css">
+
+    <link type="text/css" rel="stylesheet" href="/Content/style/animate.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/all.css">
+    
+    <link type="text/css" rel="stylesheet" href="/Content/style/main.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/style.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/style-responsive.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/pace.css">
+    <link href="/Content/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="/Content/bootstrap-fileinput/css/bootstrap-fileinput.css" rel="stylesheet">
+    
+    <script src="/Scripts/Dark/jquery-1.10.2.min.js"></script>
+
+
+    <script src="/Scripts/bower_components/angular-1.6.4/angular.min.js"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/angular-gettext.min.js"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/po/zh.js?0315"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/po/en.js?0315"></script>
+    <script src="/Scripts/bower_components/LanguageCheck.js"></script>
+
+    <script src="/Scripts/jquery.jqprint-0.3.js"></script>
+    <script src="/Scripts/jquery-migrate-1.2.1.min.js"></script>
+    
+
+    
+    <style type="text/css" media="print">
+        .control-label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .noprint, .widget-title .tools, #sidebar, #ListVisuals_0__ImgRemark, #VisualDescription, #totop, .icon-plus, table tr td:last-child, table tr th:last-child,
+        .btn-dark, .btn-success, .btn-file {
+            display: none !important;
+        }
+
+        .row .control-label {
+            width: 100%;
+        }
+
+        form .row.print .col-md-6 {
+            width: calc(50% - 15px);
+            display: inline-block;
+        }
+
+            form .row.print .col-md-6 .col-md-4 {
+                zoom: 0.5;
+                display: inline-block;
+            }
+    </style>
+    <script>
+        $(function () {
+            window.onbeforeprint = function () {
+                //图片项的缩放
+                $("form .row").each(function (index, item) {
+                    var $this = $(this);
+                    if ($this.find(".col-md-4 .fileinput").length != 0) {
+                        $this.addClass("print");
+                    }
+
+                    $this.find(".col-md-4").each(function (index, item2) {
+                        if ($(item2).find("img").attr("src") == "/Content/bootstrap-fileinput/img/noimage.png") {
+                            $(item2).addClass("noprint");
+                        }
+                        else {
+                            if ($(item2).find("textarea").text() == "") {
+                                $(item2).find("textarea").addClass("noprint");
+                            }
+                        }
+
+                    });
+                });
+            };
+
+            window.onafterprint = function () {
+                $(".print").removeClass("print");
+                $(".noprint").removeClass("noprint");
+            };
+        });
+
+    </script>
+
+
+
+    <script>
+
+        var language = "1";
+        if (language == '1')
+            language = "zh";
+        else
+            language = "en";
+
+        setLanguage2(language);
+
+        var app = angular.module("MyApp", ['gettext']);
+
+        angular.module('MyApp').run(function (gettextCatalog) {
+            if (isZH()) {
+                gettextCatalog.currentLanguage = 'zh';
+            }
+            else {
+                gettextCatalog.currentLanguage = 'en';
+            }
+        });
+    </script>
+
+    
+
+    <style>
+        .btn-sm {
+            padding: 3px 4px !important;
+            font-size: 10px !important;
+            line-height: 1.0 !important;
+            border-radius: 3px !important;
+        }
+
+        .pagination-detail {
+            display: none !important;
+        }
+
+        .btn {
+            /*padding: 4px 12px !important;*/
+            /*width:90px !important;*/
+        }
+
+        table {
+            white-space: normal;
+            line-height: 100%;
+            font-size: 13px;
+        }
+
+        #sidebar {
+            min-height: 0px !important;
+        }
+
+        #topbar .navbar-top-links {
+            margin-left: 240px;
+            margin-right: 15px;
+        }
+
+        /*add lipeng 20181210*/
+        .settingDb {
+            font-size: 14px;
+            cursor: pointer;
+            padding: 3px 10px;
+        }
+
+            .settingDb.hover {
+                color: #fff;
+                border: 1px solid;
+            }
+
+            .settingDb:hover {
+                color: #fff;
+                border: 1px solid;
+            }
+    </style>
+</head>
+
+
+<body>
+    <div>
+        <!--BEGIN THEME SETTING-->
+
+
+        <input id="G_UserId" type="hidden" value="aff2e40c-477b-e711-81a3-8cf1a35086b6" />
+        <input id="G_Admin01" type="hidden" value="w79y3t9,v4pxawv,ezhoru0,ezhalt0,etongt0,jessy,ewayle0,eyucheg0,el9kayr,agenda,gamq5bm" />
+        <input id="G_UserAccount" type="hidden" value="admin" />
+        <input id="G_RoleId" type="hidden" value="01e36013-467b-e711-81a3-8cf1a35086b6" />
+        <input id="G_RoleName" type="hidden" value="管理员" />
+        <input id="G_Language" type="hidden" value="1" />
+        <input id="G_ResetPassword" type="hidden" value="{{'ResetPassword'|translate}}" />
+        <input id="G_Update" type="hidden" value="{{'Update'|translate}}" />
+        <input id="G_Delete" type="hidden" value="{{'Delete'|translate}}" />
+        <input id="G_Add" type="hidden" value="{{'Add'|translate}}" />
+        <input id="G_Show" type="hidden" value="{{'Show'|translate}}" />
+        <input id="G_NoShow" type="hidden" value="{{'NoShow'|translate}}" />
+        <input id="G_Online" type="hidden" value="{{'Online Activities'|translate}}" />
+        <input id="G_Offline" type="hidden" value="{{'Offline Activities'|translate}}" />
+        <input id="G_promotion_delete" type="hidden" value="{{'Are you sure you want to delete the promotion?'|translate}}" />
+        <input id="G_file_delete" type="hidden" value="{{'Are you sure you want to delete the file?'|translate}}" />
+        <input id="G_Yes" type="hidden" value="{{'Yes'|translate}}" />
+        <input id="G_No" type="hidden" value="{{'No'|translate}}" />
+        <input id="G_Info" type="hidden" value="{{'Information'|translate}}" />
+        <!--END THEME SETTING-->
+        <!--BEGIN BACK TO TOP-->
+        <a id="totop" href="#"><i class="fa fa-angle-up"></i></a>
+        <!--END BACK TO TOP-->
+        <!--BEGIN TOPBAR-->
+        <div id="header-topbar-option-demo" class="page-header-topbar nprint">
+            <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
+                <div class="navbar-header">
+                    <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                    <a id="logo" href="/Home" class="navbar-brand"><span class="fa fa-rocket"></span><span id="logoTxt" class="logo-text" translate>Operating Platform</span><span style="display: none" class="logo-text-icon">µ</span></a>
+                </div>
+                <div class="topbar-main">
+                    <a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
+
+                    <ul class="nav navbar navbar-top-links navbar-right mbn">
+                        
+                        <li class="dropdown topbar-user">
+                            <a data-hover="dropdown" href="#" class="dropdown-toggle"><span id="G_userName" class="hidden-xs">管理员</span>&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-user pull-right">
+                                <li><a href="javascript:" onclick="SetLanguage()" id="setLanguage"><i class="fa fa-star"></i><span translate>To Chinese</span></a></li>
+                                <li><a href="/Account/ResetPassword"><i class="fa fa-key"></i><span translate>Change Password</span></a></li>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-lock"></i><span translate>Logout</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!--END TOPBAR-->
+        <div id="wrapper">
+            <!--BEGIN SIDEBAR MENU-->
+            <nav id="sidebar" role="navigation" data-step="2" data-intro="Template has &lt;b&gt;many navigation styles&lt;/b&gt;"
+                 data-position="right" class="navbar-default navbar-static-side nprint">
+                <div class="sidebar-collapse menu-scroll">
+                    <ul id="side-menu" class="nav">
+                        <div class="clearfix"></div>
+                                <li id="nav_dash">
+                                    <a href="/Home/Index">
+                                        <i class="fa fa-tachometer fa-fw">
+                                            <div class="icon-bg bg-orange"></div>
+                                        </i>
+                                        <span class="menu-title" translate>Overview</span>
+                                    </a>
+                                </li>
+                                    <li id="nav_promotion2">
+                                        <a href="/Home/Promotion?type=2">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Document Submit</span>
+                                        </a>
+                                    </li>
+                                    <li id="nav_promotion">
+                                        <a href="/Home/Promotion">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Marketing Events</span>
+                                        </a>
+                                    </li>
+                                
+                                    <li id="nav_dealer_funds">
+                                        <a href="/Master/MarketFund">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Dealer Marketing Fund</span>
+                                        </a>
+                                    </li>
+                                
+                                <li id="nav_reimbursement">
+                                    <a href="/BudgetCost/Reimbursement?userId=aff2e40c-477b-e711-81a3-8cf1a35086b6">
+                                        <i class="fa fa-desktop fa-fw">
+                                            <div class="icon-bg bg-pink"></div>
+                                        </i><span class="menu-title" translate>Reimbursement</span>
+                                    </a>
+                                </li>
+                                
+                                    <li id="nav_IncomeCost">
+                                        <a href="/BudgetCost/IncomeCost">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Monthly Wholesale Condition</span>
+                                        </a>
+                                    </li>
+                                
+                                
+                                    <li id="nav_dealer_funds_ov">
+                                        <a href="/BudgetCost/DealersBalance">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Marketing Fund Summary (Overview)</span>
+                                        </a>
+                                    </li>
+                                
+                                
+                                    <li id="nav_budget_cost">
+                                        <a href="/BudgetCost/Index">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Budget and Expense</span>
+                                        </a>
+                                    </li>
+                                
+                                
+                                    <li id="nav_log">
+                                        <a href="/Home/ManageLog">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>System Log</span>
+                                        </a>
+                                    </li>
+                                
+                                
+                                    <li id="nav_user">
+                                        <a href="/Home/ManageUsers">
+                                            <i class="fa fa-edit fa-fw">
+                                                <div class="icon-bg bg-violet"></div>
+                                            </i><span class="menu-title" translate>User Management</span>
+                                        </a>
+
+                                    </li>
+                                
+                                
+                                    <li id="nav_area">
+                                        <a href="/Home/ManageArea">
+                                            <i class="fa fa-th-list fa-fw">
+                                                <div class="icon-bg bg-blue"></div>
+                                            </i><span class="menu-title" translate>Area Management</span>
+                                        </a>
+
+                                    </li>
+                                
+                                
+                                    <li id="nav_dealer">
+                                        <a href="/Home/ManageAgent">
+                                            <i class="fa fa-database fa-fw">
+                                                <div class="icon-bg bg-red"></div>
+                                            </i><span class="menu-title" translate>Dealer Management</span>
+                                        </a>
+
+                                    </li>
+                                
+                                
+                                    <li id="nav_promotiontype">
+                                        <a href="/Home/ManageActionType">
+                                            <i class="fa fa-file-o fa-fw">
+                                                <div class="icon-bg bg-yellow"></div>
+                                            </i><span class="menu-title" translate>Event Type Management</span>
+                                        </a>
+
+                                    </li>
+                                
+
+
+                    </ul>
+                </div>
+            </nav>
+            <div id="page-wrapper">
+                <!--BEGIN TITLE & BREADCRUMB PAGE-->
+                <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+                    <div class="page-header pull-left">
+                        <div class="page-title nav_name">
+
+                        </div>
+                    </div>
+                    <ol class="breadcrumb page-breadcrumb pull-right">
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="/Home/Index" translate>Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="hidden"><a href="#" class="nav_name"></a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active nav_name"></li>
+                    </ol>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <!--END TITLE & BREADCRUMB PAGE-->
+                <!--BEGIN CONTENT-->
+                <div class="page-content">
+                    <div id="tab-general">
+                        <div class="row mbl">
+                            <div class="col-lg-12">
+                                <div class="col-md-12">
+                                    <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <!--BEGIN CONTENT-->
+                                
+
+<div id="main-content">
+    <style>
+        html {
+            overflow: auto;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        .widget {
+            margin-bottom: 5px !important;
+        }
+
+        .widget-body {
+            padding: 5px 5px 1px 5px !important;
+        }
+
+        .page-content {
+            padding: 5px 5px 1px 5px !important;
+        }
+
+        select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+            margin-bottom: 4px !important;
+        }
+
+        .fixed-table-pagination div.pagination, .fixed-table-pagination .pagination-detail {
+            margin-top: 5px !important;
+            margin-bottom: 0px !important;
+        }
+    </style>
+    <div class="container-fluid">
+        <p id="phbuttons">
+            
+            <a class="btn btn-primary" style="margin-left:2px;" onclick="FileUpload()"><i class="icon-upload-alt"></i><span translate>Import</span></a>
+            <a class="btn btn-link" href="/Upload_BL/Template/月批售概况Template.xlsx"><i class="icon-plus icon-white"></i><span translate>Download Templates</span></a>
+        </p>
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN EXAMPLE TABLE widget-->
+                <div class="widget">
+                    <div class="widget-title">
+                        <h4><i class="icon-reorder"></i><span translate>Monthly Wholesale Condition</span></h4>
+                        <span class="tools">
+                            <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+
+                        </span>
+                    </div>
+                    <div class="widget-body" style="display: block;">
+                        <div class="row-fluid" id="pdbuttons2">
+                            <span class="span12">
+                                <div id="formsousuo" style="margin-bottom:3px">
+                                    <a class="btn btn-default" href="javascript:;" onclick="Add()"><i class="glyphicon glyphicon-plus"></i><span translate>Add</span></a>
+                                    <a class="btn btn-default" href="javascript:;" onclick="DeleteBudgetCost()"><i class="glyphicon glyphicon-trash"></i><span translate>Delete</span></a>
+                                    <select class="input-small m-wrap no-margin" id="pdealer" name="pdealer" style="background-color: white;" onchange="NameQuery()">
+                                        <option value="" translate>Dealer Name</option>
+                                                    
+                                                        <option value="a6f6ba37-467b-e711-81a3-8cf1a35086b6">宾利北京-三里屯</option>
+                                                    
+                                                        <option value="f24e6baf-3da3-4c71-9d2b-f4a52b07ca77">宾利北京-五棵松</option>
+                                                    
+                                                        <option value="1fd561bc-c53e-48f4-89de-0015facede00">宾利长沙</option>
+                                                    
+                                                        <option value="dc7a66a6-48bb-4609-ac31-e53de104f4eb">宾利成都</option>
+                                                    
+                                                        <option value="572e8c2d-19eb-4567-9ae5-e32de41dd6e4">宾利重庆</option>
+                                                    
+                                                        <option value="2a6f1e0c-4298-4664-b99c-6bf290ad1eb1">宾利大连</option>
+                                                    
+                                                        <option value="f836665d-49ce-432f-822a-d8949ffad9ee">宾利东莞</option>
+                                                    
+                                                        <option value="b87080ae-4cd3-4c97-92e9-ada210be2205">宾利佛山</option>
+                                                    
+                                                        <option value="cd8986b4-f687-4f3e-b5a7-342b7e5e6e1a">宾利福州</option>
+                                                    
+                                                        <option value="2855d8ca-3702-406f-97b2-8adfe7f62778">宾利广州-体育中心</option>
+                                                    
+                                                        <option value="a65d6d01-0c11-40d9-badd-4c666dc1b9c7">宾利广州-珠江新城</option>
+                                                    
+                                                        <option value="c163df9e-9590-43e2-bc33-02ce487ff6d8">宾利贵阳</option>
+                                                    
+                                                        <option value="e6fc5973-1224-4e38-a716-4873e8bf6e3f">宾利杭州-拱墅</option>
+                                                    
+                                                        <option value="699c9ad7-fd02-4268-97a5-d0a97948c477">宾利杭州-西湖</option>
+                                                    
+                                                        <option value="d2c307fb-716d-458e-9f07-7a73a54dc646">宾利哈尔滨</option>
+                                                    
+                                                        <option value="6b25be51-1c4c-4a12-90b9-f6708dfd6370">宾利合肥</option>
+                                                    
+                                                        <option value="4c94bc6f-05ab-4ab4-b282-6517d2a07fcd">宾利香港-大昌行</option>
+                                                    
+                                                        <option value="216dd88a-7f3d-4fcc-ad2c-ac724cc49550">宾利香港-锦龙</option>
+                                                    
+                                                        <option value="dfd006cd-03e0-4a85-8d03-b8e7ff47cea5">宾利嘉兴</option>
+                                                    
+                                                        <option value="f3e52ce5-68c8-41c5-a032-1fb365c7786d">宾利济南</option>
+                                                    
+                                                        <option value="242c571b-dd28-45ce-954f-b0a38467ffe7">宾利金华</option>
+                                                    
+                                                        <option value="180229cf-f0c8-43a7-af32-e17a9d1c6a1b">宾利昆明</option>
+                                                    
+                                                        <option value="a21fc39f-6736-431d-a4bd-dd17c6cfeb45">宾利澳门</option>
+                                                    
+                                                        <option value="f15c2423-b2dd-4e21-85fd-9ab807d1e9dd">宾利南京</option>
+                                                    
+                                                        <option value="f3b04d92-7c5d-4271-935b-4ae93b27ccea">宾利宁波</option>
+                                                    
+                                                        <option value="d9d118f0-02bb-41a6-8642-35f429c8a46f">宾利青岛</option>
+                                                    
+                                                        <option value="8ed12ccf-ca76-47bc-b3fc-432414c3ace0">宾利上海-静安</option>
+                                                    
+                                                        <option value="79e6417f-2a94-4bba-a5b1-05fd61785d06">宾利上海-浦东</option>
+                                                    
+                                                        <option value="f8e1b5c8-84ff-4023-9728-2258b7da1e77">宾利沈阳</option>
+                                                    
+                                                        <option value="1b80aaee-9ad4-4867-ab53-00936a6b07c7">宾利深圳-罗湖</option>
+                                                    
+                                                        <option value="73e17cdb-f156-4207-87da-4b52abefe92e">宾利深圳-南山</option>
+                                                    
+                                                        <option value="8827b27d-467b-e711-81a3-8cf1a35086b6">宾利石家庄</option>
+                                                    
+                                                        <option value="11c616ac-8b25-418e-8dad-66e6868e5e73">宾利苏州</option>
+                                                    
+                                                        <option value="145088b7-00d8-4b37-a343-9699ea6ebcb3">宾利太原</option>
+                                                    
+                                                        <option value="02b7cde3-514b-4885-b742-d1923bfc3730">宾利天津</option>
+                                                    
+                                                        <option value="5ab0806b-736d-4ec8-a35a-924498cfac66">宾利温州</option>
+                                                    
+                                                        <option value="95b3c5d3-e2f8-4443-906c-0ffa70c45424">宾利武汉</option>
+                                                    
+                                                        <option value="cb4cc14d-ab49-4952-acbf-3d3b9e24fbfa">宾利无锡</option>
+                                                    
+                                                        <option value="9bc12aad-6341-417e-9d1e-179a1c9377fb">宾利厦门</option>
+                                                    
+                                                        <option value="33e7fb1e-b0b5-4599-8308-2322092305e2">宾利西安</option>
+                                                    
+                                                        <option value="aaf039b7-13d8-4ba2-b557-65013e39d96c">宾利郑州</option>
+                                                    
+                                                        <option value="7008b973-c261-4481-b8f4-dc2f30fa0a20">Test</option>
+
+                                    </select>
+                                </div>
+                            </span>
+                        </div>
+
+                        <div class="dataTables_wrapper form-inline" role="grid" id="myPro">
+                            <table id="myIncomeCost" class="table table-striped table-bordered table-hover" data-height="100%"></table>
+                            <div id="totalDiv" style="margin-bottom:10px;margin-left:5px;margin-top:2px"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE widget-->
+            </div>
+        </div>
+        <!-- END ADVANCED TABLE widget-->
+        <!-- END PAGE CONTENT-->
+    </div>
+</div>
+
+<form action="/Master/ImporBudgetCost" enctype="multipart/form-data" id="FileUpload" method="post" style="display:none"><input name="__RequestVerificationToken" type="hidden" value="Rr-_S88TQLyBgRTg_WBU48za6Y_9wngYq-exIYgZ_UDN_8zndzU_swAJWy3diP9hMEnsHkBBSqGaJUWGuOqPRprQ_tA_xTRZuZHJlEcXutZ1HhsyBQP1B9cifPf-dpdYg_utNPt3JRp7aqDAfk1JGg2" />    <input id="UserId" name="UserId" type="text" />
+    <input id="File" type="file" name="file" onchange="DataUpload()">
+</form>
+<div style="display:none">
+    <input id="NO" type="hidden" value="{{'NO'|translate}}" />
+    <input id="Dealer" type="hidden" value="{{'Dealer'|translate}}" />
+    <input id="YearMonth" type="hidden" value="{{'MM/YYYY'|translate}}" />
+    <input id="RMB" type="hidden" value="{{'RMB Amount'|translate}}" />
+    <input id="AAH" type="hidden" value="{{'AAH'|translate}}" />
+
+    <input id="_hd_dealer" type="hidden" value="[{&quot;value&quot;:&quot;a6f6ba37-467b-e711-81a3-8cf1a35086b6&quot;,&quot;text&quot;:&quot;宾利北京-三里屯&quot;},{&quot;value&quot;:&quot;f24e6baf-3da3-4c71-9d2b-f4a52b07ca77&quot;,&quot;text&quot;:&quot;宾利北京-五棵松&quot;},{&quot;value&quot;:&quot;1fd561bc-c53e-48f4-89de-0015facede00&quot;,&quot;text&quot;:&quot;宾利长沙&quot;},{&quot;value&quot;:&quot;dc7a66a6-48bb-4609-ac31-e53de104f4eb&quot;,&quot;text&quot;:&quot;宾利成都&quot;},{&quot;value&quot;:&quot;572e8c2d-19eb-4567-9ae5-e32de41dd6e4&quot;,&quot;text&quot;:&quot;宾利重庆&quot;},{&quot;value&quot;:&quot;2a6f1e0c-4298-4664-b99c-6bf290ad1eb1&quot;,&quot;text&quot;:&quot;宾利大连&quot;},{&quot;value&quot;:&quot;f836665d-49ce-432f-822a-d8949ffad9ee&quot;,&quot;text&quot;:&quot;宾利东莞&quot;},{&quot;value&quot;:&quot;b87080ae-4cd3-4c97-92e9-ada210be2205&quot;,&quot;text&quot;:&quot;宾利佛山&quot;},{&quot;value&quot;:&quot;cd8986b4-f687-4f3e-b5a7-342b7e5e6e1a&quot;,&quot;text&quot;:&quot;宾利福州&quot;},{&quot;value&quot;:&quot;2855d8ca-3702-406f-97b2-8adfe7f62778&quot;,&quot;text&quot;:&quot;宾利广州-体育中心&quot;},{&quot;value&quot;:&quot;a65d6d01-0c11-40d9-badd-4c666dc1b9c7&quot;,&quot;text&quot;:&quot;宾利广州-珠江新城&quot;},{&quot;value&quot;:&quot;c163df9e-9590-43e2-bc33-02ce487ff6d8&quot;,&quot;text&quot;:&quot;宾利贵阳&quot;},{&quot;value&quot;:&quot;e6fc5973-1224-4e38-a716-4873e8bf6e3f&quot;,&quot;text&quot;:&quot;宾利杭州-拱墅&quot;},{&quot;value&quot;:&quot;699c9ad7-fd02-4268-97a5-d0a97948c477&quot;,&quot;text&quot;:&quot;宾利杭州-西湖&quot;},{&quot;value&quot;:&quot;d2c307fb-716d-458e-9f07-7a73a54dc646&quot;,&quot;text&quot;:&quot;宾利哈尔滨&quot;},{&quot;value&quot;:&quot;6b25be51-1c4c-4a12-90b9-f6708dfd6370&quot;,&quot;text&quot;:&quot;宾利合肥&quot;},{&quot;value&quot;:&quot;4c94bc6f-05ab-4ab4-b282-6517d2a07fcd&quot;,&quot;text&quot;:&quot;宾利香港-大昌行&quot;},{&quot;value&quot;:&quot;216dd88a-7f3d-4fcc-ad2c-ac724cc49550&quot;,&quot;text&quot;:&quot;宾利香港-锦龙&quot;},{&quot;value&quot;:&quot;dfd006cd-03e0-4a85-8d03-b8e7ff47cea5&quot;,&quot;text&quot;:&quot;宾利嘉兴&quot;},{&quot;value&quot;:&quot;f3e52ce5-68c8-41c5-a032-1fb365c7786d&quot;,&quot;text&quot;:&quot;宾利济南&quot;},{&quot;value&quot;:&quot;242c571b-dd28-45ce-954f-b0a38467ffe7&quot;,&quot;text&quot;:&quot;宾利金华&quot;},{&quot;value&quot;:&quot;180229cf-f0c8-43a7-af32-e17a9d1c6a1b&quot;,&quot;text&quot;:&quot;宾利昆明&quot;},{&quot;value&quot;:&quot;a21fc39f-6736-431d-a4bd-dd17c6cfeb45&quot;,&quot;text&quot;:&quot;宾利澳门&quot;},{&quot;value&quot;:&quot;f15c2423-b2dd-4e21-85fd-9ab807d1e9dd&quot;,&quot;text&quot;:&quot;宾利南京&quot;},{&quot;value&quot;:&quot;f3b04d92-7c5d-4271-935b-4ae93b27ccea&quot;,&quot;text&quot;:&quot;宾利宁波&quot;},{&quot;value&quot;:&quot;d9d118f0-02bb-41a6-8642-35f429c8a46f&quot;,&quot;text&quot;:&quot;宾利青岛&quot;},{&quot;value&quot;:&quot;8ed12ccf-ca76-47bc-b3fc-432414c3ace0&quot;,&quot;text&quot;:&quot;宾利上海-静安&quot;},{&quot;value&quot;:&quot;79e6417f-2a94-4bba-a5b1-05fd61785d06&quot;,&quot;text&quot;:&quot;宾利上海-浦东&quot;},{&quot;value&quot;:&quot;f8e1b5c8-84ff-4023-9728-2258b7da1e77&quot;,&quot;text&quot;:&quot;宾利沈阳&quot;},{&quot;value&quot;:&quot;1b80aaee-9ad4-4867-ab53-00936a6b07c7&quot;,&quot;text&quot;:&quot;宾利深圳-罗湖&quot;},{&quot;value&quot;:&quot;73e17cdb-f156-4207-87da-4b52abefe92e&quot;,&quot;text&quot;:&quot;宾利深圳-南山&quot;},{&quot;value&quot;:&quot;8827b27d-467b-e711-81a3-8cf1a35086b6&quot;,&quot;text&quot;:&quot;宾利石家庄&quot;},{&quot;value&quot;:&quot;11c616ac-8b25-418e-8dad-66e6868e5e73&quot;,&quot;text&quot;:&quot;宾利苏州&quot;},{&quot;value&quot;:&quot;145088b7-00d8-4b37-a343-9699ea6ebcb3&quot;,&quot;text&quot;:&quot;宾利太原&quot;},{&quot;value&quot;:&quot;02b7cde3-514b-4885-b742-d1923bfc3730&quot;,&quot;text&quot;:&quot;宾利天津&quot;},{&quot;value&quot;:&quot;5ab0806b-736d-4ec8-a35a-924498cfac66&quot;,&quot;text&quot;:&quot;宾利温州&quot;},{&quot;value&quot;:&quot;95b3c5d3-e2f8-4443-906c-0ffa70c45424&quot;,&quot;text&quot;:&quot;宾利武汉&quot;},{&quot;value&quot;:&quot;cb4cc14d-ab49-4952-acbf-3d3b9e24fbfa&quot;,&quot;text&quot;:&quot;宾利无锡&quot;},{&quot;value&quot;:&quot;9bc12aad-6341-417e-9d1e-179a1c9377fb&quot;,&quot;text&quot;:&quot;宾利厦门&quot;},{&quot;value&quot;:&quot;33e7fb1e-b0b5-4599-8308-2322092305e2&quot;,&quot;text&quot;:&quot;宾利西安&quot;},{&quot;value&quot;:&quot;aaf039b7-13d8-4ba2-b557-65013e39d96c&quot;,&quot;text&quot;:&quot;宾利郑州&quot;},{&quot;value&quot;:&quot;7008b973-c261-4481-b8f4-dc2f30fa0a20&quot;,&quot;text&quot;:&quot;Test&quot;}]" />
+</div>
+
+
+
+
+                                <!--END CONTENT-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--END CONTENT-->
+                <!--BEGIN FOOTER-->
+
+                <div id="footer" style="display:none">
+                    <div class="copyright">
+                        
+                    </div>
+                </div>
+                <!--END FOOTER-->
+            </div>
+            <!--END PAGE WRAPPER-->
+        </div>
+
+
+        <div style="display:none">
+            <input id="Draft" type="hidden" value="{{'Unsubmitted'|translate}}" />
+            <input id="Pending" type="hidden" value="{{'Pending'|translate}}" />
+
+            <input id="Rejected" type="hidden" value="{{'Rejected'|translate}}" />
+            <input id="Qualified" type="hidden" value="{{'Qualified'|translate}}" />
+            <input id="Unqualified" type="hidden" value="{{'Unqualified'|translate}}" />
+            <input id="Incompleted" type="hidden" value="{{'Incompleted'|translate}}" />
+
+            <input id="ActivityCancel" type="hidden" value="{{'Canceled'|translate}}" />
+            <input id="Approved" type="hidden" value="{{'Finished'|translate}}" />
+            <input id="Approvaling" type="hidden" value="{{'Processing'|translate}}" />
+
+            <input id="G_Edit" type="hidden" value="{{'Edit'|translate}}" />
+        </div>
+    </div>
+    <script src="/Scripts/bootstrap-fileinput/js/bootstrap-fileinput.js"></script>
+    
+
+    <script src="/Scripts/Dark/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Dark/bootstrap.min.js"></script>
+    <script src="/Scripts/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+    <script src="/Scripts/bootstrapValidator/js/language/zh_CN.js"></script>
+    <script src="/Scripts/Dark/bootstrap-hover-dropdown.js"></script>
+
+    <script src="/Scripts/Dark/html5shiv.js"></script>
+    <script src="/Scripts/Dark/respond.min.js"></script>
+    <script src="/Scripts/Dark/jquery.metisMenu.js"></script>
+    <script src="/Scripts/Dark/jquery.slimscroll.js"></script>
+    <script src="/Scripts/Dark/jquery.cookie.js"></script>
+    <script src="/Scripts/Dark/custom.min.js"></script>
+
+    <script src="/Scripts/Dark/jquery.menu.js"></script>
+    <script src="/Scripts/Dark/pace.min.js"></script>
+    <script src="/Scripts/Dark/holder.js"></script>
+    <script src="/Scripts/Dark/responsive-tabs.js"></script>
+    <script src="/Scripts/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="/Scripts/bootstrap-table/bootstrap-table.js"></script>
+        <script src="/Scripts/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+        <script src="/Scripts/bower_components/layer/layer.js"></script>
+    <script src="/Scripts/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="/Scripts/bootstrap-table/extensions/editable/bootstrap-table-editable.min.js"></script>
+
+    <!--LOADING SCRIPTS FOR CHARTS-->
+    <script src="/Scripts/Dark/bootstrap-toggleButtons.js"></script>
+    <script src="/Scripts/Dark/bootstrap-switch.min.js"></script>
+
+
+    <script type="text/javascript" src="/Content/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/Content/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+    <script type="text/javascript" src="/Scripts/bower_components/jquery.serializejson.min.js" charset="UTF-8"></script>
+
+    <!--CORE JAVASCRIPT-->
+    <script src="/Scripts/Dark/main.js"></script>
+
+    <script>
+        var csstxt = isZH() ? "'黑体'" : "'BentleySemiBold'";
+        $("body").css("font-family", isZH() ? "'黑体'" : "'BentleyLight'");
+        $("li[id]").css("font-family", csstxt);
+        $("#logoTxt").css("font-family", csstxt);
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+
+        function ShowDiv() {
+            if ($('.widget-body')[0].style.display == 'none') {
+                $('.widget-body')[0].style.display = 'block';
+            }
+            else {
+                $('.widget-body')[0].style.display = 'none';
+            }
+        }
+        function SetLanguage() {
+            if (isZH()) {
+                setLanguage('en');
+
+            }
+            else {
+                setLanguage('zh');
+            }
+
+            setTimeout("window.location.reload()", 200);
+
+        }
+        //超时退出系统
+        //var lastTime = new Date().getTime();
+        //var currentTime = new Date().getTime();
+        //var timeOut = 10 * 60 * 1000; //设置超时时间： 10分
+
+        //$(function () {
+        //    /* 鼠标移动事件 */
+        //    $(document).mouseover(function () {
+        //        lastTime = new Date().getTime(); //更新操作时间
+        //    });
+        //});
+
+        //function monitoringTime() {
+        //    currentTime = new Date().getTime(); //更新当前时间
+        //    if (currentTime - lastTime > timeOut) { //判断是否超时
+        //        document.getElementById('logoutForm').submit()
+        //    }
+        //}
+
+        ///* 定时器  间隔1秒检测是否长时间未操作页面  */
+        //window.setInterval(monitoringTime, 1000);
+
+        //切换数据库
+        //lipeng add 20181210
+        $(function () {
+            $(".settingDb").on("click", function () {
+                var path = $(this).attr("data-path");
+                //$.getJSON(path, function (res) {
+                //    if (res.returnValue)
+                //    {
+                //        window.location.href = "/Home/Index";
+                //    }
+                //});
+            });
+        });
+
+    </script>
+
+    
+    <script src="/Scripts/IncomeCost.js"></script>
+
+    <script>
+
+        function SProcessing() {
+            //loading层
+            var index = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
+            });
+        }
+        function EProcessing() {
+            layer.closeAll('loading');
+        }
+        $('#nav_IncomeCost').addClass('active');
+        //angular.module('MyApp').run(function (gettextCatalog) {
+        //    var ov = gettextCatalog.getString('MarketFund');
+        //    $('.nav_name')[0].innerText = ov;
+        //    $('.nav_name')[1].innerText = ov;
+        //    $('.nav_name')[2].innerText = ov;
+
+        //});
+
+        function FileUpload() {
+
+            $('#UserId').val($('#G_UserId').val());
+            $('#File').click();
+        }
+        function DataUpload() {
+            var uploadForm = new FormData($('#FileUpload')[0]);
+            SProcessing();
+            $.ajax({
+                url: '/Master/ImporIncomeCost',
+                type: 'POST',
+                cache: false,
+                data: uploadForm,
+                processData: false,
+                contentType: false
+            }).done(function (res) {
+                EProcessing();
+                console.log(res.returnValue);
+
+
+                window.location.reload();
+            }).fail(function (res) { EProcessing(); window.location.reload(); });
+        }
+
+        function downloadFile() {
+            var url = "/Master/DownloadBudgetCostLst?userId={0}&currentpage={1}&pagesize={2}";
+            url = url.replace('{0}', $('#G_UserId').val());
+            url = url.replace('{1}', 1);
+            url = url.replace('{2}', 100000);
+            var iframe = document.createElement("iframe");
+            iframe.src = url;
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.display = 'none';
+            var div = document.getElementById('footer');
+            div.appendChild(iframe);
+        }
+    </script>
+
+
+
+</body>
+</html>

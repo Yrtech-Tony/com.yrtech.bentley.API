@@ -1,6 +1,38 @@
 ﻿@{
     ViewBag.Title = "Marketing";
+    com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
+    if (Session["LoginUser"] != null)
+    {
+        LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
+    }
 }
+
+
+<style>
+    html {
+        overflow: auto;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    .widget {
+        margin-bottom: 5px !important;
+    }
+
+    .widget-body {
+        padding: 5px 5px 1px 5px !important;
+    }
+
+    .page-content {
+        padding: 5px 5px 1px 5px !important;
+    }
+
+    .fixed-table-pagination div.pagination, .fixed-table-pagination .pagination-detail {
+        margin-top: 5px !important;
+        margin-bottom: 0px !important;
+    }
+</style>
+
 <div id="page-wrapper">
     <!--BEGIN CONTENT-->
     <div class="page-content">
@@ -13,10 +45,72 @@
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    <!--BEGIN CONTENT-->
-
                     <div id="main-content">
-                      Marking
+                        <div class="container-fluid">
+                            <p>
+                                <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadFile()"><i class="icon-download-alt"></i><span translate>Export</span></a>
+                                <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadByClueReportFile()"><i class="icon-download-alt"></i><span translate>Export Clue Report Excel</span></a>
+                            </p>
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <div class="widget">
+                                        <div class="widget-title">
+                                            <h4><i class="icon-reorder"></i><span translate>Marketing Events List</span></h4>
+                                            <span class="tools">
+                                                <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+                                            </span>
+                                        </div>
+                                        <div class="widget-body" style="display: block;">
+                                            <a class="btn btn-primary" href="/Marketing/Create" style="float:left"><i class="icon-plus icon-white"></i><span translate>Add</span></a>
+                                            <input class="form-control input-small m-wrap no-margin" style="width: 150px !important; margin-left:5px; margin-bottom: 10px; float: left" placeholder="{{'Event Name'|translate}}" id="pname" name="pname" onchange="NameQuery()" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+                                            <select name="pyear" id="pyear" class="input-small m-wrap no-margin" style="margin-left:5px;" onchange="NameQuery()">
+                                                <option value="" translate>Year</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2020">2020</option>
+                                            </select>
+                                            <script>
+                                                var cdate = new Date();
+                                                $("#pyear").val(cdate.getFullYear());
+                                            </script>
+                                            <select name="pmonth" id="pmonth" class="input-small m-wrap no-margin" onchange="NameQuery()">
+                                                <option value="" translate>Month</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                            <script>
+                                                var cdate = new Date();
+                                                //$("#pmonth").val(cdate.getMonth() + 1);
+                                            </script>
+                                            <select name="pstate" id="pstate" class="input-small m-wrap no-margin" onchange="NameQuery()">
+                                                <option value="" translate>ActiveStatus</option>
+                                            </select>
+                                            <select id="pdealer" name="pdealer" class="input-small m-wrap no-margin" onchange="NameQuery()">
+                                                <option value="" translate>Dealer Name</option>
+                                            </select>
+                                            <select id="ptype" name="ptype" class="input-small m-wrap no-margin" style="background-color: white;" onchange="NameQuery()">
+                                                <option value="" translate>Event Type</option>
+                                            </select>
+
+                                            <div class="dataTables_wrapper form-inline" role="grid">
+                                                <table id="myMarketing"></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!--END CONTENT-->
                 </div>
@@ -33,7 +127,198 @@
     </div>
     <!--END FOOTER-->
 </div>
+@section scripts{
+    <script src="~/Scripts/api/common.js"></script>
+    <script type="text/javascript">
 
-<script>
-    $("#nav_promotion").addClass("active");
-</script>
+        $("#nav_promotion").addClass("active");
+        $(function () {
+            loadShops();
+            loadActiveStatuss();
+            loadEventTypes();
+
+            loadMarketings();
+        })
+
+        function loadShops() {
+            try {
+                var shops = '@Json.Encode(LoginUser.ShopList)'.replace(/&quot;/g, '"');
+                shops = JSON.parse(shops);
+                if (shops) {
+                    shops.forEach(function (item) {
+                        $("#pdealer").append($("<option>").val(item.ShopId).text(item.ShopName))
+                    });
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function loadActiveStatuss() {
+            debugger
+            $.commonGet("Master/HiddenCodeSearch", {
+                hiddenCodeGroup: "MarketActionStatus",
+                hiddenCode: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#pstate").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                });
+            })
+        }
+
+        function loadEventTypes() {
+            $.commonGet("Master/EventTypeSearch", {
+                eventTypeId: "",
+                eventTypeName: "",
+                eventTypeNameEn: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#ptype").append($("<option>").val(item.EventTypeId).text(localStorage.language == 'zh' ? item.EventTypeName : item.EventTypeNameEn))
+                });
+            })
+        }
+
+        function loadMarketings() {
+            var datas = [];
+            var columns = [[{
+                title: '序号',
+                field: '',
+                align: 'center',
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    var pageSize = $('#myMarketing').bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                    var pageNumber = $('#myMarketing').bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                    return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                },
+                rowspan: 2
+            }, {
+                title: '申请报销',
+                field: 'ExpenseAccount',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2
+            }, {
+                title: '经销商',
+                field: 'ShopName',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2,
+                visible: localStorage.language == 'zh'
+            }, {
+                title: '经销商',
+                field: 'ShopNameEn',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2,
+                visible: localStorage.language == 'en'
+            }, {
+                title: '活动状态',
+                field: 'MarketActionStatusName',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2,
+                visible: localStorage.language == 'zh'
+            }, {
+                title: '活动状态',
+                field: 'MarketActionStatusNameEn',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2,
+                visible: localStorage.language == 'en'
+            }, {
+                title: '活动类型',
+                field: 'EventTypeName',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2,
+                visible: localStorage.language == 'zh'
+            }, {
+                title: '活动类型',
+                field: 'EventTypeNameEn',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2,
+                visible: localStorage.language == 'en'
+            }, {
+                title: '开始时间',
+                field: 'StartDate',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2
+            }, {
+                title: '结束时间',
+                field: 'EndDate',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2
+            }, {
+                title: '提前三周',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '提前三天',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '活动当日',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '活动后2日',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '活动后一个月',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '活动后三个月',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }], [{
+                title: '活动计划',
+                field: 'EndDate',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '终版方案',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '完整现场签到单',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '现场报告',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '更新线索报告',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '证明材料',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }]];
+
+            $("#myMarketing").bootstrapTable({
+                columns: columns,
+                data: datas,
+                pageSize: 10
+            });
+
+        }
+    </script>
+}

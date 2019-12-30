@@ -9,7 +9,7 @@ namespace com.bentley.retailsupport.web.Controllers
     /// <summary>
     /// 文件提交
     /// </summary>
-    public class DocumentController : Controller
+    public class DocumentController : BaseController
     {
         //
         // GET: /Document/

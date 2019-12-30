@@ -92,7 +92,7 @@
     </div>
     <!--END FOOTER-->
 </div>
-
+@section scripts{
 <script src="~/Scripts/api/common.js"></script>
 <script>
     $("#nav_promotion2").addClass("active");
@@ -111,7 +111,7 @@
                     field: 'ShopName',
                     align: 'center',
                     valign: 'middle',
-                    rowspan:2
+                    rowspan: 2
                 });
                 data.CommitFileList.filter(function (obj) {
                     return obj.UpperFileId == null;
@@ -132,17 +132,17 @@
                             field: child.FileId,
                             align: 'center',
                             valign: 'middle',
-                            formatter: function (value,row,index) {
+                            formatter: function (value, row, index) {
                                 var params = "ShopId=" + row.ShopId + "&FileId=" + child.FileId;
                                 if (value) {
-                                    return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a>';
-                                } else {
                                     return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a>';
+                                } else {
+                                    return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a>';
                                 }
                             }
                         })
                     });
-                    
+
                 })
                 data.ShopList.forEach(function (shop) {
                     var shopName = shop.ShopName;
@@ -150,7 +150,7 @@
                         shopName = shop.ShopNameEn;
                     }
                     var item = {
-                        ShopId:shop.ShopId,
+                        ShopId: shop.ShopId,
                         ShopName: shopName
                     };
                     secondHearder.forEach(function (col) {
@@ -159,9 +159,9 @@
                     datas.push(item);
                 })
                 var recordList = data.ShopCommitFileRecordStatusList;
-                
+
                 datas.forEach(function (item) {
-                    for(var pro in item){
+                    for (var pro in item) {
                         var recordFilter = recordList.filter(function (record) {
                             return record.ShopId == item.ShopId && pro == record.FileId;
                         });
@@ -180,7 +180,8 @@
             });
             console.log(columns)
         })
-        
+
     })
 
 </script>
+}

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using com.bentley.retailsupport.web.Common;
+using com.yrtech.InventoryAPI.DTO;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,7 +22,7 @@ namespace com.bentley.retailsupport.web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(string UserName,string Password)
+        public ActionResult Login(string UserName, string Password)
         {
             HttpClient client = new HttpClient();
 
@@ -32,9 +34,18 @@ namespace com.bentley.retailsupport.web.Controllers
             string loginApi = string.Format("bentley/api/Account/Login?accountId={0}&password={1}", UserName, Password);
             HttpResponseMessage message = client.GetAsync(loginApi).Result;
             string json = message.Content.ReadAsStringAsync().Result;
-            Session["LoginUser"] = json;
+            APIResult result = CommonHelper.DecodeString<APIResult>(json);
+            if (result.Status)
+            {
+                Session["LoginUser"] = CommonHelper.DecodeString<List<AccountDto>>(result.Body)[0];
+            }
+            else
+            {
+                throw new Exception("登录失败！" + result.Body);
+            }
+
 
             return this.Redirect("/Home/Index");
         }
-	}
+    }
 }

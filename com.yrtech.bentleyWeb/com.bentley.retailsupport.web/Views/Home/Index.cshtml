@@ -35,8 +35,7 @@
                                             </div>
                                             <p>
                                                 <strong style="color:#9AC1E6">
-                                                    <a href="#">
-                                                        18
+                                                    <a id="UnsubmitBefore21" href="#">
                                                     </a>
                                                 </strong>
                                                 <span translate>Pending Plans</span>
@@ -50,8 +49,7 @@
                                             </div>
                                             <p>
                                                 <strong style="color: #284e1e">
-                                                    <a style="color: #284e1e" href="#">
-                                                        29
+                                                    <a id="UnsubmitBefore3" style="color: #284e1e" href="#">
                                                     </a>
                                                 </strong>
                                                 <span translate>Pending Final Plans</span>
@@ -65,8 +63,7 @@
                                             </div>
                                             <p>
                                                 <strong style="color: #edb700">
-                                                    <a style="color: #edb700" href="#">
-                                                        60
+                                                    <a id="UnsubmitAfter2" style="color: #edb700" href="#">
                                                     </a>
                                                 </strong>
                                                 <span translate>Pending Leads Reports</span>
@@ -80,8 +77,7 @@
                                             </div>
                                             <p>
                                                 <strong style="color: #d63f20">
-                                                    <a style="color: #d63f20" href="#">
-                                                        23
+                                                    <a id="UnsubmitAfter7" style="color: #d63f20" href="#">
                                                     </a>
                                                 </strong>
                                                 <span translate>Pending Event Reports</span>
@@ -95,18 +91,16 @@
                                             </div>
                                             <p>
                                                 <strong style="color: #00aad2">
-                                                    <a style="color: #00aad2" href="#">
-                                                        71
+                                                    <a id="UnsubmitAfter30" style="color: #00aad2" href="#">
                                                     </a>
                                                 </strong>
                                                 <span translate>Pending Updated Leads Reports</span>
                                             </p>
                                         </div>
                                     </div>
-
                                 </div>
 
-                                <h4 class="page-title" translate style="font-family: BentleySemiBold;">Reimbursement</h4>
+                                @*<h4 class="page-title" translate style="font-family: BentleySemiBold;">Reimbursement</h4>
                                 <div class="row-fluid circle-state-overview">
                                     <div id="non-passed" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
                                         <div class="circle-wrap">
@@ -138,7 +132,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
 
 
                                 <!-- END OVERVIEW STATISTIC BARS-->
@@ -147,17 +141,6 @@
 
                         </div>
                     </div>
-                    <script>
-                        var csstxt = isZH() ? "'黑体'" : "'BentleySemiBold'";
-                        $(".page-title").css("font-family", csstxt);
-                        angular.module('MyApp').run(function (gettextCatalog) {
-                            var ov = gettextCatalog.getString('Overview');
-                            $('.nav_name')[0].innerText = ov;
-                            $('.nav_name')[1].innerText = ov;
-                            $('.nav_name')[2].innerText = ov;
-                        });
-                    </script>
-
                     <!--END CONTENT-->
                 </div>
             </div>
@@ -165,6 +148,21 @@
     </div>
     <!--END CONTENT-->
 </div>
+@section scripts{
+<script src="~/Scripts/api/common.js"></script>
 <script>
     $("#nav_dash").addClass("active");
+
+    $(function () {
+        $.commonGet("MarketAction/MarketActionStatusCountSearch", { year: '' }, function (data) {
+            $("#UnsubmitBefore21").html(data[0].Before21Count);
+            $("#UnsubmitBefore3").html(data[0].Before3Count);
+            $("#UnsubmitAfter2").html(data[0].After2Count);
+            $("#UnsubmitAfter7").html(data[0].After7Count);
+            $("#UnsubmitAfter30").html(data[0].After30Count);
+        })
+    })
 </script>
+}
+
+

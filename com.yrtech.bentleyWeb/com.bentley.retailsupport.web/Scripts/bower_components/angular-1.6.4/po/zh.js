@@ -203,7 +203,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , "Acknowledgement": "电子版"
           //  , "Tick Box": "清单"
              , "Tick Box": "扫描版"
-            , "Remark": "备注"
+            , "Remark": "备注Activity Name
             , "Dealer Marketing Fund": "市场基金项目"
             , "Budget and Expense": "市场基金详情"
             , "Reimbursement": "费用报销"

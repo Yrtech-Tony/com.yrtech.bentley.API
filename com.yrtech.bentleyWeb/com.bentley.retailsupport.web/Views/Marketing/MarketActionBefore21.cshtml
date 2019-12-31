@@ -1,13 +1,6 @@
 ﻿@{
     ViewBag.Title = "Marketing";
-    com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
-    if (Session["LoginUser"] != null)
-    {
-        LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
-    }
 }
-
-
 <style>
     html {
         overflow: auto;
@@ -20,10 +13,6 @@
     }
 
     .widget-body {
-        padding: 5px 5px 1px 5px !important;
-    }
-
-    .page-content {
         padding: 5px 5px 1px 5px !important;
     }
 
@@ -61,51 +50,96 @@
                                             </span>
                                         </div>
                                         <div class="widget-body" style="display: block;">
-                                            <a class="btn btn-primary" href="/Marketing/Create" style="float:left"><i class="icon-plus icon-white"></i><span translate>Add</span></a>
-                                            <input class="form-control input-small m-wrap no-margin" style="width: 150px !important; margin-left:5px; margin-bottom: 10px; float: left" placeholder="{{'Event Name'|translate}}" id="pname" name="pname" onchange="NameQuery()" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
-                                            <select name="pyear" id="pyear" class="input-small m-wrap no-margin" style="margin-left:5px;" onchange="NameQuery()">
-                                                <option value="" translate>Year</option>
-                                                <option value="2017">2017</option>
-                                                <option value="2018">2018</option>
-                                                <option value="2019">2019</option>
-                                                <option value="2020">2020</option>
-                                            </select>
-                                            <script>
-                                                var cdate = new Date();
-                                                $("#pyear").val(cdate.getFullYear());
-                                            </script>
-                                            <select name="pmonth" id="pmonth" class="input-small m-wrap no-margin" onchange="NameQuery()">
-                                                <option value="" translate>Month</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                            </select>
-                                            <script>
-                                                var cdate = new Date();
-                                                //$("#pmonth").val(cdate.getMonth() + 1);
-                                            </script>
-                                            <select name="pstate" id="pstate" class="input-small m-wrap no-margin" onchange="NameQuery()">
-                                                <option value="" translate>ActiveStatus</option>
-                                            </select>
-                                            <select id="pdealer" name="pdealer" class="input-small m-wrap no-margin" onchange="NameQuery()">
-                                                <option value="" translate>Dealer Name</option>
-                                            </select>
-                                            <select id="ptype" name="ptype" class="input-small m-wrap no-margin" style="background-color: white;" onchange="NameQuery()">
-                                                <option value="" translate>Event Type</option>
-                                            </select>
+                                            <form   class="form-horizontal bv-form ng-pristine ng-valid" id="PromotionCreate1" novalidate="novalidate">
+                                                <input id="MarketActionId " name="MarketActionId " type="hidden" value="" />
+                                                <div class="row" id="ActiveShow" style="display:none">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4"><span translate>Promotion State</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-4">
+                                                                <select id="MarketActionStatusCode" name="MarketActionStatusCode" class="selectpicker"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4"><span translate>Event Name</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control" id="ActionName" name="ActionName" maxlength="255" style="width:100%;" type="text" value="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4"><span translate>Event ID</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-8">
+                                                                <input class="form-control" id="ActionCode" name="ActionCode" maxlength="255" style="width:100%;" type="text" value="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4"><span translate>Dealer Name</span>:</label>
+                                                            <div class="col-md-8">
+                                                                <select id="ShopId" name="ShopId" class="selectpicker"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4"><span translate>Event Type</span>:</label>
+                                                            <div class="col-md-8">
+                                                                <select id="EventTypeId" name="EventTypeId" class="selectpicker"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4"><span translate>Main Models</span><span class="required" style="color:red">*</span>:  </label>
+                                                            <div class="col-md-4">
+                                                                <select id="MarketActionTargetModelCode" name="MarketActionTargetModelCode" class="selectpicker"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
 
-                                            <div class="dataTables_wrapper form-inline" role="grid">
-                                                <table id="myMarketing"></table>
-                                            </div>
+                                                        <div class="form-group">
+                                                            <label for="StartDate" class="col-md-2 control-label"><span translate>By Date</span><span class="required" style="color:red">*</span>:</label>
+
+                                                            <div class="col-md-2" style="margin-right:-5px;">
+                                                                <input class="form-control form_date" data-val="true" data-val-date="The field StartDate must be a date." id="StartDate" name="StartDate" maxlength="255" style="width:100%;" type="text" value="" />
+                                                            </div>
+                                                            <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;"> - </span>
+                                                            <div class="col-md-2" style="margin-left:0px;">
+                                                                <input class="form-control form_date" data-val="true" data-val-date="The field EndDate must be a date." id="EndDate" name="EndDate" maxlength="255" style="width:100%;" type="text" value="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4"><span translate>Event Venue</span>:</label>
+                                                            <div class="col-md-8">
+                                                                <textarea class="form-control" cols="20" id="Venue" name="ActionPlace" maxlength="255" rows="2" style="width:100%;height:60px;"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

@@ -31,7 +31,7 @@
                                         <div class="widget-body form form-horizontal" style="display: block;">
                                             <div>
                                                 <form class="form-horizontal" id="PromotionCreate">
-                                                    <input id="ID" name="ID" type="hidden" value="" />
+                                                    <input id="MarketActionId " name="MarketActionId " type="hidden" value="" />
                                                     <div class="row" id="ActiveShow" style="display:none">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -87,7 +87,7 @@
                                                             <div class="form-group">
                                                                 <label class="control-label col-md-4"><span translate>Main Models</span><span class="required" style="color:red">*</span>:  </label>
                                                                 <div class="col-md-4">
-                                                                    <select id="MainModels" name="MainModels" class="selectpicker"></select>
+                                                                    <select id="MarketActionTargetModelCode" name="MarketActionTargetModelCode" class="selectpicker"></select>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -149,6 +149,14 @@
     <script src="~/Scripts/api/common.js"></script>
     <script src="~/Scripts/curtomValidator/PromotionCreate.js"></script>
     <script>
+        var id = '@ViewBag.Id';
+        if(id){
+            $.commonGet("MarketAction/MarketActionSearchById",{marketActionId:id},function(data){
+                if(data && data.length>0){
+                    $('#PromotionCreate').setForm(data[0]);
+                }
+            });
+        }
         $(function () {
             loadActiveStatuss();
             loadShops();
@@ -201,24 +209,7 @@
                 $('#ActiveShow').show();
             }
         })
-
-        function loadShops() {
-            try {
-                var shops = $('#G_Shops').val().replace(/&quot;/g, '"');
-                shops = JSON.parse(shops);
-                if (shops) {
-                    shops.forEach(function (item) {
-                        $("#ShopId").append($("<option>").val(item.ShopId).text(item.ShopName))
-                    });
-
-                    $("#ShopId").selectpicker("refresh");
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }
-
-
+        
         function loadActiveStatuss() {
             $.commonGet("Master/HiddenCodeSearch", {
                 hiddenCodeGroup: "MarketActionStatus",
@@ -237,9 +228,9 @@
                 hiddenCode: ""
             }, function (data) {
                 data.forEach(function (item) {
-                    $("#MainModels").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                    $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
                 });
-                $("#MainModels").selectpicker("refresh");
+                $("#MarketActionTargetModelCode").selectpicker("refresh");
             })
         }
 

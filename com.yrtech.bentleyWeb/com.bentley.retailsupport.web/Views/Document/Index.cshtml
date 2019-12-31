@@ -31,26 +31,6 @@
     }
 </style>
 
-<script type="text/javascript">
-    $(function () {
-        loadShops();
-    })
-
-    function loadShops() {
-        try {
-            var shops = '@Json.Encode(LoginUser.ShopList)'.replace(/&quot;/g, '"');
-            shops = JSON.parse(shops);
-            if (shops) {
-                shops.forEach(function (item) {
-                    $("#pdealer").append($("<option>").val(item.ShopId).text(item.ShopName))
-                });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    }
-</script>
-
 <div id="page-wrapper">
     <!--BEGIN CONTENT-->
     <div class="page-content">
@@ -113,9 +93,10 @@
         $("#nav_promotion2").addClass("active");
         var userId = '@LoginUser.UserId', roleType='@LoginUser.RoleTypeCode';
         $(function () {
+            loadShops();
             loadCommitFiles();
         })
-
+        
         function NameQuery() {
             loadCommitFiles($("#pyear").val(), $("#pdealer").val());
         }
@@ -134,8 +115,8 @@
                     var firstHearder = [];
                     var secondHearder = [];
                     firstHearder.push({
-                        title: '经销商',
-                        field: 'ShopName',
+                        title: $("#G_Dealer").val(),
+                        field: localStorage.language == 'en' ? 'ShopNameEn' : 'ShopName',
                         align: 'center',
                         valign: 'middle',
                         rowspan: 2,
@@ -148,7 +129,7 @@
                             return child.UpperFileId == obj.FileId;
                         })
                         firstHearder.push({
-                            title: obj.FileName,
+                            title: localStorage.language == 'en' ? obj.FileNameEn : obj.FileName,
                             field: '',
                             align: 'center',
                             valign: 'middle',
@@ -156,16 +137,18 @@
                         });
                         childs.forEach(function (child) {
                             secondHearder.push({
-                                title: child.FileName,
+                                title: localStorage.language == 'en' ? child.FileNameEn : child.FileName,
                                 field: child.FileId,
                                 align: 'center',
                                 valign: 'middle',
                                 formatter: function (value, row, index) {
                                     var params = "ShopId=" + row.ShopId + "&FileId=" + child.FileId;
                                     if (value) {
-                                        return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a>';
+                                        var txt = $("#Pending").val();
+                                        return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">'+txt+'</span></a>';
                                     } else {
-                                        return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a>';
+                                        var txt = $("#Draft").val();
+                                        return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">' + txt + '</span></a>';
                                     }
                                 }
                             })
@@ -173,13 +156,10 @@
 
                     })
                     data.ShopList.forEach(function (shop) {
-                        var shopName = shop.ShopName;
-                        if (localStorage.language == 'en') {
-                            shopName = shop.ShopNameEn;
-                        }
                         var item = {
                             ShopId: shop.ShopId,
-                            ShopName: shopName
+                            ShopName: shop.ShopName,
+                            ShopNameEn:shop.ShopNameEn
                         };
                         secondHearder.forEach(function (col) {
                             item[col.field] = false

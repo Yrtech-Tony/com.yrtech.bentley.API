@@ -9,10 +9,11 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace com.bentley.retailsupport.web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         //
         // GET: /Account/
@@ -37,7 +38,9 @@ namespace com.bentley.retailsupport.web.Controllers
             APIResult result = CommonHelper.DecodeString<APIResult>(json);
             if (result.Status)
             {
-                Session["LoginUser"] = CommonHelper.DecodeString<List<AccountDto>>(result.Body)[0];
+                AccountDto loginUser = CommonHelper.DecodeString<List<AccountDto>>(result.Body)[0];
+                Session["LoginUser"] = loginUser;
+                FormsAuthentication.SetAuthCookie(loginUser.AccountId, false);
             }
             else
             {
@@ -47,5 +50,19 @@ namespace com.bentley.retailsupport.web.Controllers
 
             return this.Redirect("/Home/Index");
         }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session["LoginUser"] = null;
+
+            return this.Redirect("~/");
+        }
+
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+        
     }
 }

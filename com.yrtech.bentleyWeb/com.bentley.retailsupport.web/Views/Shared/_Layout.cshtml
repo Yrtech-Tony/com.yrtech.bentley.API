@@ -132,7 +132,8 @@
     <input id="G_UserId" type="hidden" value="@LoginUser.UserId" />
     <input id="G_UserAccount" type="hidden" value="@LoginUser.AccountId" />
     <input id="G_RoleTypeCode" type="hidden" value="@LoginUser.RoleTypeCode" />
-    <input id="G_RoleName" type="hidden" value="@LoginUser.AccountName" />
+    <input id="G_AccountName" type="hidden" value="@LoginUser.AccountName" />
+    <input id="G_AccountNameEn" type="hidden" value="@LoginUser.AccountNameEn" />
     <input id="G_Shops" type="hidden" value="@Json.Encode(LoginUser.ShopList)" />
 
     <input id="G_ResetPassword" type="hidden" value="{{'ResetPassword'|translate}}" />
@@ -148,6 +149,43 @@
     <input id="G_Yes" type="hidden" value="{{'Yes'|translate}}" />
     <input id="G_No" type="hidden" value="{{'No'|translate}}" />
     <input id="G_Info" type="hidden" value="{{'Information'|translate}}" />
+
+    <input id="G_No" type="hidden" value="{{'NO'|translate}}" />
+    <input id="G_Dealer" type="hidden" value="{{'Dealer'|translate}}" />
+    <input id="G_ReimbursementApplication" type="hidden" value="{{'Reimbursement Application'|translate}}" />
+    <input id="G_Status" type="hidden" value="{{'Status'|translate}}" />
+    <input id="G_ActivityName" type="hidden" value="{{'Event Name'|translate}}" />
+    <input id="G_EventType" type="hidden" value="{{'Event Type'|translate}}" />
+    <input id="G_StartDate" type="hidden" value="{{'Start Date'|translate}}" />
+    <input id="G_EndDate" type="hidden" value="{{'End Date'|translate}}" />
+    <input id="G_ThreeWeeksBefore" type="hidden" value="{{'Three Weeks Before'|translate}}" />
+    <input id="G_ThreeDaysBefore" type="hidden" value="{{'Three Days Before'|translate}}" />
+    <input id="G_Today" type="hidden" value="{{'The Day of the Event'|translate}}" />
+    <input id="G_AfterDays2" type="hidden" value="{{'Two Days After'|translate}}" />
+    <input id="G_AfterDays7" type="hidden" value="{{'Seven Days After' |translate}}" />
+    <input id="G_AfterMonth1" type="hidden" value="{{'One Month After'|translate}}" />
+    <input id="G_AfterMonth3" type="hidden" value="{{'Three Month After' |translate}}" />
+    <input id="PlanPPT" type="hidden" value="{{'Plan PPT'|translate}}" />
+    <input id="FinalPPT" type="hidden" value="{{'Final Programme PPT'|translate}}" />
+    <input id="G_OnSiteSign" type="hidden" value="{{'On-site Sign in Sheet'|translate}}" />
+    <input id="G_ClueReport" type="hidden" value="{{'Clue Report Excel'|translate}}" />
+    <input id="G_EventReport" type="hidden" value="{{'Event Report PPT' |translate}}" />
+    <input id="G_UpdateReport" type="hidden" value="{{'Update leads Report Excel'|translate}}" />
+    <input id="G_ProofDocument" type="hidden" value="{{'Proof Document' |translate}}" />
+    
+    <input id="Draft" type="hidden" value="{{'Unsubmitted'|translate}}" />
+    <input id="Pending" type="hidden" value="{{'Pending'|translate}}" />
+
+    <input id="Rejected" type="hidden" value="{{'Rejected'|translate}}" />
+    <input id="Qualified" type="hidden" value="{{'Qualified'|translate}}" />
+    <input id="Unqualified" type="hidden" value="{{'Unqualified'|translate}}" />
+    <input id="Incompleted" type="hidden" value="{{'Incompleted'|translate}}" />
+
+    <input id="ActivityCancel" type="hidden" value="{{'Canceled'|translate}}" />
+    <input id="Approved" type="hidden" value="{{'Finished'|translate}}" />
+    <input id="Approvaling" type="hidden" value="{{'Processing'|translate}}" />
+
+    <input id="G_Edit" type="hidden" value="{{'Edit'|translate}}" />
     <!--END THEME SETTING-->
 
     <form action="/Account/LogOff" class="navbar-right" id="logoutForm" method="post"></form>
@@ -167,11 +205,11 @@
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
 
                     <li class="dropdown topbar-user">
-                        <a data-hover="dropdown" href="#" class="dropdown-toggle"><span id="G_userName" class="hidden-xs">管理员</span>&nbsp;<span class="caret"></span></a>
+                        <a data-hover="dropdown" href="#" class="dropdown-toggle"><span id="G_userName" class="hidden-xs"></span>&nbsp;<span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-user pull-right">
                             <li><a href="javascript:" onclick="ChangeLanguage()" id="setLanguage"><i class="fa fa-star"></i><span translate>To Chinese</span></a></li>
                             <li><a href="/Account/ResetPassword"><i class="fa fa-key"></i><span translate>Change Password</span></a></li>
-                            <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-lock"></i><span translate>Logout</span></a></li>
+                            <li><a href="/Account/Logout"><i class="fa fa-lock"></i><span translate>Logout</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -302,23 +340,7 @@
                 </ul>
             </div>
         </nav>
-        @RenderBody()    
-
-        <div style="display:none">
-            <input id="Draft" type="hidden" value="{{'Unsubmitted'|translate}}" />
-            <input id="Pending" type="hidden" value="{{'Pending'|translate}}" />
-
-            <input id="Rejected" type="hidden" value="{{'Rejected'|translate}}" />
-            <input id="Qualified" type="hidden" value="{{'Qualified'|translate}}" />
-            <input id="Unqualified" type="hidden" value="{{'Unqualified'|translate}}" />
-            <input id="Incompleted" type="hidden" value="{{'Incompleted'|translate}}" />
-
-            <input id="ActivityCancel" type="hidden" value="{{'Canceled'|translate}}" />
-            <input id="Approved" type="hidden" value="{{'Finished'|translate}}" />
-            <input id="Approvaling" type="hidden" value="{{'Processing'|translate}}" />
-
-            <input id="G_Edit" type="hidden" value="{{'Edit'|translate}}" />
-        </div>
+        @RenderBody()
     </div>
 
     <script src="/Scripts/Dark/jquery-migrate-1.2.1.min.js"></script>
@@ -358,7 +380,7 @@
 
     <!--CORE JAVASCRIPT-->
     <script src="/Scripts/Dark/main.js"></script>
-    
+
     <script>
         $(function () {
             window.onbeforeprint = function () {
@@ -387,6 +409,7 @@
                 $(".print").removeClass("print");
                 $(".noprint").removeClass("noprint");
             };
+            
         });
     </script>
 
@@ -400,9 +423,17 @@
             else {
                 gettextCatalog.currentLanguage = 'en';
             }
-        });
-    </script>
 
+            var ov = gettextCatalog.getString('Overview');
+            if (ov && $('.nav_name').length>=3) {
+                $('.nav_name')[0].innerText = ov;
+                $('.nav_name')[1].innerText = ov;
+                $('.nav_name')[2].innerText = ov;
+            }
+        });
+
+        $("#G_userName").text(localStorage.language == 'zh' ? $("#G_AccountName").val() : $("#G_AccountNameEn").val());
+    </script>
 
     <script type="text/javascript">
         var csstxt = isZH() ? "'黑体'" : "'BentleySemiBold'";
@@ -466,7 +497,61 @@
                 }
                 return obj;
             }
+
+            /**
+            * 将josn对象赋值给form
+            */
+            $.fn.setForm = function (jsonValue) {
+                var obj = this;
+                $.each(jsonValue, function (name, ival) {
+                    var $oinput = obj.find("input[name=" + name + "]");
+                    if ($oinput.attr("type") == "checkbox") {
+                        if (ival !== null) {
+                            var checkboxObj = $("[name=" + name + "]");
+                            var checkArray = ival.split(";");
+                            for (var i = 0; i < checkboxObj.length; i++) {
+                                for (var j = 0; j < checkArray.length; j++) {
+                                    if (checkboxObj[i].value == checkArray[j]) {
+                                        checkboxObj[i].click();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if ($oinput.attr("type") == "radio") {
+                        $oinput.each(function () {
+                            var radioObj = $("[name=" + name + "]");
+                            for (var i = 0; i < radioObj.length; i++) {
+                                if (radioObj[i].value == ival) {
+                                    radioObj[i].click();
+                                }
+                            }
+                        });
+                    }
+                    else if ($oinput.attr("type") == "textarea") {
+                        obj.find("[name=" + name + "]").html(ival);
+                    }
+                    else {
+                        obj.find("[name=" + name + "]").val(ival);
+                    }
+                })
+            }
         });
+
+        function loadShops() {
+            try {
+                var shops = $('#G_Shops').val().replace(/&quot;/g, '"');
+                shops = JSON.parse(shops);
+                if (shops) {
+                    shops.forEach(function (item) {
+                        var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
+                        $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
+                    });
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
     </script>
 
     @RenderSection("scripts", required: false)

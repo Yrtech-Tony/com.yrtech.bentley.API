@@ -110,8 +110,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Base\" />
-    <Folder Include="Views\Master\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -126,7 +124,6 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
-    <Compile Include="Controllers\MasterController.cs" />
     <Compile Include="DTO\Account\AccountDto.cs" />
     <Compile Include="DTO\Account\Area.cs" />
     <Compile Include="DTO\Account\Shop.cs" />
@@ -196,6 +193,8 @@
     <Content Include="Scripts\bower_components\Font-Awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\style\fonts\BentleyLight.otf" />
     <Content Include="Content\style\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\style\fonts\BentleySemiBold.otf" />
+    <Content Include="Content\style\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Properties\PublishProfiles\bentley.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap3-editable\css\bootstrap-editable.css" />
@@ -368,6 +367,7 @@
     <Content Include="Scripts\oss-upload-direct\lib\plupload-2.1.2\readme.md" />
     <Content Include="Views\Marketing\Create.cshtml" />
     <Content Include="Views\Marketing\MarketActionBefore21.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

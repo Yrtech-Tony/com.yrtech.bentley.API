@@ -13,7 +13,7 @@ namespace com.bentley.retailsupport.web.Attributes
         {
             //这个方法是在Action执行之前调用
             var user = filterContext.HttpContext.Session["LoginUser"];
-            if (user == null && !filterContext.HttpContext.Request.Url.AbsolutePath.Contains("Account"))
+            if (user == null && !filterContext.HttpContext.Request.Url.AbsolutePath.Contains("Login"))
             {
                 if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
@@ -39,7 +39,6 @@ namespace com.bentley.retailsupport.web.Attributes
                     filterContext.Result = new RedirectResult(url);
                 }
             }
-            
 
         }
         public void OnAuthenticationChallenge(AuthenticationChallengeContext filterContext)

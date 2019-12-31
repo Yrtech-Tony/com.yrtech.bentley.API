@@ -67,7 +67,7 @@
                                                 <table id="myPromotionFile" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th data-field="ShopCommitFileName" translate>File Name</th>
+                                                            <th data-field="ShopCommitFileName" data-formatter="fileNameFormatter" translate>File Name</th>
                                                             <th data-field="InDateTime" translate>Upload Time</th>
                                                             <th data-field="ModifyDateTime" translate>Update Time</th>
                                                             <th data-formatter="operateFormatter" data-events="operateEvents" translate>Edit</th>
@@ -124,10 +124,18 @@
         }
     })
 
+    function fileNameFormatter(value, row, index) {
+        return '<a href="javascript:" onclick="downloadFile(' + row.FileId + ',' + row.ShopId + ')">' + value + '</a>';
+    }
+
+    function downloadFile(FileId, ShopId) {
+
+    }
+
     function operateFormatter(value, row, index) {
         return [
           '<a class="remove" href="javascript:void(0)" title="Remove">',
-          '<i class="fa fa-trash"></i> <span translate>Delete</span>',
+          '<i class="fa fa-trash"></i> <span translate>' + $("#G_Delete").val() + '</span>',
           '</a>'
         ].join('')
     }

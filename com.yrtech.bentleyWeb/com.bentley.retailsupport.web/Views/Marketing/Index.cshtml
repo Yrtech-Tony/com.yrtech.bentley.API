@@ -136,21 +136,7 @@
         function NameQuery() {
             loadMarketings(true);
         }
-
-        function loadShops() {
-            try {
-                var shops = '@Json.Encode(LoginUser.ShopList)'.replace(/&quot;/g, '"');
-                shops = JSON.parse(shops);
-                if (shops) {
-                    shops.forEach(function (item) {
-                        $("#pdealer").append($("<option>").val(item.ShopId).text(item.ShopName))
-                    });
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }
-
+        
         function loadActiveStatuss() {
             $.commonGet("Master/HiddenCodeSearch", {
                 hiddenCodeGroup: "MarketActionStatus",
@@ -174,16 +160,36 @@
             })
         }
 
-        function statusFormatter(value, row, index) {
-            debugger
-            var params = '';//"ShopId=" + row.ShopId + "&FileId=" + child.FileId;
+        function statusFormatter(value, row, index, field) {
+
+            var href = '/Marketing/' + field + "?id=" + row.MarketActionId;
             if (value == "Commited") {
-                return '<a href="/Marketing/Create?id=&field=P1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">已提交</span></a>';
+                var txt = $("#Pending").val();
+                return '<a href="' + href + '" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">' + txt + '</span></a>';
             } else if (value == "UnCommitTime") {
-                return '<a href="/Marketing/Create?id=979db8e7-c0b8-4319-a45b-f7597119b182&amp;field=P1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">未提交</span></a>';
+                var txt = $("#Draft").val();
+                return '<a href="' + href + '" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">' + txt + '</span></a>';
             } else if (value == "UnCommit") {
-                return '<a href="/Marketing/Create?id=fd08c323-c0e1-43b4-81da-4f2786c1e216&amp;field=P3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:#E0E0E0 !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">未提交</span></a>';
+                var txt = $("#Draft").val();
+                return '<a href="' + href + '" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:#E0E0E0 !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;" >' + txt + '</span></a>';
             }
+        }
+
+        function nameFormatter(value, row, index) {
+            return ' <div style="min-width:180px;"><a href="/Marketing/Create?Id=' + row.MarketActionId + '" onclick="EmptyValue();">' + value + '</a></div>';
+        }
+
+        function dateFormatter(value, row, index) {
+            if (value) {
+                var date = value.substr(0, value.indexOf(' ')).replace(/-/g, '\/');
+                return date;
+            }
+            return "";
+        }
+
+        function expenseAccountFormatter(value, row, index) {
+            var chk = (value) ? 'checked' : '';
+            return '<input class="check" type="checkbox" ' + chk + '/>';
         }
 
         function loadMarketings(refresh) {
@@ -207,148 +213,156 @@
 
         function initTable(data) {
             var columns = [[{
-                title: '序号',
+                title: $("#G_No").val(),
                 field: '',
                 align: 'center',
                 valign: 'middle',
                 formatter: function (value, row, index) {
-                    var pageSize = $('#myMarketing').bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
-                    var pageNumber = $('#myMarketing').bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
-                    return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                    return index + 1;
                 },
                 rowspan: 2
             }, {
-                title: '申请报销',
+                title: $("#G_ReimbursementApplication").val(),
                 field: 'ExpenseAccount',
                 align: 'center',
                 valign: 'middle',
+                rowspan: 2,
+                formatter: expenseAccountFormatter,
+                events: {
+                    'change .check': function (e, value, row, index) {
+                        deleleCommitFile([row]);
+                    }
+                }
+            }, {
+                title: $("#G_Dealer").val(),
+                field: localStorage.language == 'en' ? 'ShopNameEn' : 'ShopName',
+                align: 'center',
+                valign: 'middle',
                 rowspan: 2
             }, {
-                title: '经销商',
-                field: 'ShopName',
+                title: $("#G_Status").val(),
+                field: localStorage.language == 'en' ? 'MarketActionStatusNameEn' : 'MarketActionStatusName',
+                align: 'center',
+                valign: 'middle',
+                rowspan: 2
+            }, {
+                title: $("#G_ActivityName").val(),
+                field: 'ActionName',
                 align: 'center',
                 valign: 'middle',
                 rowspan: 2,
-                visible: localStorage.language == 'zh'
+                formatter: nameFormatter
             }, {
-                title: '经销商',
-                field: 'ShopNameEn',
+                title: $("#G_EventType").val(),
+                field: localStorage.language == 'en' ? 'EventTypeNameEn' : 'EventTypeName',
                 align: 'center',
                 valign: 'middle',
-                rowspan: 2,
-                visible: localStorage.language == 'en'
+                rowspan: 2
             }, {
-                title: '活动状态',
-                field: 'MarketActionStatusName',
-                align: 'center',
-                valign: 'middle',
-                rowspan: 2,
-                visible: localStorage.language == 'zh'
-            }, {
-                title: '活动状态',
-                field: 'MarketActionStatusNameEn',
-                align: 'center',
-                valign: 'middle',
-                rowspan: 2,
-                visible: localStorage.language == 'en'
-            }, {
-                title: '活动类型',
-                field: 'EventTypeName',
-                align: 'center',
-                valign: 'middle',
-                rowspan: 2,
-                visible: localStorage.language == 'zh'
-            }, {
-                title: '活动类型',
-                field: 'EventTypeNameEn',
-                align: 'center',
-                valign: 'middle',
-                rowspan: 2,
-                visible: localStorage.language == 'en'
-            }, {
-                title: '开始时间',
+                title: $("#G_StartDate").val(),
                 field: 'StartDate',
                 align: 'center',
                 valign: 'middle',
-                rowspan: 2
+                rowspan: 2,
+                formatter: dateFormatter
             }, {
-                title: '结束时间',
+                title: $("#G_EndDate").val(),
                 field: 'EndDate',
                 align: 'center',
                 valign: 'middle',
-                rowspan: 2
+                rowspan: 2,
+                formatter: dateFormatter
             }, {
-                title: '提前三周',
+                title: $("#G_ThreeWeeksBefore").val(),
                 field: '',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: '提前三天',
+                title: $("#G_ThreeDaysBefore").val(),
                 field: '',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: '活动当日',
+                title: $("#G_Today").val(),
                 field: '',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: '活动后2日',
+                title: $("#G_AfterDays2").val(),
                 field: '',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: '活动后七日',
+                title: $("#G_AfterDays7").val(),
                 field: '',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: '活动后一个月',
+                title: $("#G_AfterMonth1").val(),
                 field: '',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: '活动后三个月',
+                title: $("#G_AfterMonth3").val(),
                 field: '',
                 align: 'center',
                 valign: 'middle'
             }], [{
-                title: '活动计划',
+                title: $("#PlanPPT").val(),
                 field: 'Before3Weeks',
                 align: 'center',
                 valign: 'middle',
-                formatter: statusFormatter
+                formatter: function (value, row, index) {
+                    return statusFormatter(value, row, index, 'Before3Weeks');
+                }
             }, {
-                title: '终版方案',
+                title: $("#FinalPPT").val(),
                 field: 'Before3Days',
                 align: 'center',
                 valign: 'middle',
-                formatter: statusFormatter
+                formatter: function (value, row, index) {
+                    return statusFormatter(value, row, index, 'Before3Days');
+                }
             }, {
-                title: '完整现场签到单',
+                title: $("#G_OnSiteSign").val(),
                 field: 'TheDays',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return statusFormatter(value, row, index, 'TheDays');
+                }
             }, {
-                title: '线索报告',
+                title: $("#G_ClueReport").val(),
                 field: 'After2Days',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return statusFormatter(value, row, index, 'After2Days');
+                }
             }, {
-                title: '活动报告',
+                title: $("#G_EventReport").val(),
                 field: 'After7Days',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return statusFormatter(value, row, index, 'After7Days');
+                }
             }, {
-                title: '更新线索报告',
+                title: $("#G_UpdateReport").val(),
                 field: 'After1Months',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return statusFormatter(value, row, index, 'After1Months');
+                }
             }, {
-                title: '证明材料',
+                title: $("#G_ProofDocument").val(),
                 field: 'After3Months',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                formatter: function (value, row, index) {
+                    return statusFormatter(value, row, index, 'After3Months');
+                }
             }]];
 
             $("#myMarketing").bootstrapTable({

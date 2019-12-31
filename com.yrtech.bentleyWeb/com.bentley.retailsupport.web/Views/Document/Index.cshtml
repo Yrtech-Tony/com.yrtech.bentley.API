@@ -1,6 +1,56 @@
 ﻿@{
     ViewBag.Title = "Document";
+    com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
+    if (Session["LoginUser"] != null)
+    {
+        LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
+    }
 }
+<style>
+    html {
+        overflow: auto;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    .widget {
+        margin-bottom: 5px !important;
+    }
+
+    .widget-body {
+        padding: 5px 5px 1px 5px !important;
+    }
+
+    .page-content {
+        padding: 5px 5px 1px 5px !important;
+    }
+
+    .fixed-table-pagination div.pagination, .fixed-table-pagination .pagination-detail {
+        margin-top: 5px !important;
+        margin-bottom: 0px !important;
+    }
+</style>
+
+<script type="text/javascript">
+    $(function () {
+        loadShops();
+    })
+
+    function loadShops() {
+        try {
+            var shops = '@Json.Encode(LoginUser.ShopList)'.replace(/&quot;/g, '"');
+            shops = JSON.parse(shops);
+            if (shops) {
+                shops.forEach(function (item) {
+                    $("#pdealer").append($("<option>").val(item.ShopId).text(item.ShopName))
+                });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+</script>
+
 <div id="page-wrapper">
     <!--BEGIN CONTENT-->
     <div class="page-content">
@@ -14,43 +64,6 @@
                 </div>
                 <div class="col-lg-12">
                     <!--BEGIN CONTENT-->
-                    <script type="text/javascript">
-                        $(function () {
-                            $.get("/data/shop.json", {}, function (data) {
-                                if (data) {
-                                    data = JSON.parse(data);
-                                    data.forEach(function (item) {
-                                        $("#pdealer").append($("<option>").val(item.ShopId).text(item.ShopName))
-                                    });
-                                }
-                            });
-                        })
-                    </script>
-                    <style>
-                        html {
-                            overflow: auto;
-                            overflow-y: hidden;
-                            overflow-x: hidden;
-                        }
-
-                        .widget {
-                            margin-bottom: 5px !important;
-                        }
-
-                        .widget-body {
-                            padding: 5px 5px 1px 5px !important;
-                        }
-
-                        .page-content {
-                            padding: 5px 5px 1px 5px !important;
-                        }
-
-                        .fixed-table-pagination div.pagination, .fixed-table-pagination .pagination-detail {
-                            margin-top: 5px !important;
-                            margin-bottom: 0px !important;
-                        }
-                    </style>
-
                     <div id="main-content">
                         <div class="container-fluid">
                             <div class="row-fluid">
@@ -61,13 +74,23 @@
                                             <h4><i class="icon-reorder"></i><span translate>Document Submit</span></h4>
                                             <span class="tools">
                                                 <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
-                                            </span>
-
-                                            <select class="input-small m-wrap no-margin" id="pdealer" name="pdealer" style="background-color: white;" onchange="NameQuery()">
-                                                <option value="" translate>Dealer Name</option>
-                                            </select>
+                                            </span>                                            
                                         </div>
                                         <div class="widget-body" style="display: block;">
+                                            <select name="pyear" id="pyear" class="input-small m-wrap no-margin" style="margin-left:5px;" onchange="NameQuery()">
+                                                <option value="" translate>Year</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2020">2020</option>
+                                            </select>
+                                            <script>
+                                                var cdate = new Date();
+                                                $("#pyear").val('2020');//cdate.getFullYear()
+                                            </script>
+                                            <select class="input-small m-wrap no-margin" id="pdealer" name="pdealer" style="background-color: white;" onchange="NameQuery()">
+                                                <option value=" " translate>Dealer Name</option>
+                                            </select>
                                             <div class="dataTables_wrapper form-inline" role="grid">
                                                 <table id="myPromotion"></table>
                                             </div>
@@ -83,105 +106,119 @@
         </div>
     </div>
     <!--END CONTENT-->
-    <!--BEGIN FOOTER-->
-
-    <div id="footer" style="display:none">
-        <div class="copyright">
-
-        </div>
-    </div>
-    <!--END FOOTER-->
 </div>
 @section scripts{
-<script src="~/Scripts/api/common.js"></script>
-<script>
-    $("#nav_promotion2").addClass("active");
-
-    $(function () {
-
-        var columns = [];
-        var datas = [];
-        $.commonGet("CommitFile/ShopCommitFileRecordStatusSearch", { year: 2020, shopid: 1 }, function (data) {
-            console.log(data)
-            if (data && data.CommitFileList) {
-                var firstHearder = [];
-                var secondHearder = [];
-                firstHearder.push({
-                    title: '经销商',
-                    field: 'ShopName',
-                    align: 'center',
-                    valign: 'middle',
-                    rowspan: 2
-                });
-                data.CommitFileList.filter(function (obj) {
-                    return obj.UpperFileId == null;
-                }).forEach(function (obj) {
-                    var childs = data.CommitFileList.filter(function (child) {
-                        return child.UpperFileId == obj.FileId;
-                    })
-                    firstHearder.push({
-                        title: obj.FileName,
-                        field: '',
-                        align: 'center',
-                        valign: 'middle',
-                        colspan: childs.length
-                    });
-                    childs.forEach(function (child) {
-                        secondHearder.push({
-                            title: child.FileName,
-                            field: child.FileId,
-                            align: 'center',
-                            valign: 'middle',
-                            formatter: function (value, row, index) {
-                                var params = "ShopId=" + row.ShopId + "&FileId=" + child.FileId;
-                                if (value) {
-                                    return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a>';
-                                } else {
-                                    return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a>';
-                                }
-                            }
-                        })
-                    });
-
-                })
-                data.ShopList.forEach(function (shop) {
-                    var shopName = shop.ShopName;
-                    if (localStorage.language == 'en') {
-                        shopName = shop.ShopNameEn;
-                    }
-                    var item = {
-                        ShopId: shop.ShopId,
-                        ShopName: shopName
-                    };
-                    secondHearder.forEach(function (col) {
-                        item[col.field] = false
-                    })
-                    datas.push(item);
-                })
-                var recordList = data.ShopCommitFileRecordStatusList;
-
-                datas.forEach(function (item) {
-                    for (var pro in item) {
-                        var recordFilter = recordList.filter(function (record) {
-                            return record.ShopId == item.ShopId && pro == record.FileId;
-                        });
-                        if (recordFilter && recordFilter.length > 0) {
-                            item[pro] = recordFilter[0].FileCount > 0;
-                        }
-                    }
-                })
-
-                columns.push(firstHearder);
-                columns.push(secondHearder);
-            }
-            $("#myPromotion").bootstrapTable({
-                columns: columns,
-                data: datas
-            });
-            console.log(columns)
+    <script src="~/Scripts/api/common.js"></script>
+    <script>
+        $("#nav_promotion2").addClass("active");
+        var userId = '@LoginUser.UserId', roleType='@LoginUser.RoleTypeCode';
+        $(function () {
+            loadCommitFiles();
         })
 
-    })
+        function NameQuery() {
+            loadCommitFiles($("#pyear").val(), $("#pdealer").val());
+        }
+        
+        function loadCommitFiles(year,shopid) {
+            var columns = [];
+            var datas = [];
+            $.commonGet("CommitFile/ShopCommitFileRecordStatusSearch", {
+                year: year || '2020',
+                shopid: shopid || ' ',
+                userId: userId,
+                roleTypeCode: roleType
+            }, function (data) {
+                console.log(data)
+                if (data) {
+                    var firstHearder = [];
+                    var secondHearder = [];
+                    firstHearder.push({
+                        title: '经销商',
+                        field: 'ShopName',
+                        align: 'center',
+                        valign: 'middle',
+                        rowspan: 2,
+                        sortable:true
+                    });
+                    data.CommitFileList.filter(function (obj) {
+                        return obj.UpperFileId == null;
+                    }).forEach(function (obj) {
+                        var childs = data.CommitFileList.filter(function (child) {
+                            return child.UpperFileId == obj.FileId;
+                        })
+                        firstHearder.push({
+                            title: obj.FileName,
+                            field: '',
+                            align: 'center',
+                            valign: 'middle',
+                            colspan: childs.length
+                        });
+                        childs.forEach(function (child) {
+                            secondHearder.push({
+                                title: child.FileName,
+                                field: child.FileId,
+                                align: 'center',
+                                valign: 'middle',
+                                formatter: function (value, row, index) {
+                                    var params = "ShopId=" + row.ShopId + "&FileId=" + child.FileId;
+                                    if (value) {
+                                        return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">已提交</span></a>';
+                                    } else {
+                                        return '<a href="/Document/DocList?' + params + '" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color:white;">未提交</span></a>';
+                                    }
+                                }
+                            })
+                        });
 
-</script>
+                    })
+                    data.ShopList.forEach(function (shop) {
+                        var shopName = shop.ShopName;
+                        if (localStorage.language == 'en') {
+                            shopName = shop.ShopNameEn;
+                        }
+                        var item = {
+                            ShopId: shop.ShopId,
+                            ShopName: shopName
+                        };
+                        secondHearder.forEach(function (col) {
+                            item[col.field] = false
+                        })
+                        datas.push(item);
+                    })
+                    var recordList = data.ShopCommitFileRecordStatusList;
+
+                    datas.forEach(function (item) {
+                        for (var pro in item) {
+                            var recordFilter = recordList.filter(function (record) {
+                                return record.ShopId == item.ShopId && pro == record.FileId;
+                            });
+                            if (recordFilter && recordFilter.length > 0) {
+                                item[pro] = recordFilter[0].FileCount > 0;
+                            }
+                        }
+                    })
+
+                    columns.push(firstHearder);
+                    columns.push(secondHearder);
+                    console.log(columns)
+                    if (year) {
+                        $("#myPromotion").bootstrapTable("refreshOptions", {
+                            columns: columns,
+                            data: datas,
+                            pageSize: 20,
+                            pagination:true
+                        });
+                    } else {
+                        $("#myPromotion").bootstrapTable({
+                            columns: columns,
+                            data: datas,
+                            pageSize: 20,
+                            pagination: true
+                        });
+                    }
+                }
+            })
+        }
+    </script>
 }

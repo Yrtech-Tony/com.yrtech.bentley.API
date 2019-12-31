@@ -72,7 +72,7 @@
                                             </select>
                                             <script>
                                                 var cdate = new Date();
-                                                $("#pyear").val(cdate.getFullYear());
+                                                //$("#pyear").val(cdate.getFullYear());
                                             </script>
                                             <select name="pmonth" id="pmonth" class="input-small m-wrap no-margin" onchange="NameQuery()">
                                                 <option value="" translate>Month</option>
@@ -118,18 +118,11 @@
         </div>
     </div>
     <!--END CONTENT-->
-    <!--BEGIN FOOTER-->
-
-    <div id="footer" style="display:none">
-        <div class="copyright">
-            <table></table>
-        </div>
-    </div>
-    <!--END FOOTER-->
 </div>
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
     <script type="text/javascript">
+        var userId = '@LoginUser.UserId', roleType = '@LoginUser.RoleTypeCode';
 
         $("#nav_promotion").addClass("active");
         $(function () {
@@ -139,6 +132,10 @@
 
             loadMarketings();
         })
+
+        function NameQuery() {
+            loadMarketings(true);
+        }
 
         function loadShops() {
             try {
@@ -155,7 +152,6 @@
         }
 
         function loadActiveStatuss() {
-            debugger
             $.commonGet("Master/HiddenCodeSearch", {
                 hiddenCodeGroup: "MarketActionStatus",
                 hiddenCode: ""
@@ -178,8 +174,38 @@
             })
         }
 
-        function loadMarketings() {
-            var datas = [];
+        function statusFormatter(value, row, index) {
+            debugger
+            var params = '';//"ShopId=" + row.ShopId + "&FileId=" + child.FileId;
+            if (value == "Commited") {
+                return '<a href="/Marketing/Create?id=&field=P1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">已提交</span></a>';
+            } else if (value == "UnCommitTime") {
+                return '<a href="/Marketing/Create?id=979db8e7-c0b8-4319-a45b-f7597119b182&amp;field=P1" onclick="EmptyValue();" class="btn btn-primary btn-sm" style=""><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">未提交</span></a>';
+            } else if (value == "UnCommit") {
+                return '<a href="/Marketing/Create?id=fd08c323-c0e1-43b4-81da-4f2786c1e216&amp;field=P3" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:#E0E0E0 !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">未提交</span></a>';
+            }
+        }
+
+        function loadMarketings(refresh) {
+            $.commonGet("MarketAction/MarketActionSearch", {
+                actionName: $('#pname').val() || ' ',
+                year: $('#Year').val() || ' ',
+                month: $('#pmonth').val() || ' ',
+                marketActionStatusCode: $('#pstate').val() || ' ',
+                shopId: $('#pdealer').val() || ' ',
+                eventTypeId: $('#ptype').val() || ' ',
+                userId: userId,
+                roleTypeCode: roleType
+            }, function (data) {
+                if (refresh) {
+                    refreshTable(data);
+                } else {
+                    initTable(data);
+                }
+            });
+        }
+
+        function initTable(data) {
             var columns = [[{
                 title: '序号',
                 field: '',
@@ -272,6 +298,11 @@
                 align: 'center',
                 valign: 'middle'
             }, {
+                title: '活动后七日',
+                field: '',
+                align: 'center',
+                valign: 'middle'
+            }, {
                 title: '活动后一个月',
                 field: '',
                 align: 'center',
@@ -283,42 +314,62 @@
                 valign: 'middle'
             }], [{
                 title: '活动计划',
-                field: 'EndDate',
+                field: 'Before3Weeks',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                formatter: statusFormatter
             }, {
                 title: '终版方案',
-                field: '',
+                field: 'Before3Days',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                formatter: statusFormatter
             }, {
                 title: '完整现场签到单',
-                field: '',
+                field: 'TheDays',
                 align: 'center',
                 valign: 'middle'
             }, {
-                title: '现场报告',
-                field: '',
+                title: '线索报告',
+                field: 'After2Days',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                title: '活动报告',
+                field: 'After7Days',
                 align: 'center',
                 valign: 'middle'
             }, {
                 title: '更新线索报告',
-                field: '',
+                field: 'After1Months',
                 align: 'center',
                 valign: 'middle'
             }, {
                 title: '证明材料',
-                field: '',
+                field: 'After3Months',
                 align: 'center',
                 valign: 'middle'
             }]];
 
             $("#myMarketing").bootstrapTable({
                 columns: columns,
-                data: datas,
-                pageSize: 10
+                data: data,
+                pageSize: 20,
+                pagination: true
             });
+        }
 
+        function refreshTable(data) {
+            $("#myMarketing").bootstrapTable("refreshOptions", {
+                data: data
+            });
+        }
+
+        function EnterPress(e) { //传入 event
+            var e = e || window.event;
+            if (e.keyCode == 13) { //13代表回车符
+                NameQuery();
+            }
         }
     </script>
 }

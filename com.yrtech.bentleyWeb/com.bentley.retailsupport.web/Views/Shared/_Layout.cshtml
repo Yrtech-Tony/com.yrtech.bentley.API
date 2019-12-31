@@ -122,12 +122,19 @@
     </style>
 </head>
 <body>
-    <input id="G_UserId" type="hidden" value="aff2e40c-477b-e711-81a3-8cf1a35086b6" />
-    <input id="G_Admin01" type="hidden" value="w79y3t9,v4pxawv,ezhoru0,ezhalt0,etongt0,jessy,ewayle0,eyucheg0,el9kayr,agenda,gamq5bm" />
-    <input id="G_UserAccount" type="hidden" value="admin" />
-    <input id="G_RoleId" type="hidden" value="01e36013-467b-e711-81a3-8cf1a35086b6" />
-    <input id="G_RoleName" type="hidden" value="管理员" />
-    <input id="G_Language" type="hidden" value="1" />
+    @{
+        com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
+        if (Session["LoginUser"] != null)
+        {
+            LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
+        }
+    }
+    <input id="G_UserId" type="hidden" value="@LoginUser.UserId" />
+    <input id="G_UserAccount" type="hidden" value="@LoginUser.AccountId" />
+    <input id="G_RoleTypeCode" type="hidden" value="@LoginUser.RoleTypeCode" />
+    <input id="G_RoleName" type="hidden" value="@LoginUser.AccountName" />
+    <input id="G_Shops" type="hidden" value="@Json.Encode(LoginUser.ShopList)" />
+
     <input id="G_ResetPassword" type="hidden" value="{{'ResetPassword'|translate}}" />
     <input id="G_Update" type="hidden" value="{{'Update'|translate}}" />
     <input id="G_Delete" type="hidden" value="{{'Delete'|translate}}" />
@@ -284,7 +291,6 @@
 
                     </li>
 
-
                     <li id="nav_promotiontype">
                         <a href="/Home/ManageActionType">
                             <i class="fa fa-file-o fa-fw">
@@ -296,8 +302,7 @@
                 </ul>
             </div>
         </nav>
-
-        @RenderBody()
+        @RenderBody()    
 
         <div style="display:none">
             <input id="Draft" type="hidden" value="{{'Unsubmitted'|translate}}" />
@@ -452,6 +457,15 @@
             $(".settingDb").on("click", function () {
                 var path = $(this).attr("data-path");
             });
+
+            $.fn.serializeObject = function () {
+                var obj = {};
+                var arr = $(this).serializeArray();
+                for (i in arr) {
+                    obj[arr[i].name] = arr[i].value;
+                }
+                return obj;
+            }
         });
     </script>
 

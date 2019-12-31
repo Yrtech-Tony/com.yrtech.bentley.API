@@ -1,9 +1,287 @@
-﻿<!DOCTYPE html>
-<html>
-    <head>
-        <title></title>
-    </head>
-    <body>
+﻿@{
+    ViewBag.Title = "活动申请";
+}
+<div id="page-wrapper">
+    <div class="page-content">
+        <div id="tab-general">
+            <div class="row mbl">
+                <div class="col-lg-12">
+                    <div class="col-md-12">
+                        <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <!--BEGIN CONTENT-->
+                    <div id="main-content">
+                        <div class="container-fluid">
 
-    </body>
-</html>
+                            <h2 translate>Event Application</h2>
+                            <p><a class="btn btn-success" href="/Marketing/Index"><i class="icon-plus icon-white"></i><span translate>Back</span></a></p>
+
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <div class="widget">
+                                        <div class="widget-title">
+                                            <h4><i class="icon-reorder"></i><span translate>Event Information</span></h4>
+                                            <span class="tools">
+                                                <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+                                            </span>
+                                        </div>
+                                        <div class="widget-body form form-horizontal" style="display: block;">
+                                            <div>
+                                                <form class="form-horizontal" id="PromotionCreate">
+                                                    <input id="ID" name="ID" type="hidden" value="" />
+                                                    <div class="row" id="ActiveShow" style="display:none">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4"><span translate>Promotion State</span><span class="required" style="color:red">*</span>:</label>
+                                                                <div class="col-md-4">
+                                                                    <select id="MarketActionStatusCode" name="MarketActionStatusCode" class="selectpicker"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4"><span translate>Event Name</span><span class="required" style="color:red">*</span>:</label>
+                                                                <div class="col-md-8">
+                                                                    <input class="form-control" id="ActionName" name="ActionName" maxlength="255" style="width:100%;" type="text" value="" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4"><span translate>Event ID</span><span class="required" style="color:red">*</span>:</label>
+                                                                <div class="col-md-8">
+                                                                    <input class="form-control" id="ActionCode" name="ActionCode" maxlength="255" style="width:100%;" type="text" value="" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4"><span translate>Dealer Name</span>:</label>
+                                                                <div class="col-md-8">
+                                                                    <select id="ShopId" name="ShopId" class="selectpicker"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4"><span translate>Event Type</span>:</label>
+                                                                <div class="col-md-8">
+                                                                    <select id="EventTypeId" name="EventTypeId" class="selectpicker"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4"><span translate>Main Models</span><span class="required" style="color:red">*</span>:  </label>
+                                                                <div class="col-md-4">
+                                                                    <select id="MainModels" name="MainModels" class="selectpicker"></select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+
+                                                            <div class="form-group">
+                                                                <label for="StartDate" class="col-md-2 control-label"><span translate>By Date</span><span class="required" style="color:red">*</span>:</label>
+
+                                                                <div class="col-md-2" style="margin-right:-5px;">
+                                                                    <input class="form-control form_date" data-val="true" data-val-date="The field StartDate must be a date." id="StartDate" name="StartDate" maxlength="255" style="width:100%;" type="text" value="" />
+                                                                </div>
+                                                                <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;"> - </span>
+                                                                <div class="col-md-2" style="margin-left:0px;">
+                                                                    <input class="form-control form_date" data-val="true" data-val-date="The field EndDate must be a date." id="EndDate" name="EndDate" maxlength="255" style="width:100%;" type="text" value="" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-4"><span translate>Event Venue</span>:</label>
+                                                                <div class="col-md-8">
+                                                                    <textarea class="form-control" cols="20" id="Venue" name="ActionPlace" maxlength="255" rows="2" style="width:100%;height:60px;"></textarea>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <button type="button" onclick="PromotionCreate()" class="btn btn-success " translate>Save</button>
+                                                            <a class="btn btn-dark" href="/Marketing/Index" translate>Back</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div id="message" style="color:red !important;margin-top:10px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--END CONTENT-->
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/api/common.js"></script>
+    <script src="~/Scripts/curtomValidator/PromotionCreate.js"></script>
+    <script>
+        $(function () {
+            loadActiveStatuss();
+            loadShops();
+            loadTargetModels();
+            loadEventTypes();
+
+            /* 加载时间选择插件 */
+            $("#StartDate").datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy/mm/dd"
+            }).on('hide', function (e) {
+                $('#PromotionCreate').data('bootstrapValidator')
+                .updateStatus('StartDate', 'NOT_VALIDATED', null)
+                .validateField('StartDate');
+            }).on('changeDate', function (ev) {
+                var starttime = $("#StartDate").val();
+                $("#EndDate").datetimepicker('setStartDate', starttime);
+                $("#StartDate").datetimepicker('hide');
+            });
+            $("#EndDate").datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy/mm/dd"
+            }).on('hide', function (e) {
+                $('#PromotionCreate').data('bootstrapValidator')
+                .updateStatus('EndDate', 'NOT_VALIDATED', null)
+                .validateField('EndDate');
+            }).on('changeDate', function (ev) {
+                var starttime = $("#StartDate").val();
+                var endtime = $("#EndDate").val();
+                $("#StartDate").datetimepicker('setEndDate', endtime);
+                $("#EndDate").datetimepicker('hide');
+            });
+
+            var roleName = $('#G_RoleName').val();
+            if (roleName == "管理员") {
+                $('#ActiveShow').show();
+            }
+        })
+
+        function loadShops() {
+            try {
+                var shops = $('#G_Shops').val().replace(/&quot;/g, '"');
+                shops = JSON.parse(shops);
+                if (shops) {
+                    shops.forEach(function (item) {
+                        $("#ShopId").append($("<option>").val(item.ShopId).text(item.ShopName))
+                    });
+
+                    $("#ShopId").selectpicker("refresh");
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+
+        function loadActiveStatuss() {
+            $.commonGet("Master/HiddenCodeSearch", {
+                hiddenCodeGroup: "MarketActionStatus",
+                hiddenCode: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                });
+                $("#MarketActionStatusCode").selectpicker("refresh");
+            })
+        }
+
+        function loadTargetModels() {
+            $.commonGet("Master/HiddenCodeSearch", {
+                hiddenCodeGroup: "TargetModels",
+                hiddenCode: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#MainModels").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                });
+                $("#MainModels").selectpicker("refresh");
+            })
+        }
+
+        function loadEventTypes() {
+            $.commonGet("Master/EventTypeSearch", {
+                eventTypeId: "",
+                eventTypeName: "",
+                eventTypeNameEn: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(localStorage.language == 'zh' ? item.EventTypeName : item.EventTypeNameEn))
+                });
+                $("#EventTypeId").selectpicker("refresh");
+            })
+        }
+
+
+        function PromotionCreate() {
+            var data = $('#PromotionCreate').data('bootstrapValidator');
+            if (data) {
+                // 修复记忆的组件不验证
+                data.validate();
+
+                if (!data.isValid()) {
+                    return false;
+                }
+                else {
+                    try {
+                        var oMyForm = $('#PromotionCreate').serializeObject();
+                        oMyForm.InUserId = $("#G_UserId").val();
+                        console.log(oMyForm)
+                        $.commonPost('MarketAction/MarketActionSave', oMyForm, function (res) {
+                            //window.location.href = "/Marketing/Index";
+                        })
+                    }
+                    catch (e) {
+                        $('#message').text('请更新您的浏览器至IE10或者更高版本');
+                    }
+                }
+            }
+
+        }
+
+    </script>
+}

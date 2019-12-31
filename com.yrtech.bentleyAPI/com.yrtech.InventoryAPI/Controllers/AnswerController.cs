@@ -17,16 +17,33 @@ namespace com.yrtech.SurveyAPI.Controllers
         CommitFileService commitFileService = new CommitFileService();
         MasterService masterService = new MasterService();
         MarketActionService marketActionService = new MarketActionService();
+        AccountService accountService = new AccountService();
         #region CommitFile
         [HttpGet]
         [Route("CommitFile/ShopCommitFileRecordStatusSearch")]
-        public APIResult ShopCommitFileRecordStatusSearch(string year, string shopId)
+        public APIResult ShopCommitFileRecordStatusSearch(string year, string shopId, string userId, string roleTypeCode)
         {
             try
             {
                 ShopCommitFileRecordListDto shopCommitFileRecordList = new ShopCommitFileRecordListDto();
                 shopCommitFileRecordList.ShopCommitFileRecordStatusList = commitFileService.ShopCommitFileRecordStatusSearch(year, shopId);
-                shopCommitFileRecordList.ShopList = masterService.ShopSearch(shopId, "", "", "");
+
+                // 按照权限查询显示经销商信息
+                List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+                List<ShopDto> shopListTemp = masterService.ShopSearch(shopId, "", "", "");
+                List<ShopDto> shopList = new List<ShopDto>();
+                foreach (ShopDto shopdto in shopListTemp)
+                {
+                    foreach (Shop shop in roleTypeShopList)
+                    {
+                        if (shopdto.ShopId == shop.ShopId)
+                        {
+                            shopList.Add(shopdto);
+                        }
+                    }
+                }
+
+                shopCommitFileRecordList.ShopList = shopList;
                 shopCommitFileRecordList.CommitFileList = commitFileService.CommitFileSearch(year);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(shopCommitFileRecordList) };
@@ -90,11 +107,40 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region MarketAction
         [HttpGet]
         [Route("MarketAction/MarketActionSearch")]
-        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId)
+        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, string userId, string roleTypeCode)
         {
             try
             {
-                List<MarketActionDto> marketActionList = marketActionService.MarketActionSearch(actionName, year, month, marketActionStatusCode, shopId, eventTypeId);
+
+                List<MarketActionDto> marketActionListTemp = marketActionService.MarketActionSearch(actionName, year, month, marketActionStatusCode, shopId, eventTypeId);
+                List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+                List<MarketActionDto> marketActionList = new List<MarketActionDto>();
+
+                foreach (MarketActionDto marketActionDto in marketActionListTemp)
+                {
+                    foreach (Shop shop in roleTypeShopList)
+                    {
+                        if (marketActionDto.ShopId == shop.ShopId)
+                        {
+                            marketActionList.Add(marketActionDto);
+                        }
+                    }
+                }
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpGet]
+        [Route("MarketAction/MarketActionSearchById")]
+        public APIResult MarketActionSearchById(string marketActionId)
+        {
+            try
+            {
+
+                List<MarketAction> marketActionList = marketActionService.MarketActionSearchById(marketActionId);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionList) };
             }
@@ -103,6 +149,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
+
         [HttpPost]
         [Route("MarketAction/MarketActionSave")]
         public APIResult MarketActionSave(MarketAction marketAction)
@@ -136,6 +183,22 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
 
+        }
+        [HttpGet]
+        [Route("MarketAction/MarketActionAllLeadsReportExport")]
+        public APIResult MarketActionAllLeadsReportExport(string year)
+        {
+            try
+            {
+                ExcelDataController excelData = new ExcelDataController();
+                excelData.MarketActionAfter2LeadsReportExport(year);
+
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
         }
         #region Before21
         [HttpGet]
@@ -252,6 +315,20 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
 
         }
+        [HttpGet]
+        [Route("MarketAction/KeyVisionSendEmailToBMC")]
+        public APIResult KeyVisionSendEmailToBMC(string marketActionId)
+        {
+            try
+            {
+                SendEmail("71443365@qq.com", "mou.junsheng@eland.co.kr", "主视觉审批", "主视觉审批", "", "http://yrtech.oss-cn-beijing-internal.aliyuncs.com/AODISatisfaction/%E5%A5%A5%E8%BF%AA%E6%BB%A1%E6%84%8F%E5%BA%A6%E6%8F%90%E5%8D%87%E4%B8%8A%E6%B5%B7%E4%B8%80%E6%B1%BD%E6%B2%AA%E5%A5%A5/A01-1/%E5%9B%9E%E6%89%A7%E9%82%AE%E4%BB%B6%E6%8B%8D%E7%85%A7.jpg");
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
         #endregion
         #region Before3
         [HttpGet]
@@ -277,7 +354,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-               MarketActionBefore3MainDto marketActionBefore3MainDto = CommonHelper.DecodeString<MarketActionBefore3MainDto> (upload.ListJson);
+                MarketActionBefore3MainDto marketActionBefore3MainDto = CommonHelper.DecodeString<MarketActionBefore3MainDto>(upload.ListJson);
 
                 foreach (MarketActionBefore3BugetDetail bugetDetail in marketActionBefore3MainDto.BugetDetailList)
                 {
@@ -415,13 +492,73 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                List<MarketActionAfter2LeadsReportDto> marketActionTheDayFile = marketActionService.MarketActionAfter2LeadsReportSearch(marketActionId);
+                List<MarketActionAfter2LeadsReportDto> marketActionTheDayFile = marketActionService.MarketActionAfter2LeadsReportSearch(marketActionId, "");
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionTheDayFile) };
             }
             catch (Exception ex)
             {
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
+        }
+        [HttpPost]
+        [Route("MarketAction/MarketActionAfter2LeadsReportImport")]
+        public APIResult MarketActionAfter2LeadsReportImport(UploadData upload)
+        {
+            try
+            {
+                List<MarketActionAfter2LeadsReportDto> list = CommonHelper.DecodeString<List<MarketActionAfter2LeadsReportDto>>(upload.ListJson);
+                foreach (MarketActionAfter2LeadsReportDto leadsReportDto in list)
+                {
+                    MarketActionAfter2LeadsReport leadsReport = new MarketActionAfter2LeadsReport();
+                    leadsReport.BPNO = leadsReportDto.BPNO;
+                    leadsReport.CustomerName = leadsReportDto.CustomerName;
+                    if (leadsReportDto.DealCheckName == "是")
+                    { leadsReport.DealCheck = true; }
+                    else
+                    {
+                        leadsReport.DealCheck = false;
+                    }
+                    List<HiddenCode> hiddenCodeList = masterService.HiddenCodeSearch("TargetModels", "", leadsReportDto.DealModelName);
+                    if (hiddenCodeList != null && hiddenCodeList.Count > 0)
+                    {
+                        leadsReport.DealModel = hiddenCodeList[0].HiddenCodeId;
+                    }
+                    List<HiddenCode> hiddenCodeList_Insterested = masterService.HiddenCodeSearch("TargetModels", "", leadsReportDto.DealModelName);
+                    if (hiddenCodeList_Insterested != null && hiddenCodeList_Insterested.Count > 0)
+                    {
+                        leadsReport.InterestedModel = hiddenCodeList_Insterested[0].HiddenCodeId;
+                    }
+                    if (leadsReportDto.LeadsCheckName == "是")
+                    { leadsReport.LeadsCheck = true; }
+                    else
+                    {
+                        leadsReport.LeadsCheck = false;
+                    }
+                    leadsReport.MarketActionId = leadsReportDto.MarketActionId;
+                    leadsReport.ModifyDateTime = DateTime.Now;
+                    leadsReport.ModifyUserId = leadsReportDto.ModifyUserId;
+                    if (leadsReportDto.OwnerCheckName == "是")
+                    { leadsReport.OwnerCheck = true; }
+                    else
+                    {
+                        leadsReport.OwnerCheck = false;
+                    }
+                    leadsReport.TelNO = leadsReportDto.TelNO;
+                    if (leadsReportDto.TestDriverCheckName == "是")
+                    { leadsReport.TestDriverCheck = true; }
+                    else
+                    {
+                        leadsReport.TestDriverCheck = false;
+                    }
+                    marketActionService.MarketActionAfter2LeadsReportSave(leadsReport);
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
         }
         [HttpPost]
         [Route("MarketAction/MarketActionAfter2LeadsReportSave")]
@@ -462,14 +599,14 @@ namespace com.yrtech.SurveyAPI.Controllers
 
         }
         [HttpGet]
-        [Route("MarketAction/MarketActionAfter2LeadsReportDownload")]
-        public APIResult MarketActionAfter2LeadsReportDownload(string marketActionId)
+        [Route("MarketAction/MarketActionAfter2LeadsReportExport")]
+        public APIResult MarketActionAfter2LeadsReportExport(string marketActionId)
         {
             try
             {
                 ExcelDataController excelData = new ExcelDataController();
-                excelData.MarketActionAfter2LeadsReportDownload(marketActionId);
-                
+                excelData.MarketActionAfter2LeadsReportExport(marketActionId);
+
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)
@@ -493,8 +630,8 @@ namespace com.yrtech.SurveyAPI.Controllers
                 }
                 marketActionAfter7MainDto.ActualExpense = marketActionService.MarketActionAfter7ActualExpenseSearch(marketActionId);
                 marketActionAfter7MainDto.ActualProcess = marketActionService.MarketActionAfter7ActualProcessSearch(marketActionId);
-                List< MarketActionLeadsCountDto> marketActionLeadsCountList= marketActionService.MarketActionLeadsCountSearch(marketActionId);// 需要和客户确认计算逻辑
-                if (marketActionLeadsCountList!=null&& marketActionLeadsCountList.Count>0)
+                List<MarketActionLeadsCountDto> marketActionLeadsCountList = marketActionService.MarketActionLeadsCountSearch(marketActionId);// 需要和客户确认计算逻辑
+                if (marketActionLeadsCountList != null && marketActionLeadsCountList.Count > 0)
                 {
                     marketActionAfter7MainDto.LeadsCount = marketActionLeadsCountList[0];
                 }
@@ -640,6 +777,22 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
 
+        }
+        #endregion
+        #region 总览
+        [HttpGet]
+        [Route("MarketAction/MarketActionStatusCountSearch")]
+        public APIResult MarketActionStatusCountSearch(string year)
+        {
+            try
+            {
+                List<MarketActionStatusCountDto> marketActionStatusCountListDto = marketActionService.MarketActionStatusCountSearch(year);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionStatusCountListDto) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
         }
         #endregion
         #endregion

@@ -16,6 +16,7 @@ namespace com.yrtech.bentley.DAL
     {
         public int FileId { get; set; }
         public string FileName { get; set; }
+        public string FileNameEn { get; set; }
         public Nullable<int> UpperFileId { get; set; }
         public string Year { get; set; }
         public Nullable<int> InUserId { get; set; }

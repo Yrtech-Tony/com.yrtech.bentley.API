@@ -69,12 +69,14 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region HiddenCode
-        public List<HiddenCode> HiddenCodeSearch(string hiddenCodeGroup, string hiddenCode)
+        public List<HiddenCode> HiddenCodeSearch(string hiddenCodeGroup, string hiddenCode,string hiddenCodeName)
         {
             if (hiddenCodeGroup == null) hiddenCodeGroup = "";
             if (hiddenCode == null) hiddenCode = "";
+            if (hiddenCodeName == null) hiddenCodeName = "";
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@HiddenCodeGroup", hiddenCodeGroup),
-                                                    new SqlParameter("@HiddenCode", hiddenCode)};
+                                                    new SqlParameter("@HiddenCodeId", hiddenCode),
+                                                    new SqlParameter("@HiddenCodeName", hiddenCodeName)};
             Type t = typeof(HiddenCode);
             string sql = "";
             sql = @"SELECT * FROM [HiddenCode] WHERE 1=1";
@@ -84,7 +86,11 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (!string.IsNullOrEmpty(hiddenCode))
             {
-                sql += " AND HiddenCodeId = @HiddenCode";
+                sql += " AND HiddenCodeId = @HiddenCodeId";
+            }
+            if (!string.IsNullOrEmpty(hiddenCodeName))
+            {
+                sql += " AND HiddenCodeName = @HiddenCodeName";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<HiddenCode>().ToList();
         }

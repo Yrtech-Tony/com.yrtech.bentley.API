@@ -23,8 +23,9 @@ namespace com.yrtech.InventoryAPI.Controllers
                 if (accountlist != null && accountlist.Count != 0)
                 {
                     string roleTypeCode = accountlist[0].RoleTypeCode;
-                    accountlist[0].AreaList = accountService.GetAreaByRole(accountId, roleTypeCode);
-                    accountlist[0].ShopList = accountService.GetShopByRole(accountId, roleTypeCode);
+                    string userId = accountlist[0].UserId.ToString();
+                    accountlist[0].AreaList = accountService.GetAreaByRole(userId, roleTypeCode);
+                    accountlist[0].ShopList = accountService.GetShopByRole(userId, roleTypeCode);
                     return new APIResult() { Status = true, Body = CommonHelper.Encode(accountlist) };
                 }
                 else

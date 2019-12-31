@@ -32,15 +32,75 @@ namespace com.yrtech.InventoryAPI.Service
                                                         new SqlParameter("@EventTypeId", eventTypeId)};
             Type t = typeof(MarketActionDto);
             string sql = "";
-            sql += @"SELECT A.MarketActionId,A.ShopId,B.ShopCode,B.ShopName,A.ActionCode,A.ActionName
-	                            ,A.EventTypeId,C.EventTypeName,C.EventTypeNameEn
-	                            ,A.MarketActionStatusCode,D.HiddenCodeName ASMarketActionStatusName,D.HiddenCodeNameEn AS MarketActionStatusNameEn
-	                            ,A.MarketActionTargetModelCode,E.HiddenCodeName AS MarketActionTargetModelName,E.HiddenCodeNameEn AS MarketActionTargetModelNameEn
-                            FROM MarketAction A INNER JOIN Shop B ON A.ShopId = B.ShopId
-					                            INNER JOIN EventType C ON A.EventTypeId = C.EventTypeId
-					                            INNER JOIN HiddenCode D ON A.MarketActionStatusCode = D.HiddenCodeId AND D.HiddenCodeGroup = 'MarketActionStatus'
-					                            INNER JOIN HiddenCode E ON A.MarketActionTargetModelCode  = E.HiddenCodeId AND E.HiddenCodeGroup = 'TargetModels'
-                            WHERE 1=1";
+            sql += @"SELECT A.MarketActionId,A.ShopId,B.ShopCode,B.ShopName,B.ShopNameEn,A.ActionCode,A.ActionName
+		                    ,A.EventTypeId,C.EventTypeName,C.EventTypeNameEn,A.StartDate,A.EndDate,A.ActionPlace
+                            ,A.ExpenseAccount,A.InUserId,A.InDateTime,A.ModifyUserId,A.ModifyDateTime
+		                    ,A.MarketActionStatusCode,D.HiddenCodeName AS MarketActionStatusName,D.HiddenCodeNameEn AS MarketActionStatusNameEn
+		                    ,A.MarketActionTargetModelCode,E.HiddenCodeName AS MarketActionTargetModelName,E.HiddenCodeNameEn AS MarketActionTargetModelNameEn
+		                    ,CASE WHEN EXISTS(SELECT 1 FROM MarketActionBefore21 WHERE MarketActionId = A.MarketActionId) 
+				                       OR EXISTS(SELECT 1 FROM MarketActionBefore21ActivityProcess WHERE MarketActionId = A.MarketActionId)
+			                      THEN 'Commited'
+			                      WHEN NOT EXISTS(SELECT 1 FROM MarketActionBefore21 WHERE MarketActionId = A.MarketActionId) 
+				                       AND NOT EXISTS(SELECT 1 FROM MarketActionBefore21ActivityProcess WHERE MarketActionId = A.MarketActionId)
+				                       AND DATEDIFF(DAY,GETDATE(),A.StartDate)<21
+			                      THEN 'UnCommitTime'
+			                      ELSE 'UnCommit'
+	                        END AS 	Before3Weeks
+	                        ,CASE WHEN EXISTS(SELECT 1 FROM MarketActionBefore3BugetDetail WHERE MarketActionId = A.MarketActionId) 
+				                       OR EXISTS(SELECT 1 FROM MarketActionBefore3DisplayModel WHERE MarketActionId = A.MarketActionId)
+				                       OR EXISTS(SELECT 1 FROM MarketActionBefore3TestDriver WHERE MarketActionId = A.MarketActionId)
+			                      THEN 'Commited'
+			                      WHEN NOT EXISTS(SELECT 1 FROM MarketActionBefore3BugetDetail WHERE MarketActionId = A.MarketActionId) 
+				                       AND NOT EXISTS(SELECT 1 FROM MarketActionBefore3DisplayModel WHERE MarketActionId = A.MarketActionId)
+				                       AND NOT EXISTS(SELECT 1 FROM MarketActionBefore3TestDriver WHERE MarketActionId = A.MarketActionId)
+				                       AND DATEDIFF(DAY,GETDATE(),A.StartDate)<3
+			                      THEN 'UnCommitTime'
+			                      ELSE 'UnCommit'
+	                        END AS 	Before3Days	
+	                        ,CASE WHEN EXISTS(SELECT 1 FROM MarketActionTheDayFile WHERE MarketActionId = A.MarketActionId) 
+			                      THEN 'Commited'
+			                      WHEN NOT EXISTS(SELECT 1 FROM MarketActionTheDayFile WHERE MarketActionId = A.MarketActionId) 
+				                       AND DATEDIFF(DAY,GETDATE(),A.StartDate)<0
+			                      THEN 'UnCommitTime'
+			                      ELSE 'UnCommit'
+	                        END AS 	TheDays
+	                        ,CASE WHEN EXISTS(SELECT 1 FROM MarketActionAfter2LeadsReport WHERE MarketActionId = A.MarketActionId) 
+			                      THEN 'Commited'
+			                      WHEN NOT EXISTS(SELECT 1 FROM MarketActionAfter2LeadsReport WHERE MarketActionId = A.MarketActionId) 
+				                       AND DATEDIFF(DAY,A.StartDate,GETDATE())>2
+			                      THEN 'UnCommitTime'
+			                      ELSE 'UnCommit'
+	                        END AS 	After2Days
+	                         ,CASE WHEN EXISTS(SELECT 1 FROM MarketActionAfter7 WHERE MarketActionId = A.MarketActionId) 
+				                       OR EXISTS(SELECT 1 FROM MarketActionAfter7ActualExpense WHERE MarketActionId = A.MarketActionId)
+				                       OR EXISTS(SELECT 1 FROM MarketActionAfter7ActualProcess WHERE MarketActionId = A.MarketActionId)
+			                      THEN 'Commited'
+			                      WHEN NOT EXISTS(SELECT 1 FROM MarketActionAfter7 WHERE MarketActionId = A.MarketActionId) 
+				                       AND NOT EXISTS(SELECT 1 FROM MarketActionAfter7ActualExpense WHERE MarketActionId = A.MarketActionId)
+				                       AND NOT EXISTS(SELECT 1 FROM MarketActionAfter7ActualProcess WHERE MarketActionId = A.MarketActionId)
+				                       AND DATEDIFF(DAY,GETDATE(),A.StartDate)<7
+			                      THEN 'UnCommitTime'
+			                      ELSE 'UnCommit'
+	                        END AS 	After7Days	
+	                        ,CASE WHEN EXISTS(SELECT 1 FROM MarketActionAfter30LeadsReportUpdate WHERE MarketActionId = A.MarketActionId) 
+			                      THEN 'Commited'
+			                      WHEN NOT EXISTS(SELECT 1 FROM MarketActionAfter30LeadsReportUpdate WHERE MarketActionId = A.MarketActionId) 
+				                       AND DATEDIFF(DAY,A.StartDate,GETDATE())>30
+			                      THEN 'UnCommitTime'
+			                      ELSE 'UnCommit'
+	                        END AS 	After1Months
+	                        ,CASE WHEN EXISTS(SELECT 1 FROM MarketActionAfter90File WHERE MarketActionId = A.MarketActionId) 
+			                      THEN 'Commited'
+			                      WHEN NOT EXISTS(SELECT 1 FROM MarketActionAfter90File WHERE MarketActionId = A.MarketActionId) 
+				                       AND DATEDIFF(DAY,A.StartDate,GETDATE())>90
+			                      THEN 'UnCommitTime'
+			                      ELSE 'UnCommit'
+	                        END AS 	After3Months
+                    FROM MarketAction A INNER JOIN Shop B ON A.ShopId = B.ShopId
+					                    INNER JOIN EventType C ON A.EventTypeId = C.EventTypeId
+					                    INNER JOIN HiddenCode D ON A.MarketActionStatusCode = D.HiddenCodeId AND D.HiddenCodeGroup = 'MarketActionStatus'
+					                    INNER JOIN HiddenCode E ON A.MarketActionTargetModelCode  = E.HiddenCodeId AND E.HiddenCodeGroup = 'TargetModels'
+                    WHERE 1=1";
             if (!string.IsNullOrEmpty(actionName))
             {
                 sql += " AND A.ActionName LIKE '%'+@ActionName+'%'";
@@ -66,6 +126,18 @@ namespace com.yrtech.InventoryAPI.Service
                 sql += " AND A.EventTypeId =@EventTypeId";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionDto>().ToList();
+        }
+        public List<MarketAction> MarketActionSearchById(string marketActionId)
+        {
+            if (marketActionId == null) marketActionId = "";
+            
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId)};
+            Type t = typeof(MarketAction);
+            string sql = "";
+            sql += @"SELECT * FROM MarketAction
+                    WHERE 1=1 AND MarketActionId = @MarketActionId";
+            
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketAction>().ToList();
         }
         public void MarketActionSave(MarketAction marketAction)
         {
@@ -433,24 +505,33 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region two days after
-        public List<MarketActionAfter2LeadsReportDto> MarketActionAfter2LeadsReportSearch(string marketActionId)
+        public List<MarketActionAfter2LeadsReportDto> MarketActionAfter2LeadsReportSearch(string marketActionId,string year)
         {
             if (marketActionId == null) marketActionId = "";
-
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
+            if (year == null) year = "";
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId),
+                                                        new SqlParameter("@Year", year) };
             Type t = typeof(MarketActionAfter2LeadsReportDto);
             string sql = "";
-            sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn,
+            sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn,D.HiddenCodeName AS InterestedModelName,D.HiddenCodeNameEn AS InterestedModelNameEn
+                    ,D.HiddenCodeName AS DealModelName,D.HiddenCodeNameEn AS DealModelNameEn
                     CASE WHEN OwnerCheck=1 THEN '是' ELSE '否' END AS OwnerCheckName,
                     CASE WHEN TestDriverCheck=1 THEN '是' ELSE '否' END AS TestDriverCheckName,
                     CASE WHEN LeadsCheck=1 THEN '是' ELSE '否' END AS LeadsCheckName,
                     CASE WHEN DealCheck=1 THEN '是' ELSE '否' END AS DealCheckName
                     FROM [MarketActionAfter2LeadsReport] A  INNER JOIN MarketAction B ON A.MarketActionId = B.MarketActionId
                                                             INNER JOIN Shop C ON B.ShopId = C.ShopId
+                                                            INNER JOIN HiddenCode D ON A.InterestedModel = D.HiddenCodeId AND D.HiddenCodeGroup = 'TargetModels'
+                                                            INNER JOIN HiddenCode D ON A.DealModel = D.HiddenCodeId AND D.HiddenCodeGroup = 'TargetModels'
                     WHERE 1=1";
             if (!string.IsNullOrEmpty(marketActionId))
             {
                 sql += " AND A.MarketActionId = @MarketActionId";
+
+            }
+            if (!string.IsNullOrEmpty(year))
+            {
+                sql += " AND Year(A.StartDate) = @Year";
 
             }
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionAfter2LeadsReportDto>().ToList();
@@ -766,6 +847,56 @@ namespace com.yrtech.InventoryAPI.Service
             db.Database.ExecuteSqlCommand(sql, para);
         }
         #endregion
+        #endregion
+        #region 总览
+        public List<MarketActionStatusCountDto> MarketActionStatusCountSearch(string year)
+        {
+            if (year == null) year = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@Year", year) };
+            Type t = typeof(MarketActionStatusCountDto);
+            string sql = "";
+            sql += @"SELECT ISNULL(SUM(Before21Count),0) AS Before21Count 
+	                       ,ISNULL(SUM(Before3Count),0) AS Before3Count
+	                       ,ISNULL(SUM(After2Count),0) AS After2Count
+	                       ,ISNULL(SUM(After7Count),0) AS After7Count
+	                       ,ISNULL(SUM(After30Count),0) AS After30Count
+                    FROM (
+                            SELECT 
+                            CASE WHEN NOT EXISTS(SELECT 1 FROM MarketActionBefore21 WHERE MarketActionId = A.MarketActionId)
+		                            AND NOT EXISTS(SELECT 1 FROM MarketActionBefore21ActivityProcess WHERE MarketActionId = A.MarketActionId)
+				                            THEN 1
+				                            ELSE 0
+			                            END AS Before21Count
+                            ,CASE WHEN NOT EXISTS(SELECT 1 FROM MarketActionBefore3BugetDetail WHERE MarketActionId = A.MarketActionId)
+		                            AND NOT EXISTS(SELECT 1 FROM MarketActionBefore3DisplayModel WHERE MarketActionId = A.MarketActionId)
+		                            AND NOT EXISTS(SELECT 1 FROM MarketActionBefore3TestDriver WHERE MarketActionId = A.MarketActionId)
+				                            THEN 1
+				                            ELSE 0
+			                            END AS Before3Count
+                            ,CASE WHEN NOT EXISTS(SELECT 1 FROM MarketActionAfter2LeadsReport WHERE MarketActionId = A.MarketActionId)
+				                            THEN 1
+				                            ELSE 0
+			                            END AS After2Count
+                            ,CASE WHEN NOT EXISTS(SELECT 1 FROM MarketActionAfter7 WHERE MarketActionId = A.MarketActionId)
+		                            AND NOT EXISTS(SELECT 1 FROM MarketActionAfter7ActualExpense WHERE MarketActionId = A.MarketActionId)
+		                            AND NOT EXISTS(SELECT 1 FROM MarketActionAfter7ActualProcess WHERE MarketActionId = A.MarketActionId)
+				                            THEN 1
+				                            ELSE 0
+			                            END  AS After7Count
+                            ,CASE WHEN NOT EXISTS(SELECT 1 FROM MarketActionAfter30LeadsReportUpdate WHERE MarketActionId = A.MarketActionId)
+				                            THEN 1
+				                            ELSE 0
+			                            END AS After30Count
+                            FROM MarketAction A WHERE 1=1 ";
+            if (!string.IsNullOrEmpty(year))
+            {
+                sql += " AND Year(A.StartDate) = @Year";
+
+            }
+            sql += " ) B";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionStatusCountDto>().ToList();
+        }
         #endregion
     }
 }

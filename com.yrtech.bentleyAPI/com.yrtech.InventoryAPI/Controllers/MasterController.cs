@@ -84,7 +84,7 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<HiddenCode> hiddenCodeList = masterService.HiddenCodeSearch(hiddenCodeGroup, hiddenCode);
+                List<HiddenCode> hiddenCodeList = masterService.HiddenCodeSearch(hiddenCodeGroup, hiddenCode,"");
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(hiddenCodeList) };
             }
@@ -94,6 +94,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             }
         }
         #endregion
+       
 
     }
 }

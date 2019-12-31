@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="41ecd545e25b4d7c81583dcb408c80bd" Name="Diagram1">
         <EntityTypeShape EntityType="BentleyModel.Area" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BentleyModel.CommitFile" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BentleyModel.MarketAction" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BentleyModel.MarketActionAfter7ActualProcess" Width="1.5" PointX="5.5" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BentleyModel.MarketActionBefore21ActivityProcess" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
@@ -26,6 +25,7 @@
         <EntityTypeShape EntityType="BentleyModel.MarketActionAfter2LeadsReport" Width="1.5" PointX="11.375" PointY="12.75" />
         <EntityTypeShape EntityType="BentleyModel.MarketActionAfter90File" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="BentleyModel.CommitFile" Width="1.5" PointX="13.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

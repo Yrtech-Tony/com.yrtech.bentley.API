@@ -46,130 +46,6 @@ namespace com.yrtech.InventoryAPI.Controllers
                 System.IO.File.Delete(filePath);
             }
         }
-        public void DownloadReport(string projectId, string shopId)
-        {
-            //List<AnswerDto> answerList = answerService.GetShopAnswerList(projectId, shopId, "", "", "", "");
-            Workbook book = Workbook.Load(Server.MapPath("~") + @"Content\Excel\" + "easyPhotoExport.xls", false);
-            //填充数据
-            Worksheet sheet = book.Worksheets[0];
-            //Worksheet sheet1 = book.Worksheets[1];
-            //int rowIndex = 1;
-            //int rowIndex1 = 1;
-            //List<AnswerDto> answerList_N = answerList.Where(x => x.AddCheck == "N").ToList();
-            //List<AnswerDto> answerList_Y = answerList.Where(x => x.AddCheck == "Y").ToList();
-            //Projects project = masterService.GetProject("", projectId, "", "", "")[0];
-            //sheet.GetCell("D" + 2).Value = project.ProjectName;
-            //sheet1.GetCell("D" + 2).Value = project.ProjectName;
-            //if (project.ScoreShow == true)
-            //{
-            //    sheet.GetCell("J" + 6).Value = "得分";
-            //    sheet1.GetCell("G" + 6).Value = "得分";
-            //}
-            //#region 检查信息列表
-            //foreach (AnswerDto item in answerList_N)
-            //{
-            //    //序号
-            //    sheet.GetCell("A" + (rowIndex + 7)).Value = rowIndex.ToString();
-            //    //经销商名称
-            //    sheet.GetCell("B" + (rowIndex + 7)).Value = item.ShopName;
-            //    //VinCode
-            //    sheet.GetCell("C" + (rowIndex + 7)).Value = item.CheckCode;
-            //    // 
-            //    sheet.GetCell("D" + (rowIndex + 7)).Value = item.CheckTypeName;
-            //    // 
-            //    if (item.answerPhotoList != null && item.answerPhotoList.Count > 0)
-            //    {
-            //        string photoName = "";
-            //        foreach (AnswerPhotoDto photo in item.answerPhotoList)
-            //        {
-            //            if (photo == item.answerPhotoList[item.answerPhotoList.Count - 1])
-            //            {
-            //                photoName += photo.PhotoNameServer;
-            //            }
-            //            else
-            //            {
-            //                photoName += photo.PhotoNameServer + ";";
-            //            }
-            //        }
-            //        sheet.GetCell("E" + (rowIndex + 7)).Value = "1";
-            //        sheet.GetCell("F" + (rowIndex + 7)).Value = "";
-            //        sheet.GetCell("G" + (rowIndex + 7)).Value = photoName;
-            //    }
-            //    else
-            //    {
-            //        sheet.GetCell("E" + (rowIndex + 7)).Value = "";
-            //        sheet.GetCell("F" + (rowIndex + 7)).Value = "1";
-            //        sheet.GetCell("G" + (rowIndex + 7)).Value = "无";
-            //    }
-            //    sheet.GetCell("H" + (rowIndex + 7)).Value = item.Remark;
-            //    sheet.GetCell("I" + (rowIndex + 7)).Value = item.OtherProperty;
-            //    if (project.ScoreShow == true)
-            //    {
-            //        sheet.GetCell("J" + (rowIndex + 7)).Value = item.Score;
-            //    }
-            //    else
-            //    {
-            //        sheet.GetCell("J" + (rowIndex + 7)).Value = "";
-            //    }
-            //    rowIndex++;
-            //}
-            //#endregion
-            //#region 新增
-
-            //foreach (AnswerDto item in answerList_Y)
-            //{
-            //    //序号
-            //    sheet1.GetCell("A" + (rowIndex + 7)).Value = rowIndex.ToString();
-            //    //经销商名称
-            //    sheet1.GetCell("B" + (rowIndex + 7)).Value = item.ShopName;
-            //    //VinCode
-            //    sheet1.GetCell("C" + (rowIndex + 7)).Value = item.CheckCode;
-            //    // 
-            //    if (item.answerPhotoList != null && item.answerPhotoList.Count > 0)
-            //    {
-            //        string photoName = "";
-            //        foreach (AnswerPhotoDto photo in item.answerPhotoList)
-            //        {
-            //            if (photo == item.answerPhotoList[item.answerPhotoList.Count - 1])
-            //            {
-            //                photoName += photo.PhotoNameServer;
-            //            }
-            //            else
-            //            {
-            //                photoName += photo.PhotoNameServer + ";";
-            //            }
-            //        }
-            //        sheet1.GetCell("D" + (rowIndex + 7)).Value = photoName;
-            //    }
-            //    else
-            //    {
-            //        sheet1.GetCell("D" + (rowIndex + 7)).Value = "";
-            //    }
-            //    sheet1.GetCell("E" + (rowIndex + 7)).Value = item.Remark;
-            //    sheet1.GetCell("F" + (rowIndex + 7)).Value = item.OtherProperty;
-            //    if (project.ScoreShow == true)
-            //    {
-            //        sheet.GetCell("G" + (rowIndex + 7)).Value = item.Score;
-            //    }
-            //    else
-            //    {
-            //        sheet.GetCell("G" + (rowIndex + 7)).Value = "";
-            //    }
-            //    rowIndex1++;
-            //}
-            //#endregion
-            ////保存excel文件
-            //string fileName = project.ProjectName + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xls";
-            //string dirPath = Server.MapPath("~") + @"\Temp\";
-            //DirectoryInfo dir = new DirectoryInfo(dirPath);
-            //if (!dir.Exists)
-            //{
-            //    dir.Create();
-            //}
-            //string filePath = dirPath + fileName;
-            //book.Save(filePath);
-            //DownloadExcel(fileName, filePath, true);
-        }
         public void DownLoadAnswerImportExcel()
         {
             string fileName = "easyPhotoImport";
@@ -187,52 +63,101 @@ namespace com.yrtech.InventoryAPI.Controllers
         }
 
         #region MarketAction
-        #region 2 days after leads report
-        public void MarketActionAfter2LeadsReportDownload(string marketActionId)
+        // 导出所有线索报告
+        public void MarketActionAllLeadsReportExport(string year)
         {
-            //List<MarketActionAfter2LeadsReportDto> list = mardetActionService.MarketActionAfter2LeadsReportSearch(marketActionId);
-            //Workbook book = Workbook.Load(Server.MapPath("~") + @"Content\Excel\" + "LeadsReport.xlsx", false);
-            ////填充数据
-            //Worksheet sheet = book.Worksheets[0];
-            //int rowIndex = 1;
+            List<MarketActionAfter2LeadsReportDto> list = mardetActionService.MarketActionAfter2LeadsReportSearch("",year);
+            Workbook book = Workbook.Load(Server.MapPath("~") + @"Content\Excel\" + "LeadsReportAll.xlsx", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
+            int rowIndex = 1;
 
-            //foreach (MarketActionAfter2LeadsReportDto item in list)
-            //{
-            //    //客户姓名
-            //    sheet.GetCell("D" + (rowIndex + 1)).Value = item.CustomerName;
-            //    //BPNO
-            //    sheet.GetCell("E" + (rowIndex + 1)).Value = item.BPNO;
-            //    //是否车主
-            //    sheet.GetCell("F" + (rowIndex + 1)).Value = item.OwnerCheckName;
-            //    // 是否试驾
-            //    sheet.GetCell("G" + (rowIndex + 1)).Value = item.TestDriverCheckName;
-            //    // 是否线索
-            //    sheet.GetCell("H" + (rowIndex + 1)).Value = item.LeadsCheckName;
-            //    //感兴趣车型
-            //    sheet.GetCell("I" + (rowIndex + 1)).Value = item.InterestedModel;
-            //    //是否成交
-            //    sheet.GetCell("J" + (rowIndex + 1)).Value = item.DealCheckName;
-            //    // 成交车型
-            //    sheet.GetCell("K" + (rowIndex + 1)).Value = item.DealCheckName;
-            //    rowIndex++;
-            //}
+            foreach (MarketActionAfter2LeadsReportDto item in list)
+            {
+                //经销商名称
+                sheet.GetCell("A" + (rowIndex + 2)).Value = item.ShopName;
+                //活动名称
+                sheet.GetCell("B" + (rowIndex + 2)).Value = item.ActionName;
+                //客户姓名
+                sheet.GetCell("C" + (rowIndex + 2)).Value = item.CustomerName;
+                //联系方式
+                sheet.GetCell("D" + (rowIndex + 2)).Value = item.TelNO;
+                //BPNO
+                sheet.GetCell("E" + (rowIndex + 2)).Value = item.BPNO;
+                //是否车主
+                sheet.GetCell("F" + (rowIndex + 2)).Value = item.OwnerCheckName;
+                // 是否试驾
+                sheet.GetCell("G" + (rowIndex + 2)).Value = item.TestDriverCheckName;
+                // 是否线索
+                sheet.GetCell("H" + (rowIndex + 21)).Value = item.LeadsCheckName;
+                //感兴趣车型
+                sheet.GetCell("I" + (rowIndex + 2)).Value = item.InterestedModel;
+                //是否成交
+                sheet.GetCell("J" + (rowIndex + 2)).Value = item.DealCheckName;
+                // 成交车型
+                sheet.GetCell("K" + (rowIndex + 2)).Value = item.DealModel;
+                rowIndex++;
+            }
 
-            ////保存excel文件
-            //string fileName = "线索报告" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
-            //string dirPath = Server.MapPath("~") + @"\Temp\";
-            //DirectoryInfo dir = new DirectoryInfo(dirPath);
-            //if (!dir.Exists)
-            //{
-            //    dir.Create();
-            //}
-            //string filePath = dirPath + fileName;
-            //book.Save(filePath);
-            //DownloadExcel(fileName, filePath, true);
+            //保存excel文件
+            string fileName = "线索报告" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string dirPath = Server.MapPath("~") + @"\Temp\";
+            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+            string filePath = dirPath + fileName;
+            book.Save(filePath);
+            DownloadExcel(fileName, filePath, true);
+        }
+        #region 2 days after leads report
+        //导出线索报告
+        public void MarketActionAfter2LeadsReportExport(string marketActionId)
+        {
+            List<MarketActionAfter2LeadsReportDto> list = mardetActionService.MarketActionAfter2LeadsReportSearch(marketActionId,"");
+            Workbook book = Workbook.Load(Server.MapPath("~") + @"Content\Excel\" + "LeadsReport.xlsx", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
+            int rowIndex = 1;
+
+            foreach (MarketActionAfter2LeadsReportDto item in list)
+            {
+                //客户姓名
+                sheet.GetCell("D" + (rowIndex + 1)).Value = item.CustomerName;
+                //BPNO
+                sheet.GetCell("E" + (rowIndex + 1)).Value = item.BPNO;
+                //是否车主
+                sheet.GetCell("F" + (rowIndex + 1)).Value = item.OwnerCheckName;
+                // 是否试驾
+                sheet.GetCell("G" + (rowIndex + 1)).Value = item.TestDriverCheckName;
+                // 是否线索
+                sheet.GetCell("H" + (rowIndex + 1)).Value = item.LeadsCheckName;
+                //感兴趣车型
+                sheet.GetCell("I" + (rowIndex + 1)).Value = item.InterestedModel;
+                //是否成交
+                sheet.GetCell("J" + (rowIndex + 1)).Value = item.DealCheckName;
+                // 成交车型
+                sheet.GetCell("K" + (rowIndex + 1)).Value = item.DealModel;
+                rowIndex++;
+            }
+
+            //保存excel文件
+            string fileName = "线索报告" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string dirPath = Server.MapPath("~") + @"\Temp\";
+            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+            string filePath = dirPath + fileName;
+            book.Save(filePath);
+            DownloadExcel(fileName, filePath, true);
         }
         #endregion
         #endregion
 
-
+       
     }
 
 }

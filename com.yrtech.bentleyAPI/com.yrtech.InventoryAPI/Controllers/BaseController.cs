@@ -14,6 +14,29 @@ namespace com.yrtech.InventoryAPI.Controllers
 {
     public class BaseController : ApiController
     {
-       
+        public void SendEmail(string emailTo,string emailCC,string subjects,string body,string attachmentStream,string attachementFileName)
+        {
+            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+            client.Host = "smtp.163.com";//使用163的SMTP服务器发送邮件
+            //client.UseDefaultCredentials = true;
+            client.UseDefaultCredentials = true;
+            client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+            client.Credentials = new System.Net.NetworkCredential("keyvisionApproval@163.com", "asdqwe123");
+            //这里假定你已经拥有了一个163邮箱的账户，用户名为abc，密码为*******
+            System.Net.Mail.MailMessage Message = new System.Net.Mail.MailMessage();
+            Message.From = new System.Net.Mail.MailAddress("keyvisionApproval@163.com");//这里需要注意，163似乎有规定发信人的邮箱地址必须是163的，而且发信人的邮箱用户名必须和上面SMTP服务器认证时的用户名相同
+            //因为上面用的用户名abc作SMTP服务器认证，所以这里发信人的邮箱地址也应该写为abc@163.com
+            //Message.To.Add("123456@gmail.com");//将邮件发送给Gmail
+            Message.To.Add(emailTo);//将邮件发送给QQ邮箱
+            Message.CC.Add(emailCC);
+            Message.Subject = subjects;
+            Message.Body = body;
+           // Message.Attachments.Add(new System.Net.Mail.Attachment(@"C:\Workspace\com.yrtech.Bentley\com.yrtech.bentleyAPI\com.yrtech.InventoryAPI\Content\Excel\LeadsReport.xlsx", System.Net.Mime.MediaTypeNames.Application.Octet));
+            Message.SubjectEncoding = System.Text.Encoding.UTF8;
+            Message.BodyEncoding = System.Text.Encoding.UTF8;
+            Message.Priority = System.Net.Mail.MailPriority.High;
+            Message.IsBodyHtml = true;
+            client.Send(Message);
+        }
     }
 }

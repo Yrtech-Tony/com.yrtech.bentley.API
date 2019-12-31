@@ -24,6 +24,7 @@
           </Key>
           <Property Name="FileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="100" />
+          <Property Name="FileNameEn" Type="nvarchar" MaxLength="500" />
           <Property Name="UpperFileId" Type="int" />
           <Property Name="Year" Type="nvarchar" MaxLength="50" />
           <Property Name="InUserId" Type="int" />
@@ -456,19 +457,6 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="CommitFile">
-          <Key>
-            <PropertyRef Name="FileId" />
-          </Key>
-          <Property Name="FileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UpperFileId" Type="Int32" />
-          <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="MarketAction">
           <Key>
             <PropertyRef Name="MarketActionId" />
@@ -625,7 +613,6 @@
         </EntityType>
         <EntityContainer Name="Bentley" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Area" EntityType="Self.Area" />
-          <EntitySet Name="CommitFile" EntityType="Self.CommitFile" />
           <EntitySet Name="MarketAction" EntityType="Self.MarketAction" />
           <EntitySet Name="MarketActionAfter7ActualProcess" EntityType="Self.MarketActionAfter7ActualProcess" />
           <EntitySet Name="MarketActionBefore21ActivityProcess" EntityType="Self.MarketActionBefore21ActivityProcess" />
@@ -645,6 +632,7 @@
           <EntitySet Name="MarketActionAfter2LeadsReport" EntityType="BentleyModel.MarketActionAfter2LeadsReport" />
           <EntitySet Name="MarketActionAfter90File" EntityType="BentleyModel.MarketActionAfter90File" />
           <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" />
+          <EntitySet Name="CommitFile" EntityType="BentleyModel.CommitFile" />
         </EntityContainer>
         <EntityType Name="UserInfo">
           <Key>
@@ -877,6 +865,20 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="CommitFile">
+          <Key>
+            <PropertyRef Name="FileId" />
+          </Key>
+          <Property Name="FileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FileNameEn" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UpperFileId" Type="Int32" />
+          <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -890,20 +892,6 @@
                 <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
                 <ScalarProperty Name="AreaName" ColumnName="AreaName" />
                 <ScalarProperty Name="AreaNameEn" ColumnName="AreaNameEn" />
-                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CommitFile">
-            <EntityTypeMapping TypeName="BentleyModel.CommitFile">
-              <MappingFragment StoreEntitySet="CommitFile">
-                <ScalarProperty Name="FileId" ColumnName="FileId" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="UpperFileId" ColumnName="UpperFileId" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="InUserId" ColumnName="InUserId" />
                 <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
                 <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
@@ -1300,6 +1288,21 @@
                 <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
                 <ScalarProperty Name="InUserId" ColumnName="InUserId" />
                 <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommitFile">
+            <EntityTypeMapping TypeName="BentleyModel.CommitFile">
+              <MappingFragment StoreEntitySet="CommitFile">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="UpperFileId" ColumnName="UpperFileId" />
+                <ScalarProperty Name="FileNameEn" ColumnName="FileNameEn" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

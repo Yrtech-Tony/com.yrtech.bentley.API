@@ -8,6 +8,7 @@ namespace com.yrtech.InventoryAPI.DTO
     public class MarketActionBefore21MainDto
     {
         public int MarketActionId { get; set; }
+        public string TarketModelCode { get; set; }// 主推车型
         public MarketActionBefore21 MarketActionBefore21 { get; set; }
         public List<MarketActionBefore21ActivityProcess> ActivityProcess { get; set; }
     }

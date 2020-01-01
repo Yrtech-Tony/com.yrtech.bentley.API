@@ -18,6 +18,8 @@ namespace com.yrtech.SurveyAPI.Controllers
         MasterService masterService = new MasterService();
         MarketActionService marketActionService = new MarketActionService();
         AccountService accountService = new AccountService();
+        DMFService dmfService = new DMFService();
+
         #region CommitFile
         [HttpGet]
         [Route("CommitFile/ShopCommitFileRecordStatusSearch")]
@@ -283,6 +285,14 @@ namespace com.yrtech.SurveyAPI.Controllers
                 //marketActionBefore21.TestDriverRoadMapPic04 = marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic04;
                 #endregion
                 MarketActionBefore21MainDto marketActionBefore21MainDto = CommonHelper.DecodeString<MarketActionBefore21MainDto>(upload.ListJson);
+
+                // 更新主推车型
+                List<MarketAction> marketActionList = marketActionService.MarketActionSearchById(marketActionBefore21MainDto.MarketActionId.ToString());
+                foreach (MarketAction market in marketActionList)
+                {
+                    market.MarketActionTargetModelCode = marketActionBefore21MainDto.TarketModelCode;
+                    marketActionService.MarketActionSave(market);
+                }
                 marketActionService.MarketActionBefore21Save(marketActionBefore21MainDto.MarketActionBefore21);
                 foreach (MarketActionBefore21ActivityProcess process in marketActionBefore21MainDto.ActivityProcess)
                 {
@@ -795,6 +805,59 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
         }
         #endregion
+        #endregion
+        #region DMF
+        [HttpGet]
+        [Route("DMF/DMFItemSearch")]
+        public APIResult DMFItemSearch(string DMFItemId, string DMFItemName, string DMFItemNameEn)
+        {
+            try
+            {
+                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(DMFItemId, DMFItemName, DMFItemNameEn);
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfItemList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+
+        [HttpPost]
+        [Route("DMF/DMFItemSave")]
+        public APIResult DMFItemSave(DMFItem dmfItem)
+        {
+            try
+            {
+                dmfService.DMFItemSave(dmfItem);
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("DMF/DMFItemDelete")]
+        public APIResult DMFItemDelete(UploadData upload)
+        {
+            try
+            {
+                List<DMFItem> list = CommonHelper.DecodeString<List<DMFItem>>(upload.ListJson);
+                // 需要添加一个已经使用不能删除的验证。后期添加
+                foreach (DMFItem dfmItem in list)
+                {
+                    dmfService.DMFItemDelete(dfmItem.DMFItemId.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
         #endregion
 
 

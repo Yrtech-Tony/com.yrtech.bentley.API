@@ -439,21 +439,21 @@ namespace com.yrtech.InventoryAPI.Service
         }
         public void MarketActionBefore3TestDriverDelete(string marketActionId, string seqNO)
         {
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO) };
             string sql = @"DELETE MarketActionBefore3TestDriver WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
                         ";
             db.Database.ExecuteSqlCommand(sql, para);
         }
         public void MarketActionBefore3BugetDetailDelete(string marketActionId, string seqNO)
         {
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO) };
             string sql = @"DELETE arketActionBefore3BugetDetail WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
                         ";
             db.Database.ExecuteSqlCommand(sql, para);
         }
         public void MarketActionBefore3DisplayModelDelete(string marketActionId, string seqNO)
         {
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO) };
             string sql = @"DELETE MarketActionBefore3DisplayModel WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
                         ";
             db.Database.ExecuteSqlCommand(sql, para);

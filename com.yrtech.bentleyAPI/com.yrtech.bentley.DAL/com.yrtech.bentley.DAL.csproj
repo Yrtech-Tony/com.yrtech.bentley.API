@@ -72,6 +72,9 @@
     <Compile Include="CommitFile.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>
+    <Compile Include="DMFItem.cs">
+      <DependentUpon>bentley.tt</DependentUpon>
+    </Compile>
     <Compile Include="EventType.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>

@@ -208,6 +208,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\MarketActionService.cs" />
+    <Compile Include="Service\DMFService.cs" />
     <Compile Include="Service\MasterService.cs" />
     <Compile Include="Service\CommitFileService.cs" />
     <Compile Include="Service\AccountService.cs" />

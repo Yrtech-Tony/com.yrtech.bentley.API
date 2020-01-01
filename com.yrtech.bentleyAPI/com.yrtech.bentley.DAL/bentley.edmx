@@ -32,6 +32,21 @@
           <Property Name="ModifyUserId" Type="int" />
           <Property Name="ModifyDateTime" Type="datetime" />
         </EntityType>
+        <EntityType Name="DMFItem">
+          <Key>
+            <PropertyRef Name="DMFItemId" />
+          </Key>
+          <Property Name="DMFItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DMFItemName" Type="nvarchar" MaxLength="500" />
+          <Property Name="DMFItemNameEn" Type="nvarchar" MaxLength="500" />
+          <Property Name="DMFItemRemark" Type="nvarchar" MaxLength="500" />
+          <Property Name="ExpenseAccountChk" Type="bit" />
+          <Property Name="PublishChk" Type="bit" />
+          <Property Name="InUserId" Type="int" />
+          <Property Name="InDateTime" Type="datetime" />
+          <Property Name="ModifyUserId" Type="int" />
+          <Property Name="ModifyDateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="EventType">
           <Key>
             <PropertyRef Name="EventTypeId" />
@@ -123,50 +138,50 @@
           <Property Name="MarketSaleTeamAdvice" Type="nvarchar(max)" />
           <Property Name="AttendenceOwnerCount" Type="int" />
           <Property Name="AttendencePCCount" Type="int" />
-          <Property Name="OnLineAdPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="OnLineAdPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="OnLineAdPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="OnLineAdPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="OnLineAdPic01" Type="nvarchar(max)" />
+          <Property Name="OnLineAdPic02" Type="nvarchar(max)" />
+          <Property Name="OnLineAdPic03" Type="nvarchar(max)" />
+          <Property Name="OnLineAdPic04" Type="nvarchar(max)" />
           <Property Name="OnLineAdDesc01" Type="nvarchar(max)" />
           <Property Name="OnLineAdDesc02" Type="nvarchar(max)" />
           <Property Name="OnLineAdDesc03" Type="nvarchar(max)" />
           <Property Name="OnLineAdDesc04" Type="nvarchar(max)" />
-          <Property Name="CarDisplayPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="CarDisplayPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="CarDisplayPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="CarDisplayPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="CarDisplayPic01" Type="nvarchar(max)" />
+          <Property Name="CarDisplayPic02" Type="nvarchar(max)" />
+          <Property Name="CarDisplayPic03" Type="nvarchar(max)" />
+          <Property Name="CarDisplayPic04" Type="nvarchar(max)" />
           <Property Name="CarDisplayDesc01" Type="nvarchar(max)" />
           <Property Name="CarDisplayDesc02" Type="nvarchar(max)" />
           <Property Name="CarDisplayDesc03" Type="nvarchar(max)" />
           <Property Name="CarDisplayDesc04" Type="nvarchar(max)" />
           <Property Name="PlacePic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="PlacePic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="PlacePic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="PlacePic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="PlacePic02" Type="nvarchar(max)" />
+          <Property Name="PlacePic03" Type="nvarchar(max)" />
+          <Property Name="PlacePic04" Type="nvarchar(max)" />
           <Property Name="PlaceDesc01" Type="nvarchar(max)" />
           <Property Name="PlaceDesc02" Type="nvarchar(max)" />
           <Property Name="PlaceDesc03" Type="nvarchar(max)" />
           <Property Name="PlaceDesc04" Type="nvarchar(max)" />
-          <Property Name="RegisterLiveShowPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="RegisterLiveShowPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="RegisterLiveShowPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="RegisterLiveShowPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="RegisterLiveShowPic01" Type="nvarchar(max)" />
+          <Property Name="RegisterLiveShowPic02" Type="nvarchar(max)" />
+          <Property Name="RegisterLiveShowPic03" Type="nvarchar(max)" />
+          <Property Name="RegisterLiveShowPic04" Type="nvarchar(max)" />
           <Property Name="RegisterLiveShowDesc01" Type="nvarchar(max)" />
           <Property Name="RegisterLiveShowDesc02" Type="nvarchar(max)" />
           <Property Name="RegisterLiveShowDesc03" Type="nvarchar(max)" />
           <Property Name="RegisterLiveShowDesc04" Type="nvarchar(max)" />
-          <Property Name="CustomerStaffModelPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="CustomerStaffModelPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="CustomerStaffModelPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="CustomerStaffModelPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="CustomerStaffModelPic01" Type="nvarchar(max)" />
+          <Property Name="CustomerStaffModelPic02" Type="nvarchar(max)" />
+          <Property Name="CustomerStaffModelPic03" Type="nvarchar(max)" />
+          <Property Name="CustomerStaffModelPic04" Type="nvarchar(max)" />
           <Property Name="CustomerStaffModelDesc01" Type="nvarchar(max)" />
           <Property Name="CustomerStaffModelDesc02" Type="nvarchar(max)" />
           <Property Name="CustomerStaffModelDesc03" Type="nvarchar(max)" />
           <Property Name="CustomerStaffModelDesc04" Type="nvarchar(max)" />
-          <Property Name="OthersPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="OthersPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="OthersPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="OthersPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="OthersPic01" Type="nvarchar(max)" />
+          <Property Name="OthersPic02" Type="nvarchar(max)" />
+          <Property Name="OthersPic03" Type="nvarchar(max)" />
+          <Property Name="OthersPic04" Type="nvarchar(max)" />
           <Property Name="OthersDesc01" Type="nvarchar(max)" />
           <Property Name="OthersDesc02" Type="nvarchar(max)" />
           <Property Name="OthersDesc03" Type="nvarchar(max)" />
@@ -239,38 +254,38 @@
           <Property Name="TargetTestDrivePCCount" Type="int" />
           <Property Name="TargetOrdersOwnerCount" Type="int" />
           <Property Name="TargetOrdersPCCount" Type="int" />
-          <Property Name="KeyVisionPic" Type="nvarchar" MaxLength="500" />
+          <Property Name="KeyVisionPic" Type="nvarchar(max)" />
           <Property Name="KeyVisionDesc" Type="nvarchar(max)" />
           <Property Name="KeyVisionApprovalCode" Type="nvarchar" MaxLength="50" />
           <Property Name="KeyVisionApprovalDesc" Type="nvarchar(max)" />
-          <Property Name="POSDesignPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="POSDesignPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="POSDesignPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="POSDesignPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="POSDesignPic01" Type="nvarchar(max)" />
+          <Property Name="POSDesignPic02" Type="nvarchar(max)" />
+          <Property Name="POSDesignPic03" Type="nvarchar(max)" />
+          <Property Name="POSDesignPic04" Type="nvarchar(max)" />
           <Property Name="POSDesignDesc01" Type="nvarchar(max)" />
           <Property Name="POSDesignDesc02" Type="nvarchar(max)" />
           <Property Name="POSDesignDesc03" Type="nvarchar(max)" />
           <Property Name="POSDesignDesc04" Type="nvarchar(max)" />
-          <Property Name="PlaceIntroPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="PlaceIntroPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="PlaceIntroPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="PlaceIntroPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="PlaceIntroPic01" Type="nvarchar(max)" />
+          <Property Name="PlaceIntroPic02" Type="nvarchar(max)" />
+          <Property Name="PlaceIntroPic03" Type="nvarchar(max)" />
+          <Property Name="PlaceIntroPic04" Type="nvarchar(max)" />
           <Property Name="PlaceIntroDesc01" Type="nvarchar(max)" />
           <Property Name="PlaceIntroDesc02" Type="nvarchar(max)" />
           <Property Name="PlaceIntroDesc03" Type="nvarchar(max)" />
           <Property Name="PlaceIntroDesc04" Type="nvarchar(max)" />
-          <Property Name="TestDriverRoadMapPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="TestDriverRoadMapPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="TestDriverRoadMapPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="TestDriverRoadMapPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="TestDriverRoadMapPic01" Type="nvarchar(max)" />
+          <Property Name="TestDriverRoadMapPic02" Type="nvarchar(max)" />
+          <Property Name="TestDriverRoadMapPic03" Type="nvarchar(max)" />
+          <Property Name="TestDriverRoadMapPic04" Type="nvarchar(max)" />
           <Property Name="TestDriverRoadMapDesc01" Type="nvarchar(max)" />
           <Property Name="TestDriverRoadMapDesc02" Type="nvarchar(max)" />
           <Property Name="TestDriverRoadMapDesc03" Type="nvarchar(max)" />
           <Property Name="TestDriverRoadMapDesc04" Type="nvarchar(max)" />
-          <Property Name="OthersPic01" Type="nvarchar" MaxLength="500" />
-          <Property Name="OthersPic02" Type="nvarchar" MaxLength="500" />
-          <Property Name="OthersPic03" Type="nvarchar" MaxLength="500" />
-          <Property Name="OthersPic04" Type="nvarchar" MaxLength="500" />
+          <Property Name="OthersPic01" Type="nvarchar(max)" />
+          <Property Name="OthersPic02" Type="nvarchar(max)" />
+          <Property Name="OthersPic03" Type="nvarchar(max)" />
+          <Property Name="OthersPic04" Type="nvarchar(max)" />
           <Property Name="OtherDesc01" Type="nvarchar(max)" />
           <Property Name="OtherDesc02" Type="nvarchar(max)" />
           <Property Name="OtherDesc03" Type="nvarchar(max)" />
@@ -420,6 +435,7 @@
         <EntityContainer Name="BentleyModelStoreContainer">
           <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommitFile" EntityType="Self.CommitFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMFItem" EntityType="Self.DMFItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HiddenCode" EntityType="Self.HiddenCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketAction" EntityType="Self.MarketAction" Schema="dbo" store:Type="Tables" />
@@ -626,13 +642,14 @@
           <EntitySet Name="UserInfo" EntityType="BentleyModel.UserInfo" />
           <EntitySet Name="EventType" EntityType="BentleyModel.EventType" />
           <EntitySet Name="HiddenCode" EntityType="BentleyModel.HiddenCode" />
-          <EntitySet Name="MarketActionBefore21" EntityType="BentleyModel.MarketActionBefore21" />
-          <EntitySet Name="MarketActionAfter7" EntityType="BentleyModel.MarketActionAfter7" />
           <EntitySet Name="MarketActionAfter7ActualExpense" EntityType="BentleyModel.MarketActionAfter7ActualExpense" />
           <EntitySet Name="MarketActionAfter2LeadsReport" EntityType="BentleyModel.MarketActionAfter2LeadsReport" />
           <EntitySet Name="MarketActionAfter90File" EntityType="BentleyModel.MarketActionAfter90File" />
           <EntitySet Name="MarketActionAfter30LeadsReportUpdate" EntityType="BentleyModel.MarketActionAfter30LeadsReportUpdate" />
           <EntitySet Name="CommitFile" EntityType="BentleyModel.CommitFile" />
+          <EntitySet Name="DMFItem" EntityType="BentleyModel.DMFItem" />
+          <EntitySet Name="MarketActionAfter7" EntityType="BentleyModel.MarketActionAfter7" />
+          <EntitySet Name="MarketActionBefore21" EntityType="BentleyModel.MarketActionBefore21" />
         </EntityContainer>
         <EntityType Name="UserInfo">
           <Key>
@@ -681,128 +698,6 @@
           <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="InUserId" Type="Int32" />
           <Property Name="InDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="MarketActionBefore21">
-          <Key>
-            <PropertyRef Name="MarketActionId" />
-          </Key>
-          <Property Name="MarketActionId" Type="Int32" Nullable="false" />
-          <Property Name="ActivityBackground" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ActivityObjective" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ActivityDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Budget" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="TargetParticipationOwnerCount" Type="Int32" />
-          <Property Name="TargetParticipationPCCount" Type="Int32" />
-          <Property Name="TargetLeadsOwnerCount" Type="Int32" />
-          <Property Name="TargetLeadsPCCount" Type="Int32" />
-          <Property Name="TargetTestDriveOwnerCount" Type="Int32" />
-          <Property Name="TargetTestDrivePCCount" Type="Int32" />
-          <Property Name="TargetOrdersOwnerCount" Type="Int32" />
-          <Property Name="TargetOrdersPCCount" Type="Int32" />
-          <Property Name="KeyVisionPic" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="KeyVisionDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="KeyVisionApprovalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="KeyVisionApprovalDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="POSDesignPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="POSDesignPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="POSDesignPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="POSDesignPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="POSDesignDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="POSDesignDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="POSDesignDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="POSDesignDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceIntroPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceIntroPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceIntroPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceIntroPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceIntroDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceIntroDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceIntroDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceIntroDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TestDriverRoadMapPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TestDriverRoadMapPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TestDriverRoadMapPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TestDriverRoadMapPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="TestDriverRoadMapDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TestDriverRoadMapDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TestDriverRoadMapDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TestDriverRoadMapDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OthersPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OthersPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OthersPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OthersPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OtherDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OtherDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OtherDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OtherDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="MarketActionAfter7">
-          <Key>
-            <PropertyRef Name="MarketActionId" />
-          </Key>
-          <Property Name="MarketActionId" Type="Int32" Nullable="false" />
-          <Property Name="HightLights" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ImproveArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerFeedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MarketSaleTeamAdvice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AttendenceOwnerCount" Type="Int32" />
-          <Property Name="AttendencePCCount" Type="Int32" />
-          <Property Name="OnLineAdPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OnLineAdPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OnLineAdPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OnLineAdPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OnLineAdDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OnLineAdDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OnLineAdDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OnLineAdDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CarDisplayPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CarDisplayPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CarDisplayPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CarDisplayPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CarDisplayDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CarDisplayDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CarDisplayDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CarDisplayDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PlacePic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PlacePic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PlacePic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PlacePic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterLiveShowPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterLiveShowPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterLiveShowPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterLiveShowPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterLiveShowDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterLiveShowDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterLiveShowDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterLiveShowDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerStaffModelPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerStaffModelPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerStaffModelPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerStaffModelPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerStaffModelDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerStaffModelDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerStaffModelDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerStaffModelDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OthersPic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OthersPic02" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OthersPic03" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OthersPic04" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="OthersDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OthersDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OthersDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OthersDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="MarketActionAfter7ActualExpense">
           <Key>
@@ -874,6 +769,143 @@
           <Property Name="FileNameEn" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="UpperFileId" Type="Int32" />
           <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DMFItem">
+          <Key>
+            <PropertyRef Name="DMFItemId" />
+          </Key>
+          <Property Name="DMFItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DMFItemName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DMFItemNameEn" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DMFItemRemark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ExpenseAccountChk" Type="Boolean" />
+          <Property Name="PublishChk" Type="Boolean" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MarketActionAfter7">
+          <Key>
+            <PropertyRef Name="MarketActionId" />
+          </Key>
+          <Property Name="MarketActionId" Type="Int32" Nullable="false" />
+          <Property Name="HightLights" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImproveArea" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerFeedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MarketSaleTeamAdvice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AttendenceOwnerCount" Type="Int32" />
+          <Property Name="AttendencePCCount" Type="Int32" />
+          <Property Name="OnLineAdPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OnLineAdPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OnLineAdPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OnLineAdPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OnLineAdDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OnLineAdDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OnLineAdDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OnLineAdDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CarDisplayPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CarDisplayPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CarDisplayPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CarDisplayPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CarDisplayDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CarDisplayDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CarDisplayDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CarDisplayDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlacePic01" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PlacePic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlacePic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlacePic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterLiveShowPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterLiveShowPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterLiveShowPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterLiveShowPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterLiveShowDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterLiveShowDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterLiveShowDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterLiveShowDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStaffModelPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStaffModelPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStaffModelPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStaffModelPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStaffModelDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStaffModelDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStaffModelDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerStaffModelDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MarketActionBefore21">
+          <Key>
+            <PropertyRef Name="MarketActionId" />
+          </Key>
+          <Property Name="MarketActionId" Type="Int32" Nullable="false" />
+          <Property Name="ActivityBackground" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityObjective" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Budget" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="TargetParticipationOwnerCount" Type="Int32" />
+          <Property Name="TargetParticipationPCCount" Type="Int32" />
+          <Property Name="TargetLeadsOwnerCount" Type="Int32" />
+          <Property Name="TargetLeadsPCCount" Type="Int32" />
+          <Property Name="TargetTestDriveOwnerCount" Type="Int32" />
+          <Property Name="TargetTestDrivePCCount" Type="Int32" />
+          <Property Name="TargetOrdersOwnerCount" Type="Int32" />
+          <Property Name="TargetOrdersPCCount" Type="Int32" />
+          <Property Name="KeyVisionPic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KeyVisionDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KeyVisionApprovalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KeyVisionApprovalDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="POSDesignPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="POSDesignPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="POSDesignPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="POSDesignPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="POSDesignDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="POSDesignDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="POSDesignDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="POSDesignDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceIntroPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceIntroPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceIntroPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceIntroPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceIntroDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceIntroDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceIntroDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceIntroDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TestDriverRoadMapPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TestDriverRoadMapPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TestDriverRoadMapPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TestDriverRoadMapPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TestDriverRoadMapDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TestDriverRoadMapDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TestDriverRoadMapDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TestDriverRoadMapDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersPic01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersPic02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersPic03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OthersPic04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OtherDesc01" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OtherDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OtherDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OtherDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InUserId" Type="Int32" />
           <Property Name="InDateTime" Type="DateTime" Precision="3" />
           <Property Name="ModifyUserId" Type="Int32" />
@@ -1105,130 +1137,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MarketActionBefore21">
-            <EntityTypeMapping TypeName="BentleyModel.MarketActionBefore21">
-              <MappingFragment StoreEntitySet="MarketActionBefore21">
-                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="OtherDesc04" ColumnName="OtherDesc04" />
-                <ScalarProperty Name="OtherDesc03" ColumnName="OtherDesc03" />
-                <ScalarProperty Name="OtherDesc02" ColumnName="OtherDesc02" />
-                <ScalarProperty Name="OtherDesc01" ColumnName="OtherDesc01" />
-                <ScalarProperty Name="OthersPic04" ColumnName="OthersPic04" />
-                <ScalarProperty Name="OthersPic03" ColumnName="OthersPic03" />
-                <ScalarProperty Name="OthersPic02" ColumnName="OthersPic02" />
-                <ScalarProperty Name="OthersPic01" ColumnName="OthersPic01" />
-                <ScalarProperty Name="TestDriverRoadMapDesc04" ColumnName="TestDriverRoadMapDesc04" />
-                <ScalarProperty Name="TestDriverRoadMapDesc03" ColumnName="TestDriverRoadMapDesc03" />
-                <ScalarProperty Name="TestDriverRoadMapDesc02" ColumnName="TestDriverRoadMapDesc02" />
-                <ScalarProperty Name="TestDriverRoadMapDesc01" ColumnName="TestDriverRoadMapDesc01" />
-                <ScalarProperty Name="TestDriverRoadMapPic04" ColumnName="TestDriverRoadMapPic04" />
-                <ScalarProperty Name="TestDriverRoadMapPic03" ColumnName="TestDriverRoadMapPic03" />
-                <ScalarProperty Name="TestDriverRoadMapPic02" ColumnName="TestDriverRoadMapPic02" />
-                <ScalarProperty Name="TestDriverRoadMapPic01" ColumnName="TestDriverRoadMapPic01" />
-                <ScalarProperty Name="PlaceIntroDesc04" ColumnName="PlaceIntroDesc04" />
-                <ScalarProperty Name="PlaceIntroDesc03" ColumnName="PlaceIntroDesc03" />
-                <ScalarProperty Name="PlaceIntroDesc02" ColumnName="PlaceIntroDesc02" />
-                <ScalarProperty Name="PlaceIntroDesc01" ColumnName="PlaceIntroDesc01" />
-                <ScalarProperty Name="PlaceIntroPic04" ColumnName="PlaceIntroPic04" />
-                <ScalarProperty Name="PlaceIntroPic03" ColumnName="PlaceIntroPic03" />
-                <ScalarProperty Name="PlaceIntroPic02" ColumnName="PlaceIntroPic02" />
-                <ScalarProperty Name="PlaceIntroPic01" ColumnName="PlaceIntroPic01" />
-                <ScalarProperty Name="POSDesignDesc04" ColumnName="POSDesignDesc04" />
-                <ScalarProperty Name="POSDesignDesc03" ColumnName="POSDesignDesc03" />
-                <ScalarProperty Name="POSDesignDesc02" ColumnName="POSDesignDesc02" />
-                <ScalarProperty Name="POSDesignDesc01" ColumnName="POSDesignDesc01" />
-                <ScalarProperty Name="POSDesignPic04" ColumnName="POSDesignPic04" />
-                <ScalarProperty Name="POSDesignPic03" ColumnName="POSDesignPic03" />
-                <ScalarProperty Name="POSDesignPic02" ColumnName="POSDesignPic02" />
-                <ScalarProperty Name="POSDesignPic01" ColumnName="POSDesignPic01" />
-                <ScalarProperty Name="KeyVisionApprovalDesc" ColumnName="KeyVisionApprovalDesc" />
-                <ScalarProperty Name="KeyVisionApprovalCode" ColumnName="KeyVisionApprovalCode" />
-                <ScalarProperty Name="KeyVisionDesc" ColumnName="KeyVisionDesc" />
-                <ScalarProperty Name="KeyVisionPic" ColumnName="KeyVisionPic" />
-                <ScalarProperty Name="TargetOrdersPCCount" ColumnName="TargetOrdersPCCount" />
-                <ScalarProperty Name="TargetOrdersOwnerCount" ColumnName="TargetOrdersOwnerCount" />
-                <ScalarProperty Name="TargetTestDrivePCCount" ColumnName="TargetTestDrivePCCount" />
-                <ScalarProperty Name="TargetTestDriveOwnerCount" ColumnName="TargetTestDriveOwnerCount" />
-                <ScalarProperty Name="TargetLeadsPCCount" ColumnName="TargetLeadsPCCount" />
-                <ScalarProperty Name="TargetLeadsOwnerCount" ColumnName="TargetLeadsOwnerCount" />
-                <ScalarProperty Name="TargetParticipationPCCount" ColumnName="TargetParticipationPCCount" />
-                <ScalarProperty Name="TargetParticipationOwnerCount" ColumnName="TargetParticipationOwnerCount" />
-                <ScalarProperty Name="Budget" ColumnName="Budget" />
-                <ScalarProperty Name="ActivityDesc" ColumnName="ActivityDesc" />
-                <ScalarProperty Name="ActivityObjective" ColumnName="ActivityObjective" />
-                <ScalarProperty Name="ActivityBackground" ColumnName="ActivityBackground" />
-                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MarketActionAfter7">
-            <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter7">
-              <MappingFragment StoreEntitySet="MarketActionAfter7">
-                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="OthersDesc04" ColumnName="OthersDesc04" />
-                <ScalarProperty Name="OthersDesc03" ColumnName="OthersDesc03" />
-                <ScalarProperty Name="OthersDesc02" ColumnName="OthersDesc02" />
-                <ScalarProperty Name="OthersDesc01" ColumnName="OthersDesc01" />
-                <ScalarProperty Name="OthersPic04" ColumnName="OthersPic04" />
-                <ScalarProperty Name="OthersPic03" ColumnName="OthersPic03" />
-                <ScalarProperty Name="OthersPic02" ColumnName="OthersPic02" />
-                <ScalarProperty Name="OthersPic01" ColumnName="OthersPic01" />
-                <ScalarProperty Name="CustomerStaffModelDesc04" ColumnName="CustomerStaffModelDesc04" />
-                <ScalarProperty Name="CustomerStaffModelDesc03" ColumnName="CustomerStaffModelDesc03" />
-                <ScalarProperty Name="CustomerStaffModelDesc02" ColumnName="CustomerStaffModelDesc02" />
-                <ScalarProperty Name="CustomerStaffModelDesc01" ColumnName="CustomerStaffModelDesc01" />
-                <ScalarProperty Name="CustomerStaffModelPic04" ColumnName="CustomerStaffModelPic04" />
-                <ScalarProperty Name="CustomerStaffModelPic03" ColumnName="CustomerStaffModelPic03" />
-                <ScalarProperty Name="CustomerStaffModelPic02" ColumnName="CustomerStaffModelPic02" />
-                <ScalarProperty Name="CustomerStaffModelPic01" ColumnName="CustomerStaffModelPic01" />
-                <ScalarProperty Name="RegisterLiveShowDesc04" ColumnName="RegisterLiveShowDesc04" />
-                <ScalarProperty Name="RegisterLiveShowDesc03" ColumnName="RegisterLiveShowDesc03" />
-                <ScalarProperty Name="RegisterLiveShowDesc02" ColumnName="RegisterLiveShowDesc02" />
-                <ScalarProperty Name="RegisterLiveShowDesc01" ColumnName="RegisterLiveShowDesc01" />
-                <ScalarProperty Name="RegisterLiveShowPic04" ColumnName="RegisterLiveShowPic04" />
-                <ScalarProperty Name="RegisterLiveShowPic03" ColumnName="RegisterLiveShowPic03" />
-                <ScalarProperty Name="RegisterLiveShowPic02" ColumnName="RegisterLiveShowPic02" />
-                <ScalarProperty Name="RegisterLiveShowPic01" ColumnName="RegisterLiveShowPic01" />
-                <ScalarProperty Name="PlaceDesc04" ColumnName="PlaceDesc04" />
-                <ScalarProperty Name="PlaceDesc03" ColumnName="PlaceDesc03" />
-                <ScalarProperty Name="PlaceDesc02" ColumnName="PlaceDesc02" />
-                <ScalarProperty Name="PlaceDesc01" ColumnName="PlaceDesc01" />
-                <ScalarProperty Name="PlacePic04" ColumnName="PlacePic04" />
-                <ScalarProperty Name="PlacePic03" ColumnName="PlacePic03" />
-                <ScalarProperty Name="PlacePic02" ColumnName="PlacePic02" />
-                <ScalarProperty Name="PlacePic01" ColumnName="PlacePic01" />
-                <ScalarProperty Name="CarDisplayDesc04" ColumnName="CarDisplayDesc04" />
-                <ScalarProperty Name="CarDisplayDesc03" ColumnName="CarDisplayDesc03" />
-                <ScalarProperty Name="CarDisplayDesc02" ColumnName="CarDisplayDesc02" />
-                <ScalarProperty Name="CarDisplayDesc01" ColumnName="CarDisplayDesc01" />
-                <ScalarProperty Name="CarDisplayPic04" ColumnName="CarDisplayPic04" />
-                <ScalarProperty Name="CarDisplayPic03" ColumnName="CarDisplayPic03" />
-                <ScalarProperty Name="CarDisplayPic02" ColumnName="CarDisplayPic02" />
-                <ScalarProperty Name="CarDisplayPic01" ColumnName="CarDisplayPic01" />
-                <ScalarProperty Name="OnLineAdDesc04" ColumnName="OnLineAdDesc04" />
-                <ScalarProperty Name="OnLineAdDesc03" ColumnName="OnLineAdDesc03" />
-                <ScalarProperty Name="OnLineAdDesc02" ColumnName="OnLineAdDesc02" />
-                <ScalarProperty Name="OnLineAdDesc01" ColumnName="OnLineAdDesc01" />
-                <ScalarProperty Name="OnLineAdPic04" ColumnName="OnLineAdPic04" />
-                <ScalarProperty Name="OnLineAdPic03" ColumnName="OnLineAdPic03" />
-                <ScalarProperty Name="OnLineAdPic02" ColumnName="OnLineAdPic02" />
-                <ScalarProperty Name="OnLineAdPic01" ColumnName="OnLineAdPic01" />
-                <ScalarProperty Name="AttendencePCCount" ColumnName="AttendencePCCount" />
-                <ScalarProperty Name="AttendenceOwnerCount" ColumnName="AttendenceOwnerCount" />
-                <ScalarProperty Name="MarketSaleTeamAdvice" ColumnName="MarketSaleTeamAdvice" />
-                <ScalarProperty Name="CustomerFeedback" ColumnName="CustomerFeedback" />
-                <ScalarProperty Name="ImproveArea" ColumnName="ImproveArea" />
-                <ScalarProperty Name="HightLights" ColumnName="HightLights" />
-                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MarketActionAfter7ActualExpense">
             <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter7ActualExpense">
               <MappingFragment StoreEntitySet="MarketActionAfter7ActualExpense">
@@ -1303,6 +1211,146 @@
                 <ScalarProperty Name="FileNameEn" ColumnName="FileNameEn" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FileId" ColumnName="FileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMFItem">
+            <EntityTypeMapping TypeName="BentleyModel.DMFItem">
+              <MappingFragment StoreEntitySet="DMFItem">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="PublishChk" ColumnName="PublishChk" />
+                <ScalarProperty Name="ExpenseAccountChk" ColumnName="ExpenseAccountChk" />
+                <ScalarProperty Name="DMFItemRemark" ColumnName="DMFItemRemark" />
+                <ScalarProperty Name="DMFItemNameEn" ColumnName="DMFItemNameEn" />
+                <ScalarProperty Name="DMFItemName" ColumnName="DMFItemName" />
+                <ScalarProperty Name="DMFItemId" ColumnName="DMFItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketActionAfter7">
+            <EntityTypeMapping TypeName="BentleyModel.MarketActionAfter7">
+              <MappingFragment StoreEntitySet="MarketActionAfter7">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="OthersDesc04" ColumnName="OthersDesc04" />
+                <ScalarProperty Name="OthersDesc03" ColumnName="OthersDesc03" />
+                <ScalarProperty Name="OthersDesc02" ColumnName="OthersDesc02" />
+                <ScalarProperty Name="OthersDesc01" ColumnName="OthersDesc01" />
+                <ScalarProperty Name="OthersPic04" ColumnName="OthersPic04" />
+                <ScalarProperty Name="OthersPic03" ColumnName="OthersPic03" />
+                <ScalarProperty Name="OthersPic02" ColumnName="OthersPic02" />
+                <ScalarProperty Name="OthersPic01" ColumnName="OthersPic01" />
+                <ScalarProperty Name="CustomerStaffModelDesc04" ColumnName="CustomerStaffModelDesc04" />
+                <ScalarProperty Name="CustomerStaffModelDesc03" ColumnName="CustomerStaffModelDesc03" />
+                <ScalarProperty Name="CustomerStaffModelDesc02" ColumnName="CustomerStaffModelDesc02" />
+                <ScalarProperty Name="CustomerStaffModelDesc01" ColumnName="CustomerStaffModelDesc01" />
+                <ScalarProperty Name="CustomerStaffModelPic04" ColumnName="CustomerStaffModelPic04" />
+                <ScalarProperty Name="CustomerStaffModelPic03" ColumnName="CustomerStaffModelPic03" />
+                <ScalarProperty Name="CustomerStaffModelPic02" ColumnName="CustomerStaffModelPic02" />
+                <ScalarProperty Name="CustomerStaffModelPic01" ColumnName="CustomerStaffModelPic01" />
+                <ScalarProperty Name="RegisterLiveShowDesc04" ColumnName="RegisterLiveShowDesc04" />
+                <ScalarProperty Name="RegisterLiveShowDesc03" ColumnName="RegisterLiveShowDesc03" />
+                <ScalarProperty Name="RegisterLiveShowDesc02" ColumnName="RegisterLiveShowDesc02" />
+                <ScalarProperty Name="RegisterLiveShowDesc01" ColumnName="RegisterLiveShowDesc01" />
+                <ScalarProperty Name="RegisterLiveShowPic04" ColumnName="RegisterLiveShowPic04" />
+                <ScalarProperty Name="RegisterLiveShowPic03" ColumnName="RegisterLiveShowPic03" />
+                <ScalarProperty Name="RegisterLiveShowPic02" ColumnName="RegisterLiveShowPic02" />
+                <ScalarProperty Name="RegisterLiveShowPic01" ColumnName="RegisterLiveShowPic01" />
+                <ScalarProperty Name="PlaceDesc04" ColumnName="PlaceDesc04" />
+                <ScalarProperty Name="PlaceDesc03" ColumnName="PlaceDesc03" />
+                <ScalarProperty Name="PlaceDesc02" ColumnName="PlaceDesc02" />
+                <ScalarProperty Name="PlaceDesc01" ColumnName="PlaceDesc01" />
+                <ScalarProperty Name="PlacePic04" ColumnName="PlacePic04" />
+                <ScalarProperty Name="PlacePic03" ColumnName="PlacePic03" />
+                <ScalarProperty Name="PlacePic02" ColumnName="PlacePic02" />
+                <ScalarProperty Name="PlacePic01" ColumnName="PlacePic01" />
+                <ScalarProperty Name="CarDisplayDesc04" ColumnName="CarDisplayDesc04" />
+                <ScalarProperty Name="CarDisplayDesc03" ColumnName="CarDisplayDesc03" />
+                <ScalarProperty Name="CarDisplayDesc02" ColumnName="CarDisplayDesc02" />
+                <ScalarProperty Name="CarDisplayDesc01" ColumnName="CarDisplayDesc01" />
+                <ScalarProperty Name="CarDisplayPic04" ColumnName="CarDisplayPic04" />
+                <ScalarProperty Name="CarDisplayPic03" ColumnName="CarDisplayPic03" />
+                <ScalarProperty Name="CarDisplayPic02" ColumnName="CarDisplayPic02" />
+                <ScalarProperty Name="CarDisplayPic01" ColumnName="CarDisplayPic01" />
+                <ScalarProperty Name="OnLineAdDesc04" ColumnName="OnLineAdDesc04" />
+                <ScalarProperty Name="OnLineAdDesc03" ColumnName="OnLineAdDesc03" />
+                <ScalarProperty Name="OnLineAdDesc02" ColumnName="OnLineAdDesc02" />
+                <ScalarProperty Name="OnLineAdDesc01" ColumnName="OnLineAdDesc01" />
+                <ScalarProperty Name="OnLineAdPic04" ColumnName="OnLineAdPic04" />
+                <ScalarProperty Name="OnLineAdPic03" ColumnName="OnLineAdPic03" />
+                <ScalarProperty Name="OnLineAdPic02" ColumnName="OnLineAdPic02" />
+                <ScalarProperty Name="OnLineAdPic01" ColumnName="OnLineAdPic01" />
+                <ScalarProperty Name="AttendencePCCount" ColumnName="AttendencePCCount" />
+                <ScalarProperty Name="AttendenceOwnerCount" ColumnName="AttendenceOwnerCount" />
+                <ScalarProperty Name="MarketSaleTeamAdvice" ColumnName="MarketSaleTeamAdvice" />
+                <ScalarProperty Name="CustomerFeedback" ColumnName="CustomerFeedback" />
+                <ScalarProperty Name="ImproveArea" ColumnName="ImproveArea" />
+                <ScalarProperty Name="HightLights" ColumnName="HightLights" />
+                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketActionBefore21">
+            <EntityTypeMapping TypeName="BentleyModel.MarketActionBefore21">
+              <MappingFragment StoreEntitySet="MarketActionBefore21">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="OtherDesc04" ColumnName="OtherDesc04" />
+                <ScalarProperty Name="OtherDesc03" ColumnName="OtherDesc03" />
+                <ScalarProperty Name="OtherDesc02" ColumnName="OtherDesc02" />
+                <ScalarProperty Name="OtherDesc01" ColumnName="OtherDesc01" />
+                <ScalarProperty Name="OthersPic04" ColumnName="OthersPic04" />
+                <ScalarProperty Name="OthersPic03" ColumnName="OthersPic03" />
+                <ScalarProperty Name="OthersPic02" ColumnName="OthersPic02" />
+                <ScalarProperty Name="OthersPic01" ColumnName="OthersPic01" />
+                <ScalarProperty Name="TestDriverRoadMapDesc04" ColumnName="TestDriverRoadMapDesc04" />
+                <ScalarProperty Name="TestDriverRoadMapDesc03" ColumnName="TestDriverRoadMapDesc03" />
+                <ScalarProperty Name="TestDriverRoadMapDesc02" ColumnName="TestDriverRoadMapDesc02" />
+                <ScalarProperty Name="TestDriverRoadMapDesc01" ColumnName="TestDriverRoadMapDesc01" />
+                <ScalarProperty Name="TestDriverRoadMapPic04" ColumnName="TestDriverRoadMapPic04" />
+                <ScalarProperty Name="TestDriverRoadMapPic03" ColumnName="TestDriverRoadMapPic03" />
+                <ScalarProperty Name="TestDriverRoadMapPic02" ColumnName="TestDriverRoadMapPic02" />
+                <ScalarProperty Name="TestDriverRoadMapPic01" ColumnName="TestDriverRoadMapPic01" />
+                <ScalarProperty Name="PlaceIntroDesc04" ColumnName="PlaceIntroDesc04" />
+                <ScalarProperty Name="PlaceIntroDesc03" ColumnName="PlaceIntroDesc03" />
+                <ScalarProperty Name="PlaceIntroDesc02" ColumnName="PlaceIntroDesc02" />
+                <ScalarProperty Name="PlaceIntroDesc01" ColumnName="PlaceIntroDesc01" />
+                <ScalarProperty Name="PlaceIntroPic04" ColumnName="PlaceIntroPic04" />
+                <ScalarProperty Name="PlaceIntroPic03" ColumnName="PlaceIntroPic03" />
+                <ScalarProperty Name="PlaceIntroPic02" ColumnName="PlaceIntroPic02" />
+                <ScalarProperty Name="PlaceIntroPic01" ColumnName="PlaceIntroPic01" />
+                <ScalarProperty Name="POSDesignDesc04" ColumnName="POSDesignDesc04" />
+                <ScalarProperty Name="POSDesignDesc03" ColumnName="POSDesignDesc03" />
+                <ScalarProperty Name="POSDesignDesc02" ColumnName="POSDesignDesc02" />
+                <ScalarProperty Name="POSDesignDesc01" ColumnName="POSDesignDesc01" />
+                <ScalarProperty Name="POSDesignPic04" ColumnName="POSDesignPic04" />
+                <ScalarProperty Name="POSDesignPic03" ColumnName="POSDesignPic03" />
+                <ScalarProperty Name="POSDesignPic02" ColumnName="POSDesignPic02" />
+                <ScalarProperty Name="POSDesignPic01" ColumnName="POSDesignPic01" />
+                <ScalarProperty Name="KeyVisionApprovalDesc" ColumnName="KeyVisionApprovalDesc" />
+                <ScalarProperty Name="KeyVisionApprovalCode" ColumnName="KeyVisionApprovalCode" />
+                <ScalarProperty Name="KeyVisionDesc" ColumnName="KeyVisionDesc" />
+                <ScalarProperty Name="KeyVisionPic" ColumnName="KeyVisionPic" />
+                <ScalarProperty Name="TargetOrdersPCCount" ColumnName="TargetOrdersPCCount" />
+                <ScalarProperty Name="TargetOrdersOwnerCount" ColumnName="TargetOrdersOwnerCount" />
+                <ScalarProperty Name="TargetTestDrivePCCount" ColumnName="TargetTestDrivePCCount" />
+                <ScalarProperty Name="TargetTestDriveOwnerCount" ColumnName="TargetTestDriveOwnerCount" />
+                <ScalarProperty Name="TargetLeadsPCCount" ColumnName="TargetLeadsPCCount" />
+                <ScalarProperty Name="TargetLeadsOwnerCount" ColumnName="TargetLeadsOwnerCount" />
+                <ScalarProperty Name="TargetParticipationPCCount" ColumnName="TargetParticipationPCCount" />
+                <ScalarProperty Name="TargetParticipationOwnerCount" ColumnName="TargetParticipationOwnerCount" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="ActivityDesc" ColumnName="ActivityDesc" />
+                <ScalarProperty Name="ActivityObjective" ColumnName="ActivityObjective" />
+                <ScalarProperty Name="ActivityBackground" ColumnName="ActivityBackground" />
+                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

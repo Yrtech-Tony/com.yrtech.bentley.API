@@ -126,7 +126,11 @@
 
         $("#nav_promotion").addClass("active");
         $(function () {
-            loadShops();
+            loadShops().forEach(function (item) {
+                var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
+                $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
+            });
+
             loadActiveStatuss();
             loadEventTypes();
 
@@ -195,7 +199,7 @@
         function loadMarketings(refresh) {
             $.commonGet("MarketAction/MarketActionSearch", {
                 actionName: $('#pname').val() || ' ',
-                year: $('#Year').val() || ' ',
+                year: $('#pyear').val() || ' ',
                 month: $('#pmonth').val() || ' ',
                 marketActionStatusCode: $('#pstate').val() || ' ',
                 shopId: $('#pdealer').val() || ' ',

@@ -1,0 +1,348 @@
+﻿@{
+    ViewBag.Title = "Before3Days";
+}
+
+<input id="TDisplayModel" type="hidden" value="{{'Display Model（Color）'|translate}}" />
+<input id="TProvider" type="hidden" value="{{'Provider'|translate}}" />
+<input id="TEdit" type="hidden" value="{{'Edit'|translate}}" />
+<input id="WhetherDeal" type="hidden" value="{{'Whether Deal Made'|translate}}" />
+<input id="TTime" type="hidden" value="{{'Date'|translate}}" />
+<input id="TProcess" type="hidden" value="{{'Process'|translate}}" />
+<input id="TContent" type="hidden" value="{{'Content'|translate}}" />
+<input id="TComments" type="hidden" value="{{'Comments'|translate}}" />
+<input id="UnitPrice" type="hidden" value="{{'Unit Price'|translate}}" />
+<input id="TDESC" type="hidden" value="{{'Description'|translate}}" />
+<input id="ExpenseItem" type="hidden" value="{{'Tick Item'|translate}}" />
+<input id="TQuantity" type="hidden" value="{{'Quantity'|translate}}" />
+<input id="TotalAmount" type="hidden" value="{{'Total Amount'|translate}}" />
+<div id="page-wrapper">
+    <!--BEGIN CONTENT-->
+    <div class="page-content">
+        <div id="main-content">
+            <h2 translate>Event Application</h2>
+            <p><a class="btn btn-success" href="/Marketing/Index"><i class="icon-plus icon-white"></i><span translate>Back</span></a></p>
+
+            <div class="widget">
+                <div class="widget-title">
+                    <h4><i class="icon-reorder"></i><span translate>Marketing Events List</span></h4>
+                    <span class="tools">
+                        <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+                    </span>
+                </div>
+                <div class="widget-body" style="display: block;">
+                    <form class="form-horizontal bv-form ng-pristine ng-valid" id="PromotionCreate" novalidate="novalidate">
+                        <input id="MarketActionId " name="MarketActionId " type="hidden" value="" />
+                        <input id="InUserId" name="InUserId" type="hidden" value="" />
+                        <input id="InDateTime" name="InDateTime" type="hidden" value="" />
+                        <input id="ModifyUserId" name="ModifyUserId" type="hidden" value="" />
+                        <input id="ModifyDateTime" name="ModifyDateTime" type="hidden" value="" />
+                        <div class="row" id="ActiveShow" style="display:none">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Promotion State</span><span class="required" style="color:red">*</span>:</label>
+                                    <div class="col-md-4">
+                                        <select id="MarketActionStatusCode" name="MarketActionStatusCode" class="selectpicker" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Event Name</span><span class="required" style="color:red">*</span>:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" id="ActionName" name="ActionName" maxlength="255" style="width:100%;" type="text" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Event ID</span><span class="required" style="color:red">*</span>:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" id="ActionCode" name="ActionCode" maxlength="255" style="width:100%;" type="text" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Dealer Name</span>:</label>
+                                    <div class="col-md-8">
+                                        <select id="ShopId" name="ShopId" class="selectpicker" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Event Type</span>:</label>
+                                    <div class="col-md-8">
+                                        <select id="EventTypeId" name="EventTypeId" class="selectpicker" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Main Models</span><span class="required" style="color:red">*</span>:  </label>
+                                    <div class="col-md-4">
+                                        <select id="MarketActionTargetModelCode" name="MarketActionTargetModelCode" class="selectpicker" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <label for="StartDate" class="col-md-2 control-label"><span translate>By Date</span><span class="required" style="color:red">*</span>:</label>
+
+                                    <div class="col-md-2" style="margin-right:-5px;">
+                                        <input class="form-control form_date" id="StartDate" name="StartDate" maxlength="255" style="width:100%;" type="text" disabled />
+                                    </div>
+                                    <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;"> - </span>
+                                    <div class="col-md-2" style="margin-left:0px;">
+                                        <input class="form-control form_date" id="EndDate" name="EndDate" maxlength="255" style="width:100%;" type="text" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Event Venue</span>:</label>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control" cols="20" id="ActionPlace" name="ActionPlace" maxlength="255" rows="2" style="width:100%;height:60px;" disabled></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-title">
+                    <h4><i class="icon-reorder"></i><span translate>Final Plan</span></h4>
+                    <span class="tools">
+                        <a href="javascript:;" class="icon-chevron-down" onclick="ShowSolution()"></a>
+                    </span>
+                </div>
+                <div class="widget-body form form-horizontal" id="ultimatesolution" style="display: block;">
+                    <div>
+                        <form  class="form-horizontal ng-pristine ng-valid"  id="PromotionCreate3">
+                            <input id="ID" name="ID" type="hidden" autocomplete="off">
+                            <input id="UserId" name="UserId" type="hidden" autocomplete="off">
+                            <input id="PromotionBaseType" name="PromotionBaseType" type="hidden">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2"><span translate>Display Model</span>:</label>
+                                            <div class="col-md-9">
+                                                <a href="javascript:AddDisplayModelsTable();"><i class="icon-plus icon-white" translate>Add</i></a>
+                                                <table id="DisplayModelsTable" class="table table-striped table-bordered table-hover"></table>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2"><span translate>Test Drive Model</span>:</label>
+                                            <div class="col-md-9">
+                                                <a href="javascript:AddTestDriveTable();"><i class="icon-plus icon-white" translate>Add</i></a>
+                                                <table id="TestDriveTable" class="table table-striped table-bordered table-hover"></table>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2"><span translate>Budget Details</span>:</label>
+                                            <div class="col-md-9">
+                                                <a href="javascript:AddActivityBudgetTable();"><i class="icon-plus icon-white" translate>Add</i></a>
+                                                <br>
+                                                <table id="ActivityBudgetTable" class="table table-striped table-bordered table-hover"></table>
+                                                <div class="clearfix"></div>
+                                                <div><label translate>Total Amount</label>:<span id="ActivityBudgetSum"></span></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="button" onclick="PromotionEdit3()" class="btn btn-success" translate>Save</button>
+                                        <a class="btn btn-dark" href="/Marketing/Index" translate>Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END CONTENT-->
+    <!--BEGIN FOOTER-->
+
+    <div id="footer" style="display:none">
+        <div class="copyright">
+            <table></table>
+        </div>
+    </div>
+    <!--END FOOTER-->
+</div>
+@section scripts{
+    <script src="~/Scripts/api/common.js"></script>
+    <script src="~/Scripts/curtom/PromotionEdit.js"></script>
+
+    <script>
+        $("#nav_promotion").addClass("active");
+
+        var id = '@ViewBag.Id';
+        if (id) {
+            $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
+                if (data && data.length > 0) {
+                    data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
+                    data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
+                    $('#PromotionCreate').setForm(data[0]);
+                }
+            });
+        }
+        $(function () {
+            loadShops().forEach(function (item) {
+                var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
+                $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
+            });
+
+            loadActiveStatuss();
+            loadTargetModels();
+            loadEventTypes();
+
+            var roleName = $('#G_RoleTypeCode').val();
+            if (roleName == "SYSADMIN") {
+                $('#ActiveShow').show();
+            }
+        });
+
+        function loadActiveStatuss() {
+            $.commonGet("Master/HiddenCodeSearch", {
+                hiddenCodeGroup: "MarketActionStatus",
+                hiddenCode: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                });
+                $("#MarketActionStatusCode").selectpicker("refresh");
+            })
+        }
+
+        function loadTargetModels() {
+            $.commonGet("Master/HiddenCodeSearch", {
+                hiddenCodeGroup: "TargetModels",
+                hiddenCode: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                });
+                $("#MarketActionTargetModelCode").selectpicker("refresh");
+            })
+        }
+
+        function loadEventTypes() {
+            $.commonGet("Master/EventTypeSearch", {
+                eventTypeId: "",
+                eventTypeName: "",
+                eventTypeNameEn: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(localStorage.language == 'zh' ? item.EventTypeName : item.EventTypeNameEn))
+                });
+                $("#EventTypeId").selectpicker("refresh");
+            })
+        }
+
+
+        $(function () {
+            InitCustomerInvitation2Table();
+            InitOrderDetail();
+            InitActualCost();
+        });
+        $('#UserId').val($('#G_UserId').val());
+
+        var roleName = $('#G_RoleTypeCode').val();
+        if (roleName == "SYSADMIN" || roleName == "市场活动") {
+            $('#ActiveShow').show();
+            $('#VisualStatus').prop("disabled", false);
+        }
+        else {
+            $('#VisualStatus').prop("disabled", true);
+        }
+
+        function OpenForm(obj) {
+            var url = obj.src;
+            url = url.replace('_min.', '.');
+            if (!new RegExp('Content/bootstrap-fileinput/img/noimage').test(url)) {
+                window.open(url);
+            }
+        }
+
+        function filterWords(msg) {
+            if (!isZH()) {
+                return msg.replace("保存成功！", "Save Successfully !").replace("系统错误，请联系管理员！", "System error, please contact administrator!")
+            }
+            return msg;
+        }
+        function PromotionEdit3() {
+            var StrDisplayModels = JSON.stringify($('#DisplayModelsTable').bootstrapTable('getData'), ["DisplayModel", "DisclosingParty"]);
+            var StrTestDrive = JSON.stringify($('#TestDriveTable').bootstrapTable('getData'), ["DisplayModel", "DisclosingParty"]);
+            var StrActivityBudget = JSON.stringify($('#ActivityBudgetTable').bootstrapTable('getData'), ["ID", "ProjectName", "OverView", "UnitPrice", "Count"]);
+
+            var oMyForm = new FormData($('#PromotionCreate3')[0]);
+            oMyForm.append("StrDisplayModels", StrDisplayModels);
+            oMyForm.append("StrTestDrive", StrTestDrive);
+            oMyForm.append("StrActivityBudget", StrActivityBudget);
+            console.log(oMyForm)
+            debugger
+            $.commonPost('MarketAction/MarketActionBefore3Save',{
+                UserId: $("#G_UserId").val(),
+                ListJson: JSON.stringify(oMyForm)
+            });
+        }
+
+        function PromotionDelete() {
+            layer.confirm($('#G_promotion_delete').val(), {
+                title: $('#G_Info').val(),
+                btn: [$('#G_Yes').val(), $('#G_No').val()] //按钮
+            }, function () {
+                var oMyForm = new FormData();
+                oMyForm.append("Id", $('#ID').val());
+                $.ajax({
+                    url: '/Home/PromotionDetele',
+                    type: 'POST',
+                    cache: false,
+                    data: oMyForm,
+                    processData: false,
+                    contentType: false
+                }).done(function (res) {
+                    console.log(res.returnValue);
+                    window.location.href = "/Home/Promotion?type=" + "";
+                }).fail(function (res) { });
+            }, function () {
+
+            });
+        }
+    </script>
+}

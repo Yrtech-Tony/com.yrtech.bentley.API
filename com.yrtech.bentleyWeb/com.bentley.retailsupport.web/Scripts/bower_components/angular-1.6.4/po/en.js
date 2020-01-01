@@ -76,7 +76,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , "Report": "Report"
             , "Approval": "Approval"
 
-
+            , "Description2": "Description"
             , "Description": "Description"
             , "Main Models": "Target Model"
 
@@ -268,6 +268,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , "2019 Coop Fund": "2019 Coop Fund"
             , 'Email Screenshot': 'Email Screenshot'
             , 'PType': 'Promotion Type'  //������������
+             , 'Modification Instructions': 'Modification Instructions'
         });
     /* jshint +W100 */
 }]);

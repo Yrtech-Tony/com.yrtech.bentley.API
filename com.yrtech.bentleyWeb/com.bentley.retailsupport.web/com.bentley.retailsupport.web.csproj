@@ -138,6 +138,7 @@
     <Content Include="Content\assets\plugins\bootstrap-datetimepicker\js\bootstrap-datetimepicker.js" />
     <Content Include="Content\assets\plugins\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="Content\bootstrap-fileinput\css\bootstrap-fileinput.css" />
+    <Content Include="Content\bootstrap-fileinput\img\noimage.png" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\avatar\logo.png" />
@@ -174,6 +175,7 @@
     <Content Include="Home\PromotionCreate.html" />
     <Content Include="Home\PromotionEdit.html" />
     <Content Include="Home\PromotionEdit1.html" />
+    <Content Include="Home\PromotionEdit3.html" />
     <Content Include="Home\PromotionReport.html" />
     <Content Include="Home\PromotionReport2.html" />
     <Content Include="Home\PromotionReport3.html" />
@@ -195,6 +197,7 @@
     <Content Include="Content\style\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\style\fonts\BentleySemiBold.otf" />
     <Content Include="Content\style\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
     <None Include="Properties\PublishProfiles\bentley.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap3-editable\css\bootstrap-editable.css" />
@@ -213,6 +216,7 @@
     <Content Include="Scripts\bower_components\LanguageCheck.js" />
     <Content Include="Scripts\bower_components\layer\layer.js" />
     <Content Include="Scripts\bower_components\layer\skin\default\layer.css" />
+    <Content Include="Scripts\curtom\PromotionEdit.js" />
     <Content Include="Scripts\Dark\bootstrap-hover-dropdown.js" />
     <Content Include="Scripts\Dark\bootstrap-switch.min.js" />
     <Content Include="Scripts\Dark\bootstrap-toggleButtons.js" />
@@ -339,7 +343,7 @@
     <Content Include="Scripts\oss-upload-direct\lib\plupload-2.1.2\js\plupload.min.js" />
     <Content Include="Scripts\oss-upload-direct\lib\plupload-2.1.2\license.txt" />
     <Content Include="Scripts\oss-upload-direct\upload.js" />
-    <Content Include="Scripts\curtomValidator\PromotionCreate.js" />
+    <Content Include="Scripts\curtom\PromotionCreate.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -366,8 +370,9 @@
     <Content Include="Scripts\oss-upload-direct\lib\plupload-2.1.2\examples\upload.php" />
     <Content Include="Scripts\oss-upload-direct\lib\plupload-2.1.2\readme.md" />
     <Content Include="Views\Marketing\Create.cshtml" />
-    <Content Include="Views\Marketing\MarketActionBefore21.cshtml" />
+    <Content Include="Views\Marketing\Before3Weeks.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Marketing\Before3Days.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

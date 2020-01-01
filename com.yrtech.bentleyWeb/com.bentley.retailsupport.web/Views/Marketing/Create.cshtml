@@ -31,7 +31,11 @@
                                         <div class="widget-body form form-horizontal" style="display: block;">
                                             <div>
                                                 <form class="form-horizontal" id="PromotionCreate">
-                                                    <input id="MarketActionId " name="MarketActionId " type="hidden" value="" />
+                                                    <input id="MarketActionId" name="MarketActionId" type="hidden" value="" />
+                                                    <input id="InUserId" name="InUserId" type="hidden" value="" />
+                                                    <input id="InDateTime" name="InDateTime" type="hidden" value="" />
+                                                    <input id="ModifyUserId" name="ModifyUserId" type="hidden" value="" />
+                                                    <input id="ModifyDateTime" name="ModifyDateTime" type="hidden" value="" />
                                                     <div class="row" id="ActiveShow" style="display:none">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -82,7 +86,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
+                                                    <div class="row" id="MarketActionTargetModelCodeDiv">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label class="control-label col-md-4"><span translate>Main Models</span><span class="required" style="color:red">*</span>:  </label>
@@ -113,7 +117,7 @@
                                                             <div class="form-group">
                                                                 <label class="control-label col-md-4"><span translate>Event Venue</span>:</label>
                                                                 <div class="col-md-8">
-                                                                    <textarea class="form-control" cols="20" id="Venue" name="ActionPlace" maxlength="255" rows="2" style="width:100%;height:60px;"></textarea>
+                                                                    <textarea class="form-control" cols="20" id="ActionPlace" name="ActionPlace" maxlength="255" rows="2" style="width:100%;height:60px;"></textarea>
                                                                 </div>
                                                             </div>
 
@@ -147,19 +151,29 @@
 </div>
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
-    <script src="~/Scripts/curtomValidator/PromotionCreate.js"></script>
+    <script src="~/Scripts/curtom/PromotionCreate.js"></script>
     <script>
+        $("#nav_promotion").addClass("active");
+
         var id = '@ViewBag.Id';
-        if(id){
-            $.commonGet("MarketAction/MarketActionSearchById",{marketActionId:id},function(data){
-                if(data && data.length>0){
+        if (id) {
+            $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
+                if (data && data.length > 0) {
+                    data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
+                    data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
                     $('#PromotionCreate').setForm(data[0]);
                 }
             });
+
+            $("#MarketActionTargetModelCodeDiv").hide();
         }
         $(function () {
+            loadShops().forEach(function (item) {
+                var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
+                $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
+            });
+
             loadActiveStatuss();
-            loadShops();
             loadTargetModels();
             loadEventTypes();
 
@@ -204,12 +218,12 @@
                 $("#EndDate").datetimepicker('hide');
             });
 
-            var roleName = $('#G_RoleName').val();
-            if (roleName == "管理员") {
+            var roleName = $('#G_RoleTypeCode').val();
+            if (roleName == "SYSADMIN") {
                 $('#ActiveShow').show();
             }
         })
-        
+
         function loadActiveStatuss() {
             $.commonGet("Master/HiddenCodeSearch", {
                 hiddenCodeGroup: "MarketActionStatus",
@@ -260,10 +274,12 @@
                 else {
                     try {
                         var oMyForm = $('#PromotionCreate').serializeObject();
-                        oMyForm.InUserId = $("#G_UserId").val();
+                        if (!oMyForm.InUserId) {
+                            oMyForm.InUserId = $("#G_UserId").val();
+                        }        
                         console.log(oMyForm)
                         $.commonPost('MarketAction/MarketActionSave', oMyForm, function (res) {
-                            //window.location.href = "/Marketing/Index";
+                            window.location.href = "/Marketing/Index";
                         })
                     }
                     catch (e) {

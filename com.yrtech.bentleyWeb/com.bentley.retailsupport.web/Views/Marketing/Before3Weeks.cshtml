@@ -1,0 +1,867 @@
+﻿@{
+    ViewBag.Title = "Before3Weeks";
+}
+
+<input id="TDisplayModel" type="hidden" value="{{'Display Model（Color）'|translate}}" />
+<input id="TProvider" type="hidden" value="{{'Provider'|translate}}" />
+<input id="TEdit" type="hidden" value="{{'Edit'|translate}}" />
+<input id="WhetherDeal" type="hidden" value="{{'Whether Deal Made'|translate}}" />
+<input id="TTime" type="hidden" value="{{'Date'|translate}}" />
+<input id="TProcess" type="hidden" value="{{'Process'|translate}}" />
+<input id="TContent" type="hidden" value="{{'Content'|translate}}" />
+<input id="TComments" type="hidden" value="{{'Comments'|translate}}" />
+<input id="UnitPrice" type="hidden" value="{{'Unit Price'|translate}}" />
+<input id="TDESC" type="hidden" value="{{'Description'|translate}}" />
+<input id="ExpenseItem" type="hidden" value="{{'Tick Item'|translate}}" />
+<input id="TQuantity" type="hidden" value="{{'Quantity'|translate}}" />
+<input id="TotalAmount" type="hidden" value="{{'Total Amount'|translate}}" />
+<div id="page-wrapper">
+    <!--BEGIN CONTENT-->
+    <div class="page-content">
+        <div id="main-content">
+            <h2 translate>Event Application</h2>
+            <p><a class="btn btn-success" href="/Marketing/Index"><i class="icon-plus icon-white"></i><span translate>Back</span></a></p>
+
+            <div class="widget">
+                <div class="widget-title">
+                    <h4><i class="icon-reorder"></i><span translate>Marketing Events List</span></h4>
+                    <span class="tools">
+                        <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+                    </span>
+                </div>
+                <div class="widget-body" style="display: block;">
+                    <form class="form-horizontal bv-form ng-pristine ng-valid" id="PromotionCreate" novalidate="novalidate">
+                        <input id="MarketActionId " name="MarketActionId " type="hidden" value="" />
+                        <input id="InUserId" name="InUserId" type="hidden" value="" />
+                        <input id="InDateTime" name="InDateTime" type="hidden" value="" />
+                        <input id="ModifyUserId" name="ModifyUserId" type="hidden" value="" />
+                        <input id="ModifyDateTime" name="ModifyDateTime" type="hidden" value="" />
+                        <div class="row" id="ActiveShow" style="display:none">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Promotion State</span><span class="required" style="color:red">*</span>:</label>
+                                    <div class="col-md-4">
+                                        <select id="MarketActionStatusCode" name="MarketActionStatusCode" class="selectpicker" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Event Name</span><span class="required" style="color:red">*</span>:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" id="ActionName" name="ActionName" maxlength="255" style="width:100%;" type="text" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Event ID</span><span class="required" style="color:red">*</span>:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" id="ActionCode" name="ActionCode" maxlength="255" style="width:100%;" type="text" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Dealer Name</span>:</label>
+                                    <div class="col-md-8">
+                                        <select id="ShopId" name="ShopId" class="selectpicker" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Event Type</span>:</label>
+                                    <div class="col-md-8">
+                                        <select id="EventTypeId" name="EventTypeId" class="selectpicker" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <label for="StartDate" class="col-md-2 control-label"><span translate>By Date</span><span class="required" style="color:red">*</span>:</label>
+
+                                    <div class="col-md-2" style="margin-right:-5px;">
+                                        <input class="form-control form_date" id="StartDate" name="StartDate" maxlength="255" style="width:100%;" type="text" disabled />
+                                    </div>
+                                    <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;"> - </span>
+                                    <div class="col-md-2" style="margin-left:0px;">
+                                        <input class="form-control form_date" id="EndDate" name="EndDate" maxlength="255" style="width:100%;" type="text" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"><span translate>Event Venue</span>:</label>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control" cols="20" id="ActionPlace" name="ActionPlace" maxlength="255" rows="2" style="width:100%;height:60px;" disabled></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-title">
+                    <h4><i class="icon-reorder"></i><span translate>Plan PPT</span></h4>
+                    <span class="tools">
+                        <a href="javascript:;" class="icon-chevron-down" onclick="ShowPlan()"></a>
+                    </span>
+                </div>
+
+                <div class="widget-body form form-horizontal" id="activityplan" style="display: block;">
+                    <div>
+                        <form class="form-horizontal ng-pristine ng-valid" id="PromotionCreate2">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Event Background</span>:</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" cols="20" id="ActivityBackground" name="ActivityBackground" rows="5" style="width:100%;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Event Objective</span>:</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" cols="20" id="ActivityObjective" name="ActivityObjective" rows="5" style="width:100%;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Event Description</span>:</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" cols="20" id="ActivityDesc" name="ActivityDesc" rows="5" style="width:100%;"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Main Models</span><span class="required" style="color:red">*</span>: </label>
+                                        <div class="col-md-4">
+                                            <select id="MarketActionTargetModelCode" name="MarketActionTargetModelCode" class="selectpicker"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Budget(RMB)</span><span class="required" style="color:red">*</span>:  </label>
+                                        <div class="col-md-4">
+                                            <input class="form-control" id="Budget" name="Budget" style="width:100%;" type="text" value="0">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><span translate>Expected to Participate</span><span class="required" style="color:red">*</span>:  </label>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
+                                        <div class="col-md-2" style="margin-right: -5px">
+                                            <input min=" 0" class="form-control" id="TargetParticipationOwnerCount" name="TargetParticipationOwnerCount" style="width:100%;" type="number" value="0">
+                                        </div>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
+                                        <div class="col-md-2" style="margin-left:0px;">
+                                            <input min="0" class="form-control" id="TargetParticipationPCCount " name="TargetParticipationPCCount" style="width:100%;" type="number" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><span translate>Expected Clues</span><span class="required" style="color:red">*</span>:  </label>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
+                                        <div class="col-md-2" style="margin-right:-5px;">
+                                            <input class="form-control" data-val="true" id="TargetLeadsOwnerCount" name="TargetLeadsOwnerCount" style="width:100%;" type="number" value="0">
+                                        </div>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
+                                        <div class="col-md-2" style="margin-left:0px;">
+                                            <input class="form-control" data-val="true" id="TargetLeadsPCCount" name="TargetLeadsPCCount" style="width:100%;" type="number" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><span translate>Expected Test Drive Participants</span>:</label>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
+                                        <div class="col-md-2" style="margin-right:-5px;">
+                                            <input min="0" class="form-control" data-val="true" id="TargetTestDriveOwnerCount" maxlength="255" name="TargetTestDriveOwnerCount" style="width:100%;" type="number" value="0">
+                                        </div>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
+                                        <div class="col-md-2" style="margin-left:0px;">
+                                            <input min="0" class="form-control" id="TargetTestDrivePCCount" name="TargetTestDrivePCCount" style="width:100%;" type="number" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><span translate>Expected Orders</span><span class="required" style="color:red">*</span>:  </label>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
+                                        <div class="col-md-2" style="margin-right:-5px;">
+                                            <input min="0" class="form-control" data-val="true" id="TargetOrdersOwnerCount" name="TargetOrdersOwnerCount" style="width:100%;" type="number" value="0">
+                                        </div>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
+                                        <div class="col-md-2" style="margin-left:0px;">
+                                            <input class="form-control" id="TargetOrdersPCCount" name="TargetOrdersOwnerCount" style="width:100%;" type="number" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><span translate>Event Procedure</span>:</label>
+                                        <div class="col-md-8">
+                                            <a href="javascript:AddActivityFlowTable();"><i class="icon-plus icon-white" translate>Add</i></a>
+                                            <table id="ActivityFlowTable" class="table table-striped table-bordered table-hover"></table>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Primary Vision</span>:</label>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width: 190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_visual1" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <textarea class="form-control" cols="20" id="KeyVisionDesc" name="KeyVisionDesc" placeholder="{{'Description2'|translate}}" rows="11"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" cols="20" id="VisualDescription" name="KeyVisionApprovalDesc " placeholder="{{'Modification Instructions'|translate}}" rows="9"></textarea>
+                                            <div style="margin-top:5px;">
+                                                <select id="VisualStatus" name="KeyVisionApprovalCode" class="selectpicker">
+                                                    <option value="0" selected="" translate>Waiting for Approval</option>
+                                                    <option value="1" translate>Approved</option>
+                                                    <option value="2" translate>Waiting for Change</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Accessories</span>:</label>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_material1" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="POSDesignDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_material2" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="POSDesignDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_material3" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" id="ListMaterials_2__ImgRemark" name=POSDesignDesc03" placeholder=" {{'description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_material4" style="width: 200px;height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div><textarea class="form-control" cols="20" name="POSDesignDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Venue Description</span>:</label>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width:200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width: 190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_venue1" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID_venue1" onchange="check(this)" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="PlaceIntroDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width: 190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_venue2" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="PlaceIntroDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_venue3" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="PlaceIntroDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_venue4" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="PlaceIntroDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Test Drive Roadmap</span>:</label>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_route1" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="TestDriverRoadMapDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_route2" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="TestDriverRoadMapDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_route3" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="TestDriverRoadMapDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_route4" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="TestDriverRoadMapDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Design Extension</span>:</label>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_design1" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="OtherDesc01 " placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_design2" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="OtherDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_design3" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="OtherDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_design4" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="OtherDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="button" onclick="PromotionEdit2()" class="btn btn-success" translate>Save</button>
+                                    <a class="btn btn-dark" href="/Marketing/Index" translate>Back</a>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END CONTENT-->
+    <!--BEGIN FOOTER-->
+
+    <div id="footer" style="display:none">
+        <div class="copyright">
+            <table></table>
+        </div>
+    </div>
+    <!--END FOOTER-->
+</div>
+@section scripts{
+    <script src="~/Scripts/api/common.js"></script>
+    <script src="~/Scripts/curtom/PromotionEdit.js"></script>
+
+    <script>
+        $("#nav_promotion").addClass("active");
+
+        var id = '@ViewBag.Id';
+        if (id) {
+            $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
+                if (data && data.length > 0) {
+                    data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
+                    data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
+                    $('#PromotionCreate').setForm(data[0]);
+                    $("#MarketActionTargetModelCode").val(data[0].MarketActionTargetModelCode);
+                    $("#MarketActionTargetModelCode").selectpicker("refresh");
+                }
+            });
+        }
+        $(function () {
+            loadShops().forEach(function (item) {
+                var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
+                $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
+            });
+
+            loadActiveStatuss();
+            loadTargetModels();
+            loadEventTypes();
+
+            InitActualActivityProcess();
+
+            $('#UserId').val($('#G_UserId').val());
+            var roleName = $('#G_RoleTypeCode').val();
+            if (roleName == "SYSADMIN" || roleName == "市场活动") {
+                $('#ActiveShow').show();
+                $('#VisualStatus').prop("disabled", false);
+            }
+            else {
+                $('#VisualStatus').prop("disabled", true);
+            }
+
+        });
+
+        function loadActiveStatuss() {
+            $.commonGet("Master/HiddenCodeSearch", {
+                hiddenCodeGroup: "MarketActionStatus",
+                hiddenCode: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                });
+                $("#MarketActionStatusCode").selectpicker("refresh");
+            })
+        }
+
+        function loadTargetModels() {
+            $.commonGet("Master/HiddenCodeSearch", {
+                hiddenCodeGroup: "TargetModels",
+                hiddenCode: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                });
+                $("#MarketActionTargetModelCode").selectpicker("refresh");
+            })
+        }
+
+        function loadEventTypes() {
+            $.commonGet("Master/EventTypeSearch", {
+                eventTypeId: "",
+                eventTypeName: "",
+                eventTypeNameEn: ""
+            }, function (data) {
+                data.forEach(function (item) {
+                    $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(localStorage.language == 'zh' ? item.EventTypeName : item.EventTypeNameEn))
+                });
+                $("#EventTypeId").selectpicker("refresh");
+            })
+        }
+
+
+
+        function OpenForm(obj) {
+            var url = obj.src;
+            url = url.replace('_min.', '.');
+            if (!new RegExp('Content/bootstrap-fileinput/img/noimage').test(url)) {
+                window.open(url);
+            }
+        }
+
+        function filterWords(msg) {
+            if (!isZH()) {
+                return msg.replace("保存成功！", "Save Successfully !").replace("系统错误，请联系管理员！", "System error, please contact administrator!")
+            }
+            return msg;
+        }
+
+        function SProcessing() {
+            //loading
+            var index = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
+            });
+        }
+        function EProcessing() {
+            layer.closeAll('loading');
+        }
+
+        function PromotionEdit2() {
+            var StrActivityFlow = JSON.stringify($('#ActivityFlowTable').bootstrapTable('getData'), ["ID", "ActivityTime", "ActivityLink", "ActivityContent", "ActivityRemark"]);
+
+            var MarketActionBefore21 = $('#PromotionCreate2').serializeObject();
+            MarketActionBefore21.MarketActionId = $("#MarketActionId").val();
+            //场地介绍
+            MarketActionBefore21.POSDesignPic01 = $('#img_venue1 img').attr('src');
+            MarketActionBefore21.POSDesignPic02 = $('#img_venue2 img').attr('src');
+            MarketActionBefore21.POSDesignPic03 = $('#img_venue3 img').attr('src');
+            MarketActionBefore21.POSDesignPic04 = $('#img_venue4 img').attr('src');
+            //试驾路线
+            MarketActionBefore21.TestDriverRoadMapPic01 = $('#img_route1 img').attr('src');
+            MarketActionBefore21.TestDriverRoadMapPic02 = $('#img_route2 img').attr('src');
+            MarketActionBefore21.TestDriverRoadMapPic03 = $('#img_route3 img').attr('src');
+            MarketActionBefore21.TestDriverRoadMapPic04 = $('#img_route4 img').attr('src');
+
+            //设计延展
+            MarketActionBefore21.OthersPic01 = $('#img_design1 img').attr('src');
+            MarketActionBefore21.OthersPic02 = $('#img_design2 img').attr('src');
+            MarketActionBefore21.OthersPic03 = $('#img_design3 img').attr('src');
+            MarketActionBefore21.OthersPic04 = $('#img_design4 img').attr('src');
+            //物料
+            MarketActionBefore21.POSDesignPic01 = $('#img_material1 img').attr('src');
+            MarketActionBefore21.POSDesignPic02 = $('#img_material2 img').attr('src');
+            MarketActionBefore21.POSDesignPic03 = $('#img_material3 img').attr('src');
+            MarketActionBefore21.POSDesignPic04 = $('#img_material4 img').attr('src');
+
+            //主视觉
+            MarketActionBefore21.KeyVisionPic = $('#img_visual1 img').attr('src');
+
+            var data = {
+                MarketActionId: MarketActionBefore21.MarketActionId,
+                MarketActionBefore21: MarketActionBefore21,
+                ActivityProcess: StrActivityFlow
+            };
+            SProcessing();
+            debugger
+            $.commonPost("MarketAction/MarketActionBefore21Save", {
+                UserId: $("#G_UserId").val(),
+                ListJson: JSON.stringify(data)
+            }, function () {
+                EProcessing();
+                var msg = isZH() ? datas.message : "Save successfully !";
+                layer.alert(msg, {
+                    skin: 'layui-layer-molv' //样式类名
+                    , closeBtn: 0
+                }, function (datas) {
+                    if (datas.returnValue) {
+                        //1.给主视觉设计公司发送邮件
+                        if (imgVisual1 != undefined) {
+                            $.ajax({
+                                async: true,
+                                type: "POST",
+                                url: '/Home/SendEmail',
+                                data: { dealerName: $('#Dealer').val(), promotionName: $('#Name').val(), roleName: $('#G_RoleName').val(), visualStatus: $('#VisualStatus').val() },
+                                success: function (data) {
+                                    if (data.returnValue) {
+                                        console.log(data.message);
+                                    }
+                                }
+                            });
+                        }
+                        //2.如果主视觉审核意见有修改时给经销商发邮件
+                        var dealerName = $('#Dealer').val();//经销商名称
+                        var promotionName = $('#Name').val();//活动名称
+                        var email = $('#jxsEmail').val();//邮件地址
+                        var VisualDescriptionOld = $("#VisualDescriptionOld").val();
+                        var VisualDescription = $("#VisualDescription").val();
+
+                        var VisualStatus = $("#VisualStatus").val();
+                        var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
+
+                        if (email != null && email != "" && ((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
+                        {
+                            $.ajax({
+                                async: true,
+                                type: "POST",
+                                url: '/Home/SendZsjAuditEmail',
+                                data: { dealerName: dealerName, promotionName: promotionName, email: email },
+                                success: function (data) {
+                                    if (data.returnValue) {
+                                        console.log(data.message);
+                                    }
+                                }
+                            });
+                        }
+
+                        //window.location.href = "/Marketing/Index";
+                    }
+                });
+            })
+        }
+
+
+        function PromotionDelete() {
+            layer.confirm($('#G_promotion_delete').val(), {
+                title: $('#G_Info').val(),
+                btn: [$('#G_Yes').val(), $('#G_No').val()] //按钮
+            }, function () {
+                var oMyForm = new FormData();
+                oMyForm.append("Id", $('#ID').val());
+                $.ajax({
+                    url: '/Home/PromotionDetele',
+                    type: 'POST',
+                    cache: false,
+                    data: oMyForm,
+                    processData: false,
+                    contentType: false
+                }).done(function (res) {
+                    console.log(res.returnValue);
+                    window.location.href = "/Home/Promotion?type=" + "";
+                }).fail(function (res) { });
+            }, function () {
+
+            });
+        }
+    </script>
+}

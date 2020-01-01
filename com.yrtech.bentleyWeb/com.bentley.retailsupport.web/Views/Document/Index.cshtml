@@ -93,7 +93,10 @@
         $("#nav_promotion2").addClass("active");
         var userId = '@LoginUser.UserId', roleType='@LoginUser.RoleTypeCode';
         $(function () {
-            loadShops();
+            loadShops().forEach(function (item) {
+                var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
+                $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
+            });
             loadCommitFiles();
         })
         

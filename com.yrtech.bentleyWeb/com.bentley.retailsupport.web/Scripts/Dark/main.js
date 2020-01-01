@@ -10,7 +10,7 @@ $(function () {
             winHeight = document.documentElement.clientHeight;
 
         var mainHeight = winHeight - $("#header-topbar-option-demo").height();
-        $('#sidebar,#page-wrapper').css('height', mainHeight + "px");
+        $('#sidebar').css('height', mainHeight + "px");
     }
     window.onresize = autoheight;
 

@@ -203,7 +203,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , "Acknowledgement": "电子版"
           //  , "Tick Box": "清单"
              , "Tick Box": "扫描版"
-            , "Remark": "备注Activity Name
+            , "Remark": "备注"
             , "Dealer Marketing Fund": "市场基金项目"
             , "Budget and Expense": "市场基金详情"
             , "Reimbursement": "费用报销"
@@ -232,7 +232,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , "Design Extension": "其他"
             , "Accessories": "物料设计"
             , "Choose Documents": "选择文件"
-            , "Description": "描述"
+            , "Description2": "描述"
             , "Final Plan": "终版方案"
             , "Remove": "移除"
             , "Change":"换一张"
@@ -327,6 +327,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , "2019 Coop Fund": "2019年市场基金"
             , 'Email Screenshot': '邮件截图'
             , 'PType': '线上线下类型'  //线上线下类型
+            , 'Modification Instructions': '修改说明'
         });
     /* jshint +W100 Tick-box Items*/
 }]);

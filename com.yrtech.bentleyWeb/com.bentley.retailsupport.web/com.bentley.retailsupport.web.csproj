@@ -378,6 +378,7 @@
     <Content Include="Views\Marketing\Before3Weeks.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Marketing\TheDays.cshtml" />
+    <Content Include="Views\Marketing\Before3Days.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

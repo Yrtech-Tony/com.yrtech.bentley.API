@@ -373,6 +373,7 @@
     <Content Include="Views\Marketing\Create.cshtml" />
     <Content Include="Views\Marketing\MarketActionBefore21.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Marketing\TheDays.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

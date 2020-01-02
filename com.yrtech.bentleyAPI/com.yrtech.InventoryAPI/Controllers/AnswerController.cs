@@ -339,6 +339,20 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
+        [HttpGet]
+        [Route("MarketAction/KeyVisionSendEmailToShop")]
+        public APIResult KeyVisionSendEmailToShop(string marketActionId)
+        {
+            try
+            {
+                SendEmail("71443365@qq.com", "mou.junsheng@eland.co.kr", "主视觉审批修改意见", "主视觉审批修改意见", "", "http://yrtech.oss-cn-beijing-internal.aliyuncs.com/AODISatisfaction/%E5%A5%A5%E8%BF%AA%E6%BB%A1%E6%84%8F%E5%BA%A6%E6%8F%90%E5%8D%87%E4%B8%8A%E6%B5%B7%E4%B8%80%E6%B1%BD%E6%B2%AA%E5%A5%A5/A01-1/%E5%9B%9E%E6%89%A7%E9%82%AE%E4%BB%B6%E6%8B%8D%E7%85%A7.jpg");
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
         #endregion
         #region Before3
         [HttpGet]

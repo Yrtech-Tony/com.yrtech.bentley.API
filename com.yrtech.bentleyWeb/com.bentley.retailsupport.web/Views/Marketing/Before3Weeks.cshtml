@@ -31,7 +31,7 @@
                 </div>
                 <div class="widget-body" style="display: block;">
                     <form class="form-horizontal bv-form ng-pristine ng-valid" id="PromotionCreate" novalidate="novalidate">
-                        <input id="MarketActionId " name="MarketActionId " type="hidden" value="" />
+                        <input id="MarketActionId" name="MarketActionId" type="hidden" value="" />
                         <input id="InUserId" name="InUserId" type="hidden" value="" />
                         <input id="InDateTime" name="InDateTime" type="hidden" value="" />
                         <input id="ModifyUserId" name="ModifyUserId" type="hidden" value="" />
@@ -190,7 +190,7 @@
                                         </div>
                                         <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
                                         <div class="col-md-2" style="margin-left:0px;">
-                                            <input min="0" class="form-control" id="TargetParticipationPCCount " name="TargetParticipationPCCount" style="width:100%;" type="number" value="0">
+                                            <input min="0" class="form-control" id="TargetParticipationPCCount" name="TargetParticipationPCCount" style="width:100%;" type="number" value="0">
                                         </div>
                                     </div>
                                 </div>
@@ -285,7 +285,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="col-md-8">
-                                            <textarea class="form-control" cols="20" id="VisualDescription" name="KeyVisionApprovalDesc " placeholder="{{'Modification Instructions'|translate}}" rows="9"></textarea>
+                                            <textarea class="form-control" cols="20" id="VisualDescription" name="KeyVisionApprovalDesc" placeholder="{{'Modification Instructions'|translate}}" rows="9"></textarea>
                                             <div style="margin-top:5px;">
                                                 <select id="VisualStatus" name="KeyVisionApprovalCode" class="selectpicker">
                                                     <option value="0" selected="" translate>Waiting for Approval</option>
@@ -354,7 +354,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" id="ListMaterials_2__ImgRemark" name=POSDesignDesc03" placeholder=" {{'description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="POSDesignDesc03" placeholder=" {{'description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
@@ -556,7 +556,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="OtherDesc01 " placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OtherDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
@@ -658,6 +658,14 @@
                     $("#MarketActionTargetModelCode").selectpicker("refresh");
                 }
             });
+
+            $.commonGet("MarketAction/MarketActionBefore21Search", { marketActionId: id }, function (data) {
+                if (data && data.length > 0) {
+                    console.log(data)
+                    $('#PromotionCreate2').setForm(data[0].MarketActionBefore21);
+                    $('#ActivityFlow2Table').bootstrapTable("refreshOptions", { data: data[0].ActivityProcess })
+                }
+            });
         }
         $(function () {
             loadShops().forEach(function (item) {
@@ -751,7 +759,8 @@
             var StrActivityFlow = JSON.stringify($('#ActivityFlowTable').bootstrapTable('getData'), ["ID", "ActivityTime", "ActivityLink", "ActivityContent", "ActivityRemark"]);
 
             var MarketActionBefore21 = $('#PromotionCreate2').serializeObject();
-            MarketActionBefore21.MarketActionId = $("#MarketActionId").val();
+            MarketActionBefore21.MarketActionId = id;
+            
             //场地介绍
             MarketActionBefore21.POSDesignPic01 = $('#img_venue1 img').attr('src');
             MarketActionBefore21.POSDesignPic02 = $('#img_venue2 img').attr('src');
@@ -779,11 +788,11 @@
 
             var data = {
                 MarketActionId: MarketActionBefore21.MarketActionId,
+                TarketModelCode = $("#MarketActionTargetModelCode").val(),
                 MarketActionBefore21: MarketActionBefore21,
                 ActivityProcess: StrActivityFlow
             };
             SProcessing();
-            debugger
             $.commonPost("MarketAction/MarketActionBefore21Save", {
                 UserId: $("#G_UserId").val(),
                 ListJson: JSON.stringify(data)
@@ -796,43 +805,43 @@
                 }, function (datas) {
                     if (datas.returnValue) {
                         //1.给主视觉设计公司发送邮件
-                        if (imgVisual1 != undefined) {
-                            $.ajax({
-                                async: true,
-                                type: "POST",
-                                url: '/Home/SendEmail',
-                                data: { dealerName: $('#Dealer').val(), promotionName: $('#Name').val(), roleName: $('#G_RoleName').val(), visualStatus: $('#VisualStatus').val() },
-                                success: function (data) {
-                                    if (data.returnValue) {
-                                        console.log(data.message);
-                                    }
-                                }
-                            });
-                        }
-                        //2.如果主视觉审核意见有修改时给经销商发邮件
-                        var dealerName = $('#Dealer').val();//经销商名称
-                        var promotionName = $('#Name').val();//活动名称
-                        var email = $('#jxsEmail').val();//邮件地址
-                        var VisualDescriptionOld = $("#VisualDescriptionOld").val();
-                        var VisualDescription = $("#VisualDescription").val();
+                        //if (imgVisual1 != undefined) {
+                        //    $.ajax({
+                        //        async: true,
+                        //        type: "POST",
+                        //        url: '/Home/SendEmail',
+                        //        data: { dealerName: $('#Dealer').val(), promotionName: $('#Name').val(), roleName: $('#G_RoleName').val(), visualStatus: $('#VisualStatus').val() },
+                        //        success: function (data) {
+                        //            if (data.returnValue) {
+                        //                console.log(data.message);
+                        //            }
+                        //        }
+                        //    });
+                        //}
+                        ////2.如果主视觉审核意见有修改时给经销商发邮件
+                        //var dealerName = $('#Dealer').val();//经销商名称
+                        //var promotionName = $('#Name').val();//活动名称
+                        //var email = $('#jxsEmail').val();//邮件地址
+                        //var VisualDescriptionOld = $("#VisualDescriptionOld").val();
+                        //var VisualDescription = $("#VisualDescription").val();
 
-                        var VisualStatus = $("#VisualStatus").val();
-                        var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
+                        //var VisualStatus = $("#VisualStatus").val();
+                        //var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
 
-                        if (email != null && email != "" && ((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
-                        {
-                            $.ajax({
-                                async: true,
-                                type: "POST",
-                                url: '/Home/SendZsjAuditEmail',
-                                data: { dealerName: dealerName, promotionName: promotionName, email: email },
-                                success: function (data) {
-                                    if (data.returnValue) {
-                                        console.log(data.message);
-                                    }
-                                }
-                            });
-                        }
+                        //if (email != null && email != "" && ((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
+                        //{
+                        //    $.ajax({
+                        //        async: true,
+                        //        type: "POST",
+                        //        url: '/Home/SendZsjAuditEmail',
+                        //        data: { dealerName: dealerName, promotionName: promotionName, email: email },
+                        //        success: function (data) {
+                        //            if (data.returnValue) {
+                        //                console.log(data.message);
+                        //            }
+                        //        }
+                        //    });
+                        //}
 
                         //window.location.href = "/Marketing/Index";
                     }

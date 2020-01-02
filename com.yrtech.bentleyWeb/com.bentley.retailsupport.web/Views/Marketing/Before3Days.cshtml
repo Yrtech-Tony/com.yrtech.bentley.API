@@ -220,6 +220,17 @@
                     $('#PromotionCreate').setForm(data[0]);
                 }
             });
+
+            $.commonGet("MarketAction/MarketActionBefore3Search", { marketActionId: id }, function (data) {
+                if (data && data.length > 0) {
+                    var marketActionBefore3Main = data[0];
+                    
+                    $('#ActivityBudgetTable').bootstrapTable("refreshOptions", { data: marketActionBefore3Main.BugetDetailList });
+                    $('#DisplayModelsTable').bootstrapTable("refreshOptions", { data: marketActionBefore3Main.DisplayModelList });
+                    $('#TestDriveTable').bootstrapTable("refreshOptions", { data: marketActionBefore3Main.TestDriverList });
+                    $('#PromotionCreate').setForm();
+                }
+            });
         }
         $(function () {
             loadShops().forEach(function (item) {
@@ -231,9 +242,17 @@
             loadTargetModels();
             loadEventTypes();
 
+            InitCustomerInvitation2Table();
+            InitOrderDetail();
+            InitActualCost();
+
             var roleName = $('#G_RoleTypeCode').val();
-            if (roleName == "SYSADMIN") {
+            if (roleName == "SYSADMIN" || roleName == "市场活动") {
                 $('#ActiveShow').show();
+                $('#VisualStatus').prop("disabled", false);
+            }
+            else {
+                $('#VisualStatus').prop("disabled", true);
             }
         });
 
@@ -273,24 +292,7 @@
                 $("#EventTypeId").selectpicker("refresh");
             })
         }
-
-
-        $(function () {
-            InitCustomerInvitation2Table();
-            InitOrderDetail();
-            InitActualCost();
-        });
-        $('#UserId').val($('#G_UserId').val());
-
-        var roleName = $('#G_RoleTypeCode').val();
-        if (roleName == "SYSADMIN" || roleName == "市场活动") {
-            $('#ActiveShow').show();
-            $('#VisualStatus').prop("disabled", false);
-        }
-        else {
-            $('#VisualStatus').prop("disabled", true);
-        }
-
+         
         function OpenForm(obj) {
             var url = obj.src;
             url = url.replace('_min.', '.');
@@ -310,15 +312,15 @@
             var StrTestDrive = JSON.stringify($('#TestDriveTable').bootstrapTable('getData'), ["DisplayModel", "DisclosingParty"]);
             var StrActivityBudget = JSON.stringify($('#ActivityBudgetTable').bootstrapTable('getData'), ["ID", "ProjectName", "OverView", "UnitPrice", "Count"]);
 
-            var oMyForm = new FormData($('#PromotionCreate3')[0]);
-            oMyForm.append("StrDisplayModels", StrDisplayModels);
-            oMyForm.append("StrTestDrive", StrTestDrive);
-            oMyForm.append("StrActivityBudget", StrActivityBudget);
-            console.log(oMyForm)
+            var MarketActionBefore3 = $('#PromotionCreate3').serializeObject();
+            MarketActionBefore3.BugetDetailList=StrActivityBudget
+            MarketActionBefore3.DisplayModelList = StrDisplayModels;
+            MarketActionBefore3.TestDriverList=StrTestDrive;
+            console.log(MarketActionBefore3)
             debugger
             $.commonPost('MarketAction/MarketActionBefore3Save',{
                 UserId: $("#G_UserId").val(),
-                ListJson: JSON.stringify(oMyForm)
+                ListJson: JSON.stringify(MarketActionBefore3)
             });
         }
 

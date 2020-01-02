@@ -84,7 +84,7 @@
                 message: isZH() ? '不能为空' : 'The data cannot be empty',
             },
         },
-        
+
     }
 });
 
@@ -229,7 +229,7 @@ function deletetrNoData(tableName) {
     }
 }
 //展示车型
-$('#DisplayModelsTable').bootstrapTable({ 
+$('#DisplayModelsTable').bootstrapTable({
     pagination: true,
     striped: true, //是否显示行间隔色
     columns: [
@@ -310,19 +310,7 @@ function DeleteDisplayModelsRow(tdobject) {
 }
 //试驾车辆
 $('#TestDriveTable').bootstrapTable({
-    method: 'get',
-    contentType: "application/x-www-form-urlencoded",//必须要有！！！！
-    dataType: "json",
-    url: "/Home/TestDrive",//要请求数据的文件路径
     pagination: true,
-    sidePagination: "server", //服务端处理分页
-    //toolbar: '#toolbar',//指定工具栏
-    striped: true, //是否显示行间隔色
-    queryParams: function (params) {
-        return {
-            promotionId: $('#ID').val()
-        }
-    },
     columns: [
     {
         title: $('#TDisplayModel').val(),
@@ -401,19 +389,7 @@ function DeleteTestDriveRow(tdobject) {
 }
 //活动预算详情
 $('#ActivityBudgetTable').bootstrapTable({
-    method: 'get',
-    contentType: "application/x-www-form-urlencoded",//必须要有！！！！
-    dataType: "json",
-    url: "/Home/ActivityBudget",//要请求数据的文件路径
     pagination: true,
-    sidePagination: "server", //服务端处理分页
-    //toolbar: '#toolbar',//指定工具栏
-    striped: true, //是否显示行间隔色
-    queryParams: function (params) {
-        return {
-            promotionId: $('#ID').val()
-        }
-    },
     columns: [
     {
         title: $('#ExpenseItem').val(),
@@ -473,7 +449,7 @@ $('#ActivityBudgetTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "UnitPrice", value: value };
                 var html = '<a href="javascript:void(0)" data-name="UnitPrice" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + dealNumber(result.value) + '</a>';
-                if (result.value == "" || result.value==undefined) {
+                if (result.value == "" || result.value == undefined) {
                     html = '<a href="javascript:void(0)" data-name="UnitPrice" data-pk="undefined" data-value="" class="editable editable-click editable-empty">0</a>';
                 }
                 return html;
@@ -515,7 +491,7 @@ $('#ActivityBudgetTable').bootstrapTable({
         valign: "middle",
         align: "center",
         formatter: function (value, row, index) {
-            var sum = $('#ActivityBudgetSum').text().replace(/,/g,'');
+            var sum = $('#ActivityBudgetSum').text().replace(/,/g, '');
             var num = parseInt(sum);
             if (!isNaN(num)) {
                 num = num + value;
@@ -669,7 +645,7 @@ $('#CustomerInvitationTable').bootstrapTable({
             else
                 txml = '<input id="{0}" type="checkbox">';
             txml = txml.replace("{0}", row.ID);
-       
+
             return txml;
         }
 
@@ -839,20 +815,7 @@ function InitActualActivityProcess() {
 function InitCustomerInvitation2Table() {
     //初始化表格
     $('#CustomerInvitation2Table').bootstrapTable({
-        method: 'get',
-        contentType: "application/x-www-form-urlencoded",//必须要有！！！！
-        dataType: "json",
-        url: "/Home/CustomerInvitationTable",//要请求数据的文件路径
         pagination: true,
-        sidePagination: "server", //服务端处理分页
-        //toolbar: '#toolbar',//指定工具栏
-        striped: true, //是否显示行间隔色
-        queryParams: function (params) {
-            return {
-                promotionId: $('#ID').val(),
-                type: 2
-            }
-        },
         columns: [
                     [
                     {

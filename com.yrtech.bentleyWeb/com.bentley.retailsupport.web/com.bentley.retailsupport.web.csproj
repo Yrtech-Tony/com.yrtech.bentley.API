@@ -222,6 +222,7 @@
     <Content Include="Scripts\bower_components\layer\layer.js" />
     <Content Include="Scripts\bower_components\layer\skin\default\layer.css" />
     <Content Include="Scripts\bower_components\layer\skin\default\loading-1.gif" />
+    <Content Include="Scripts\curtom\CueReport.js" />
     <Content Include="Scripts\curtom\PromotionEdit.js" />
     <Content Include="Scripts\Dark\bootstrap-hover-dropdown.js" />
     <Content Include="Scripts\Dark\bootstrap-switch.min.js" />
@@ -380,6 +381,7 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Marketing\TheDays.cshtml" />
     <Content Include="Views\Marketing\Before3Days.cshtml" />
+    <Content Include="Views\Marketing\After2Days.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

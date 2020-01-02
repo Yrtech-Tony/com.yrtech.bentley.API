@@ -708,7 +708,7 @@
 
             $('#UserId').val($('#G_UserId').val());
             var roleName = $('#G_RoleTypeCode').val();
-            if (roleName == "SYSADMIN" || roleName == "市场活动") {
+            if (roleName == "SYSADMIN" || roleName == "MARKET") {
                 $('#ActiveShow').show();
                 $('#VisualStatus').prop("disabled", false);
             }
@@ -787,6 +787,8 @@
             if (StrActivityFlow && StrActivityFlow.length > 0) {
                 StrActivityFlow.forEach(function (item) {
                     item.MarketActionId = id;
+                    item.InUserId = $("#G_UserId").val();
+                    item.ModifyUserId = $("#G_UserId").val();
                 })
             }
 
@@ -856,30 +858,6 @@
                     window.location.href = "/Marketing/Index";
                 });
             })
-        }
-
-
-        function PromotionDelete() {
-            layer.confirm($('#G_promotion_delete').val(), {
-                title: $('#G_Info').val(),
-                btn: [$('#G_Yes').val(), $('#G_No').val()] //按钮
-            }, function () {
-                var oMyForm = new FormData();
-                oMyForm.append("Id", $('#ID').val());
-                $.ajax({
-                    url: '/Home/PromotionDetele',
-                    type: 'POST',
-                    cache: false,
-                    data: oMyForm,
-                    processData: false,
-                    contentType: false
-                }).done(function (res) {
-                    console.log(res.returnValue);
-                    window.location.href = "/Home/Promotion?type=" + "";
-                }).fail(function (res) { });
-            }, function () {
-
-            });
         }
     </script>
 }

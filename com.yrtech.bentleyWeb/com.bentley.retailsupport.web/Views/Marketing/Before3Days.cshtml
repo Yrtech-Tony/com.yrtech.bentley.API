@@ -222,13 +222,10 @@
             });
 
             $.commonGet("MarketAction/MarketActionBefore3Search", { marketActionId: id }, function (data) {
-                if (data && data.length > 0) {
-                    var marketActionBefore3Main = data[0];
-                    
-                    $('#ActivityBudgetTable').bootstrapTable("refreshOptions", { data: marketActionBefore3Main.BugetDetailList });
-                    $('#DisplayModelsTable').bootstrapTable("refreshOptions", { data: marketActionBefore3Main.DisplayModelList });
-                    $('#TestDriveTable').bootstrapTable("refreshOptions", { data: marketActionBefore3Main.TestDriverList });
-                    $('#PromotionCreate').setForm();
+                if (data) {                    
+                    $('#ActivityBudgetTable').bootstrapTable("load", data.BugetDetailList);
+                    $('#DisplayModelsTable').bootstrapTable("load", data.DisplayModelList);
+                    $('#TestDriveTable').bootstrapTable("load", data.TestDriverList);
                 }
             });
         }
@@ -247,7 +244,7 @@
             InitActualCost();
 
             var roleName = $('#G_RoleTypeCode').val();
-            if (roleName == "SYSADMIN" || roleName == "市场活动") {
+            if (roleName == "SYSADMIN" || roleName == "MARKET") {
                 $('#ActiveShow').show();
                 $('#VisualStatus').prop("disabled", false);
             }
@@ -308,42 +305,42 @@
             return msg;
         }
         function PromotionEdit3() {
-            var StrDisplayModels = JSON.stringify($('#DisplayModelsTable').bootstrapTable('getData'), ["DisplayModel", "DisclosingParty"]);
-            var StrTestDrive = JSON.stringify($('#TestDriveTable').bootstrapTable('getData'), ["DisplayModel", "DisclosingParty"]);
-            var StrActivityBudget = JSON.stringify($('#ActivityBudgetTable').bootstrapTable('getData'), ["ID", "ProjectName", "OverView", "UnitPrice", "Count"]);
+            var StrDisplayModels = $('#DisplayModelsTable').bootstrapTable('getData');
+            var StrTestDrive = $('#TestDriveTable').bootstrapTable('getData');
+            var StrActivityBudget = $('#ActivityBudgetTable').bootstrapTable('getData');
+            if (StrDisplayModels && StrDisplayModels.length > 0) {
+                StrDisplayModels.forEach(function (item) {
+                    item.MarketActionId = id;
+                    item.InUserId = $("#G_UserId").val();
+                    item.ModifyUserId = $("#G_UserId").val();
+                })
+            }
+            if (StrTestDrive && StrTestDrive.length > 0) {
+                StrTestDrive.forEach(function (item) {
+                    item.MarketActionId = id;
+                    item.InUserId = $("#G_UserId").val();
+                    item.ModifyUserId = $("#G_UserId").val();
+                })
+            }
+            if (StrActivityBudget && StrActivityBudget.length > 0) {
+                StrActivityBudget.forEach(function (item) {
+                    item.MarketActionId = id;
+                    item.InUserId = $("#G_UserId").val();
+                    item.ModifyUserId = $("#G_UserId").val();
+                })
+            }
 
             var MarketActionBefore3 = $('#PromotionCreate3').serializeObject();
             MarketActionBefore3.BugetDetailList=StrActivityBudget
             MarketActionBefore3.DisplayModelList = StrDisplayModels;
             MarketActionBefore3.TestDriverList=StrTestDrive;
-            console.log(MarketActionBefore3)
-            debugger
+            console.log(MarketActionBefore3);
+
             $.commonPost('MarketAction/MarketActionBefore3Save',{
                 UserId: $("#G_UserId").val(),
                 ListJson: JSON.stringify(MarketActionBefore3)
-            });
-        }
-
-        function PromotionDelete() {
-            layer.confirm($('#G_promotion_delete').val(), {
-                title: $('#G_Info').val(),
-                btn: [$('#G_Yes').val(), $('#G_No').val()] //按钮
-            }, function () {
-                var oMyForm = new FormData();
-                oMyForm.append("Id", $('#ID').val());
-                $.ajax({
-                    url: '/Home/PromotionDetele',
-                    type: 'POST',
-                    cache: false,
-                    data: oMyForm,
-                    processData: false,
-                    contentType: false
-                }).done(function (res) {
-                    console.log(res.returnValue);
-                    window.location.href = "/Home/Promotion?type=" + "";
-                }).fail(function (res) { });
-            }, function () {
-
+            }, function (data) {
+                window.location.href = "/Marketing/Index";
             });
         }
     </script>

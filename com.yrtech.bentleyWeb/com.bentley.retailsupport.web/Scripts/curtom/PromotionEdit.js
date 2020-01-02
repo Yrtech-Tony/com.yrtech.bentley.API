@@ -228,6 +228,7 @@ function deletetrNoData(tableName) {
         tr.remove()
     }
 }
+
 //展示车型
 $('#DisplayModelsTable').bootstrapTable({
     pagination: true,
@@ -235,17 +236,17 @@ $('#DisplayModelsTable').bootstrapTable({
     columns: [
     {
         title: $('#TDisplayModel').val(),
-        field: 'DisplayModel',
+        field: 'DisplayModelColor',
         editable: {
             type: 'text',
             title: '',
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "DisplayModel", value: value };
-                var html = '<a href="javascript:void(0)" data-name="DisplayModel" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                var result = { filed: "DisplayModelColor", value: value };
+                var html = '<a href="javascript:void(0)" data-name="DisplayModelColor" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
                 if (!result.value) {
-                    html = '<a href="javascript:void(0)" data-name="DisplayModel" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                    html = '<a href="javascript:void(0)" data-name="DisplayModelColor" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -253,17 +254,17 @@ $('#DisplayModelsTable').bootstrapTable({
     },
     {
         title: $('#TProvider').val(),
-        field: 'DisclosingParty',
+        field: 'Provider',
         editable: {
             type: 'text',
             title: '',
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "DisclosingParty", value: value };
-                var html = '<a href="javascript:void(0)" data-name="DisclosingParty" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                var result = { filed: "Provider", value: value };
+                var html = '<a href="javascript:void(0)" data-name="Provider" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
                 if (!result.value) {
-                    html = '<a href="javascript:void(0)" data-name="DisclosingParty" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                    html = '<a href="javascript:void(0)" data-name="Provider" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -314,17 +315,17 @@ $('#TestDriveTable').bootstrapTable({
     columns: [
     {
         title: $('#TDisplayModel').val(),
-        field: 'DisplayModel',
+        field: 'DisplayModelColor',
         editable: {
             type: 'text',
             title: '',
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "DisplayModel", value: value };
-                var html = '<a href="javascript:void(0)" data-name="DisplayModel" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                var result = { filed: "DisplayModelColor", value: value };
+                var html = '<a href="javascript:void(0)" data-name="DisplayModelColor" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
                 if (!result.value) {
-                    html = '<a href="javascript:void(0)" data-name="DisplayModel" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                    html = '<a href="javascript:void(0)" data-name="DisplayModelColor" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -332,32 +333,32 @@ $('#TestDriveTable').bootstrapTable({
     },
     {
         title: $('#TProvider').val(),
-        field: 'DisclosingParty',
+        field: 'Provider',
         editable: {
             type: 'text',
             title: '',
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "DisclosingParty", value: value };
-                var html = '<a href="javascript:void(0)" data-name="DisclosingParty" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                var result = { filed: "Provider", value: value };
+                var html = '<a href="javascript:void(0)" data-name="Provider" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
                 if (!result.value) {
-                    html = '<a href="javascript:void(0)" data-name="DisclosingParty" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                    html = '<a href="javascript:void(0)" data-name="Provider" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
         }
     },
-    {
-        title: $('#TEdit').val(),
-        field: 'Edit',
-        valign: "middle",
-        align: "center",
-        formatter: function (value, row, index) {
-            var e = "<label onclick='DeleteTestDriveRow(this)'><i class='icon-pencil icon-white'></i>" + (isZH() ? '删除' : 'Delete') + "</label>";
-            return e;
-        }
+{
+    title: $('#TEdit').val(),
+    field: 'Edit',
+    valign: "middle",
+    align: "center",
+    formatter: function (value, row, index) {
+        var e = "<label onclick='DeleteTestDriveRow(this)'><i class='icon-pencil icon-white'></i>" + (isZH() ? '删除' : 'Delete') + "</label>";
+        return e;
     }
+}
     ],
     onClickCell: function (field, value, row, $element) {
         return false;
@@ -387,23 +388,24 @@ function DeleteTestDriveRow(tdobject) {
     td.parents("tr").remove();
     $('#TestDriveTable').bootstrapTable('getData').length = $('#TestDriveTable').bootstrapTable('getData').length - 1;
 }
+
 //活动预算详情
 $('#ActivityBudgetTable').bootstrapTable({
     pagination: true,
     columns: [
     {
         title: $('#ExpenseItem').val(),
-        field: 'ProjectName',
+        field: 'ItemName',
         editable: {
             type: 'text',
             title: '',
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "ProjectName", value: value };
-                var html = '<a href="javascript:void(0)" data-name="ProjectName" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                var result = { filed: "ItemName", value: value };
+                var html = '<a href="javascript:void(0)" data-name="ItemName" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
                 if (!result.value) {
-                    html = '<a href="javascript:void(0)" data-name="ProjectName" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                    html = '<a href="javascript:void(0)" data-name="ItemName" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -411,17 +413,17 @@ $('#ActivityBudgetTable').bootstrapTable({
     },
     {
         title: $('#TDESC').val(),
-        field: 'OverView',
+        field: 'Descs',
         editable: {
             type: 'text',
             title: '',
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "OverView", value: value };
-                var html = '<a href="javascript:void(0)" data-name="OverView" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                var result = { filed: "Descs", value: value };
+                var html = '<a href="javascript:void(0)" data-name="Descs" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
                 if (!result.value) {
-                    html = '<a href="javascript:void(0)" data-name="OverView" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                    html = '<a href="javascript:void(0)" data-name="Descs" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -459,7 +461,7 @@ $('#ActivityBudgetTable').bootstrapTable({
     },
     {
         title: $('#TQuantity').val(),
-        field: 'Count',
+        field: 'Counts',
         valign: "middle",
         align: "center",
         editable: {
@@ -475,10 +477,10 @@ $('#ActivityBudgetTable').bootstrapTable({
                 }
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "Count", value: value };
-                var html = '<a href="javascript:void(0)" data-name="Count" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                var result = { filed: "Counts", value: value };
+                var html = '<a href="javascript:void(0)" data-name="Counts" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
                 if (!result.value) {
-                    html = '<a href="javascript:void(0)" data-name="Count" data-pk="undefined" data-value="" class="editable editable-click editable-empty">0</a>';
+                    html = '<a href="javascript:void(0)" data-name="Counts" data-pk="undefined" data-value="" class="editable editable-click editable-empty">0</a>';
                 }
                 return html;
             }

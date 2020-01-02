@@ -96,7 +96,7 @@ $('#ActivityFlowTable').bootstrapTable({
     columns: [
     {
         title: $('#TTime').val(),
-        field: 'ActivityTime',
+        field: 'ActivityDateTime',
         valign: "left",
         align: "left",
         editable: {
@@ -105,10 +105,10 @@ $('#ActivityFlowTable').bootstrapTable({
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "ActivityTime", value: value };
-                var html = '<a href="javascript:void(0)" data-name="ActivityTime" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
-                    html = '<a href="javascript:void(0)" data-name="ActivityTime" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                var result = { filed: "ActivityDateTime", value: value };
+                var html = '<a href="javascript:void(0)" data-name="ActivityDateTime" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                if (!result.value) {
+                    html = '<a href="javascript:void(0)" data-name="ActivityDateTime" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -116,7 +116,7 @@ $('#ActivityFlowTable').bootstrapTable({
     },
     {
         title: $('#TProcess').val(),
-        field: 'ActivityLink',
+        field: 'Item',
         valign: "left",
         align: "left",
         editable: {
@@ -125,10 +125,10 @@ $('#ActivityFlowTable').bootstrapTable({
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "ActivityLink", value: value };
-                var html = '<a href="javascript:void(0)" data-name="ActivityLink" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
-                    html = '<a href="javascript:void(0)" data-name="ActivityLink" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                var result = { filed: "Item", value: value };
+                var html = '<a href="javascript:void(0)" data-name="Item" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                if (!result.value) {
+                    html = '<a href="javascript:void(0)" data-name="Item" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -136,7 +136,7 @@ $('#ActivityFlowTable').bootstrapTable({
     },
     {
         title: $('#TContent').val(),
-        field: 'ActivityContent',
+        field: 'Contents',
         valign: "left",
         align: "left",
         editable: {
@@ -145,10 +145,10 @@ $('#ActivityFlowTable').bootstrapTable({
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "ActivityContent", value: value };
-                var html = '<a href="javascript:void(0)" data-name="ActivityContent" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
-                    html = '<a href="javascript:void(0)" data-name="ActivityContent" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                var result = { filed: "Contents", value: value };
+                var html = '<a href="javascript:void(0)" data-name="Contents" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                if (!result.value) {
+                    html = '<a href="javascript:void(0)" data-name="Contents" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -159,17 +159,17 @@ $('#ActivityFlowTable').bootstrapTable({
         title: $('#TComments').val(),
         valign: "left",
         align: "left",
-        field: 'ActivityRemark',
+        field: 'Remark',
         editable: {
             type: 'text',
             title: '',
             validate: function (v) {
             },
             noeditFormatter: function (value, row, index) {
-                var result = { filed: "ActivityRemark", value: value };
-                var html = '<a href="javascript:void(0)" data-name="ActivityRemark" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
-                    html = '<a href="javascript:void(0)" data-name="ActivityRemark" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
+                var result = { filed: "Remark", value: value };
+                var html = '<a href="javascript:void(0)" data-name="Remark" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
+                if (!result.value) {
+                    html = '<a href="javascript:void(0)" data-name="Remark" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
             }
@@ -244,7 +244,7 @@ $('#DisplayModelsTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "DisplayModel", value: value };
                 var html = '<a href="javascript:void(0)" data-name="DisplayModel" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="DisplayModel" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -262,7 +262,7 @@ $('#DisplayModelsTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "DisclosingParty", value: value };
                 var html = '<a href="javascript:void(0)" data-name="DisclosingParty" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="DisclosingParty" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -323,7 +323,7 @@ $('#TestDriveTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "DisplayModel", value: value };
                 var html = '<a href="javascript:void(0)" data-name="DisplayModel" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="DisplayModel" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -341,7 +341,7 @@ $('#TestDriveTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "DisclosingParty", value: value };
                 var html = '<a href="javascript:void(0)" data-name="DisclosingParty" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="DisclosingParty" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -402,7 +402,7 @@ $('#ActivityBudgetTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "ProjectName", value: value };
                 var html = '<a href="javascript:void(0)" data-name="ProjectName" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="ProjectName" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -420,7 +420,7 @@ $('#ActivityBudgetTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "OverView", value: value };
                 var html = '<a href="javascript:void(0)" data-name="OverView" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="OverView" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -449,7 +449,7 @@ $('#ActivityBudgetTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "UnitPrice", value: value };
                 var html = '<a href="javascript:void(0)" data-name="UnitPrice" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + dealNumber(result.value) + '</a>';
-                if (result.value == "" || result.value == undefined) {
+                if (!result.value || result.value == undefined) {
                     html = '<a href="javascript:void(0)" data-name="UnitPrice" data-pk="undefined" data-value="" class="editable editable-click editable-empty">0</a>';
                 }
                 return html;
@@ -477,7 +477,7 @@ $('#ActivityBudgetTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "Count", value: value };
                 var html = '<a href="javascript:void(0)" data-name="Count" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="Count" data-pk="undefined" data-value="" class="editable editable-click editable-empty">0</a>';
                 }
                 return html;
@@ -585,7 +585,7 @@ $('#CustomerInvitationTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "CustomerName", value: value };
                 var html = '<a href="javascript:void(0)" data-name="CustomerName" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="CustomerName" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -605,7 +605,7 @@ $('#CustomerInvitationTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "ContactInformation", value: value };
                 var html = '<a href="javascript:void(0)" data-name="ContactInformation" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="ContactInformation" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -626,7 +626,7 @@ $('#CustomerInvitationTable').bootstrapTable({
             noeditFormatter: function (value, row, index) {
                 var result = { filed: "BPCode", value: value };
                 var html = '<a href="javascript:void(0)" data-name="BPCode" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                if (result.value == "") {
+                if (!result.value) {
                     html = '<a href="javascript:void(0)" data-name="BPCode" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                 }
                 return html;
@@ -731,7 +731,7 @@ function InitActualActivityProcess() {
                     noeditFormatter: function (value, row, index) {
                         var result = { filed: "ActivityTime", value: value };
                         var html = '<a href="javascript:void(0)" data-name="ActivityTime" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                        if (result.value == "") {
+                        if (!result.value) {
                             html = '<a href="javascript:void(0)" data-name="ActivityTime" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                         }
                         return html;
@@ -749,7 +749,7 @@ function InitActualActivityProcess() {
                     noeditFormatter: function (value, row, index) {
                         var result = { filed: "ActivityLink", value: value };
                         var html = '<a href="javascript:void(0)" data-name="ActivityLink" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                        if (result.value == "") {
+                        if (!result.value) {
                             html = '<a href="javascript:void(0)" data-name="ActivityLink" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                         }
                         return html;
@@ -765,12 +765,11 @@ function InitActualActivityProcess() {
                     title: '',
                     validate: function (v) {
 
-
                     },
                     noeditFormatter: function (value, row, index) {
                         var result = { filed: "ActivityContent", value: value };
                         var html = '<a href="javascript:void(0)" data-name="ActivityContent" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                        if (result.value == "") {
+                        if (!result.value) {
                             html = '<a href="javascript:void(0)" data-name="ActivityContent" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                         }
                         return html;
@@ -791,7 +790,7 @@ function InitActualActivityProcess() {
                     noeditFormatter: function (value, row, index) {
                         var result = { filed: "ActivityRemark", value: value };
                         var html = '<a href="javascript:void(0)" data-name="ActivityRemark" data-pk="undefined" data-value="" class="editable editable-click editable-empty">' + result.value + '</a>';
-                        if (result.value == "") {
+                        if (!result.value) {
                             html = '<a href="javascript:void(0)" data-name="ActivityRemark" data-pk="undefined" data-value="" class="editable editable-click editable-empty">NULL</a>';
                         }
                         return html;
@@ -1231,7 +1230,7 @@ function InitActualCost() {
                     noeditFormatter: function (value, row, index) {
                         var result = { filed: "ProjectName", value: value };
                         var html = '<a href="javascript:void(0)" data-name="ProjectName" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
-                        if (result.value == "" || result.value == null) {
+                        if (!result.value) {
                             html = '<a href="javascript:void(0)" data-name="ProjectName" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
                         }
                         return html;
@@ -1249,7 +1248,7 @@ function InitActualCost() {
                     noeditFormatter: function (value, row, index) {
                         var result = { filed: "Description", value: value };
                         var html = '<a href="javascript:void(0)" data-name="Description" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
-                        if (result.value == "" || result.value == null) {
+                        if (!result.value) {
                             html = '<a href="javascript:void(0)" data-name="Description" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
                         }
                         return html;

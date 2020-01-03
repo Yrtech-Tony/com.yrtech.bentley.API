@@ -164,7 +164,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-4"><span translate>Main Models</span><span class="required" style="color:red">*</span>: </label>
                                         <div class="col-md-4">
-                                            <select id="MarketActionTargetModelCode" name="MarketActionTargetModelCode" class="selectpicker"></select>
+                                            <select id="MarketActionTargetModelCode" class="selectpicker"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                         </div>
                                         <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
                                         <div class="col-md-2" style="margin-left:0px;">
-                                            <input class="form-control" id="TargetOrdersPCCount" name="TargetOrdersOwnerCount" style="width:100%;" type="number" value="0">
+                                            <input class="form-control" id="TargetOrdersPCCount" name="TargetOrdersPCCount" style="width:100%;" type="number" value="0">
                                         </div>
                                     </div>
                                 </div>
@@ -287,6 +287,7 @@
                                         <div class="col-md-8">
                                             <textarea class="form-control" cols="20" id="VisualDescription" name="KeyVisionApprovalDesc" placeholder="{{'Modification Instructions'|translate}}" rows="9"></textarea>
                                             <div style="margin-top:5px;">
+                                                <input type="hidden" id="VisualStatusOld" />
                                                 <select id="VisualStatus" name="KeyVisionApprovalCode" class="selectpicker">
                                                     <option value="0" selected="" translate>Waiting for Approval</option>
                                                     <option value="1" translate>Approved</option>
@@ -660,10 +661,36 @@
             });
 
             $.commonGet("MarketAction/MarketActionBefore21Search", { marketActionId: id }, function (data) {
-                if (data && data.length > 0) {
-                    console.log(data)
-                    $('#PromotionCreate2').setForm(data[0].MarketActionBefore21);
-                    $('#ActivityFlow2Table').bootstrapTable("refreshOptions", { data: data[0].ActivityProcess })
+                if (data) {
+                    $('#PromotionCreate2').setForm(data.MarketActionBefore21);
+                    $('#ActivityFlowTable').bootstrapTable("load", data.ActivityProcess);
+
+                    $('#img_visual1').fileinputInit(data.MarketActionBefore21.KeyVisionPic);
+
+                    //场地介绍
+                    $('#img_venue1').fileinputInit(data.MarketActionBefore21.POSDesignPic01);
+                    $('#img_venue2').fileinputInit(data.MarketActionBefore21.POSDesignPic02);
+                    $('#img_venue3').fileinputInit(data.MarketActionBefore21.POSDesignPic03);
+                    $('#img_venue4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
+
+                    //试驾路线
+                    $('#img_route1').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic01);
+                    $('#img_route2').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic02);
+                    $('#img_route3').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic03);
+                    $('#img_route4').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic04);
+
+                    //设计延展
+                    $('#img_design1').fileinputInit(data.MarketActionBefore21.OthersPic01);
+                    $('#img_design2').fileinputInit(data.MarketActionBefore21.OthersPic02);
+                    $('#img_design3').fileinputInit(data.MarketActionBefore21.OthersPic03);
+                    $('#img_design4').fileinputInit(data.MarketActionBefore21.OthersPic04);
+                    //物料
+                    $('#img_material1').fileinputInit(data.MarketActionBefore21.POSDesignPic01);
+                    $('#img_material2').fileinputInit(data.MarketActionBefore21.POSDesignPic02);
+                    $('#img_material3').fileinputInit(data.MarketActionBefore21.POSDesignPic03);
+                    $('#img_material4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
+
+                    $("#VisualStatusOld").val(data.MarketActionBefore21.KeyVisionApprovalCode);
                 }
             });
         }
@@ -681,7 +708,7 @@
 
             $('#UserId').val($('#G_UserId').val());
             var roleName = $('#G_RoleTypeCode').val();
-            if (roleName == "SYSADMIN" || roleName == "市场活动") {
+            if (roleName == "SYSADMIN" || roleName == "MARKET") {
                 $('#ActiveShow').show();
                 $('#VisualStatus').prop("disabled", false);
             }
@@ -756,11 +783,18 @@
         }
 
         function PromotionEdit2() {
-            var StrActivityFlow = JSON.stringify($('#ActivityFlowTable').bootstrapTable('getData'), ["ID", "ActivityTime", "ActivityLink", "ActivityContent", "ActivityRemark"]);
+            var StrActivityFlow = $('#ActivityFlowTable').bootstrapTable('getData');
+            if (StrActivityFlow && StrActivityFlow.length > 0) {
+                StrActivityFlow.forEach(function (item) {
+                    item.MarketActionId = id;
+                    item.InUserId = $("#G_UserId").val();
+                    item.ModifyUserId = $("#G_UserId").val();
+                })
+            }
 
             var MarketActionBefore21 = $('#PromotionCreate2').serializeObject();
             MarketActionBefore21.MarketActionId = id;
-            
+
             //场地介绍
             MarketActionBefore21.POSDesignPic01 = $('#img_venue1 img').attr('src');
             MarketActionBefore21.POSDesignPic02 = $('#img_venue2 img').attr('src');
@@ -788,7 +822,7 @@
 
             var data = {
                 MarketActionId: MarketActionBefore21.MarketActionId,
-                TarketModelCode = $("#MarketActionTargetModelCode").val(),
+                TarketModelCode: $("#MarketActionTargetModelCode").val(),
                 MarketActionBefore21: MarketActionBefore21,
                 ActivityProcess: StrActivityFlow
             };
@@ -798,79 +832,32 @@
                 ListJson: JSON.stringify(data)
             }, function () {
                 EProcessing();
-                var msg = isZH() ? datas.message : "Save successfully !";
+                var msg = isZH() ? '保存成功！' : "Save successfully !";
                 layer.alert(msg, {
-                    skin: 'layui-layer-molv' //样式类名
-                    , closeBtn: 0
+                    skin: 'layui-layer-molv', closeBtn: 0
                 }, function (datas) {
-                    if (datas.returnValue) {
-                        //1.给主视觉设计公司发送邮件
-                        //if (imgVisual1 != undefined) {
-                        //    $.ajax({
-                        //        async: true,
-                        //        type: "POST",
-                        //        url: '/Home/SendEmail',
-                        //        data: { dealerName: $('#Dealer').val(), promotionName: $('#Name').val(), roleName: $('#G_RoleName').val(), visualStatus: $('#VisualStatus').val() },
-                        //        success: function (data) {
-                        //            if (data.returnValue) {
-                        //                console.log(data.message);
-                        //            }
-                        //        }
-                        //    });
-                        //}
-                        ////2.如果主视觉审核意见有修改时给经销商发邮件
-                        //var dealerName = $('#Dealer').val();//经销商名称
-                        //var promotionName = $('#Name').val();//活动名称
-                        //var email = $('#jxsEmail').val();//邮件地址
-                        //var VisualDescriptionOld = $("#VisualDescriptionOld").val();
-                        //var VisualDescription = $("#VisualDescription").val();
-
-                        //var VisualStatus = $("#VisualStatus").val();
-                        //var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
-
-                        //if (email != null && email != "" && ((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
-                        //{
-                        //    $.ajax({
-                        //        async: true,
-                        //        type: "POST",
-                        //        url: '/Home/SendZsjAuditEmail',
-                        //        data: { dealerName: dealerName, promotionName: promotionName, email: email },
-                        //        success: function (data) {
-                        //            if (data.returnValue) {
-                        //                console.log(data.message);
-                        //            }
-                        //        }
-                        //    });
-                        //}
-
-                        //window.location.href = "/Marketing/Index";
+                    //1.给主视觉设计公司发送邮件
+                    if (imgVisual1 != undefined) {
+                        $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
                     }
+                    //2.如果主视觉审核意见有修改时给经销商发邮件
+                    var dealerName = $('#Dealer').val();//经销商名称
+                    var promotionName = $('#Name').val();//活动名称
+                    var email = $('#jxsEmail').val();//邮件地址
+                    var VisualDescriptionOld = $("#VisualDescriptionOld").val();
+                    var VisualDescription = $("#VisualDescription").val();
+
+                    var VisualStatus = $("#VisualStatus").val();
+                    var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
+
+                    if (email != null && email != "" && ((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
+                    {
+                        $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
+                    }
+
+                    window.location.href = "/Marketing/Index";
                 });
             })
-        }
-
-
-        function PromotionDelete() {
-            layer.confirm($('#G_promotion_delete').val(), {
-                title: $('#G_Info').val(),
-                btn: [$('#G_Yes').val(), $('#G_No').val()] //按钮
-            }, function () {
-                var oMyForm = new FormData();
-                oMyForm.append("Id", $('#ID').val());
-                $.ajax({
-                    url: '/Home/PromotionDetele',
-                    type: 'POST',
-                    cache: false,
-                    data: oMyForm,
-                    processData: false,
-                    contentType: false
-                }).done(function (res) {
-                    console.log(res.returnValue);
-                    window.location.href = "/Home/Promotion?type=" + "";
-                }).fail(function (res) { });
-            }, function () {
-
-            });
         }
     </script>
 }

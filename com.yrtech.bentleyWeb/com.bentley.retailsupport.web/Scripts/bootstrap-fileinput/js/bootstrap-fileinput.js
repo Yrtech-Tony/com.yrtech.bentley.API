@@ -162,4 +162,11 @@
     }
   });
 
+  $.fn.fileinputInit = function (pic) {
+      if (pic) {
+          $(this).parent(".fileinput-new").addClass('fileinput-exists').removeClass('fileinput-new');
+          $(this).append($("<img>").prop('src', pic));
+      } 
+  }
+
 }(window.jQuery);

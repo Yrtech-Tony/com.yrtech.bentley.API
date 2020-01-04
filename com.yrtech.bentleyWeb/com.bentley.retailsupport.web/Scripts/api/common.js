@@ -3,8 +3,8 @@
 API 公用方法
 需要引用jquery
 */
-//var baseApi = "http://39.106.71.65:8001/bentley/api/";
-var baseApi = "http://localhost:57328/bentley/api/";
+var baseApi = "http://39.106.71.65:8001/bentley/api/";
+//var baseApi = "http://localhost:57328/bentley/api/";
 
 
 $.commonGet = function (url, params, callback) {
@@ -22,7 +22,7 @@ $.commonGet = function (url, params, callback) {
             }
         } else {
             console.log(url + " execute error " + data.Body);
-            alert(data.Body);
+            layer.alert(data.Body);
         }
     }).error(function (jqXHR, textStatus, errorThrown) {
         console.log(url+" execute error ");
@@ -44,7 +44,7 @@ $.commonPost = function (url, params, callback) {
             }
         } else {
             console.log(url + " execute error " + data.Body);
-            alert(data.Body);
+            layer.alert(data.Body);
         }
     }).error(function (jqXHR, textStatus, errorThrown) {
         console.log(url + " execute error ");

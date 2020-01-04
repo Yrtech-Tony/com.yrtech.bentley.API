@@ -1206,19 +1206,8 @@ function DeleteOrderDetail(id) {
 function InitActualCost() {
     //初始化表格
     $('#ActualCostTable').bootstrapTable({
-        method: 'get',
-        contentType: "application/x-www-form-urlencoded",//必须要有！！！！
-        dataType: "json",
-        url: "/Home/ActualCost",//要请求数据的文件路径
         pagination: true,
-        sidePagination: "server", //服务端处理分页
-        //toolbar: '#toolbar',//指定工具栏
         striped: true, //是否显示行间隔色
-        queryParams: function (params) {
-            return {
-                promotionId: $('#ID').val()
-            }
-        },
         columns:
         [
             {

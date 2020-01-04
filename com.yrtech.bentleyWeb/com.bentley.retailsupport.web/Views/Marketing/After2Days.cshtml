@@ -27,16 +27,20 @@
     <input id="CustomerIL" type="hidden" value="{{'Customer Inviting List'|translate}}" />
     <input id="WhetherDeal" type="hidden" value="{{'Whether Deal Made'|translate}}" />
 </div>
+
+<input id="ActionName" name="ActionName" type="hidden" value="@ViewBag.ActionName" />
+<input id="ShopName" name="ShopName" type="hidden" value="@ViewBag.ShopName" />
+<input id="MarketActionId" name="MarketActionId" type="hidden" value="@ViewBag.Id" />
+
 <div id="page-wrapper">
     <!--BEGIN CONTENT-->
     <div class="page-content">
         <div id="main-content">
             <p>
-                <a class="btn btn-primary" href="/Home/Promotion?type=" onclick="" translate>Save</a>
+                <a class="btn btn-primary" href="/Marketing/Index" onclick="" translate>Back</a>
                 <span style="padding-left:10px;" />
                 <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadFile()"><i class="icon-download-alt"></i><span translate>Export</span></a>
                 <a class="btn btn-primary" style="margin-left:2px;" onclick="FileUpload()"><i class="icon-upload-alt"></i><span translate>Import</span></a>
-
             </p>
 
             <div class="widget">
@@ -71,133 +75,72 @@
     </div>
     <!--END FOOTER-->
 </div>
+
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
     <script src="~/Scripts/curtom/CueReport.js"></script>
     <script>
         $("#nav_promotion").addClass("active");
 
-        var id = '@ViewBag.Id';
-        if (id) {
-            $.commonGet("MarketAction/MarketActionAfter2LeadsReportSearch", { marketActionId: id }, function (data) {
-                if (data) {
-                    $('#ActivityBudgetTable').bootstrapTable("load", data);
-                }
+        var id =  $("#MarketActionId").val();
+        function loadCueReport() {
+            if (id) {
+                $.commonGet("MarketAction/MarketActionAfter2LeadsReportSearch", { marketActionId: id }, function (data) {
+                    if (data) {
+                        $('#myCueReport').bootstrapTable("load", data);
+                    }
+                });
+            }
+        }
+
+        function SProcessing() {
+            //loading层
+            var index = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
             });
         }
-        $(function () {
-            loadShops().forEach(function (item) {
-                var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
-                $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
-            });
-
-            loadActiveStatuss();
-            loadTargetModels();
-            loadEventTypes();
-
-            InitCustomerInvitation2Table();
-            InitOrderDetail();
-            InitActualCost();
-
-            var roleName = $('#G_RoleTypeCode').val();
-            if (roleName == "SYSADMIN" || roleName == "MARKET") {
-                $('#ActiveShow').show();
-                $('#VisualStatus').prop("disabled", false);
-            }
-            else {
-                $('#VisualStatus').prop("disabled", true);
-            }
-        });
-
-        function loadActiveStatuss() {
-            $.commonGet("Master/HiddenCodeSearch", {
-                hiddenCodeGroup: "MarketActionStatus",
-                hiddenCode: ""
-            }, function (data) {
-                data.forEach(function (item) {
-                    $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
-                });
-                $("#MarketActionStatusCode").selectpicker("refresh");
-            })
+        function EProcessing() {
+            layer.closeAll('loading');
         }
 
-        function loadTargetModels() {
-            $.commonGet("Master/HiddenCodeSearch", {
-                hiddenCodeGroup: "TargetModels",
-                hiddenCode: ""
-            }, function (data) {
-                data.forEach(function (item) {
-                    $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
-                });
-                $("#MarketActionTargetModelCode").selectpicker("refresh");
-            })
+        function FileUpload() {
+            $('#UserId').val($('#G_UserId').val());
+            $('#File').click();
+        }
+        function DataUpload() {
+            var uploadForm = new FormData($('#FileUpload')[0]);
+            SProcessing();
+            $.ajax({
+                url: '/Master/CueFileUpload',
+                type: 'POST',
+                cache: false,
+                data: uploadForm,
+                processData: false,
+                contentType: false
+            }).done(function (res) {
+                EProcessing();
+                console.log(res.returnValue);
+                window.location.reload();
+            }).fail(function (res) { EProcessing(); window.location.reload(); });
         }
 
-        function loadEventTypes() {
-            $.commonGet("Master/EventTypeSearch", {
-                eventTypeId: "",
-                eventTypeName: "",
-                eventTypeNameEn: ""
-            }, function (data) {
-                data.forEach(function (item) {
-                    $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(localStorage.language == 'zh' ? item.EventTypeName : item.EventTypeNameEn))
-                });
-                $("#EventTypeId").selectpicker("refresh");
-            })
+        function FormSubmit() {
+            var oMyForm = new FormData($('#PromotionReport')[0]);
+            oMyForm.append("UserId", $('#G_UserId').val());
+
+            $.ajax({
+                url: '/Home/CueReport',
+                type: 'POST',
+                cache: false,
+                data: oMyForm,
+                processData: false,
+                contentType: false
+            }).done(function (res) {
+                console.log(res.returnValue);
+                window.location.reload();
+
+            }).fail(function (res) { });
         }
 
-        function OpenForm(obj) {
-            var url = obj.src;
-            url = url.replace('_min.', '.');
-            if (!new RegExp('Content/bootstrap-fileinput/img/noimage').test(url)) {
-                window.open(url);
-            }
-        }
-
-        function filterWords(msg) {
-            if (!isZH()) {
-                return msg.replace("保存成功！", "Save Successfully !").replace("系统错误，请联系管理员！", "System error, please contact administrator!")
-            }
-            return msg;
-        }
-        function PromotionEdit3() {
-            var StrDisplayModels = $('#DisplayModelsTable').bootstrapTable('getData');
-            var StrTestDrive = $('#TestDriveTable').bootstrapTable('getData');
-            var StrActivityBudget = $('#ActivityBudgetTable').bootstrapTable('getData');
-            if (StrDisplayModels && StrDisplayModels.length > 0) {
-                StrDisplayModels.forEach(function (item) {
-                    item.MarketActionId = id;
-                    item.InUserId = $("#G_UserId").val();
-                    item.ModifyUserId = $("#G_UserId").val();
-                })
-            }
-            if (StrTestDrive && StrTestDrive.length > 0) {
-                StrTestDrive.forEach(function (item) {
-                    item.MarketActionId = id;
-                    item.InUserId = $("#G_UserId").val();
-                    item.ModifyUserId = $("#G_UserId").val();
-                })
-            }
-            if (StrActivityBudget && StrActivityBudget.length > 0) {
-                StrActivityBudget.forEach(function (item) {
-                    item.MarketActionId = id;
-                    item.InUserId = $("#G_UserId").val();
-                    item.ModifyUserId = $("#G_UserId").val();
-                })
-            }
-
-            var MarketActionBefore3 = $('#PromotionCreate3').serializeObject();
-            MarketActionBefore3.BugetDetailList = StrActivityBudget
-            MarketActionBefore3.DisplayModelList = StrDisplayModels;
-            MarketActionBefore3.TestDriverList = StrTestDrive;
-            console.log(MarketActionBefore3);
-
-            $.commonPost('MarketAction/MarketActionBefore3Save', {
-                UserId: $("#G_UserId").val(),
-                ListJson: JSON.stringify(MarketActionBefore3)
-            }, function (data) {
-                window.location.href = "/Marketing/Index";
-            });
-        }
     </script>
 }

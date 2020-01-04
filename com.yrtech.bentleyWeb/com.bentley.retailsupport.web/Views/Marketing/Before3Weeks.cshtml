@@ -285,6 +285,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="col-md-8">
+                                            <input type="hidden" id="VisualDescriptionOld" />
                                             <textarea class="form-control" cols="20" id="VisualDescription" name="KeyVisionApprovalDesc" placeholder="{{'Modification Instructions'|translate}}" rows="9"></textarea>
                                             <div style="margin-top:5px;">
                                                 <input type="hidden" id="VisualStatusOld" />
@@ -691,6 +692,7 @@
                     $('#img_material4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
 
                     $("#VisualStatusOld").val(data.MarketActionBefore21.KeyVisionApprovalCode);
+                    $("#VisualDescriptionOld").val(data.MarketActionBefore21.KeyVisionApprovalDesc);
                 }
             });
         }
@@ -754,24 +756,7 @@
                 $("#EventTypeId").selectpicker("refresh");
             })
         }
-
-
-
-        function OpenForm(obj) {
-            var url = obj.src;
-            url = url.replace('_min.', '.');
-            if (!new RegExp('Content/bootstrap-fileinput/img/noimage').test(url)) {
-                window.open(url);
-            }
-        }
-
-        function filterWords(msg) {
-            if (!isZH()) {
-                return msg.replace("保存成功！", "Save Successfully !").replace("系统错误，请联系管理员！", "System error, please contact administrator!")
-            }
-            return msg;
-        }
-
+        
         function SProcessing() {
             //loading
             var index = layer.load(1, {
@@ -837,20 +822,16 @@
                     skin: 'layui-layer-molv', closeBtn: 0
                 }, function (datas) {
                     //1.给主视觉设计公司发送邮件
-                    if (imgVisual1 != undefined) {
+                    if (MarketActionBefore21.KeyVisionPic) {
                         $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
                     }
                     //2.如果主视觉审核意见有修改时给经销商发邮件
-                    var dealerName = $('#Dealer').val();//经销商名称
-                    var promotionName = $('#Name').val();//活动名称
-                    var email = $('#jxsEmail').val();//邮件地址
                     var VisualDescriptionOld = $("#VisualDescriptionOld").val();
                     var VisualDescription = $("#VisualDescription").val();
-
                     var VisualStatus = $("#VisualStatus").val();
                     var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
 
-                    if (email != null && email != "" && ((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
+                    if (((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
                     {
                         $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
                     }

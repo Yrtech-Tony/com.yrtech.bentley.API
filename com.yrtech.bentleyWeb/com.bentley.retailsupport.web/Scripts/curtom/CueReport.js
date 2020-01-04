@@ -41,7 +41,12 @@ function Update() {
         UserId: $("G_UserId").val(),
         ListJson: JSON.stringify(mainDto)
     }, function () {
-        layer.alert('更新成功');
+        var msg = isZH() ? '更新成功！' : "Update successfully !";
+        layer.alert(msg, {
+            skin: 'layui-layer-molv', closeBtn: 0
+        }, function (datas) {
+            window.location.href = "/Marketing/Index";
+        });
     });
 }
 
@@ -276,12 +281,7 @@ function InitCueLst() {
             }
             $element.find(":checkbox").prop("checked",true);
             row[field] = !value;
-            $.commonPost("MarketAction/MarketActionAfter2LeadsReportSave", {
-                UserId: $("#G_UserId").val(),
-                ListJson: JSON.stringify([row])
-            }, function () {
-                loadCueReport();
-            });
+            saveLeadsReport(row);
         },
         onClickRow: function (row, $element) {
             console.log("onClickRow");
@@ -289,13 +289,20 @@ function InitCueLst() {
         },
         onEditableSave: function (field, row, oldValue, $el) {
             console.log("onEditableSave");
-            $.commonPost("MarketAction/MarketActionAfter2LeadsReportSave", {
-                UserId: $("#G_UserId").val(),
-                ListJson: JSON.stringify([row])
-            }, function () {
-                loadCueReport();
-            });
+            saveLeadsReport(row);
         }
+    });
+}
+
+function saveLeadsReport(row) {
+    row.InUserId = $("#G_UserId").val();
+    row.ModifyUserId = $("#G_UserId").val();
+    $.commonPost("MarketAction/MarketActionAfter2LeadsReportSave", {
+        UserId: $("#G_UserId").val(),
+        ListJson: JSON.stringify([row])
+    }, function (data) {
+        console.log(data)
+        //loadCueReport();
     });
 }
 function SetIsOwner(target) {

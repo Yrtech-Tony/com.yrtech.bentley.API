@@ -224,29 +224,6 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
-        [HttpGet]
-        [Route("MarketAction/TestBase64")]
-        public APIResult TestBase64(string upload)
-        {
-            try
-            {
-               
-                
-                if (!string.IsNullOrEmpty(upload))
-                {
-                    Stream keyVisionStream = BytesToStream(Base64ToBytes(upload));
-                    OSSClientHelper.UploadOSSFile("14" + "keyVision" + DateTime.Now.ToString("yyyyMMddHHmmssfff"), keyVisionStream, keyVisionStream.Length);
-                    
-                }
-               
-                return new APIResult() { Status = true, Body = "" };
-            }
-            catch (Exception ex)
-            {
-                return new APIResult() { Status = false, Body = ex.Message.ToString() };
-            }
-
-        }
         [HttpPost]
         [Route("MarketAction/MarketActionBefore21Save")]
         public APIResult MarketActionBefore21Save(UploadData upload)
@@ -317,13 +294,28 @@ namespace com.yrtech.SurveyAPI.Controllers
                     market.MarketActionTargetModelCode = marketActionBefore21MainDto.TarketModelCode;
                     marketActionService.MarketActionSave(market);
                 }
-                if (!string.IsNullOrEmpty(marketActionBefore21MainDto.MarketActionBefore21.KeyVisionPic))
-                {
-                    Stream keyVisionStream = BytesToStream(Base64ToBytes(marketActionBefore21MainDto.MarketActionBefore21.KeyVisionPic));
-                    OSSClientHelper.UploadOSSFile(marketActionBefore21MainDto.MarketActionId.ToString() + "keyVision" + DateTime.Now.ToString("yyyyMMddHHmmssfff"), keyVisionStream, keyVisionStream.Length);
-                    marketActionBefore21MainDto.MarketActionBefore21.KeyVisionPic = marketActionBefore21MainDto.MarketActionId.ToString() + "keyVision" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                }
-                marketActionService.MarketActionBefore21Save(marketActionBefore21MainDto.MarketActionBefore21);
+
+                marketActionBefore21MainDto.MarketActionBefore21.KeyVisionPic = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.KeyVisionPic);
+                marketActionBefore21MainDto.MarketActionBefore21.OthersPic01 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.OthersPic01);
+                marketActionBefore21MainDto.MarketActionBefore21.OthersPic02 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.OthersPic02);
+                marketActionBefore21MainDto.MarketActionBefore21.OthersPic03 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.OthersPic03);
+                marketActionBefore21MainDto.MarketActionBefore21.OthersPic04 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.OthersPic04);
+
+                marketActionBefore21MainDto.MarketActionBefore21.PlaceIntroPic01 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.PlaceIntroPic01);
+                marketActionBefore21MainDto.MarketActionBefore21.PlaceIntroPic02 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.PlaceIntroPic02);
+                marketActionBefore21MainDto.MarketActionBefore21.PlaceIntroPic03 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.PlaceIntroPic03);
+                marketActionBefore21MainDto.MarketActionBefore21.PlaceIntroPic04 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.PlaceIntroPic04);
+
+                marketActionBefore21MainDto.MarketActionBefore21.POSDesignPic01 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.POSDesignPic01);
+                marketActionBefore21MainDto.MarketActionBefore21.POSDesignPic02 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.POSDesignPic02);
+                marketActionBefore21MainDto.MarketActionBefore21.POSDesignPic03 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.POSDesignPic03);
+                marketActionBefore21MainDto.MarketActionBefore21.POSDesignPic04 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.POSDesignPic04);
+
+                marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic01 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic01);
+                marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic02 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic02);
+                marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic03 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic03);
+                marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic04 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic04);
+
                 // 先全部删除活动流程，然后统一再保存一边
                 marketActionService.MarketActionBefore21ActivityProcessDelete(marketActionBefore21MainDto.MarketActionId.ToString());
                 foreach (MarketActionBefore21ActivityProcess process in marketActionBefore21MainDto.ActivityProcess)
@@ -632,7 +624,7 @@ namespace com.yrtech.SurveyAPI.Controllers
 
                 //foreach (MarketActionAfter2LeadsReport leadsReport in list)
                 //{
-                marketActionAfter2LeadsReport =  marketActionService.MarketActionAfter2LeadsReportSave(marketActionAfter2LeadsReport);
+                marketActionAfter2LeadsReport = marketActionService.MarketActionAfter2LeadsReportSave(marketActionAfter2LeadsReport);
                 //}
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionAfter2LeadsReport) };
             }
@@ -779,7 +771,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-               // MarketActionAfter30MainDto marketActionAfter30MainDto = CommonHelper.DecodeString<MarketActionAfter30MainDto>(upload.ListJson);
+                // MarketActionAfter30MainDto marketActionAfter30MainDto = CommonHelper.DecodeString<MarketActionAfter30MainDto>(upload.ListJson);
                 marketActionService.MarketActionAfter30LeadsReportUpdate(marketActionAfter30LeadsReportUpdate);
                 //foreach (MarketActionAfter2LeadsReport report in marketActionAfter30MainDto.LeadsReportList)
                 //{

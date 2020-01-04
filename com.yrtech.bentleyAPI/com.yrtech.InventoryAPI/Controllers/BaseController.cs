@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -33,6 +34,26 @@ namespace com.yrtech.InventoryAPI.Controllers
             }
             MemoryStream ms = new MemoryStream(dataBytes);
             return ms;
+        }
+
+        public static string UploadBase64Pic(string filePath,string base64Img)
+        {
+            if (!string.IsNullOrEmpty(base64Img) && base64Img.Contains("data:image/png;base64"))
+            {
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    filePath = @"MarketAction\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
+                }
+                base64Img = base64Img.Trim().Replace("%", "").Replace(",", "").Replace(" ", "+").Replace("data:image/png;base64,", "");
+                if (base64Img.Length % 4 > 0)
+                {
+                    base64Img = base64Img.PadRight(base64Img.Length + 4 - base64Img.Length % 4, '=');
+                }
+                Stream stream = BytesToStream(Base64ToBytes(base64Img));
+                OSSClientHelper.UploadOSSFile(filePath, stream, stream.Length);
+                Thread.Sleep(1);
+            }
+            return filePath;
         }
 
         public void SendEmail(string emailTo,string emailCC,string subjects,string body,string attachmentStream,string attachementFileName)

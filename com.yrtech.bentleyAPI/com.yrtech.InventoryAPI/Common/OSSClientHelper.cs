@@ -11,8 +11,8 @@ namespace com.yrtech.InventoryAPI.Common
 {
     public class OSSClientHelper
     {
-        protected const string accessid = "LTAIVT0LDGaF40dk";
-        protected const string accessKey = "2Oqit9KkBDNHFGBZZEjMlknxslIcuM";
+        protected const string accessid = "3JkljJxvXgjLz80X";
+        protected const string accessKey = "L2ERHORPk3WkjqfGUb27RlxvT8x5f3";
         protected const string endpoin = "http://oss-cn-beijing.aliyuncs.com";
         protected const string bucket = "yrsurvey";
 

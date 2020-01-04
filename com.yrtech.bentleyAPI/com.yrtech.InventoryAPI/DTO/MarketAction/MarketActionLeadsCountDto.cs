@@ -14,5 +14,6 @@ namespace com.yrtech.InventoryAPI.DTO
         public Nullable<int> TestDriverPCCount { get; set; }
         public Nullable<int> ActualOrderOwnerCount { get; set; }
         public Nullable<int> ActualOrderPCCount { get; set; }
+        public Nullable<decimal> ExpenseTotalAmt { get; set; }
     }
 }

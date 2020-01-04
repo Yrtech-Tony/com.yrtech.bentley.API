@@ -14,6 +14,27 @@ namespace com.yrtech.InventoryAPI.Controllers
 {
     public class BaseController : ApiController
     {
+        
+        public static byte[] Base64ToBytes(string base64Img)
+        {
+            if (!string.IsNullOrEmpty(base64Img))
+            {
+                byte[] bytes = Convert.FromBase64String(base64Img);
+                return bytes;
+            }
+            return null;
+        }
+
+        public static Stream BytesToStream(byte[] dataBytes)
+        {
+            if (dataBytes == null)
+            {
+                return null;
+            }
+            MemoryStream ms = new MemoryStream(dataBytes);
+            return ms;
+        }
+
         public void SendEmail(string emailTo,string emailCC,string subjects,string body,string attachmentStream,string attachementFileName)
         {
             System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();

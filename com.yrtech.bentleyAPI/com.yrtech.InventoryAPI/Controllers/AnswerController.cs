@@ -7,6 +7,7 @@ using com.yrtech.InventoryAPI.Controllers;
 using com.yrtech.InventoryAPI.DTO;
 using System.Net.Http;
 using com.yrtech.bentley.DAL;
+using System.IO;
 
 namespace com.yrtech.SurveyAPI.Controllers
 {
@@ -223,6 +224,29 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
+        [HttpGet]
+        [Route("MarketAction/TestBase64")]
+        public APIResult TestBase64(string upload)
+        {
+            try
+            {
+               
+                
+                if (!string.IsNullOrEmpty(upload))
+                {
+                    Stream keyVisionStream = BytesToStream(Base64ToBytes(upload));
+                    OSSClientHelper.UploadOSSFile("14" + "keyVision" + DateTime.Now.ToString("yyyyMMddHHmmssfff"), keyVisionStream, keyVisionStream.Length);
+                    
+                }
+               
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
         [HttpPost]
         [Route("MarketAction/MarketActionBefore21Save")]
         public APIResult MarketActionBefore21Save(UploadData upload)
@@ -293,7 +317,15 @@ namespace com.yrtech.SurveyAPI.Controllers
                     market.MarketActionTargetModelCode = marketActionBefore21MainDto.TarketModelCode;
                     marketActionService.MarketActionSave(market);
                 }
+                if (!string.IsNullOrEmpty(marketActionBefore21MainDto.MarketActionBefore21.KeyVisionPic))
+                {
+                    Stream keyVisionStream = BytesToStream(Base64ToBytes(marketActionBefore21MainDto.MarketActionBefore21.KeyVisionPic));
+                    OSSClientHelper.UploadOSSFile(marketActionBefore21MainDto.MarketActionId.ToString() + "keyVision" + DateTime.Now.ToString("yyyyMMddHHmmssfff"), keyVisionStream, keyVisionStream.Length);
+                    marketActionBefore21MainDto.MarketActionBefore21.KeyVisionPic = marketActionBefore21MainDto.MarketActionId.ToString() + "keyVision" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                }
                 marketActionService.MarketActionBefore21Save(marketActionBefore21MainDto.MarketActionBefore21);
+                // 先全部删除活动流程，然后统一再保存一边
+                marketActionService.MarketActionBefore21ActivityProcessDelete(marketActionBefore21MainDto.MarketActionId.ToString());
                 foreach (MarketActionBefore21ActivityProcess process in marketActionBefore21MainDto.ActivityProcess)
                 {
                     marketActionService.MarketActionBefore21ActivityProcessSave(process);
@@ -306,25 +338,25 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
 
         }
-        [HttpPost]
-        [Route("MarketAction/MarketActionBefore21ActivityProcessDelete")]
-        public APIResult MarketActionBefore21ActivityProcessDelete(UploadData upload)
-        {
-            try
-            {
-                List<MarketActionBefore21ActivityProcess> list = CommonHelper.DecodeString<List<MarketActionBefore21ActivityProcess>>(upload.ListJson);
-                foreach (MarketActionBefore21ActivityProcess process in list)
-                {
-                    marketActionService.MarketActionBefore21ActivityProcessDelete(process.MarketActionId.ToString(), process.SeqNO.ToString());
-                }
-                return new APIResult() { Status = true, Body = "" };
-            }
-            catch (Exception ex)
-            {
-                return new APIResult() { Status = false, Body = ex.Message.ToString() };
-            }
+        //[HttpPost]
+        //[Route("MarketAction/MarketActionBefore21ActivityProcessDelete")]
+        //public APIResult MarketActionBefore21ActivityProcessDelete(UploadData upload)
+        //{
+        //    try
+        //    {
+        //        List<MarketActionBefore21ActivityProcess> list = CommonHelper.DecodeString<List<MarketActionBefore21ActivityProcess>>(upload.ListJson);
+        //        foreach (MarketActionBefore21ActivityProcess process in list)
+        //        {
+        //            marketActionService.MarketActionBefore21ActivityProcessDelete(process.MarketActionId.ToString(), process.SeqNO.ToString());
+        //        }
+        //        return new APIResult() { Status = true, Body = "" };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new APIResult() { Status = false, Body = ex.Message.ToString() };
+        //    }
 
-        }
+        //}
         [HttpGet]
         [Route("MarketAction/KeyVisionSendEmailToBMC")]
         public APIResult KeyVisionSendEmailToBMC(string marketActionId)
@@ -362,7 +394,8 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 MarketActionBefore3MainDto marketActionBefore3MainDto = new MarketActionBefore3MainDto();
-                marketActionBefore3MainDto.BugetDetailList = marketActionService.MarketActionBefore3BugetDetailSearch(marketActionId);
+                marketActionBefore3MainDto.BugetDetailSumAmt = marketActionService.MarketActionBefore3BugetSumAmtSearch(marketActionId);
+                marketActionBefore3MainDto.BugetDetailListDto = marketActionService.MarketActionBefore3BugetDetailSearch(marketActionId);
                 marketActionBefore3MainDto.DisplayModelList = marketActionService.MarketActionBefore3DisplayModelSearch(marketActionId);
                 marketActionBefore3MainDto.TestDriverList = marketActionService.MarketActionBefore3TestDriverSearch(marketActionId);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionBefore3MainDto) };
@@ -380,6 +413,11 @@ namespace com.yrtech.SurveyAPI.Controllers
             {
                 MarketActionBefore3MainDto marketActionBefore3MainDto = CommonHelper.DecodeString<MarketActionBefore3MainDto>(upload.ListJson);
 
+                // 先全部删除然后再保存
+
+                marketActionService.MarketActionBefore3BugetDetailDelete(marketActionBefore3MainDto.MarketActionId.ToString());
+                marketActionService.MarketActionBefore3DisplayModelDelete(marketActionBefore3MainDto.MarketActionId.ToString());
+                marketActionService.MarketActionBefore3TestDriverDelete(marketActionBefore3MainDto.MarketActionId.ToString());
                 foreach (MarketActionBefore3BugetDetail bugetDetail in marketActionBefore3MainDto.BugetDetailList)
                 {
                     marketActionService.MarketActionBefore3BugetDetailSave(bugetDetail);
@@ -400,63 +438,63 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
 
         }
-        [HttpPost]
-        [Route("MarketAction/MarketActionBefore3TestDriverDelete")]
-        public APIResult MarketActionBefore3TestDriverDelete(UploadData upload)
-        {
-            try
-            {
-                List<MarketActionBefore3TestDriver> list = CommonHelper.DecodeString<List<MarketActionBefore3TestDriver>>(upload.ListJson);
-                foreach (MarketActionBefore3TestDriver testDriver in list)
-                {
-                    marketActionService.MarketActionBefore3TestDriverDelete(testDriver.MarketActionId.ToString(), testDriver.SeqNO.ToString());
-                }
-                return new APIResult() { Status = true, Body = "" };
-            }
-            catch (Exception ex)
-            {
-                return new APIResult() { Status = false, Body = ex.Message.ToString() };
-            }
+        //[HttpPost]
+        //[Route("MarketAction/MarketActionBefore3TestDriverDelete")]
+        //public APIResult MarketActionBefore3TestDriverDelete(UploadData upload)
+        //{
+        //    try
+        //    {
+        //        List<MarketActionBefore3TestDriver> list = CommonHelper.DecodeString<List<MarketActionBefore3TestDriver>>(upload.ListJson);
+        //        foreach (MarketActionBefore3TestDriver testDriver in list)
+        //        {
+        //            marketActionService.MarketActionBefore3TestDriverDelete(testDriver.MarketActionId.ToString(), testDriver.SeqNO.ToString());
+        //        }
+        //        return new APIResult() { Status = true, Body = "" };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new APIResult() { Status = false, Body = ex.Message.ToString() };
+        //    }
 
-        }
-        [HttpPost]
-        [Route("MarketAction/MarketActionBefore3DisplayModelDelete")]
-        public APIResult MarketActionBefore3DisplayModelDelete(UploadData upload)
-        {
-            try
-            {
-                List<MarketActionBefore3DisplayModel> list = CommonHelper.DecodeString<List<MarketActionBefore3DisplayModel>>(upload.ListJson);
-                foreach (MarketActionBefore3DisplayModel displayModel in list)
-                {
-                    marketActionService.MarketActionBefore3DisplayModelDelete(displayModel.MarketActionId.ToString(), displayModel.SeqNO.ToString());
-                }
-                return new APIResult() { Status = true, Body = "" };
-            }
-            catch (Exception ex)
-            {
-                return new APIResult() { Status = false, Body = ex.Message.ToString() };
-            }
+        //}
+        //[HttpPost]
+        //[Route("MarketAction/MarketActionBefore3DisplayModelDelete")]
+        //public APIResult MarketActionBefore3DisplayModelDelete(UploadData upload)
+        //{
+        //    try
+        //    {
+        //        List<MarketActionBefore3DisplayModel> list = CommonHelper.DecodeString<List<MarketActionBefore3DisplayModel>>(upload.ListJson);
+        //        foreach (MarketActionBefore3DisplayModel displayModel in list)
+        //        {
+        //            marketActionService.MarketActionBefore3DisplayModelDelete(displayModel.MarketActionId.ToString(), displayModel.SeqNO.ToString());
+        //        }
+        //        return new APIResult() { Status = true, Body = "" };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new APIResult() { Status = false, Body = ex.Message.ToString() };
+        //    }
 
-        }
-        [HttpPost]
-        [Route("MarketAction/MarketActionBefore3BugetDetailDelete")]
-        public APIResult MarketActionBefore3BugetDetailDelete(UploadData upload)
-        {
-            try
-            {
-                List<MarketActionBefore3BugetDetail> list = CommonHelper.DecodeString<List<MarketActionBefore3BugetDetail>>(upload.ListJson);
-                foreach (MarketActionBefore3BugetDetail bugetDetail in list)
-                {
-                    marketActionService.MarketActionBefore3BugetDetailDelete(bugetDetail.MarketActionId.ToString(), bugetDetail.SeqNO.ToString());
-                }
-                return new APIResult() { Status = true, Body = "" };
-            }
-            catch (Exception ex)
-            {
-                return new APIResult() { Status = false, Body = ex.Message.ToString() };
-            }
+        //}
+        //[HttpPost]
+        //[Route("MarketAction/MarketActionBefore3BugetDetailDelete")]
+        //public APIResult MarketActionBefore3BugetDetailDelete(UploadData upload)
+        //{
+        //    try
+        //    {
+        //        List<MarketActionBefore3BugetDetail> list = CommonHelper.DecodeString<List<MarketActionBefore3BugetDetail>>(upload.ListJson);
+        //        foreach (MarketActionBefore3BugetDetail bugetDetail in list)
+        //        {
+        //            marketActionService.MarketActionBefore3BugetDetailDelete(bugetDetail.MarketActionId.ToString(), bugetDetail.SeqNO.ToString());
+        //        }
+        //        return new APIResult() { Status = true, Body = "" };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new APIResult() { Status = false, Body = ex.Message.ToString() };
+        //    }
 
-        }
+        //}
         #endregion
         #region TheDays
         [HttpGet]
@@ -516,8 +554,8 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                List<MarketActionAfter2LeadsReportDto> marketActionTheDayFile = marketActionService.MarketActionAfter2LeadsReportSearch(marketActionId, "");
-                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionTheDayFile) };
+                List<MarketActionAfter2LeadsReportDto> marketAfterLeadsReportList = marketActionService.MarketActionAfter2LeadsReportSearch(marketActionId, "");
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketAfterLeadsReportList) };
             }
             catch (Exception ex)
             {
@@ -586,16 +624,17 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpPost]
         [Route("MarketAction/MarketActionAfter2LeadsReportSave")]
-        public APIResult MarketActionAfter2LeadsReportSave(UploadData upload)
+        public APIResult MarketActionAfter2LeadsReportSave(MarketActionAfter2LeadsReport marketActionAfter2LeadsReport)
         {
             try
             {
-                List<MarketActionAfter2LeadsReport> list = CommonHelper.DecodeString<List<MarketActionAfter2LeadsReport>>(upload.ListJson);
-                foreach (MarketActionAfter2LeadsReport leadsReport in list)
-                {
-                    marketActionService.MarketActionAfter2LeadsReportSave(leadsReport);
-                }
-                return new APIResult() { Status = true, Body = "" };
+                // List<MarketActionAfter2LeadsReport> list = CommonHelper.DecodeString<List<MarketActionAfter2LeadsReport>>(upload.ListJson);
+
+                //foreach (MarketActionAfter2LeadsReport leadsReport in list)
+                //{
+                marketActionAfter2LeadsReport =  marketActionService.MarketActionAfter2LeadsReportSave(marketActionAfter2LeadsReport);
+                //}
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionAfter2LeadsReport) };
             }
             catch (Exception ex)
             {
@@ -652,7 +691,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 {
                     marketActionAfter7MainDto.MarketActionAfter7 = marketActionAfter7List[0];
                 }
-                marketActionAfter7MainDto.ActualExpense = marketActionService.MarketActionAfter7ActualExpenseSearch(marketActionId);
+                marketActionAfter7MainDto.ActualExpenseDto = marketActionService.MarketActionAfter7ActualExpenseSearch(marketActionId);
                 marketActionAfter7MainDto.ActualProcess = marketActionService.MarketActionAfter7ActualProcessSearch(marketActionId);
                 List<MarketActionLeadsCountDto> marketActionLeadsCountList = marketActionService.MarketActionLeadsCountSearch(marketActionId);// 需要和客户确认计算逻辑
                 if (marketActionLeadsCountList != null && marketActionLeadsCountList.Count > 0)
@@ -674,6 +713,10 @@ namespace com.yrtech.SurveyAPI.Controllers
             {
                 MarketActionAfter7MainDto marketActionAfter7MainDto = CommonHelper.DecodeString<MarketActionAfter7MainDto>(upload.ListJson);
                 marketActionService.MarketActionAfter7Save(marketActionAfter7MainDto.MarketActionAfter7);
+
+                // 先删除再全部保存
+                marketActionService.MarketActionAfter7ActualExpenseDelete(marketActionAfter7MainDto.MarketActionId.ToString());
+                marketActionService.MarketActionAfter7ActualProcessDelete(marketActionAfter7MainDto.MarketActionId.ToString());
                 foreach (MarketActionAfter7ActualExpense expense in marketActionAfter7MainDto.ActualExpense)
                 {
                     marketActionService.MarketActionAfter7ActualExpenseSave(expense);
@@ -690,59 +733,59 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
 
         }
-        [HttpPost]
-        [Route("MarketAction/MarketActionAfter7ActualExpenseDelete")]
-        public APIResult MarketActionAfter7ActualExpenseDelete(UploadData upload)
-        {
-            try
-            {
-                List<MarketActionAfter7ActualExpense> list = CommonHelper.DecodeString<List<MarketActionAfter7ActualExpense>>(upload.ListJson);
-                foreach (MarketActionAfter7ActualExpense expense in list)
-                {
-                    marketActionService.MarketActionAfter7ActualExpenseDelete(expense.MarketActionId.ToString(), expense.SeqNO.ToString());
-                }
-                return new APIResult() { Status = true, Body = "" };
-            }
-            catch (Exception ex)
-            {
-                return new APIResult() { Status = false, Body = ex.Message.ToString() };
-            }
+        //[HttpPost]
+        //[Route("MarketAction/MarketActionAfter7ActualExpenseDelete")]
+        //public APIResult MarketActionAfter7ActualExpenseDelete(UploadData upload)
+        //{
+        //    try
+        //    {
+        //        List<MarketActionAfter7ActualExpense> list = CommonHelper.DecodeString<List<MarketActionAfter7ActualExpense>>(upload.ListJson);
+        //        foreach (MarketActionAfter7ActualExpense expense in list)
+        //        {
+        //            marketActionService.MarketActionAfter7ActualExpenseDelete(expense.MarketActionId.ToString(), expense.SeqNO.ToString());
+        //        }
+        //        return new APIResult() { Status = true, Body = "" };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new APIResult() { Status = false, Body = ex.Message.ToString() };
+        //    }
 
-        }
-        [HttpPost]
-        [Route("MarketAction/MarketActionAfter7ActualProcessDelete")]
-        public APIResult MarketActionAfter7ActualProcessDelete(UploadData upload)
-        {
-            try
-            {
-                List<MarketActionAfter7ActualProcess> list = CommonHelper.DecodeString<List<MarketActionAfter7ActualProcess>>(upload.ListJson);
-                foreach (MarketActionAfter7ActualProcess process in list)
-                {
-                    marketActionService.MarketActionAfter7ActualProcessDelete(process.MarketActionId.ToString(), process.SeqNO.ToString());
-                }
-                return new APIResult() { Status = true, Body = "" };
-            }
-            catch (Exception ex)
-            {
-                return new APIResult() { Status = false, Body = ex.Message.ToString() };
-            }
+        //}
+        //[HttpPost]
+        //[Route("MarketAction/MarketActionAfter7ActualProcessDelete")]
+        //public APIResult MarketActionAfter7ActualProcessDelete(UploadData upload)
+        //{
+        //    try
+        //    {
+        //        List<MarketActionAfter7ActualProcess> list = CommonHelper.DecodeString<List<MarketActionAfter7ActualProcess>>(upload.ListJson);
+        //        foreach (MarketActionAfter7ActualProcess process in list)
+        //        {
+        //            marketActionService.MarketActionAfter7ActualProcessDelete(process.MarketActionId.ToString(), process.SeqNO.ToString());
+        //        }
+        //        return new APIResult() { Status = true, Body = "" };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new APIResult() { Status = false, Body = ex.Message.ToString() };
+        //    }
 
-        }
+        //}
         #endregion
         #region 30 days after
         [HttpPost]
         [Route("MarketAction/MarketActionAfter30LeadsReportUpdate")]
-        public APIResult MarketActionAfter30LeadsReportUpdate(UploadData upload)
+        public APIResult MarketActionAfter30LeadsReportUpdate(MarketActionAfter30LeadsReportUpdate marketActionAfter30LeadsReportUpdate)
         {
             try
             {
-                MarketActionAfter30MainDto marketActionAfter30MainDto = CommonHelper.DecodeString<MarketActionAfter30MainDto>(upload.ListJson);
-                marketActionService.MarketActionAfter30LeadsReportUpdate(marketActionAfter30MainDto.MarketActionAfter30LeadsReportUpdate);
-                foreach (MarketActionAfter2LeadsReport report in marketActionAfter30MainDto.LeadsReportList)
-                {
-                    marketActionService.MarketActionAfter2LeadsReportSave(report);
+               // MarketActionAfter30MainDto marketActionAfter30MainDto = CommonHelper.DecodeString<MarketActionAfter30MainDto>(upload.ListJson);
+                marketActionService.MarketActionAfter30LeadsReportUpdate(marketActionAfter30LeadsReportUpdate);
+                //foreach (MarketActionAfter2LeadsReport report in marketActionAfter30MainDto.LeadsReportList)
+                //{
+                //    marketActionService.MarketActionAfter2LeadsReportSave(report);
 
-                }
+                //}
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)

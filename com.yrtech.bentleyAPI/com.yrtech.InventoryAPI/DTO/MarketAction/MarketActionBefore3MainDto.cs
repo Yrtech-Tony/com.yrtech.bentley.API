@@ -8,6 +8,8 @@ namespace com.yrtech.InventoryAPI.DTO
     public class MarketActionBefore3MainDto
     {
         public int MarketActionId { get; set; }
+        public Nullable<decimal> BugetDetailSumAmt { get; set; }
+        public List<MarketActionBefore3BugetDetailDto> BugetDetailListDto { get; set; }
         public List<MarketActionBefore3BugetDetail> BugetDetailList { get; set; }
         public List<MarketActionBefore3DisplayModel> DisplayModelList { get; set; }
         public List<MarketActionBefore3TestDriver> TestDriverList { get; set; }

@@ -10,6 +10,7 @@ namespace com.yrtech.InventoryAPI.DTO
         public int MarketActionId { get; set; }
         public MarketActionAfter7 MarketActionAfter7 { get; set; }
         public MarketActionLeadsCountDto LeadsCount { get; set; }
+        public List<MarketActionAfter7ActualExpenseDto> ActualExpenseDto { get; set; }
         public List<MarketActionAfter7ActualExpense> ActualExpense { get; set; }
         public List<MarketActionAfter7ActualProcess> ActualProcess { get; set; }
     }

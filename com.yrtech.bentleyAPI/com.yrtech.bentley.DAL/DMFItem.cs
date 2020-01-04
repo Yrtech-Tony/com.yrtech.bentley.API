@@ -15,11 +15,11 @@ namespace com.yrtech.bentley.DAL
     public partial class DMFItem
     {
         public int DMFItemId { get; set; }
-        public string DMFItemName { get; set; }
-        public string DMFItemNameEn { get; set; }
-        public string DMFItemRemark { get; set; }
-        public Nullable<bool> ExpenseAccountChk { get; set; }
-        public Nullable<bool> PublishChk { get; set; }
+        public string DMFItemName { get; set; }//市场基项目名称
+        public string DMFItemNameEn { get; set; }//市场基金项目名称英文
+        public string DMFItemRemark { get; set; }//概述
+        public Nullable<bool> ExpenseAccountChk { get; set; }//是否报销
+        public Nullable<bool> PublishChk { get; set; }//是否发布
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
         public Nullable<int> ModifyUserId { get; set; }

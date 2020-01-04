@@ -31,11 +31,7 @@
                 </div>
                 <div class="widget-body" style="display: block;">
                     <form class="form-horizontal bv-form ng-pristine ng-valid" id="PromotionCreate" novalidate="novalidate">
-                        <input id="MarketActionId " name="MarketActionId " type="hidden" value="" />
-                        <input id="InUserId" name="InUserId" type="hidden" value="" />
-                        <input id="InDateTime" name="InDateTime" type="hidden" value="" />
-                        <input id="ModifyUserId" name="ModifyUserId" type="hidden" value="" />
-                        <input id="ModifyDateTime" name="ModifyDateTime" type="hidden" value="" />
+                        
                         <div class="row" id="ActiveShow" style="display:none">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -136,9 +132,6 @@
                 <div class="widget-body form form-horizontal" id="ultimatesolution" style="display: block;">
                     <div>
                         <form  class="form-horizontal ng-pristine ng-valid"  id="PromotionCreate3">
-                            <input id="ID" name="ID" type="hidden" autocomplete="off">
-                            <input id="UserId" name="UserId" type="hidden" autocomplete="off">
-                            <input id="PromotionBaseType" name="PromotionBaseType" type="hidden">
                             <div>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -223,9 +216,11 @@
 
             $.commonGet("MarketAction/MarketActionBefore3Search", { marketActionId: id }, function (data) {
                 if (data) {                    
-                    $('#ActivityBudgetTable').bootstrapTable("load", data.BugetDetailList);
+                    $('#ActivityBudgetTable').bootstrapTable("load", data.BugetDetailListDto);
                     $('#DisplayModelsTable').bootstrapTable("load", data.DisplayModelList);
                     $('#TestDriveTable').bootstrapTable("load", data.TestDriverList);
+
+                    $("#ActivityBudgetSum").html(dealNumber(parseFloat(data.BugetDetailSumAmt)));
                 }
             });
         }
@@ -239,9 +234,9 @@
             loadTargetModels();
             loadEventTypes();
 
-            InitCustomerInvitation2Table();
-            InitOrderDetail();
-            InitActualCost();
+            InitActivityBudgetTable();
+            InitTestDriverTable();
+            InitDisplayModelsTable();
 
             var roleName = $('#G_RoleTypeCode').val();
             if (roleName == "SYSADMIN" || roleName == "MARKET") {
@@ -304,6 +299,18 @@
             }
             return msg;
         }
+
+
+        function SProcessing() {
+            //loading
+            var index = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
+            });
+        }
+        function EProcessing() {
+            layer.closeAll('loading');
+        }
+
         function PromotionEdit3() {
             var StrDisplayModels = $('#DisplayModelsTable').bootstrapTable('getData');
             var StrTestDrive = $('#TestDriveTable').bootstrapTable('getData');
@@ -331,16 +338,23 @@
             }
 
             var MarketActionBefore3 = $('#PromotionCreate3').serializeObject();
+            MarketActionBefore3.MarketActionId = id;
             MarketActionBefore3.BugetDetailList=StrActivityBudget
             MarketActionBefore3.DisplayModelList = StrDisplayModels;
             MarketActionBefore3.TestDriverList=StrTestDrive;
-            console.log(MarketActionBefore3);
 
+            SProcessing();
             $.commonPost('MarketAction/MarketActionBefore3Save',{
                 UserId: $("#G_UserId").val(),
                 ListJson: JSON.stringify(MarketActionBefore3)
             }, function (data) {
-                window.location.href = "/Marketing/Index";
+                EProcessing();
+                var msg = isZH() ? '保存成功！' : "Save successfully !";
+                layer.alert(msg, {
+                    skin: 'layui-layer-molv', closeBtn: 0
+                }, function (datas) {
+                    window.location.href = "/Marketing/Index";
+                });
             });
         }
     </script>

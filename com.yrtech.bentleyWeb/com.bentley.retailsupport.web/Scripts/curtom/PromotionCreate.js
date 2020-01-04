@@ -6,7 +6,7 @@ $('#PromotionCreate').bootstrapValidator({
         validating: 'glyphicon glyphicon-refresh'
     },
     fields: {
-        Name: {
+        ActionName: {
             message: isZH() ? '活动名称无效' : 'Invalid name of activity',
             validators: {
                 notEmpty: {

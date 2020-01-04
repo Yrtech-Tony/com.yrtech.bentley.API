@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Before3Weeks";
+    ViewBag.Title = "After2Days";
 }
 
 <input id="TDisplayModel" type="hidden" value="{{'Display Model（Color）'|translate}}" />
@@ -118,42 +118,52 @@
 
             <div class="widget">
                 <div class="widget-title">
-                    <h4><i class="icon-reorder"></i><span translate>Plan PPT</span></h4>
+                    <h4><i class="icon-reorder"></i><span translate>Event Report</span></h4>
                     <span class="tools">
-                        <a href="javascript:;" class="icon-chevron-down" onclick="ShowPlan()"></a>
+                        <a href="javascript:;" class="icon-chevron-down" onclick="ShowReport()"></a>
                     </span>
                 </div>
-
-                <div class="widget-body form form-horizontal" id="activityplan" style="display: block;">
+                <div class="widget-body form form-horizontal" id="activityreport" style="display: block;">
                     <div>
                         <form class="form-horizontal ng-pristine ng-valid" id="PromotionCreate2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Highlights</span>:</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" cols="20" id="HightLights" name="HightLights" rows="5" style="width:100%;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Place to Improve</span>:</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" cols="20" id="ImproveArea" name="ImproveArea" rows="5" style="width:100%;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Customer Feedback</span>:</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" cols="20" id="CustomerFeedback" name="CustomerFeedback" rows="5" style="width:100%;"></textarea>
+                                        </div>
+                                    </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Event Background</span>:</label>
-                                        <div class="col-md-8">
-                                            <textarea class="form-control" cols="20" id="ActivityBackground" name="ActivityBackground" rows="5" style="width:100%;"></textarea>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
+
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Event Objective</span>:</label>
+                                        <label class="control-label col-md-4"><span translate>Marketing/Sales Team Suggestions (Summary)</span>:</label>
                                         <div class="col-md-8">
-                                            <textarea class="form-control" cols="20" id="ActivityObjective" name="ActivityObjective" rows="5" style="width:100%;"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Event Description</span>:</label>
-                                        <div class="col-md-8">
-                                            <textarea class="form-control" cols="20" id="ActivityDesc" name="ActivityDesc" rows="5" style="width:100%;"></textarea>
+                                            <textarea class="form-control" cols="20" id="MarketSaleTeamAdvice" name="MarketSaleTeamAdvice" rows="1" style="width:100%;"></textarea>
                                         </div>
                                     </div>
 
@@ -162,80 +172,42 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Main Models</span><span class="required" style="color:red">*</span>: </label>
+                                        <label class="control-label col-md-4"><span translate>Actual Expense</span><span class="required" style="color:red">*</span>: </label>
                                         <div class="col-md-4">
-                                            <select id="MarketActionTargetModelCode" class="selectpicker"></select>
+                                            <div><span id="ExpenseTotalAmt"></span></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Budget(RMB)</span><span class="required" style="color:red">*</span>:  </label>
-                                        <div class="col-md-4">
-                                            <input class="form-control" id="Budget" name="Budget" style="width:100%;" type="text" value="0">
+                                        <label class="control-label col-md-2"><span translate>Actual Expense List</span>:</label>
+                                        <div class="col-md-9">
+                                            <a id="addData" href="javascript:;" onclick="AddActualCost()" style="color:blue"><i class="icon-plus icon-white" translate>Add</i></a>
+                                            <br />
+                                            <table id="ActualCostTable" class="table table-striped table-bordered table-hover"></table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <style>
+                                .h-30 {
+                                    line-height: 30px;
+                                }
+                            </style>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label col-md-2"><span translate>Expected to Participate</span><span class="required" style="color:red">*</span>:  </label>
+                                        <label class="control-label col-md-2"><span translate>Attendance</span>:</label>
                                         <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
-                                        <div class="col-md-2" style="margin-right: -5px">
-                                            <input min=" 0" class="form-control" id="TargetParticipationOwnerCount" name="TargetParticipationOwnerCount" style="width:100%;" type="number" value="0">
+                                        <div class="col-md-2 h-30" style="margin-right:-5px;">
+                                            <input min="0" class="form-control" data-val="true" data-val-number="The field ActualCarOwner must be a number." data-val-required="The ActualCarOwner field is required." id="AttendenceOwnerCount" maxlength="255" name="AttendenceOwnerCount" style="width:100%;" type="number" value="0" />
                                         </div>
                                         <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
-                                        <div class="col-md-2" style="margin-left:0px;">
-                                            <input min="0" class="form-control" id="TargetParticipationPCCount" name="TargetParticipationPCCount" style="width:100%;" type="number" value="0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2"><span translate>Expected Clues</span><span class="required" style="color:red">*</span>:  </label>
-                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
-                                        <div class="col-md-2" style="margin-right:-5px;">
-                                            <input class="form-control" data-val="true" id="TargetLeadsOwnerCount" name="TargetLeadsOwnerCount" style="width:100%;" type="number" value="0">
-                                        </div>
-                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
-                                        <div class="col-md-2" style="margin-left:0px;">
-                                            <input class="form-control" data-val="true" id="TargetLeadsPCCount" name="TargetLeadsPCCount" style="width:100%;" type="number" value="0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2"><span translate>Expected Test Drive Participants</span>:</label>
-                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
-                                        <div class="col-md-2" style="margin-right:-5px;">
-                                            <input min="0" class="form-control" data-val="true" id="TargetTestDriveOwnerCount" maxlength="255" name="TargetTestDriveOwnerCount" style="width:100%;" type="number" value="0">
-                                        </div>
-                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
-                                        <div class="col-md-2" style="margin-left:0px;">
-                                            <input min="0" class="form-control" id="TargetTestDrivePCCount" name="TargetTestDrivePCCount" style="width:100%;" type="number" value="0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-2"><span translate>Expected Orders</span><span class="required" style="color:red">*</span>:  </label>
-                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
-                                        <div class="col-md-2" style="margin-right:-5px;">
-                                            <input min="0" class="form-control" data-val="true" id="TargetOrdersOwnerCount" name="TargetOrdersOwnerCount" style="width:100%;" type="number" value="0">
-                                        </div>
-                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
-                                        <div class="col-md-2" style="margin-left:0px;">
-                                            <input class="form-control" id="TargetOrdersPCCount" name="TargetOrdersPCCount" style="width:100%;" type="number" value="0">
+                                        <div class="col-md-2 h-30" style="margin-left:0px;">
+                                            <input min="0" class="form-control" data-val="true" data-val-number="The field ActualPotentialCustomer must be a number." data-val-required="The ActualPotentialCustomer field is required." id="AttendencePCCount" maxlength="255" name="AttendencePCCount" style="width:100%;" type="number" value="0" />
                                         </div>
                                     </div>
                                 </div>
@@ -244,71 +216,69 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label class="control-label col-md-2"><span translate>Event Procedure</span>:</label>
+                                        <label class="control-label col-md-2"><span translate>Leads</span>:</label>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
+                                        <div id="LeadOwnerCount" class="col-md-2 h-30" style="margin-right:-5px;">
+                                        </div>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
+                                        <div id="LeadPCCount" class="col-md-2 h-30" style="margin-left:0px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><span translate>Test Drive Participants</span>:</label>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
+                                        <div id="TestDriverOwnerCount" class="col-md-2 h-30" style="margin-right:-5px;">
+
+                                        </div>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
+                                        <div id="TestDriverPCCount" class="col-md-2 h-30" style="margin-left:0px;">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><span translate>Orders</span>:</label>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
+                                        <div id="ActualOrderOwnerCount" class="col-md-2 h-30" style="margin-right:-5px;">
+                                        </div>
+                                        <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
+                                        <div id="ActualOrderPCCount" class="col-md-2 h-30" style="margin-left:0px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><span translate>Event Actual Procedure</span>:</label>
                                         <div class="col-md-8">
-                                            <a href="javascript:AddActivityFlowTable();"><i class="icon-plus icon-white" translate>Add</i></a>
-                                            <table id="ActivityFlowTable" class="table table-striped table-bordered table-hover"></table>
+                                            <a id="addData" href="javascript:;" onclick="AddInitActualActivity()" style="color:blue"><i class="icon-plus icon-white" translate>Add</i></a>
+                                            <br />
+                                            <table id="ActivityFlow2Table" class="table table-striped table-bordered table-hover"></table>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
                             </div>
-
+                            <!--线上广告-->
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Primary Vision</span>:</label>
-                                        <div class="col-md-4">
-                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
-                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
-
-                                                    <img id="picImg" onclick="OpenForm(this)" style="width: 190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
-                                                </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_visual1" style="width: 200px; height: 150px;"></div>
-                                                <div>
-                                                    <span class="btn btn-primary btn-file">
-                                                        <span class="fileinput-new" translate>Choose Documents</span>
-                                                        <span class="fileinput-exists" translate>Change</span>
-                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
-                                                    </span>
-                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <textarea class="form-control" cols="20" id="KeyVisionDesc" name="KeyVisionDesc" placeholder="{{'Description2'|translate}}" rows="11"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="col-md-8">
-                                            <input type="hidden" id="VisualDescriptionOld" />
-                                            <textarea class="form-control" cols="20" id="VisualDescription" name="KeyVisionApprovalDesc" placeholder="{{'Modification Instructions'|translate}}" rows="9"></textarea>
-                                            <div style="margin-top:5px;">
-                                                <input type="hidden" id="VisualStatusOld" />
-                                                <select id="VisualStatus" name="KeyVisionApprovalCode" class="selectpicker">
-                                                    <option value="0" selected="" translate>Waiting for Approval</option>
-                                                    <option value="1" translate>Approved</option>
-                                                    <option value="2" translate>Waiting for Change</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Accessories</span>:</label>
+                                        <label class="control-label col-md-4"><span translate>Online Advertisement</span>:</label>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_material1" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="RegisterLiveShowPic0Four01" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -318,14 +288,14 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="POSDesignDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OnLineAdDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_material2" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="RegisterLiveShowPic0Four02" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -335,7 +305,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="POSDesignDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OnLineAdDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -346,7 +316,7 @@
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_material3" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="RegisterLiveShowPic0Four03" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -356,14 +326,14 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="POSDesignDesc03" placeholder=" {{'description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OnLineAdDesc03" placeholder=" {{'description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_material4" style="width: 200px;height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="RegisterLiveShowPic0Four04" style="width: 200px;height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -372,22 +342,23 @@
                                                     </span>
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
-                                            </div><textarea class="form-control" cols="20" name="POSDesignDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            </div><textarea class="form-control" cols="20" name="OnLineAdDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <!--展车/展示-->
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Venue Description</span>:</label>
+                                        <label class="control-label col-md-4"><span translate>Exhibition</span>:</label>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width:200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width: 190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_venue1" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="CarDisplayPic01" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -397,7 +368,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="PlaceIntroDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="CarDisplayDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
 
                                         <div class="col-md-4">
@@ -405,7 +376,7 @@
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width: 190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_venue2" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="CarDisplayPic02" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -415,7 +386,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="PlaceIntroDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="CarDisplayDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -426,7 +397,7 @@
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_venue3" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="CarDisplayPic03" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -436,14 +407,14 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="PlaceIntroDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="CarDisplayDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_venue4" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="CarDisplayPic04" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -453,22 +424,23 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="PlaceIntroDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="CarDisplayDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <!--展具/场地-->
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-4"><span translate>Test Drive Roadmap</span>:</label>
+                                        <label class="control-label col-md-4"><span translate>Venue</span>:</label>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_route1" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="PlacePic01" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -478,14 +450,14 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="TestDriverRoadMapDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="PlaceDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_route2" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="PlacePic02" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -495,7 +467,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="TestDriverRoadMapDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="PlaceDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -506,7 +478,7 @@
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_route3" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="PlacePic03" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -516,14 +488,14 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="TestDriverRoadMapDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="PlaceDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_route4" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="PlacePic04" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -533,12 +505,175 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="TestDriverRoadMapDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="PlaceDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <!--互动（签到、表演）-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Front Desk/Welcoming Staff/Model</span>:</label>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="RegisterLiveShowPic01" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="RegisterLiveShowDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="RegisterLiveShowPic02" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="RegisterLiveShowDesc002" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="RegisterLiveShowPic03" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="RegisterLiveShowDesc003" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="RegisterLiveShowPic04" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="RegisterLiveShowDesc004" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--人员（客户、员工、礼仪）-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"><span translate>Registration/Gifts/Lottery</span>:</label>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="CustomerStaffModelPic01" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="CustomerStaffModelDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="CustomerStaffModelPic02" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="CustomerStaffModelDesc002" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="CustomerStaffModelPic03" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="CustomerStaffModelDesc003" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+                                                <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="CustomerStaffModelPic04" style="width: 200px; height: 150px;"></div>
+                                                <div>
+                                                    <span class="btn btn-primary btn-file">
+                                                        <span class="fileinput-new" translate>Choose Documents</span>
+                                                        <span class="fileinput-exists" translate>Change</span>
+                                                        <input type="file" name="pic1" id="picID" accept="image/gif,image/jpeg,image/x-png">
+                                                    </span>
+                                                    <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control" cols="20" name="CustomerStaffModelDesc004" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--其他-->
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -548,7 +683,7 @@
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_design1" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="OthersPic01" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -558,14 +693,14 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="OtherDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OthersDesc01" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_design2" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="OthersPic02" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -575,7 +710,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="OtherDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OthersDesc002" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -586,7 +721,7 @@
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_design3" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="OthersPic03" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -596,14 +731,14 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="OtherDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="OthersDesc003" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
                                                     <img id="picImg" onclick="OpenForm(this)" style="width:190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
                                                 </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail" id="img_design4" style="width: 200px; height: 150px;"></div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail" id="OthersPic04" style="width: 200px; height: 150px;"></div>
                                                 <div>
                                                     <span class="btn btn-primary btn-file">
                                                         <span class="fileinput-new" translate>Choose Documents</span>
@@ -613,7 +748,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="OtherDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OthersDesc004" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -642,6 +777,7 @@
     </div>
     <!--END FOOTER-->
 </div>
+
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
     <script src="~/Scripts/curtom/PromotionEdit.js"></script>
@@ -661,41 +797,63 @@
                 }
             });
 
-            $.commonGet("MarketAction/MarketActionBefore21Search", { marketActionId: id }, function (data) {
+            $.commonGet("MarketAction/MarketActionAfter7Search", { marketActionId: id }, function (data) {
                 if (data) {
-                    $('#PromotionCreate2').setForm(data.MarketActionBefore21);
-                    $('#ActivityFlowTable').bootstrapTable("load", data.ActivityProcess);
+                    var marketActionAfter7 = data.MarketActionAfter7;
+                                       
+                    $('#ActualCostTable').bootstrapTable("load", data.ActualExpenseDto);
+                    $('#ActivityFlow2Table').bootstrapTable("load", data.ActualProcess);
+                    // 从线索查询出来不需要填写的字段
+                    for(var pro in data.LeadsCount){
+                        $("#"+pro).html(data.LeadsCount[pro]);
+                    }
+                    $("#ExpenseTotalAmt").html(dealNumber(parseFloat(data.LeadsCount.ExpenseTotalAmt)));
 
-                    $('#img_visual1').fileinputInit(data.MarketActionBefore21.KeyVisionPic);
+                    if (marketActionAfter7) {
+                        $('#PromotionCreate2').setForm(marketActionAfter7);
+                        
+                        
+                        //线上广告
+                        $('#OnLineAdPic01').fileinputInit(marketActionAfter7.OnLineAdPic01);
+                        $('#OnLineAdPic02').fileinputInit(marketActionAfter7.OnLineAdPic02);
+                        $('#OnLineAdPic03').fileinputInit(marketActionAfter7.OnLineAdPic03);
+                        $('#OnLineAdPic04').fileinputInit(marketActionAfter7.OnLineAdPic04);
 
-                    //场地介绍
-                    $('#img_venue1').fileinputInit(data.MarketActionBefore21.POSDesignPic01);
-                    $('#img_venue2').fileinputInit(data.MarketActionBefore21.POSDesignPic02);
-                    $('#img_venue3').fileinputInit(data.MarketActionBefore21.POSDesignPic03);
-                    $('#img_venue4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
+                        //展车/展示
+                        $('#CarDisplayPic01').fileinputInit(marketActionAfter7.CarDisplayPic01);
+                        $('#CarDisplayPic02').fileinputInit(marketActionAfter7.CarDisplayPic02);
+                        $('#CarDisplayPic03').fileinputInit(marketActionAfter7.CarDisplayPic03);
+                        $('#CarDisplayPic04').fileinputInit(marketActionAfter7.CarDisplayPic04);
 
-                    //试驾路线
-                    $('#img_route1').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic01);
-                    $('#img_route2').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic02);
-                    $('#img_route3').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic03);
-                    $('#img_route4').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic04);
+                        //展具/场地
+                        $('#PlacePic01').fileinputInit(marketActionAfter7.PlacePic01);
+                        $('#PlacePic02').fileinputInit(marketActionAfter7.PlacePic02);
+                        $('#PlacePic03').fileinputInit(marketActionAfter7.PlacePic03);
+                        $('#PlacePic04').fileinputInit(marketActionAfter7.PlacePic04)
 
-                    //设计延展
-                    $('#img_design1').fileinputInit(data.MarketActionBefore21.OthersPic01);
-                    $('#img_design2').fileinputInit(data.MarketActionBefore21.OthersPic02);
-                    $('#img_design3').fileinputInit(data.MarketActionBefore21.OthersPic03);
-                    $('#img_design4').fileinputInit(data.MarketActionBefore21.OthersPic04);
-                    //物料
-                    $('#img_material1').fileinputInit(data.MarketActionBefore21.POSDesignPic01);
-                    $('#img_material2').fileinputInit(data.MarketActionBefore21.POSDesignPic02);
-                    $('#img_material3').fileinputInit(data.MarketActionBefore21.POSDesignPic03);
-                    $('#img_material4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
+                        //互动（签到，表演）
+                        $('#RegisterLiveShowPic01').fileinputInit(marketActionAfter7.RegisterLiveShowPic01);
+                        $('#RegisterLiveShowPic02').fileinputInit(marketActionAfter7.RegisterLiveShowPic02);
+                        $('#RegisterLiveShowPic03').fileinputInit(marketActionAfter7.RegisterLiveShowPic03);
+                        $('#RegisterLiveShowPic04').fileinputInit(marketActionAfter7.RegisterLiveShowPic04);
 
-                    $("#VisualStatusOld").val(data.MarketActionBefore21.KeyVisionApprovalCode);
-                    $("#VisualDescriptionOld").val(data.MarketActionBefore21.KeyVisionApprovalDesc);
+                        //人员（客户，员工，礼仪）
+                        $('#CustomerStaffModelPic01').fileinputInit(marketActionAfter7.CustomerStaffModelPic01);
+                        $('#CustomerStaffModelPic02').fileinputInit(marketActionAfter7.CustomerStaffModelPic02);
+                        $('#CustomerStaffModelPic03').fileinputInit(marketActionAfter7.CustomerStaffModelPic03);
+                        $('#CustomerStaffModelPic04').fileinputInit(marketActionAfter7.CustomerStaffModelPic04);
+
+                        //其他
+                        $('#OthersPic01').fileinputInit(marketActionAfter7.OthersPic01);
+                        $('#OthersPic02').fileinputInit(marketActionAfter7.OthersPic02);
+                        $('#OthersPic03').fileinputInit(marketActionAfter7.OthersPic03);
+                        $('#OthersPic04').fileinputInit(marketActionAfter7.OthersPic04);
+                    }                    
+
                 }
             });
         }
+
         $(function () {
             loadShops().forEach(function (item) {
                 var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
@@ -706,7 +864,8 @@
             loadTargetModels();
             loadEventTypes();
 
-            InitActivityFlowTable();
+            InitActualCost();
+            InitActualActivityProcess();
 
             $('#UserId').val($('#G_UserId').val());
             var roleName = $('#G_RoleTypeCode').val();
@@ -756,7 +915,7 @@
                 $("#EventTypeId").selectpicker("refresh");
             })
         }
-        
+
         function SProcessing() {
             //loading
             var index = layer.load(1, {
@@ -768,63 +927,74 @@
         }
 
         function PromotionEdit2() {
-            var data = $('#PromotionCreate2').data('bootstrapValidator');
-            if (data) {
-                // 修复记忆的组件不验证
-                data.validate();
-
-                if (!data.isValid()) {
-                    return false;
-                }
+            var StrActivityFlow2 = $('#ActivityFlow2Table').bootstrapTable('getData');
+            var StrActualCost = $('#ActualCostTable').bootstrapTable('getData');
+            
+            if (StrActivityFlow2 && StrActivityFlow2.length > 0) {
+                StrActivityFlow2.forEach(function (item) {
+                    item.MarketActionId = id;
+                    item.InUserId = $("#G_UserId").val();
+                    item.ModifyUserId = $("#G_UserId").val();
+                })
             }
-
-            var StrActivityFlow = $('#ActivityFlowTable').bootstrapTable('getData');
-            if (StrActivityFlow && StrActivityFlow.length > 0) {
-                StrActivityFlow.forEach(function (item) {
+            if (StrActualCost && StrActualCost.length > 0) {
+                StrActualCost.forEach(function (item) {
                     item.MarketActionId = id;
                     item.InUserId = $("#G_UserId").val();
                     item.ModifyUserId = $("#G_UserId").val();
                 })
             }
 
-            var MarketActionBefore21 = $('#PromotionCreate2').serializeObject();
-            MarketActionBefore21.MarketActionId = id;
-            MarketActionBefore21.InUserId = $("#G_UserId").val();
-            MarketActionBefore21.ModifyUserId = $("#G_UserId").val();
+            var marketActionAfter7 = $('#PromotionCreate2').serializeObject();
+            marketActionAfter7.MarketActionId = id;
+            marketActionAfter7.InUserId = $("#G_UserId").val();
+            marketActionAfter7.ModifyUserId = $("#G_UserId").val();
+            
+            //线上广告
+            marketActionAfter7.OnLineAdPic01 = $('#OnLineAdPic01 img').attr('src');
+            marketActionAfter7.OnLineAdPic02 = $('#OnLineAdPic02 img').attr('src');
+            marketActionAfter7.OnLineAdPic03 = $('#OnLineAdPic03 img').attr('src');
+            marketActionAfter7.OnLineAdPic04 = $('#OnLineAdPic04 img').attr('src');
 
-            //场地介绍
-            MarketActionBefore21.POSDesignPic01 = $('#img_venue1 img').attr('src');
-            MarketActionBefore21.POSDesignPic02 = $('#img_venue2 img').attr('src');
-            MarketActionBefore21.POSDesignPic03 = $('#img_venue3 img').attr('src');
-            MarketActionBefore21.POSDesignPic04 = $('#img_venue4 img').attr('src');
-            //试驾路线
-            MarketActionBefore21.TestDriverRoadMapPic01 = $('#img_route1 img').attr('src');
-            MarketActionBefore21.TestDriverRoadMapPic02 = $('#img_route2 img').attr('src');
-            MarketActionBefore21.TestDriverRoadMapPic03 = $('#img_route3 img').attr('src');
-            MarketActionBefore21.TestDriverRoadMapPic04 = $('#img_route4 img').attr('src');
+            //展车/展示
+            marketActionAfter7.CarDisplayPic01 = $('#CarDisplayPic01 img').attr('src');
+            marketActionAfter7.CarDisplayPic02 = $('#CarDisplayPic02 img').attr('src');
+            marketActionAfter7.CarDisplayPic03 = $('#CarDisplayPic03 img').attr('src');
+            marketActionAfter7.CarDisplayPic04 = $('#CarDisplayPic04 img').attr('src');
 
-            //设计延展
-            MarketActionBefore21.OthersPic01 = $('#img_design1 img').attr('src');
-            MarketActionBefore21.OthersPic02 = $('#img_design2 img').attr('src');
-            MarketActionBefore21.OthersPic03 = $('#img_design3 img').attr('src');
-            MarketActionBefore21.OthersPic04 = $('#img_design4 img').attr('src');
-            //物料
-            MarketActionBefore21.POSDesignPic01 = $('#img_material1 img').attr('src');
-            MarketActionBefore21.POSDesignPic02 = $('#img_material2 img').attr('src');
-            MarketActionBefore21.POSDesignPic03 = $('#img_material3 img').attr('src');
-            MarketActionBefore21.POSDesignPic04 = $('#img_material4 img').attr('src');
+            //展具/场地
+            marketActionAfter7.PlacePic01 = $('#PlacePic01 img').attr('src');
+            marketActionAfter7.PlacePic02 = $('#PlacePic02 img').attr('src');
+            marketActionAfter7.PlacePic03 = $('#PlacePic03 img').attr('src');
+            marketActionAfter7.PlacePic04 = $('#PlacePic04 img').attr('src');
 
-            //主视觉
-            MarketActionBefore21.KeyVisionPic = $('#img_visual1 img').attr('src');
+            //互动（签到，表演）
+            marketActionAfter7.RegisterLiveShowPic01 = $('#RegisterLiveShowPic01 img').attr('src');
+            marketActionAfter7.RegisterLiveShowPic02 = $('#RegisterLiveShowPic02 img').attr('src');
+            marketActionAfter7.RegisterLiveShowPic03 = $('#RegisterLiveShowPic03 img').attr('src');
+            marketActionAfter7.RegisterLiveShowPic04 = $('#RegisterLiveShowPic04 img').attr('src');
+
+            //人员（客户，员工，礼仪）
+            marketActionAfter7.CustomerStaffModelPic01 = $('#CustomerStaffModelPic01 img').attr('src');
+            marketActionAfter7.CustomerStaffModelPic02 = $('#CustomerStaffModelPic02 img').attr('src');
+            marketActionAfter7.CustomerStaffModelPic03 = $('#CustomerStaffModelPic03 img').attr('src');
+            marketActionAfter7.CustomerStaffModelPic04 = $('#CustomerStaffModelPic04 img').attr('src');
+
+            //其他
+            marketActionAfter7.OthersPic01 = $('#OthersPic01 img').attr('src');
+            marketActionAfter7.OthersPic02 = $('#OthersPic02 img').attr('src');
+            marketActionAfter7.OthersPic03 = $('#OthersPic03 img').attr('src');
+            marketActionAfter7.OthersPic04 = $('#OthersPic04 img').attr('src'); 
 
             var data = {
-                MarketActionId: MarketActionBefore21.MarketActionId,
-                TarketModelCode: $("#MarketActionTargetModelCode").val(),
-                MarketActionBefore21: MarketActionBefore21,
-                ActivityProcess: StrActivityFlow
+                MarketActionId: id,
+                MarketActionAfter7: marketActionAfter7,
+                ActualExpense: StrActualCost,
+                ActualProcess:StrActivityFlow2
             };
+
             SProcessing();
-            $.commonPost("MarketAction/MarketActionBefore21Save", {
+            $.commonPost("MarketAction/MarketActionAfter7Save", {
                 UserId: $("#G_UserId").val(),
                 ListJson: JSON.stringify(data)
             }, function () {
@@ -832,22 +1002,7 @@
                 var msg = isZH() ? '保存成功！' : "Save successfully !";
                 layer.alert(msg, {
                     skin: 'layui-layer-molv', closeBtn: 0
-                }, function (datas) {
-                    //1.给主视觉设计公司发送邮件
-                    if (MarketActionBefore21.KeyVisionPic) {
-                        $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
-                    }
-                    //2.如果主视觉审核意见有修改时给经销商发邮件
-                    var VisualDescriptionOld = $("#VisualDescriptionOld").val();
-                    var VisualDescription = $("#VisualDescription").val();
-                    var VisualStatus = $("#VisualStatus").val();
-                    var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
-
-                    if (((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
-                    {
-                        $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
-                    }
-
+                }, function (datas) {                    
                     window.location.href = "/Marketing/Index";
                 });
             })

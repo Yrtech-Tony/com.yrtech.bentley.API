@@ -167,6 +167,10 @@
         function statusFormatter(value, row, index, field) {
 
             var href = '/Marketing/' + field + "?id=" + row.MarketActionId;
+            if (field == "After2Days") {
+                href += "&ShopName=" + (isZH() ? row.ShopName : row.ShopNameEn);
+                href += "&ActionName=" + row.ActionName;
+            }
             if (value == "Commited") {
                 var txt = $("#Pending").val();
                 return '<a href="' + href + '" onclick="EmptyValue();" class="btn btn-primary btn-sm" style="background-color:gray !important;border-color:lightgrey !important;"><i class="icon-plus" style="padding-right:5px;"></i><span style="color: white;">' + txt + '</span></a>';

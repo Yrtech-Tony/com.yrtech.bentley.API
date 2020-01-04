@@ -1,64 +1,52 @@
 var $table = $('#myCueReport');
 
 //车型列表
-var carTypeArr = [{ value: "飞驰", text: "飞驰" }, { value: "慕尚", text: "慕尚" }, { value: "欧陆GT", text: "欧陆GT" }, { value: "添越", text: "添越" }];
+var carTypeArr = [];//[{ value: "飞驰", text: "飞驰" }, { value: "慕尚", text: "慕尚" }, { value: "欧陆GT", text: "欧陆GT" }, { value: "添越", text: "添越" }];
+$.commonGet("Master/HiddenCodeSearch", {
+    hiddenCodeGroup: "TargetModels",
+    hiddenCode: ""
+}, function (data) {
+    data.forEach(function (item) {
+        carTypeArr.push({ value: item.HiddenCodeId, text: isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn })
+    });
+    InitCueLst();
+})
 
-InitCueLst();
-
-//$(window).resize(function () {
-//    $('#myCueReport').bootstrapTable('destroy');// 销毁表格数据
-//    InitCueLst();
-//});
 
 function Del() {
-    var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
-        return row.ID;
-    });
-    if (ids.length != 1) {
+    var rows = $table.bootstrapTable('getSelections');
+    if (ids.length == 0) {
         layer.alert(isZH() ? "请选择一行删除!" : "Please select one line to delete!");
         return;
     }
-    var requestData = { baseId: ids[0] };
-    $.ajax({
-        type: "post",
-        url: "/Editable/CueDelete",
-        data: requestData,
-        dataType: 'JSON',
-        success: function (data, status) {
-            if (data.returnValue) {
-                console.log('提交数据成功');
-            }
-        },
-        error: function () {
-            layer.alert(isZH() ? '编辑失败' : 'Edit failure');
-        },
-        complete: function () {
-            $table.bootstrapTable('remove', {
-                field: 'ID',
-                values: ids
-            });
-        }
-
+    $.commonPost("MarketAction/MarketActionAfter2LeadsReportDelete", {
+        UserId: $("G_UserId").val(),
+        ListJson: JSON.stringify(rows)
+    }, function () {
+        console.log('删除数据成功');
     });
-
 }
 
 function Update() {
-    var promotionId = $('#ID').val();
-    var requestData = { baseId: promotionId, requestrequestType: "P4" };
-    $.ajax({
-        type: "post",
-        url: "/Editable/CueUpdateState",
-        data: requestData,
-        dataType: 'JSON',
-        success: function (data, status) {
-            if (data.returnValue) {
-                layer.alert('更新成功');
-            }
-        },
-        error: function () {
-            layer.alert('更新失败');
+    var mainDto = {
+        MarketActionId: $("#MarketActionId").val(),
+        MarketActionAfter30LeadsReportUpdate: {
+            MarketActionId: $("#MarketActionId").val(),
+            InUserId: $("#G_UserId").val(),
+            ModifyUserId:$("#G_UserId").val()
         }
+    }
+    
+    $.commonPost("MarketAction/MarketActionAfter30LeadsReportUpdate", {
+        UserId: $("G_UserId").val(),
+        ListJson: JSON.stringify(mainDto)
+    }, function () {
+        var msg = isZH() ? '更新成功！' : "Update successfully !";
+        layer.alert(msg, {
+            skin: 'layui-layer-molv', closeBtn: 0
+        }, function (datas) {
+            window.location.href = "/Marketing/Index";
+        });
     });
 }
 
@@ -68,25 +56,26 @@ function Add() {
         // index: $table.bootstrapTable('getOptions').totalRows,
         index: index,
         row: {
-            Dealer: $('#Dealer').val(),
-            DealerId: $('#DealerId').val(),
-            PromotionName: $('#Name').val(),
-            PromotionId: $('#ID').val(),
-            CueOwner: "",
-            CueMobilePhone: '',
-            CueBP: '',
-            IsOwner: false,
-            IsDeal: false,
-            IsAttend: false,
-            IsClue: false,
-            Volume: 0,
-            Model: ''
+            ShopName: $('#ShopName').val(),
+            ActionName: $('#ActionName').val(),
+            MarketActionId: $('#MarketActionId').val(),
+            CustomerName: "",
+            BPNO: '',
+            OwnerCheck: false,
+            DealCheck: false,
+            LeadsCheck: false,
+            TestDriverCheck: false,
+            InterestedModel: '',
+            InterestedModelName: '',
+            InterestedModelNameEn: '',
+            DealModelName: '',
+            DealModelNameEn: '',
+            DealModel: ''
         }
     });
 }
 
 var curRow = {};
-
 function InitCueLst() {
     //生成用户数据
     $('#myCueReport').bootstrapTable({
@@ -121,8 +110,8 @@ function InitCueLst() {
             }
         },
          {
-             title: "{{'Dealer'|translate}}",
-             field: "Dealer",
+             title: $("#Dealer").val(),
+             field: "ShopName",
              width: "100px",
              valign: "middle",
              align: "center",
@@ -133,8 +122,8 @@ function InitCueLst() {
              }
          },
         {
-            title: $('#Promotion_Name').val(),//"{{'Event Name'|translate}}",
-            field: 'PromotionName',
+            title: $('#Promotion_Name').val(),
+            field: 'ActionName',
             width: "200px",
             valign: "middle",
             align: "center",
@@ -146,7 +135,7 @@ function InitCueLst() {
             title: $('#CustomerIL').val(),
             valign: "middle",
             align: "center",
-            field: "RCue",
+            field: "",
             colspan: 7,
             rowspan: 1
         },
@@ -154,12 +143,12 @@ function InitCueLst() {
             title: $('#ActualOrdered').val(),
             valign: "middle",
             align: "center",
-            field: "RDeal",
+            field: "",
             colspan: 2,
             rowspan: 1
         }],
         [{
-            field: "CueOwner",
+            field: "CustomerName",
             title: $('#CustomerName').val(),
             valign: "middle",
             align: "center",
@@ -170,85 +159,86 @@ function InitCueLst() {
                     if (!v) return isZH() ? '客户姓名不能为空' : 'Customer name cannot be empty';
                 },
                 noeditFormatter: function (value, row, index) {
-                    var result = { filed: "CueOwner", value: value };
-                    var html = '<a href="javascript:void(0)" data-name="CueOwner" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
-                    if (result.value == "") {
-                        html = '<a href="javascript:void(0)" data-name="CueOwner" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
+                    var result = { filed: "CustomerName", value: value };
+                    var html = '<a href="javascript:void(0)" data-name="CustomerName" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
+                    if (!result.value) {
+                        html = '<a href="javascript:void(0)" data-name="CustomerName" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
                     }
                     return html;
                 }
             }
         },
         {
-            field: "CueBP",
             title: $('#BPNumber').val(),
+            field: "BPNO",
             valign: "middle",
             align: "center",
             editable: {
                 type: 'text',
                 title: '',
                 noeditFormatter: function (value, row, index) {
-                    var result = { filed: "CueBP", value: value };
-                    var html = '<a href="javascript:void(0)" data-name="CueBP" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
-                    if (result.value == "") {
-                        html = '<a href="javascript:void(0)" data-name="CueBP" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
+                    var result = { filed: "BPNO", value: value };
+                    var html = '<a href="javascript:void(0)" data-name="BPNO" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
+                    if (!result.value) {
+                        html = '<a href="javascript:void(0)" data-name="BPNO" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
                     }
                     return html;
                 }
             }
         },
           {
-              field: "IsOwner",
               title: $('#HasCars').val(),
+              field: "OwnerCheck",
               valign: "middle",
               align: "center",
               formatter: function (value, row, index) {
                   var txml = '';
                   if (value)
-                      txml = '<input id="{0}_IsOwner" type="checkbox" checked>';
+                      txml = '<input id="{0}_OwnerCheck" type="checkbox" checked>';
                   else
-                      txml = '<input id="{0}_IsOwner" type="checkbox">';
-                  txml = txml.replace("{0}", row.ID);
+                      txml = '<input id="{0}_OwnerCheck" type="checkbox">';
+                  txml = txml.replace("{0}", index);
 
                   return txml;
               }
           },
           {
-              field: "IsAttend",
+              field: "TestDriverCheck",
               title: $('#WillJoin').val(),
               valign: "middle",
               align: "center",
               formatter: function (value, row, index) {
                   var txml = '';
                   if (value)
-                      txml = '<input id="{0}_IsAttend" type="checkbox" checked >';
+                      txml = '<input id="{0}_TestDriverCheck" type="checkbox" checked >';
                   else
-                      txml = '<input id="{0}_IsAttend" type="checkbox">';
-                  txml = txml.replace("{0}", row.ID);
+                      txml = '<input id="{0}_TestDriverCheck" type="checkbox">';
+                  txml = txml.replace("{0}", index);
 
                   return txml;
               }
           },
         {
-            field: "IsClue",
             title: $('#IsLeads').val(),
+            field: "LeadsCheck",
             valign: "middle",
             align: "center",
             formatter: function (value, row, index) {
                 var txml = '';
                 if (value)
-                    txml = '<input id="{0}_IsClue" type="checkbox" checked >';
+                    txml = '<input id="{0}_LeadsCheck" type="checkbox" checked >';
                 else
-                    txml = '<input id="{0}_IsClue" type="checkbox">';
-                txml = txml.replace("{0}", row.ID);
+                    txml = '<input id="{0}_LeadsCheck" type="checkbox">';
+                txml = txml.replace("{0}", index);
 
                 return txml;
             }
         },
         // lipeng  add 感兴趣车型
         {
-            field: "LikeModel",
+
             title: $('#LikeCar').val(),
+            field: "InterestedModel",
             valign: "middle",
             align: "center",
             editable: {
@@ -258,109 +248,40 @@ function InitCueLst() {
             }
         },
         {
-            field: "IsDeal",
             title: $('#WhetherDeal').val(),
+            field: "DealCheck",
             valign: "middle",
             align: "center",
             formatter: function (value, row, index) {
                 var txml = '';
                 if (value)
-                    txml = '<input id="{0}_IsDeal" type="checkbox" checked >';
+                    txml = '<input id="{0}_DealCheck" type="checkbox" checked >';
                 else
-                    txml = '<input id="{0}_IsDeal" type="checkbox">';
-                txml = txml.replace("{0}", row.ID);
+                    txml = '<input id="{0}_DealCheck" type="checkbox">';
+                txml = txml.replace("{0}", index);
 
                 return txml;
             }
         },
-        {//成交车型
-            field: "Model",
+        {//成交车型            
             title: $('#ModelSold').val(),
+            field: "DealModel",
             valign: "middle",
             align: "center",
             editable: {
                 type: 'select',
                 title: '请选择车型',
-                source: carTypeArr,
-
-                //noeditFormatter: function (value, row, index) {
-                //    var result = { filed: "Model", value: value };
-                //    var html = '<a href="javascript:void(0)" data-name="Model" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
-                //    if (result.value == "") {
-                //        html = '<a href="javascript:void(0)" data-name="Model" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
-                //    }
-                //    return html;
-                //}
+                source: carTypeArr
             }
         }
         ]],
         onClickCell: function (field, value, row, $element) {
-            console.log(field, value, row, $element);
-            console.log("onClickCell");
-            if (field != "IsOwner" && field != "IsDeal" && field != "IsAttend" && field != "IsClue") {
+            if ($element.find(":checkbox").length == 0) {
                 return false;
             }
-
-            if (field == "IsOwner") {
-                try {
-                    $('#id'.replace('id', row.ID) + '_IsOwner')[0].checked = !value;
-                } catch (e) {
-
-                }
-
-                curRow = row;
-                curRow.IsOwner = !value;
-            }
-            if (field == "IsDeal") {
-
-                try {
-                    $('#id'.replace('id', row.ID) + '_IsDeal')[0].checked = !value;
-                } catch (e) {
-
-                }
-                curRow = row;
-                curRow.IsDeal = !value;
-            }
-            if (field == "IsAttend") {
-
-                try {
-                    $('#id'.replace('id', row.ID) + '_IsAttend')[0].checked = !value;
-                } catch (e) {
-
-                }
-                curRow = row;
-                curRow.IsAttend = !value;
-            }
-            if (field == "IsClue") {
-
-                try {
-                    $('#id'.replace('id', row.ID) + '_IsClue')[0].checked = !value;
-                } catch (e) {
-
-                }
-                curRow = row;
-                curRow.IsClue = !value;
-            }
-            console.log("ajax");
-            $.ajax({
-                type: "post",
-                url: "/Editable/CueEdit",
-                data: curRow,
-                dataType: 'JSON',
-                success: function (data, status) {
-                    if (data.returnValue) {
-                        //console.log('提交数据成功');
-                        curRow.ID = data.EntityID;
-                    }
-                    //window.location.reload();
-                },
-                error: function () {
-                    layer.alert(isZH() ? '编辑失败' : 'Edit failure');
-                },
-                complete: function () {
-
-                }
-            });
+            $element.find(":checkbox").prop("checked",true);
+            row[field] = !value;
+            saveLeadsReport(row);
         },
         onClickRow: function (row, $element) {
             console.log("onClickRow");
@@ -368,28 +289,20 @@ function InitCueLst() {
         },
         onEditableSave: function (field, row, oldValue, $el) {
             console.log("onEditableSave");
-            $.ajax({
-                type: "post",
-                url: "/Editable/CueEdit",
-                data: row,
-                dataType: 'JSON',
-                success: function (data, status) {
-                    if (data.returnValue) {
-                        //console.log('提交数据成功');
-                        curRow.ID = data.EntityID;
-                    }
-                    //window.location.reload();
-                },
-                error: function () {
-                    layer.alert(isZH() ? '编辑失败' : 'Edit failure');
-                },
-                complete: function () {
-
-                }
-
-            });
+            saveLeadsReport(row);
         }
+    });
+}
 
+function saveLeadsReport(row) {
+    row.InUserId = $("#G_UserId").val();
+    row.ModifyUserId = $("#G_UserId").val();
+    $.commonPost("MarketAction/MarketActionAfter2LeadsReportSave", {
+        UserId: $("#G_UserId").val(),
+        ListJson: JSON.stringify([row])
+    }, function (data) {
+        console.log(data)
+        //loadCueReport();
     });
 }
 function SetIsOwner(target) {
@@ -403,9 +316,8 @@ function EmptyValue() {
 
 
 function downloadFile() {
-
     var url = "/Master/DownloadCueLst?Id={0}";
-    url = url.replace('{0}', $("#ID").val());
+    url = url.replace('{0}', $("#MarketActionId").val());
 
     var iframe = document.createElement("iframe");
     iframe.src = url;
@@ -415,7 +327,6 @@ function downloadFile() {
     iframe.style.display = 'none';
     var div = document.getElementById('footer');
     div.appendChild(iframe);
-
 }
 
 /*

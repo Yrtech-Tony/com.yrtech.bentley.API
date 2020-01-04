@@ -25,8 +25,8 @@ namespace com.bentley.retailsupport.web.Controllers
         {
             ViewBag.Id = Id;
             return View();
-        } 
-       
+        }
+
         public ActionResult Before3Weeks(string Id)
         {
             ViewBag.Id = Id;
@@ -44,9 +44,11 @@ namespace com.bentley.retailsupport.web.Controllers
             ViewBag.Id = Id;
             return View();
         }
-        public ActionResult After2Days(string Id)
+        public ActionResult After2Days(string Id, string ShopName, string ActionName)
         {
             ViewBag.Id = Id;
+            ViewBag.ShopName = ShopName;
+            ViewBag.ActionName = ActionName;
             return View();
         }
         public ActionResult After7Days(string Id)

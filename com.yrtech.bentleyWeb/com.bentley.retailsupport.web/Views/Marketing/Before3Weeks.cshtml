@@ -828,28 +828,28 @@
                 UserId: $("#G_UserId").val(),
                 ListJson: JSON.stringify(data)
             }, function () {
-                //EProcessing();
-                //var msg = isZH() ? '保存成功！' : "Save successfully !";
-                //layer.alert(msg, {
-                //    skin: 'layui-layer-molv', closeBtn: 0
-                //}, function (datas) {
-                //    //1.给主视觉设计公司发送邮件
-                //    if (MarketActionBefore21.KeyVisionPic) {
-                //        $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
-                //    }
-                //    //2.如果主视觉审核意见有修改时给经销商发邮件
-                //    var VisualDescriptionOld = $("#VisualDescriptionOld").val();
-                //    var VisualDescription = $("#VisualDescription").val();
-                //    var VisualStatus = $("#VisualStatus").val();
-                //    var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
+                EProcessing();
+                var msg = isZH() ? '保存成功！' : "Save successfully !";
+                layer.alert(msg, {
+                    skin: 'layui-layer-molv', closeBtn: 0
+                }, function (datas) {
+                    //1.给主视觉设计公司发送邮件
+                    if (MarketActionBefore21.KeyVisionPic) {
+                        $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
+                    }
+                    //2.如果主视觉审核意见有修改时给经销商发邮件
+                    var VisualDescriptionOld = $("#VisualDescriptionOld").val();
+                    var VisualDescription = $("#VisualDescription").val();
+                    var VisualStatus = $("#VisualStatus").val();
+                    var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
 
-                //    if (((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
-                //    {
-                //        $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
-                //    }
+                    if (((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
+                    {
+                        $.commonGet("MarketAction/KeyVisionSendEmailToBMC",{marketActionId:id},function(data){});
+                    }
 
-                //    window.location.href = "/Marketing/Index";
-                //});
+                    window.location.href = "/Marketing/Index";
+                });
             })
         }
 

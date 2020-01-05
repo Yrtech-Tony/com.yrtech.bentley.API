@@ -393,5 +393,13 @@
                 NameQuery();
             }
         }
+
+        function downloadByClueReportFile() {
+            $.commonGet("MarketAction/MarketActionAllLeadsReportExport", { year: '' }, function (data) {
+                if (data) {
+                    window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
+                }
+            })
+        }
     </script>
 }

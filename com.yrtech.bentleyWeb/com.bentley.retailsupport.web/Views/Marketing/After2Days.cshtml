@@ -32,6 +32,10 @@
 <input id="ShopName" name="ShopName" type="hidden" value="@ViewBag.ShopName" />
 <input id="MarketActionId" name="MarketActionId" type="hidden" value="@ViewBag.Id" />
 
+<form id="upload-form" style="display:none">
+    <input type='file' id='uploadFile'>
+</form>
+
 <div id="page-wrapper">
     <!--BEGIN CONTENT-->
     <div class="page-content">
@@ -40,7 +44,7 @@
                 <a class="btn btn-primary" href="/Marketing/Index" onclick="" translate>Back</a>
                 <span style="padding-left:10px;" />
                 <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadFile()"><i class="icon-download-alt"></i><span translate>Export</span></a>
-                <a class="btn btn-primary" style="margin-left:2px;" onclick="FileUpload()"><i class="icon-upload-alt"></i><span translate>Import</span></a>
+                <a class="btn btn-primary" style="margin-left:2px;" onclick="uploadFile()"><i class="icon-upload-alt"></i><span translate>Import</span></a>
             </p>
 
             <div class="widget">
@@ -79,6 +83,7 @@
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
     <script src="~/Scripts/curtom/CueReport.js"></script>
+    <script src="~/Scripts/xlsx.core.min.js"></script>
     <script>
         $("#nav_promotion").addClass("active");
 
@@ -96,6 +101,14 @@
 
         loadCueReport();
 
+        //导入文件事件
+        $("#uploadFile").change(uploadLeadsReports);
+        function uploadFile() {
+            $("#uploadFile").click();
+            return false;
+        };
+
+
         function SProcessing() {
             //loading层
             var index = layer.load(1, {
@@ -104,27 +117,6 @@
         }
         function EProcessing() {
             layer.closeAll('loading');
-        }
-
-        function FileUpload() {
-            $('#UserId').val($('#G_UserId').val());
-            $('#File').click();
-        }
-        function DataUpload() {
-            var uploadForm = new FormData($('#FileUpload')[0]);
-            SProcessing();
-            $.ajax({
-                url: '/Master/CueFileUpload',
-                type: 'POST',
-                cache: false,
-                data: uploadForm,
-                processData: false,
-                contentType: false
-            }).done(function (res) {
-                EProcessing();
-                console.log(res.returnValue);
-                window.location.reload();
-            }).fail(function (res) { EProcessing(); window.location.reload(); });
         }
 
         function FormSubmit() {
@@ -143,6 +135,81 @@
                 window.location.reload();
 
             }).fail(function (res) { });
+        }
+
+        function downloadFile() {
+            $.commonGet("MarketAction/MarketActionAfter2LeadsReportExport", { marketActionId: id }, function (data) {
+                if (data) {
+                    window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
+                }
+            })
+        }
+
+        function uploadLeadsReports() {
+            var file_obj = document.getElementById('uploadFile').files[0];
+            readWorkbookFromLocalFile(file_obj, function (workbook) {
+                document.getElementById('uploadFile').value = '';
+                var worksheet = workbook.Sheets['我的工作表'];
+                var json = XLSX.utils.sheet_to_json(worksheet);
+                if (json && json.length > 0) {
+                    var leadsReports = [];
+                    $.each(json, function (i, item) {
+                        try {
+                            var CustomerName = $.trim(item["客户姓名"]);
+                            var BPNO = $.trim(item["BP号"]);
+                            var OwnerCheck = $.trim(item["是否车主"]);
+                            var TestDriverCheck = $.trim(item["是否试驾"]);
+                            var LeadsCheck = $.trim(item["是否为线索"]);
+                            var InterestedModel = $.trim(item["感兴趣车型"]);
+                            var DealCheck = $.trim(item["是否成交"]);
+                            var DealModel = $.trim(item["成交车型"]);
+                                                        
+                            leadsReports.push({
+                                MarketActionId:id,
+                                CustomerName: CustomerName,
+                                BPNO: BPNO,
+                                OwnerCheck: OwnerCheck,
+                                TestDriverCheck: TestDriverCheck,
+                                LeadsCheck: LeadsCheck,
+                                InterestedModel: InterestedModel,
+                                DealCheck: DealCheck,
+                                DealModel: DealModel,
+                                InUserId: $("#G_UserId").val(),
+                                ModifyUserId: $("#G_UserId").val()
+                            });
+
+                        } catch (e) {
+                            console.error('处理清单出错', e);
+                        }
+
+                    })
+                    importLeadsReports(leadsReports);
+                } else {
+                    alert("Excel中没有清单数据！");
+                }
+            })
+        }
+
+        // 读取本地excel文件
+        function readWorkbookFromLocalFile(file, callback) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = e.target.result;
+                var workbook = XLSX.read(data, { type: 'binary' });
+                if (callback) callback(workbook);
+            };
+            reader.readAsBinaryString(file);
+        }
+
+        //导入线索报告信息
+        function importLeadsReports(leadsReports) {
+            $.commonPost("MarketAction/MarketActionAfter2LeadsReportImport", {
+                UserId: $("#G_UserId").val(),
+                ListJson: JSON.stringify(leadsReports)
+            }, function (data) {
+                console.log(data);
+                loadCueReport();
+            });
         }
 
     </script>

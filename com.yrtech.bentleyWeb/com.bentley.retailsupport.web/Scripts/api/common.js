@@ -3,6 +3,7 @@
 API 公用方法
 需要引用jquery
 */
+var host = "http://39.106.71.65:8001/"
 var baseApi = "http://39.106.71.65:8001/bentley/api/";
 //var baseApi = "http://localhost:57328/bentley/api/";
 

@@ -15,7 +15,7 @@ namespace com.yrtech.InventoryAPI.Controllers
 {
     public class BaseController : ApiController
     {
-        
+
         public static byte[] Base64ToBytes(string base64Img)
         {
             if (!string.IsNullOrEmpty(base64Img))
@@ -36,15 +36,17 @@ namespace com.yrtech.InventoryAPI.Controllers
             return ms;
         }
 
-        public static string UploadBase64Pic(string filePath,string base64Img)
+        
+        public static string UploadBase64Pic(string filePath, string base64Img)
         {
-            if (!string.IsNullOrEmpty(base64Img) && base64Img.Contains("data:image/png;base64"))
+            if (!string.IsNullOrEmpty(base64Img) && base64Img.Contains("data:image"))
             {
                 if (string.IsNullOrEmpty(filePath))
                 {
-                    filePath = @"MarketAction\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
+                    filePath = @"Bentley\MarketAction\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
                 }
-                base64Img = base64Img.Trim().Replace("%", "").Replace(",", "").Replace(" ", "+").Replace("data:image/png;base64,", "");
+                base64Img = base64Img.Trim().Replace("%", "").Replace(",", "").Replace(" ", "+");
+                base64Img = base64Img.Substring(base64Img.IndexOf("base64") + 6);
                 if (base64Img.Length % 4 > 0)
                 {
                     base64Img = base64Img.PadRight(base64Img.Length + 4 - base64Img.Length % 4, '=');
@@ -56,7 +58,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             return filePath;
         }
 
-        public void SendEmail(string emailTo,string emailCC,string subjects,string body,string attachmentStream,string attachementFileName)
+        public void SendEmail(string emailTo, string emailCC, string subjects, string body, string attachmentStream, string attachementFileName)
         {
             System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
             client.Host = "smtp.163.com";//使用163的SMTP服务器发送邮件
@@ -73,7 +75,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             Message.CC.Add(emailCC);
             Message.Subject = subjects;
             Message.Body = body;
-           // Message.Attachments.Add(new System.Net.Mail.Attachment(@"C:\Workspace\com.yrtech.Bentley\com.yrtech.bentleyAPI\com.yrtech.InventoryAPI\Content\Excel\LeadsReport.xlsx", System.Net.Mime.MediaTypeNames.Application.Octet));
+            // Message.Attachments.Add(new System.Net.Mail.Attachment(@"C:\Workspace\com.yrtech.Bentley\com.yrtech.bentleyAPI\com.yrtech.InventoryAPI\Content\Excel\LeadsReport.xlsx", System.Net.Mime.MediaTypeNames.Application.Octet));
             Message.SubjectEncoding = System.Text.Encoding.UTF8;
             Message.BodyEncoding = System.Text.Encoding.UTF8;
             Message.Priority = System.Net.Mail.MailPriority.High;

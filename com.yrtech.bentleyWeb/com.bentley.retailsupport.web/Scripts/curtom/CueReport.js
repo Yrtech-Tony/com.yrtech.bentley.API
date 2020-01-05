@@ -15,7 +15,7 @@ $.commonGet("Master/HiddenCodeSearch", {
 
 function Del() {
     var rows = $table.bootstrapTable('getSelections');
-    if (ids.length == 0) {
+    if (rows.length == 0) {
         layer.alert(isZH() ? "请选择一行删除!" : "Please select one line to delete!");
         return;
     }
@@ -24,6 +24,7 @@ function Del() {
         ListJson: JSON.stringify(rows)
     }, function () {
         console.log('删除数据成功');
+        loadCueReport();
     });
 }
 
@@ -289,11 +290,9 @@ function InitCueLst() {
 function saveLeadsReport(row) {
     row.InUserId = $("#G_UserId").val();
     row.ModifyUserId = $("#G_UserId").val();
-    $.commonPost("MarketAction/MarketActionAfter2LeadsReportSave", {
-        UserId: $("#G_UserId").val(),
-        ListJson: JSON.stringify([row])
-    }, function (data) {
-        console.log(data)
+    $.commonPost("MarketAction/MarketActionAfter2LeadsReportSave", row, function (data) {
+        console.log(data);
+        row = data;
         //loadCueReport();
     });
 }

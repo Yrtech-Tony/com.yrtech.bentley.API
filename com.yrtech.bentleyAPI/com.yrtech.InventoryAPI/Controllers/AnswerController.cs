@@ -8,6 +8,10 @@ using com.yrtech.InventoryAPI.DTO;
 using System.Net.Http;
 using com.yrtech.bentley.DAL;
 using System.IO;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace com.yrtech.SurveyAPI.Controllers
 {
@@ -193,16 +197,17 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                ExcelDataController excelData = new ExcelDataController();
-                excelData.MarketActionAfter2LeadsReportExport(year);
+                ExcelDataService excelDataService = new ExcelDataService();
+                string filePath = excelDataService.MarketActionAfter2LeadsReportExport(year);
 
-                return new APIResult() { Status = true, Body = "" };
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath= filePath })  };
             }
             catch (Exception ex)
             {
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
+
         #region Before21
         [HttpGet]
         [Route("MarketAction/MarketActionBefore21Search")]
@@ -653,16 +658,16 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
 
         }
+
         [HttpGet]
         [Route("MarketAction/MarketActionAfter2LeadsReportExport")]
         public APIResult MarketActionAfter2LeadsReportExport(string marketActionId)
         {
             try
             {
-                ExcelDataController excelData = new ExcelDataController();
-                excelData.MarketActionAfter2LeadsReportExport(marketActionId);
-
-                return new APIResult() { Status = true, Body = "" };
+                ExcelDataService excelDataService = new ExcelDataService();
+                string filePath = excelDataService.MarketActionAfter2LeadsReportExport(marketActionId);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
             }
             catch (Exception ex)
             {

@@ -57,7 +57,7 @@
                                             </span>                                            
                                         </div>
                                         <div class="widget-body" style="display: block;">
-                                            <select name="pyear" id="pyear" class="input-small m-wrap no-margin" style="margin-left:5px;" onchange="NameQuery()">
+                                            @*<select name="pyear" id="pyear" class="input-small m-wrap no-margin" style="margin-left:5px;" onchange="NameQuery()">
                                                 <option value="" translate>Year</option>
                                                 <option value="2017">2017</option>
                                                 <option value="2018">2018</option>
@@ -67,7 +67,7 @@
                                             <script>
                                                 var cdate = new Date();
                                                 $("#pyear").val('2020');//cdate.getFullYear()
-                                            </script>
+                                            </script>*@
                                             <select class="input-small m-wrap no-margin" id="pdealer" name="pdealer" style="background-color: white;" onchange="NameQuery()">
                                                 <option value=" " translate>Dealer Name</option>
                                             </select>
@@ -101,7 +101,7 @@
         })
         
         function NameQuery() {
-            loadCommitFiles($("#pyear").val(), $("#pdealer").val());
+            loadCommitFiles('', $("#pdealer").val());
         }
         
         function loadCommitFiles(year,shopid) {

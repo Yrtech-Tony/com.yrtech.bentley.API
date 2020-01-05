@@ -200,7 +200,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 ExcelDataService excelDataService = new ExcelDataService();
                 string filePath = excelDataService.MarketActionAfter2LeadsReportExport(year);
 
-                return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath= filePath })  };
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
             }
             catch (Exception ex)
             {
@@ -321,6 +321,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic03 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic03);
                 marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic04 = UploadBase64Pic("", marketActionBefore21MainDto.MarketActionBefore21.TestDriverRoadMapPic04);
 
+                marketActionService.MarketActionBefore21Save(marketActionBefore21MainDto.MarketActionBefore21);
                 // 先全部删除活动流程，然后统一再保存一边
                 marketActionService.MarketActionBefore21ActivityProcessDelete(marketActionBefore21MainDto.MarketActionId.ToString());
                 foreach (MarketActionBefore21ActivityProcess process in marketActionBefore21MainDto.ActivityProcess)
@@ -709,6 +710,39 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 MarketActionAfter7MainDto marketActionAfter7MainDto = CommonHelper.DecodeString<MarketActionAfter7MainDto>(upload.ListJson);
+
+                marketActionAfter7MainDto.MarketActionAfter7.CarDisplayPic01 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.CarDisplayPic01);
+                marketActionAfter7MainDto.MarketActionAfter7.CarDisplayPic02 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.CarDisplayPic02);
+                marketActionAfter7MainDto.MarketActionAfter7.CarDisplayPic03 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.CarDisplayPic03);
+                marketActionAfter7MainDto.MarketActionAfter7.CarDisplayPic04 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.CarDisplayPic04);
+
+                marketActionAfter7MainDto.MarketActionAfter7.CustomerStaffModelPic01 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.CustomerStaffModelPic01);
+                marketActionAfter7MainDto.MarketActionAfter7.CustomerStaffModelPic02 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.CustomerStaffModelPic02);
+                marketActionAfter7MainDto.MarketActionAfter7.CustomerStaffModelPic03 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.CustomerStaffModelPic03);
+                marketActionAfter7MainDto.MarketActionAfter7.CustomerStaffModelPic04 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.CustomerStaffModelPic04);
+
+                marketActionAfter7MainDto.MarketActionAfter7.OnLineAdPic01 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.OnLineAdPic01);
+                marketActionAfter7MainDto.MarketActionAfter7.OnLineAdPic02 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.OnLineAdPic02);
+                marketActionAfter7MainDto.MarketActionAfter7.OnLineAdPic03 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.OnLineAdPic03);
+                marketActionAfter7MainDto.MarketActionAfter7.OnLineAdPic04 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.OnLineAdPic04);
+
+                marketActionAfter7MainDto.MarketActionAfter7.OthersPic01 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.OthersPic01);
+                marketActionAfter7MainDto.MarketActionAfter7.OthersPic02 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.OthersPic02);
+                marketActionAfter7MainDto.MarketActionAfter7.OthersPic03 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.OthersPic03);
+                marketActionAfter7MainDto.MarketActionAfter7.OthersPic04 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.OthersPic04);
+
+                marketActionAfter7MainDto.MarketActionAfter7.PlacePic01 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.PlacePic01);
+                marketActionAfter7MainDto.MarketActionAfter7.PlacePic02 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.PlacePic02);
+                marketActionAfter7MainDto.MarketActionAfter7.PlacePic03 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.PlacePic03);
+                marketActionAfter7MainDto.MarketActionAfter7.PlacePic04 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.PlacePic04);
+
+                marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic01 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic01);
+                marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic02 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic02);
+                marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic03 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic03);
+                marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic04 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic04);
+
+               
+
                 marketActionService.MarketActionAfter7Save(marketActionAfter7MainDto.MarketActionAfter7);
 
                 // 先删除再全部保存

@@ -109,7 +109,7 @@
     $("#nav_promotion2").addClass("active");
     var Id = $("#Id").val();
     var UserId = 1;
-    var osspath = "Beanley/MarketAction/";
+    var osspath = "Bentley/MarketAction/";
     var ossClient;
     $(function () {
         //初始化LexusReport OSS 数据源
@@ -124,12 +124,8 @@
     })
 
     function fileNameFormatter(value, row, index) {
-        return '<a href="javascript:" onclick="downloadFile(' + row.MarketActionId  + ')">' + value + '</a>';
-    }
-
-    function downloadFile(MarketActionId) {
-
-    }
+        return '<a href="/Base/DownloadFile?ossPath=' + row.FileUrl + '" download="' + row.FileName + '">' + value + '</a>';
+    }         
 
     function operateFormatter(value, row, index) {
         return [

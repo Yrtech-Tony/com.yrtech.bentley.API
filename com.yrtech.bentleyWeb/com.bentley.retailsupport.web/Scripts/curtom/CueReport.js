@@ -27,19 +27,11 @@ function Del() {
     });
 }
 
-function Update() {
-    var mainDto = {
-        MarketActionId: $("#MarketActionId").val(),
-        MarketActionAfter30LeadsReportUpdate: {
-            MarketActionId: $("#MarketActionId").val(),
-            InUserId: $("#G_UserId").val(),
-            ModifyUserId:$("#G_UserId").val()
-        }
-    }
-    
+function Update() {    
     $.commonPost("MarketAction/MarketActionAfter30LeadsReportUpdate", {
-        UserId: $("G_UserId").val(),
-        ListJson: JSON.stringify(mainDto)
+        MarketActionId: $("#MarketActionId").val(),
+        InUserId: $("#G_UserId").val(),
+        ModifyUserId: $("#G_UserId").val()
     }, function () {
         var msg = isZH() ? '更新成功！' : "Update successfully !";
         layer.alert(msg, {

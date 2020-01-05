@@ -385,6 +385,7 @@
     <Content Include="Views\Marketing\After2Days.cshtml" />
     <Content Include="Views\Marketing\After1Months.cshtml" />
     <Content Include="Views\Marketing\After7Days.cshtml" />
+    <Content Include="Views\Marketing\After3Months.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

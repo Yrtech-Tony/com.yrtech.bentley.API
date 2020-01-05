@@ -660,7 +660,7 @@
                     $("#MarketActionTargetModelCode").selectpicker("refresh");
                 }
             });
-
+            
             $.commonGet("MarketAction/MarketActionBefore21Search", { marketActionId: id }, function (data) {
                 if (data) {
                     $('#PromotionCreate2').setForm(data.MarketActionBefore21);

@@ -110,7 +110,7 @@
     var shopId = $("#ShopId").val();
     var fileId = $("#FileId").val();
     var UserId = 1;
-    var osspath = "Beanley/CommitFile/";
+    var osspath = "Bentley/CommitFile/";
     var ossClient;
     $(function () {
         //初始化LexusReport OSS 数据源
@@ -125,11 +125,7 @@
     })
 
     function fileNameFormatter(value, row, index) {
-        return '<a href="javascript:" onclick="downloadFile(' + row.FileId + ',' + row.ShopId + ')">' + value + '</a>';
-    }
-
-    function downloadFile(FileId, ShopId) {
-
+        return '<a href="/Base/DownloadFile?ossPath=' + row.FileUrl + '" download="' + row.FileName + '">' + value + '</a>';
     }
 
     function operateFormatter(value, row, index) {

@@ -165,7 +165,8 @@
   $.fn.fileinputInit = function (pic) {
       if (pic) {
           $(this).parent(".fileinput-new").addClass('fileinput-exists').removeClass('fileinput-new');
-          $(this).append($("<img>").prop('src', pic));
+          var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
+          $(this).append($("<img>").prop('src', baseOss + pic));
       } 
   }
 

@@ -35,7 +35,6 @@ namespace com.yrtech.InventoryAPI.Controllers
             MemoryStream ms = new MemoryStream(dataBytes);
             return ms;
         }
-
         
         public static string UploadBase64Pic(string filePath, string base64Img)
         {
@@ -43,7 +42,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             {
                 if (string.IsNullOrEmpty(filePath))
                 {
-                    filePath = @"Bentley\MarketAction\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
+                    filePath = @"Bentley/MarketAction/" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
                 }
                 base64Img = base64Img.Trim().Replace("%", "").Replace(",", "").Replace(" ", "+");
                 base64Img = base64Img.Substring(base64Img.IndexOf("base64") + 6);

@@ -126,6 +126,7 @@
     <Compile Include="Common\CommonHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DMFController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="DTO\Account\AccountDto.cs" />
@@ -388,6 +389,7 @@
     <Content Include="Views\Marketing\After7Days.cshtml" />
     <Content Include="Views\Marketing\After3Months.cshtml" />
     <Content Include="线索报告.xlsx" />
+    <Content Include="Views\DMF\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

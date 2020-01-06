@@ -1,10 +1,5 @@
 ﻿@{
     ViewBag.Title = "Marketing";
-    com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
-    if (Session["LoginUser"] != null)
-    {
-        LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
-    }
 }
 
 
@@ -122,8 +117,6 @@
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
     <script type="text/javascript">
-        var userId = '@LoginUser.UserId', roleType = '@LoginUser.RoleTypeCode';
-
         $("#nav_promotion").addClass("active");
         $(function () {
             loadShops().forEach(function (item) {
@@ -222,19 +215,16 @@
                 marketActionStatusCode: $('#pstate').val() || ' ',
                 shopId: $('#pdealer').val() || ' ',
                 eventTypeId: $('#ptype').val() || ' ',
-                userId: userId,
-                roleTypeCode: roleType
+                userId: $("#G_UserId").val(),
+                roleTypeCode: $("#G_RoleTypeCode")
             }, function (data) {
-                if (refresh) {
-                    refreshTable(data);
-                } else {
-                    initTable(data);
+                if (data) {
+                    $('#myMarketing').bootstrapTable("load", data);
                 }
             });
         }
         var types = isZH()? ['数字营销','广告及宣传','线上平台线索获取']:['Digital Marketing','Advertisement','Online Sales Leads Generation' ];
-        function initTable(data) {          
-
+        function initTable() {  
             var columns = [[{
                 title: $("#G_No").val(),
                 field: '',
@@ -390,7 +380,7 @@
 
             $("#myMarketing").bootstrapTable({
                 columns: columns,
-                data: data,
+                pageNumber: 1,
                 pageSize: 20,
                 pagination: true
             });

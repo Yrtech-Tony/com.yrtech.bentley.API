@@ -165,7 +165,21 @@
         }
 
         function statusFormatter(value, row, index, field) {
-
+            if (row.MarketActionStatusNameEn == "Canceled") {
+                return '';
+            }
+            if (field == "Before3Days" || field == "TheDays") {
+                if (isZH())  {
+                    if (types.indexOf(row.EventTypeName)>=0) {
+                        return '';
+                    }  
+                } else {
+                    if (types.indexOf(row.EventTypeNameEn) >= 0) {
+                        return '';
+                    }
+                }
+            }
+            
             var href = '/Marketing/' + field + "?id=" + row.MarketActionId;
             if (field == "After2Days") {
                 href += "&ShopName=" + (isZH() ? row.ShopName : row.ShopNameEn);
@@ -218,8 +232,9 @@
                 }
             });
         }
+        var types = isZH()? ['数字营销','广告及宣传','线上平台线索获取']:['Digital Marketing','Advertisement','Online Sales Leads Generation' ];
+        function initTable(data) {          
 
-        function initTable(data) {
             var columns = [[{
                 title: $("#G_No").val(),
                 field: '',

@@ -785,6 +785,7 @@
     <script>
         $("#nav_promotion").addClass("active");
 
+        var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
         var id = '@ViewBag.Id';
         if (id) {
             $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
@@ -796,7 +797,7 @@
                     $("#MarketActionTargetModelCode").selectpicker("refresh");
                 }
             });
-
+           
             $.commonGet("MarketAction/MarketActionAfter7Search", { marketActionId: id }, function (data) {
                 if (data) {
                     var marketActionAfter7 = data.MarketActionAfter7;

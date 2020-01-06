@@ -166,7 +166,11 @@
       if (pic) {
           $(this).parent(".fileinput-new").addClass('fileinput-exists').removeClass('fileinput-new');
           var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
-          $(this).append($("<img>").prop('src', baseOss + pic));
+          if (pic.indexOf("Bentley") == 0) {
+              $(this).append($("<img>").prop('src', baseOss + pic));
+          } else {
+              $(this).append($("<img>").prop('src',  pic));
+          }
       } 
   }
 

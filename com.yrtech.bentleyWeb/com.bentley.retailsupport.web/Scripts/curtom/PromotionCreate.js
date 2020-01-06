@@ -7,7 +7,8 @@ $('#PromotionCreate').bootstrapValidator({
     },
     fields: {
         ActionName: {
-            message: isZH() ? '活动名称无效' : 'Invalid name of activity',
+            trigger: "change",
+            message: isZH() ? '活动名称无效' : 'Invalid Action Name of activity',
             validators: {
                 notEmpty: {
                     message: isZH() ? '活动名称不能为空' : 'The activity name cannot be empty',
@@ -21,6 +22,7 @@ $('#PromotionCreate').bootstrapValidator({
         },
         StartDate: {
             message: isZH() ? '起止日期无效' : 'The start date is invalid',
+            trigger: "change",
             validators: {
                 notEmpty: {
                     message: isZH() ? '开始不能为空' : 'The start date cannot be empty',
@@ -32,6 +34,7 @@ $('#PromotionCreate').bootstrapValidator({
             }
         },
         EndDate: {
+            trigger: "change",
             validators: {
                 notEmpty: {
                     message: isZH() ? '结束不能为空' : 'The end date cannot be empty',

@@ -119,24 +119,6 @@
             layer.closeAll('loading');
         }
 
-        function FormSubmit() {
-            var oMyForm = new FormData($('#PromotionReport')[0]);
-            oMyForm.append("UserId", $('#G_UserId').val());
-
-            $.ajax({
-                url: '/Home/CueReport',
-                type: 'POST',
-                cache: false,
-                data: oMyForm,
-                processData: false,
-                contentType: false
-            }).done(function (res) {
-                console.log(res.returnValue);
-                window.location.reload();
-
-            }).fail(function (res) { });
-        }
-
         function downloadFile() {
             $.commonGet("MarketAction/MarketActionAfter2LeadsReportExport", { marketActionId: id }, function (data) {
                 if (data) {

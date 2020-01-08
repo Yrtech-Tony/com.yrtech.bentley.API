@@ -68,7 +68,6 @@ function Add() {
     });
 }
 
-var curRow = {};
 function InitCueLst() {
     //生成用户数据
     $('#myCueReport').bootstrapTable({
@@ -276,10 +275,6 @@ function InitCueLst() {
             row[field] = !value;
             saveLeadsReport(row);
         },
-        onClickRow: function (row, $element) {
-            console.log("onClickRow");
-            curRow = row;
-        },
         onEditableSave: function (field, row, oldValue, $el) {
             console.log("onEditableSave");
             saveLeadsReport(row);
@@ -295,10 +290,6 @@ function saveLeadsReport(row) {
         row = data;
         //loadCueReport();
     });
-}
-function SetIsOwner(target) {
-    //curRow.IsOwner = target.checked;
-
 }
 
 function EmptyValue() {

@@ -126,7 +126,7 @@
 
                 <div class="widget-body form form-horizontal" id="activityplan" style="display: block;">
                     <div>
-                        <form class="form-horizontal ng-pristine ng-valid" id="PromotionCreate2">
+                        <form class="form-horizontal" id="PromotionCreate2">
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -153,7 +153,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-4"><span translate>Event Description</span>:</label>
                                         <div class="col-md-8">
-                                            <textarea class="form-control" cols="20" id="ActivityDesc" name="ActivityDesc" rows="5" style="width:100%;"></textarea>
+                                            <textarea class="form-control" cols="20" id="ActivityDesc" name="ActivityDesc" data-val="true" rows="5" style="width:100%;"></textarea>
                                         </div>
                                     </div>
 
@@ -174,7 +174,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-4"><span translate>Budget(RMB)</span><span class="required" style="color:red">*</span>:  </label>
                                         <div class="col-md-4">
-                                            <input class="form-control" id="Budget" name="Budget" style="width:100%;" type="text" value="0">
+                                            <input class="form-control" id="Budget" name="Budget" style="width:100%;" type="text" min="0" maxlength="255">
 
                                         </div>
                                     </div>
@@ -186,11 +186,11 @@
                                         <label class="control-label col-md-2"><span translate>Expected to Participate</span><span class="required" style="color:red">*</span>:  </label>
                                         <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
                                         <div class="col-md-2" style="margin-right: -5px">
-                                            <input min=" 0" class="form-control" id="TargetParticipationOwnerCount" name="TargetParticipationOwnerCount" style="width:100%;" type="number" value="0">
+                                            <input min=" 0" class="form-control" id="TargetParticipationOwnerCount" name="TargetParticipationOwnerCount" style="width:100%;" type="number">
                                         </div>
                                         <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
                                         <div class="col-md-2" style="margin-left:0px;">
-                                            <input min="0" class="form-control" id="TargetParticipationPCCount" name="TargetParticipationPCCount" style="width:100%;" type="number" value="0">
+                                            <input min="0" class="form-control" id="TargetParticipationPCCount" name="TargetParticipationPCCount" style="width:100%;" type="number">
                                         </div>
                                     </div>
                                 </div>
@@ -201,11 +201,11 @@
                                         <label class="control-label col-md-2"><span translate>Expected Clues</span><span class="required" style="color:red">*</span>:  </label>
                                         <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Owner</span>
                                         <div class="col-md-2" style="margin-right:-5px;">
-                                            <input class="form-control" data-val="true" id="TargetLeadsOwnerCount" name="TargetLeadsOwnerCount" style="width:100%;" type="number" value="0">
+                                            <input class="form-control" id="TargetLeadsOwnerCount" name="TargetLeadsOwnerCount" style="width:100%;" type="number">
                                         </div>
                                         <span style="float:left;padding-top:5px;padding-left:2px;margin-right:-1px;" translate>Potential Customer</span>
                                         <div class="col-md-2" style="margin-left:0px;">
-                                            <input class="form-control" data-val="true" id="TargetLeadsPCCount" name="TargetLeadsPCCount" style="width:100%;" type="number" value="0">
+                                            <input class="form-control" data-val="true" id="TargetLeadsPCCount" name="TargetLeadsPCCount" style="width:100%;" type="number">
                                         </div>
                                     </div>
                                 </div>
@@ -649,6 +649,7 @@
     <script>
         $("#nav_promotion").addClass("active");
 
+        var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
         var id = '@ViewBag.Id';
         if (id) {
             $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
@@ -716,8 +717,59 @@
             }
             else {
                 $('#VisualStatus').prop("disabled", true);
-            }
+            }         
 
+            //$('#PromotionCreate2').bootstrapValidator({
+            //    message: isZH() ? '该数据无效' : 'The data is invalid',
+            //    feedbackIcons: {
+            //        valid: 'glyphicon glyphicon-ok',
+            //        invalid: 'glyphicon glyphicon-remove',
+            //        validating: 'glyphicon glyphicon-refresh'
+            //    },
+            //    fields: {
+            //        //lipeng add 验证
+            //        //Budget: {
+            //        //    notEmpty: {
+            //        //        message: isZH() ? '不能为空' : 'The data cannot be empty',
+            //        //    },
+            //        //},
+            //        TargetLeadsOwnerCount: {
+            //            validators: {
+            //                notEmpty: {
+            //                    message: isZH() ? '不能为空' : 'The data cannot be empty',
+            //                }
+            //            }
+            //        },
+            //        TargetLeadsPCCount: {
+            //            validators: {
+            //                notEmpty: {
+            //                    message: isZH() ? '不能为空' : 'The data cannot be empty',
+            //                }
+            //            }
+            //        }
+            //        //TargetLeadsOwnerCount: {
+            //        //    notEmpty: {
+            //        //        message: isZH() ? '不能为空' : 'The data cannot be empty',
+            //        //    },
+            //        //},
+            //        //TargetLeadsPCCount: {
+            //        //    notEmpty: {
+            //        //        message: isZH() ? '不能为空' : 'The data cannot be empty',
+            //        //    },
+            //        //},
+
+            //        //TargetOrdersOwnerCount: {
+            //        //    notEmpty: {
+            //        //        message: isZH() ? '不能为空' : 'The data cannot be empty',
+            //        //    },
+            //        //},
+            //        //TargetOrdersPCCount: {
+            //        //    notEmpty: {
+            //        //        message: isZH() ? '不能为空' : 'The data cannot be empty',
+            //        //    },
+            //        //}
+            //    }
+            //});
         });
 
         function loadActiveStatuss() {
@@ -768,6 +820,7 @@
         }
 
         function PromotionEdit2() {
+            //原系统没有验证
             var data = $('#PromotionCreate2').data('bootstrapValidator');
             if (data) {
                 // 修复记忆的组件不验证
@@ -817,13 +870,20 @@
             //主视觉
             MarketActionBefore21.KeyVisionPic = $('#img_visual1 img').attr('src');
 
+            for(var pro in MarketActionBefore21){
+                if (pro.indexOf("Pic") > 0 && MarketActionBefore21[pro] && MarketActionBefore21[pro].substr(0, 4) != 'data') {
+                    MarketActionBefore21[pro] = MarketActionBefore21[pro].replace(baseOss, '');                   
+                }
+            }
+
             var data = {
                 MarketActionId: MarketActionBefore21.MarketActionId,
                 TarketModelCode: $("#MarketActionTargetModelCode").val(),
                 MarketActionBefore21: MarketActionBefore21,
                 ActivityProcess: StrActivityFlow
             };
-            //SProcessing();
+
+            SProcessing();
             $.commonPost("MarketAction/MarketActionBefore21Save", {
                 UserId: $("#G_UserId").val(),
                 ListJson: JSON.stringify(data)

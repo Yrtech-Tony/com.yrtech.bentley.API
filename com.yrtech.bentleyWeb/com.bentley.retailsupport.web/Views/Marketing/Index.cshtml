@@ -1,10 +1,5 @@
 ﻿@{
     ViewBag.Title = "Marketing";
-    com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
-    if (Session["LoginUser"] != null)
-    {
-        LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
-    }
 }
 
 
@@ -122,8 +117,6 @@
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
     <script type="text/javascript">
-        var userId = '@LoginUser.UserId', roleType = '@LoginUser.RoleTypeCode';
-
         $("#nav_promotion").addClass("active");
         $(function () {
             loadShops().forEach(function (item) {
@@ -165,7 +158,21 @@
         }
 
         function statusFormatter(value, row, index, field) {
-
+            if (row.MarketActionStatusNameEn == "Canceled") {
+                return '';
+            }
+            if (field == "Before3Days" || field == "TheDays") {
+                if (isZH())  {
+                    if (types.indexOf(row.EventTypeName)>=0) {
+                        return '';
+                    }  
+                } else {
+                    if (types.indexOf(row.EventTypeNameEn) >= 0) {
+                        return '';
+                    }
+                }
+            }
+            
             var href = '/Marketing/' + field + "?id=" + row.MarketActionId;
             if (field == "After2Days") {
                 href += "&ShopName=" + (isZH() ? row.ShopName : row.ShopNameEn);
@@ -208,18 +215,16 @@
                 marketActionStatusCode: $('#pstate').val() || ' ',
                 shopId: $('#pdealer').val() || ' ',
                 eventTypeId: $('#ptype').val() || ' ',
-                userId: userId,
-                roleTypeCode: roleType
+                userId: $("#G_UserId").val(),
+                roleTypeCode: $("#G_RoleTypeCode")
             }, function (data) {
-                if (refresh) {
-                    refreshTable(data);
-                } else {
-                    initTable(data);
+                if (data) {
+                    $('#myMarketing').bootstrapTable("load", data);
                 }
             });
         }
-
-        function initTable(data) {
+        var types = isZH()? ['数字营销','广告及宣传','线上平台线索获取']:['Digital Marketing','Advertisement','Online Sales Leads Generation' ];
+        function initTable() {  
             var columns = [[{
                 title: $("#G_No").val(),
                 field: '',
@@ -375,7 +380,7 @@
 
             $("#myMarketing").bootstrapTable({
                 columns: columns,
-                data: data,
+                pageNumber: 1,
                 pageSize: 20,
                 pagination: true
             });

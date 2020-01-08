@@ -32,6 +32,22 @@
           <Property Name="ModifyUserId" Type="int" />
           <Property Name="ModifyDateTime" Type="datetime" />
         </EntityType>
+        <!--生成过程中发现错误:
+警告 6005: 目标实体框架版本目前不支持数据类型“date”；已排除表“Bentley.dbo.DMFDetail”中的列“ModifyDateTime”。-->
+        <EntityType Name="DMFDetail">
+          <Key>
+            <PropertyRef Name="DMFDetailId" />
+          </Key>
+          <Property Name="DMFDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShopId" Type="int" />
+          <Property Name="DMFItemId" Type="int" />
+          <Property Name="Budget" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="AcutalAmt" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="Remark" Type="nvarchar(max)" />
+          <Property Name="InUserId" Type="int" />
+          <Property Name="InDateTime" Type="datetime" />
+          <Property Name="ModifyUserId" Type="int" />
+        </EntityType>
         <EntityType Name="DMFItem">
           <Key>
             <PropertyRef Name="DMFItemId" />
@@ -58,6 +74,39 @@
           <Property Name="AreaId" Type="int" />
           <Property Name="ApprovalMaxAmt" Type="decimal" Precision="19" Scale="2" />
           <Property Name="ShowStatus" Type="bit" />
+          <Property Name="InUserId" Type="int" />
+          <Property Name="InDateTime" Type="datetime" />
+          <Property Name="ModifyUserId" Type="int" />
+          <Property Name="ModifyDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ExpenseAccount">
+          <Key>
+            <PropertyRef Name="ExpenseAccountId" />
+          </Key>
+          <Property Name="ExpenseAccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShopId" Type="int" />
+          <Property Name="DMFItemId" Type="int" />
+          <Property Name="MarketActionId" Type="int" />
+          <Property Name="ExpenseAmt" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="ApplyStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApprovalReason" Type="nvarchar(max)" />
+          <Property Name="ReplyStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReplyReason" Type="nvarchar(max)" />
+          <Property Name="InUserId" Type="int" />
+          <Property Name="InDateTime" Type="datetime" />
+          <Property Name="ModifyUserId" Type="int" />
+          <Property Name="ModifyDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ExpenseAccountFile">
+          <Key>
+            <PropertyRef Name="ExpenseAccountId" />
+            <PropertyRef Name="SeqNO" />
+          </Key>
+          <Property Name="ExpenseAccountId" Type="int" Nullable="false" />
+          <Property Name="SeqNO" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="500" />
+          <Property Name="FileUrl" Type="nvarchar(max)" />
+          <Property Name="FileTypeCode" Type="nvarchar" MaxLength="50" />
           <Property Name="InUserId" Type="int" />
           <Property Name="InDateTime" Type="datetime" />
           <Property Name="ModifyUserId" Type="int" />
@@ -369,6 +418,20 @@
           <Property Name="ModifyUserId" Type="int" />
           <Property Name="ModifyDateTime" Type="datetime" />
         </EntityType>
+        <EntityType Name="MonthSale">
+          <Key>
+            <PropertyRef Name="MonthSaleId" />
+          </Key>
+          <Property Name="MonthSaleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YearMonth" Type="nvarchar" MaxLength="500" />
+          <Property Name="ShopId" Type="int" />
+          <Property Name="ActualSaleCount" Type="int" />
+          <Property Name="ActualSaleAmt" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="InUserId" Type="int" />
+          <Property Name="InDateTime" Type="datetime" />
+          <Property Name="ModifyUserId" Type="int" />
+          <Property Name="ModifyDateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="RoleType">
           <Key>
             <PropertyRef Name="RoleTypeCode" />
@@ -435,8 +498,11 @@
         <EntityContainer Name="BentleyModelStoreContainer">
           <EntitySet Name="Area" EntityType="Self.Area" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CommitFile" EntityType="Self.CommitFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DMFDetail" EntityType="Self.DMFDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DMFItem" EntityType="Self.DMFItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseAccount" EntityType="Self.ExpenseAccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseAccountFile" EntityType="Self.ExpenseAccountFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HiddenCode" EntityType="Self.HiddenCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketAction" EntityType="Self.MarketAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionAfter2LeadsReport" EntityType="Self.MarketActionAfter2LeadsReport" Schema="dbo" store:Type="Tables" />
@@ -451,6 +517,7 @@
           <EntitySet Name="MarketActionBefore3DisplayModel" EntityType="Self.MarketActionBefore3DisplayModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionBefore3TestDriver" EntityType="Self.MarketActionBefore3TestDriver" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarketActionTheDayFile" EntityType="Self.MarketActionTheDayFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MonthSale" EntityType="Self.MonthSale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoleType" EntityType="Self.RoleType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShopCommitFileRecord" EntityType="Self.ShopCommitFileRecord" Schema="dbo" store:Type="Tables" />
@@ -650,6 +717,10 @@
           <EntitySet Name="DMFItem" EntityType="BentleyModel.DMFItem" />
           <EntitySet Name="MarketActionAfter7" EntityType="BentleyModel.MarketActionAfter7" />
           <EntitySet Name="MarketActionBefore21" EntityType="BentleyModel.MarketActionBefore21" />
+          <EntitySet Name="DMFDetail" EntityType="BentleyModel.DMFDetail" />
+          <EntitySet Name="ExpenseAccountFile" EntityType="BentleyModel.ExpenseAccountFile" />
+          <EntitySet Name="MonthSale" EntityType="BentleyModel.MonthSale" />
+          <EntitySet Name="ExpenseAccount" EntityType="BentleyModel.ExpenseAccount" />
         </EntityContainer>
         <EntityType Name="UserInfo">
           <Key>
@@ -906,6 +977,67 @@
           <Property Name="OtherDesc02" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OtherDesc03" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OtherDesc04" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DMFDetail">
+          <Key>
+            <PropertyRef Name="DMFDetailId" />
+          </Key>
+          <Property Name="DMFDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShopId" Type="Int32" />
+          <Property Name="DMFItemId" Type="Int32" />
+          <Property Name="Budget" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="AcutalAmt" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ExpenseAccountFile">
+          <Key>
+            <PropertyRef Name="ExpenseAccountId" />
+            <PropertyRef Name="SeqNO" />
+          </Key>
+          <Property Name="ExpenseAccountId" Type="Int32" Nullable="false" />
+          <Property Name="SeqNO" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FileUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileTypeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MonthSale">
+          <Key>
+            <PropertyRef Name="MonthSaleId" />
+          </Key>
+          <Property Name="MonthSaleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YearMonth" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ShopId" Type="Int32" />
+          <Property Name="ActualSaleCount" Type="Int32" />
+          <Property Name="ActualSaleAmt" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ExpenseAccount">
+          <Key>
+            <PropertyRef Name="ExpenseAccountId" />
+          </Key>
+          <Property Name="ExpenseAccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShopId" Type="Int32" />
+          <Property Name="DMFItemId" Type="Int32" />
+          <Property Name="MarketActionId" Type="Int32" />
+          <Property Name="ExpenseAmt" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="ApplyStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovalReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InUserId" Type="Int32" />
           <Property Name="InDateTime" Type="DateTime" Precision="3" />
           <Property Name="ModifyUserId" Type="Int32" />
@@ -1351,6 +1483,70 @@
                 <ScalarProperty Name="ActivityObjective" ColumnName="ActivityObjective" />
                 <ScalarProperty Name="ActivityBackground" ColumnName="ActivityBackground" />
                 <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMFDetail">
+            <EntityTypeMapping TypeName="BentleyModel.DMFDetail">
+              <MappingFragment StoreEntitySet="DMFDetail">
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="AcutalAmt" ColumnName="AcutalAmt" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="DMFItemId" ColumnName="DMFItemId" />
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="DMFDetailId" ColumnName="DMFDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseAccountFile">
+            <EntityTypeMapping TypeName="BentleyModel.ExpenseAccountFile">
+              <MappingFragment StoreEntitySet="ExpenseAccountFile">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="FileTypeCode" ColumnName="FileTypeCode" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="SeqNO" ColumnName="SeqNO" />
+                <ScalarProperty Name="ExpenseAccountId" ColumnName="ExpenseAccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonthSale">
+            <EntityTypeMapping TypeName="BentleyModel.MonthSale">
+              <MappingFragment StoreEntitySet="MonthSale">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="ActualSaleAmt" ColumnName="ActualSaleAmt" />
+                <ScalarProperty Name="ActualSaleCount" ColumnName="ActualSaleCount" />
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
+                <ScalarProperty Name="MonthSaleId" ColumnName="MonthSaleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseAccount">
+            <EntityTypeMapping TypeName="BentleyModel.ExpenseAccount">
+              <MappingFragment StoreEntitySet="ExpenseAccount">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="ReplyReason" ColumnName="ReplyReason" />
+                <ScalarProperty Name="ReplyStatus" ColumnName="ReplyStatus" />
+                <ScalarProperty Name="ApprovalReason" ColumnName="ApprovalReason" />
+                <ScalarProperty Name="ApplyStatus" ColumnName="ApplyStatus" />
+                <ScalarProperty Name="ExpenseAmt" ColumnName="ExpenseAmt" />
+                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+                <ScalarProperty Name="DMFItemId" ColumnName="DMFItemId" />
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="ExpenseAccountId" ColumnName="ExpenseAccountId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

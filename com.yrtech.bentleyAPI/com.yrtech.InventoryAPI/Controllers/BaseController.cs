@@ -53,7 +53,9 @@ namespace com.yrtech.InventoryAPI.Controllers
                 Stream stream = BytesToStream(Base64ToBytes(base64Img));
                 OSSClientHelper.UploadOSSFile(filePath, stream, stream.Length);
                 Thread.Sleep(1);
+
             }
+            else { filePath = base64Img; }
             return filePath;
         }
 

@@ -12,14 +12,13 @@ namespace com.yrtech.bentley.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class DMFItem
+    public partial class ExpenseAccountFile
     {
-        public int DMFItemId { get; set; }
-        public string DMFItemName { get; set; }
-        public string DMFItemNameEn { get; set; }
-        public string DMFItemRemark { get; set; }
-        public Nullable<bool> ExpenseAccountChk { get; set; }
-        public Nullable<bool> PublishChk { get; set; }
+        public int ExpenseAccountId { get; set; }
+        public int SeqNO { get; set; }
+        public string FileName { get; set; }
+        public string FileUrl { get; set; }
+        public string FileTypeCode { get; set; }
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
         public Nullable<int> ModifyUserId { get; set; }

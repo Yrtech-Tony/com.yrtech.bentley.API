@@ -759,8 +759,8 @@ namespace com.yrtech.InventoryAPI.Service
         }
         public void MarketActionAfter7ActualProcessSave(MarketActionAfter7ActualProcess marketActionAfter7ActualProcess)
         {
-            if (marketActionAfter7ActualProcess.SeqNO == 0)
-            {
+            //if (marketActionAfter7ActualProcess.SeqNO == 0)
+            //{
                 MarketActionAfter7ActualProcess findOneMax = db.MarketActionAfter7ActualProcess.Where(x => (x.MarketActionId == marketActionAfter7ActualProcess.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
                 if (findOneMax == null)
                 {
@@ -774,18 +774,18 @@ namespace com.yrtech.InventoryAPI.Service
                 marketActionAfter7ActualProcess.ModifyDateTime = DateTime.Now;
                 db.MarketActionAfter7ActualProcess.Add(marketActionAfter7ActualProcess);
 
-            }
-            else
-            {
-                MarketActionAfter7ActualProcess findOne = db.MarketActionAfter7ActualProcess.Where(x => (x.MarketActionId == marketActionAfter7ActualProcess.MarketActionId && x.SeqNO == marketActionAfter7ActualProcess.SeqNO)).FirstOrDefault();
-                findOne.ActivityDateTime = marketActionAfter7ActualProcess.ActivityDateTime;
-                findOne.Contents = marketActionAfter7ActualProcess.Contents;
-                findOne.Item = marketActionAfter7ActualProcess.Item;
-                findOne.ModifyDateTime = DateTime.Now;
-                findOne.ModifyUserId = marketActionAfter7ActualProcess.ModifyUserId;
-                findOne.Remark = marketActionAfter7ActualProcess.Remark;
+            //}
+            //else
+            //{
+            //    MarketActionAfter7ActualProcess findOne = db.MarketActionAfter7ActualProcess.Where(x => (x.MarketActionId == marketActionAfter7ActualProcess.MarketActionId && x.SeqNO == marketActionAfter7ActualProcess.SeqNO)).FirstOrDefault();
+            //    findOne.ActivityDateTime = marketActionAfter7ActualProcess.ActivityDateTime;
+            //    findOne.Contents = marketActionAfter7ActualProcess.Contents;
+            //    findOne.Item = marketActionAfter7ActualProcess.Item;
+            //    findOne.ModifyDateTime = DateTime.Now;
+            //    findOne.ModifyUserId = marketActionAfter7ActualProcess.ModifyUserId;
+            //    findOne.Remark = marketActionAfter7ActualProcess.Remark;
 
-            }
+            //}
             db.SaveChanges();
         }
         public void MarketActionAfter7ActualProcessDelete(string marketActionId)

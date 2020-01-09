@@ -164,13 +164,14 @@
 
   $.fn.fileinputInit = function (pic) {
       if (pic) {
-          $(this).parent(".fileinput-new").addClass('fileinput-exists').removeClass('fileinput-new');
+          //$(this).parent(".fileinput-new").addClass('fileinput-exists').removeClass('fileinput-new');
           var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
+          var picSrc = pic;
           if (pic.indexOf("Bentley") == 0) {
-              $(this).append($("<img>").prop('src', baseOss + pic));
-          } else {
-              $(this).append($("<img>").prop('src',  pic));
+              picSrc = baseOss + pic;
           }
+          $(this).parent(".fileinput-new").find("img").prop('src', picSrc);
+          //$(this).append($("<img>").prop('src', picSrc));
       } 
   }
 

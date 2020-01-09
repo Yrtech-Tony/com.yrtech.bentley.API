@@ -326,7 +326,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="OnLineAdDesc03" placeholder=" {{'description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OnLineAdDesc03" placeholder=" {{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
@@ -548,7 +548,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="RegisterLiveShowDesc002" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="RegisterLiveShowDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -569,7 +569,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="RegisterLiveShowDesc003" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="RegisterLiveShowDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
@@ -586,7 +586,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="RegisterLiveShowDesc004" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="RegisterLiveShowDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -629,7 +629,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="CustomerStaffModelDesc002" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="CustomerStaffModelDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -650,7 +650,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="CustomerStaffModelDesc003" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="CustomerStaffModelDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
@@ -667,7 +667,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="CustomerStaffModelDesc004" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="CustomerStaffModelDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -710,7 +710,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="OthersDesc002" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OthersDesc02" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -731,7 +731,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" id="ListDesigns_2__ImgRemark" name="OthersDesc003" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OthersDesc03" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
@@ -748,7 +748,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="OthersDesc004" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="OthersDesc04" placeholder="{{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -804,6 +804,21 @@
                                        
                     $('#ActualCostTable').bootstrapTable("load", data.ActualExpenseDto);
                     $('#ActivityFlow2Table').bootstrapTable("load", data.ActualProcess);
+                    
+                    if (data.ActualExpenseDto) {
+                        data.ActualExpenseDto.forEach(function (item) {
+                            if (item.SeqNO > maxActualCostSeqNo) {
+                                maxActualCostSeqNo = item.SeqNO;
+                            }
+                        });
+                    }
+                    if (data.ActualProcess) {
+                        data.ActualProcess.forEach(function (item) {
+                            if (item.SeqNO > maxActualActivitySeqNo) {
+                                maxActualActivitySeqNo = item.SeqNO;
+                            }
+                        })
+                    }
                     // 从线索查询出来不需要填写的字段
                     for(var pro in data.LeadsCount){
                         $("#"+pro).html(data.LeadsCount[pro]);
@@ -877,7 +892,6 @@
             else {
                 $('#VisualStatus').prop("disabled", true);
             }
-
         });
 
         function loadActiveStatuss() {

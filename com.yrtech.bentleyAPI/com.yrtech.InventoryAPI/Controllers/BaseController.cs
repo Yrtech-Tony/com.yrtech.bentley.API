@@ -53,8 +53,14 @@ namespace com.yrtech.InventoryAPI.Controllers
                 Stream stream = BytesToStream(Base64ToBytes(base64Img));
                 OSSClientHelper.UploadOSSFile(filePath, stream, stream.Length);
                 Thread.Sleep(1);
+
             }
             return base64Img;
+<<<<<<< .mine
+
+=======
+            return filePath;
+>>>>>>> .theirs
         }
 
         public void SendEmail(string emailTo, string emailCC, string subjects, string body, string attachmentStream, string attachementFileName)

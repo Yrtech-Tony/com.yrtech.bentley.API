@@ -47,5 +47,9 @@ namespace com.yrtech.bentley.DAL
         public virtual DbSet<DMFItem> DMFItem { get; set; }
         public virtual DbSet<MarketActionAfter7> MarketActionAfter7 { get; set; }
         public virtual DbSet<MarketActionBefore21> MarketActionBefore21 { get; set; }
+        public virtual DbSet<DMFDetail> DMFDetail { get; set; }
+        public virtual DbSet<ExpenseAccountFile> ExpenseAccountFile { get; set; }
+        public virtual DbSet<MonthSale> MonthSale { get; set; }
+        public virtual DbSet<ExpenseAccount> ExpenseAccount { get; set; }
     }
 }

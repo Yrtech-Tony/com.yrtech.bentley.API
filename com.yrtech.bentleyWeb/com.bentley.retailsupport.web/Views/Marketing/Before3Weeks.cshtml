@@ -356,7 +356,7 @@
                                                     <a href="javascript:;" class="btn btn-warning fileinput-exists" data-dismiss="fileinput" translate>Remove</a>
                                                 </div>
                                             </div>
-                                            <textarea class="form-control" cols="20" name="POSDesignDesc03" placeholder=" {{'description2'|translate}}" rows="1"></textarea>
+                                            <textarea class="form-control" cols="20" name="POSDesignDesc03" placeholder=" {{'Description2'|translate}}" rows="1"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
@@ -666,7 +666,13 @@
                 if (data) {
                     $('#PromotionCreate2').setForm(data.MarketActionBefore21);
                     $('#ActivityFlowTable').bootstrapTable("load", data.ActivityProcess);
-
+                    if (data.ActivityProcess) {
+                        data.ActivityProcess.forEach(function (item) {
+                            if(item.SeqNO>maxActivityFlowSeqNO){
+                                maxActivityFlowSeqNO = item.SeqNO;
+                            }
+                        });
+                    
                     $('#img_visual1').fileinputInit(data.MarketActionBefore21.KeyVisionPic);
 
                     //场地介绍

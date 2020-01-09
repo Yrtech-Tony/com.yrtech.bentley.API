@@ -72,10 +72,19 @@
     <Compile Include="CommitFile.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>
+    <Compile Include="DMFDetail.cs">
+      <DependentUpon>bentley.tt</DependentUpon>
+    </Compile>
     <Compile Include="DMFItem.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>
     <Compile Include="EventType.cs">
+      <DependentUpon>bentley.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseAccount.cs">
+      <DependentUpon>bentley.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseAccountFile.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>
     <Compile Include="HiddenCode.cs">
@@ -118,6 +127,9 @@
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>
     <Compile Include="MarketActionTheDayFile.cs">
+      <DependentUpon>bentley.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MonthSale.cs">
       <DependentUpon>bentley.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

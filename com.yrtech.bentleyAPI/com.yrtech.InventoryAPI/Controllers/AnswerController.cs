@@ -114,12 +114,12 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region MarketAction
         [HttpGet]
         [Route("MarketAction/MarketActionSearch")]
-        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, string userId, string roleTypeCode)
+        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk,string userId, string roleTypeCode)
         {
             try
             {
 
-                List<MarketActionDto> marketActionListTemp = marketActionService.MarketActionSearch(actionName, year, month, marketActionStatusCode, shopId, eventTypeId);
+                List<MarketActionDto> marketActionListTemp = marketActionService.MarketActionSearch(actionName, year, month, marketActionStatusCode, shopId, eventTypeId, expenseAccountChk);
                 List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
                 List<MarketActionDto> marketActionList = new List<MarketActionDto>();
 
@@ -897,11 +897,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region DMF
         [HttpGet]
         [Route("DMF/DMFItemSearch")]
-        public APIResult DMFItemSearch(string DMFItemId, string DMFItemName, string DMFItemNameEn)
+        public APIResult DMFItemSearch(string DMFItemId, string DMFItemName, string DMFItemNameEn,bool? expenseAccountChk,bool? publishChk)
         {
             try
             {
-                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(DMFItemId, DMFItemName, DMFItemNameEn);
+                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(DMFItemId, DMFItemName, DMFItemNameEn, expenseAccountChk,publishChk);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfItemList) };
             }
@@ -947,7 +947,122 @@ namespace com.yrtech.SurveyAPI.Controllers
 
         }
         #endregion
+        #region ExpenseAccount
+        [HttpGet]
+        [Route("DMF/ExpenseAccountSearch")]
+        public APIResult ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId,string userId,string roleTypeCode)
+        {
+            try
+            {
+                List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+                List<ExpenseAccountDto> expenseAccountList = new List<ExpenseAccountDto>();
+                List<ExpenseAccountDto> expenseAccountListTemp = dmfService.ExpenseAccountSearch(expenseAccountId,shopId,dmfItemId,marketActionId);
 
+                foreach (ExpenseAccountDto expenseAccountDto in expenseAccountListTemp)
+                {
+                    foreach (Shop shop in roleTypeShopList)
+                    {
+                        if (expenseAccountDto.ShopId == shop.ShopId)
+                        {
+                            expenseAccountList.Add(expenseAccountDto);
+
+                        }
+                    }
+                }
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(expenseAccountList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+
+        [HttpPost]
+        [Route("DMF/ExpenseAccountSave")]
+        public APIResult ExpenseAccountSave(ExpenseAccount expenseAccount)
+        {
+            try
+            {
+                dmfService.ExpenseAccountSave(expenseAccount);
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("DMF/ExpenseAccountDelete")]
+        public APIResult ExpenseAccountDelete(UploadData upload)
+        {
+            try
+            {
+                List<ExpenseAccount> list = CommonHelper.DecodeString<List<ExpenseAccount>>(upload.ListJson);
+                // 需要确认什么条件下不能删除
+                foreach (ExpenseAccount expenseAccount in list)
+                {
+                    dmfService.ExpenseAccountDelete(expenseAccount.ExpenseAccountId.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpGet]
+        [Route("DMF/ExpenseAccountFileSearch")]
+        public APIResult ExpenseAccountFileSearch(string expenseAccountId, string seqNO,string fileType)
+        {
+            try
+            {
+                List<ExpenseAccountFile> expenseAccountFileList = dmfService.ExpenseAccountFileSearch(expenseAccountId, seqNO,fileType);
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(expenseAccountFileList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+
+        [HttpPost]
+        [Route("DMF/ExpenseAccountFileSave")]
+        public APIResult ExpenseAccountFileSave(ExpenseAccountFile expenseAccount)
+        {
+            try
+            {
+                dmfService.ExpenseAccountFileSave(expenseAccount);
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("DMF/ExpenseAccountFileDelete")]
+        public APIResult ExpenseAccountFileDelete(UploadData upload)
+        {
+            try
+            {
+                List<ExpenseAccountFile> list = CommonHelper.DecodeString<List<ExpenseAccountFile>>(upload.ListJson);
+                foreach (ExpenseAccountFile expenseAccountFile in list)
+                {
+                    dmfService.ExpenseAccountFileDelete(expenseAccountFile.ExpenseAccountId.ToString(),expenseAccountFile.SeqNO.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
 
     }
 }

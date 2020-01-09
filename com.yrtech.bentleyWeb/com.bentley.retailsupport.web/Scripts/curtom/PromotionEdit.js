@@ -93,7 +93,7 @@ function InitActivityFlowTable() {
             valign: "middle",
             align: "center",
             formatter: function (value, row, index) {
-                var e = "<label onclick='DeleteActivityFlowRow("+row.SeqNO+")'><i class='icon-pencil icon-white'></i>" + (isZH() ? '删除' : 'Delete') + "</label>";
+                var e = "<label onclick='DeleteActivityFlowRow(" + row.SeqNO + ")'><i class='icon-pencil icon-white'></i>" + (isZH() ? '删除' : 'Delete') + "</label>";
                 return e;
             }
         }
@@ -111,14 +111,14 @@ function InitActivityFlowTable() {
     });
 }
 
-var maxActivityFlowSeqNO=1000;
+var maxActivityFlowSeqNO = 0;
 function AddActivityFlowTable() {
     var $table = $('#ActivityFlowTable');
     var index = $table.bootstrapTable('getData').length;//尾添加行
     $table.bootstrapTable('insertRow', {
         index: index,
         row: {
-            SeqNO:maxActivityFlowSeqNO++,
+            SeqNO: maxActivityFlowSeqNO++,
             ActivityDateTime: '',
             Item: '',
             Contents: '',
@@ -194,7 +194,7 @@ function InitDisplayModelsTable() {
             valign: "middle",
             align: "center",
             formatter: function (value, row, index) {
-                var e = "<label onclick='DeleteDisplayModelsRow("+row.SeqNO+")'><i class='icon-pencil icon-white'></i>" + (isZH() ? '删除' : 'Delete') + "</label>";
+                var e = "<label onclick='DeleteDisplayModelsRow(" + row.SeqNO + ")'><i class='icon-pencil icon-white'></i>" + (isZH() ? '删除' : 'Delete') + "</label>";
                 return e;
             }
         }
@@ -212,14 +212,14 @@ function InitDisplayModelsTable() {
     });
 }
 
-var maxDisplayModelsSeqNO = 1000;
+var maxDisplayModelsSeqNO = 0;
 function AddDisplayModelsTable() {
     var $table = $('#DisplayModelsTable');
     var index = $table.bootstrapTable('getData').length;//尾添加行
     $table.bootstrapTable('insertRow', {
         index: index,
         row: {
-            SeqNO:maxDisplayModelsSeqNO++,
+            SeqNO: maxDisplayModelsSeqNO++,
             DisplayModelColor: '',
             Provider: ''
         }
@@ -296,14 +296,14 @@ function InitTestDriverTable() {
     });
 }
 
-var maxTestDriveSeqNO = 1000;
+var maxTestDriveSeqNO = 0;
 function AddTestDriveTable() {
     var $table = $('#TestDriveTable');
     var index = $table.bootstrapTable('getData').length;//尾添加行
     $table.bootstrapTable('insertRow', {
         index: index,
         row: {
-            SeqNO:maxTestDriveSeqNO++,
+            SeqNO: maxTestDriveSeqNO++,
             DisplayModelColor: '',
             Provider: ''
         }
@@ -449,14 +449,14 @@ function InitActivityBudgetTable() {
     });
 }
 
-var maxActivityBudgetSeqNO = 1000;
+var maxActivityBudgetSeqNO = 0;
 function AddActivityBudgetTable() {
     var $table = $('#ActivityBudgetTable');
     var index = $table.bootstrapTable('getData').length;//尾添加行
     $table.bootstrapTable('insertRow', {
         index: index,
         row: {
-            SeqNO:maxActivityBudgetSeqNO++,
+            SeqNO: maxActivityBudgetSeqNO++,
             ItemName: '',
             Descs: '',
             UnitPrice: 0,
@@ -566,7 +566,6 @@ function InitActualActivityProcess() {
                     return html;
                 }
             }
-
         },
         {
             title: $('#TComments').val(),
@@ -594,7 +593,7 @@ function InitActualActivityProcess() {
             valign: "middle",
             align: "center",
             formatter: function (value, row, index) {
-                var e = "<label onclick='DeleteActivityFlowRow(this)'><i class='icon-pencil icon-white'></i>" + (isZH() ? '删除' : 'Delete') + "</label>";
+                var e = "<label onclick='DeleteInitActualActivity(" + row.SeqNO + ")'><i class='icon-pencil icon-white'></i>" + (isZH() ? '删除' : 'Delete') + "</label>";
                 return e;
             }
         }
@@ -614,18 +613,18 @@ function InitActualActivityProcess() {
 
 }
 
+var maxActualActivitySeqNo = 0;
 function AddInitActualActivity() {
     var $table = $('#ActivityFlow2Table');
     var index = $table.bootstrapTable('getData').length;
     $table.bootstrapTable('insertRow', {
         index: index,
         row: {
-            ID: simple_uuid(index.toString()),
-            ActivityTime: '',
-            ActivityLink: '',
-            ActivityContent: '',
-            ActivityRemark: ''
-
+            SeqNO: maxActualActivitySeqNo++,
+            ActivityDateTime: '',
+            Item: '',
+            Contents: '',
+            Remark: ''
         }
     });
 }
@@ -762,21 +761,7 @@ function InitActualCost() {
 
 }
 
-var dealNumber = function (money) {
-    if (money && money != null) {
-        money = String(money);
-        var left = money.split('.')[0], right = money.split('.')[1];
-        right = right ? (right.length >= 2 ? '.' + right.substr(0, 2) : '.' + right + '0') : '.00';
-        var temp = left.split('').reverse().join('').match(/(\d{1,3})/g);
-        return (Number(money) < 0 ? "-" : "") + temp.join(',').split('').reverse().join('') + right;
-    } else if (money === 0) {   //注意===在这里的使用，如果传入的money为0,if中会将其判定为boolean类型，故而要另外做===判断
-        return '0.00';
-    } else {
-        return "";
-    }
-};
-
-var maxActualCostSeqNo = 1000;
+var maxActualCostSeqNo = 0;
 function AddActualCost() {
     var $table = $('#ActualCostTable');
     var index = $table.bootstrapTable('getData').length;
@@ -803,3 +788,17 @@ function DeleteActualCost(id) {
     });
     $("#ExpenseTotalAmt").html("");
 }
+
+var dealNumber = function (money) {
+    if (money && money != null) {
+        money = String(money);
+        var left = money.split('.')[0], right = money.split('.')[1];
+        right = right ? (right.length >= 2 ? '.' + right.substr(0, 2) : '.' + right + '0') : '.00';
+        var temp = left.split('').reverse().join('').match(/(\d{1,3})/g);
+        return (Number(money) < 0 ? "-" : "") + temp.join(',').split('').reverse().join('') + right;
+    } else if (money === 0) {   //注意===在这里的使用，如果传入的money为0,if中会将其判定为boolean类型，故而要另外做===判断
+        return '0.00';
+    } else {
+        return "";
+    }
+};

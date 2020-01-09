@@ -15,7 +15,7 @@ namespace com.yrtech.InventoryAPI.Service
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        public List<MarketActionDto> MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId)
+        public List<MarketActionDto> MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId,bool? expenseAccountChk)
         {
             if (actionName == null) actionName = "";
             if (year == null) year = "";
@@ -124,6 +124,10 @@ namespace com.yrtech.InventoryAPI.Service
             if (!string.IsNullOrEmpty(eventTypeId))
             {
                 sql += " AND A.EventTypeId =@EventTypeId";
+            }
+            if (expenseAccountChk!=null)
+            {
+                sql += " AND A.ExpenseAccout = @ExpenseAccountChk";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionDto>().ToList();
         }
@@ -818,7 +822,6 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region 3 months  after
-        #region TheDays
         public List<MarketActionAfter90File> MarketActionAfter90FileSearch(string marketActionId)
         {
             if (marketActionId == null) marketActionId = "";
@@ -862,7 +865,6 @@ namespace com.yrtech.InventoryAPI.Service
                         ";
             db.Database.ExecuteSqlCommand(sql, para);
         }
-        #endregion
         #endregion
         #region 总览
         public List<MarketActionStatusCountDto> MarketActionStatusCountSearch(string year)

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "DMF";
+    ViewBag.Title = "DMFItem";
 }
 
 
@@ -94,15 +94,17 @@
         $("#nav_dealer_funds").addClass("active");
         $(function () {
             InitMarketFundLst();
-            loadDMF();
+            loadDMFItem();
         })
 
 
-        function loadDMF() {
+        function loadDMFItem() {
             $.commonGet("DMF/DMFItemSearch", {
                 DMFItemId: '',
                 DMFItemName: '',
-                DMFItemNameEn: ''
+                DMFItemNameEn: '',
+                expenseAccountChk: '',
+                publishChk: ''
             }, function (data) {
                 if (data) {
                     $('#myMarketFund').bootstrapTable("load", data);

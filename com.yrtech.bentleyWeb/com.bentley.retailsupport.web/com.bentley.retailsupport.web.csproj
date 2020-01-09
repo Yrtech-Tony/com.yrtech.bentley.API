@@ -225,6 +225,7 @@
     <Content Include="Scripts\bower_components\layer\skin\default\layer.css" />
     <Content Include="Scripts\bower_components\layer\skin\default\loading-1.gif" />
     <Content Include="Scripts\curtom\CueReport.js" />
+    <Content Include="Scripts\curtom\IncomeCost.js" />
     <Content Include="Scripts\curtom\MarketFund.js" />
     <Content Include="Scripts\curtom\PromotionEdit.js" />
     <Content Include="Scripts\Dark\bootstrap-hover-dropdown.js" />
@@ -390,7 +391,8 @@
     <Content Include="Views\Marketing\After7Days.cshtml" />
     <Content Include="Views\Marketing\After3Months.cshtml" />
     <Content Include="线索报告.xlsx" />
-    <Content Include="Views\DMF\Index.cshtml" />
+    <Content Include="Views\DMF\DMFItem.cshtml" />
+    <Content Include="Views\DMF\ExpenseAccount.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

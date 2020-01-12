@@ -11,19 +11,20 @@ namespace com.yrtech.InventoryAPI.Service
     {
         Bentley db = new Bentley();
         #region DMFItem
-        public List<DMFItem> DMFItemSearch(string dmfItemId,string dmfItemName,string dmfItemNameEn,bool? expenseAccountChk,bool? publishChk)
+        public List<DMFItem> DMFItemSearch(string dmfItemId, string dmfItemName, string dmfItemNameEn, bool? expenseAccountChk, bool? publishChk)
         {
             if (dmfItemId == null) dmfItemId = "";
             if (dmfItemName == null) dmfItemName = "";
             if (dmfItemNameEn == null) dmfItemNameEn = "";
+
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@DMFItemId", dmfItemId),
                                                     new SqlParameter("@DMFItemName", dmfItemName),
                                                     new SqlParameter("@DMFItemNameEn", dmfItemNameEn)};
-            
+
             Type t = typeof(DMFItem);
             
             string sql = "";
-             sql = @"SELECT A.* 
+            sql = @"SELECT A.* 
                     FROM DMFItem A 
                     WHERE 1=1";
             if (!string.IsNullOrEmpty(dmfItemId))
@@ -38,12 +39,12 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND DMFItemNameEn = @DMFItemNameEn";
             }
-            if (expenseAccountChk != null)
+            if (expenseAccountChk.HasValue)
             {
                 para.Concat(new SqlParameter[] { new SqlParameter("@ExpenseAccountChk", expenseAccountChk) });
-                sql += " AND ExpenseAccountChk = @ExpenseAccountChk"; 
+                sql += " AND ExpenseAccountChk = @ExpenseAccountChk";
             }
-            if (publishChk != null)
+            if (publishChk.HasValue)
             {
                 para.Concat(new SqlParameter[] { new SqlParameter("@PublishChk", publishChk) });
                 sql += " AND PublishChk = @PublishChk";
@@ -80,7 +81,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region ExpenseAccount
-        public List<ExpenseAccountDto> ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId,string marketActionId)
+        public List<ExpenseAccountDto> ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId)
         {
             if (expenseAccountId == null) expenseAccountId = "";
             if (shopId == null) shopId = "";
@@ -144,7 +145,7 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.ShopId = expenseAccount.ShopId;
                 findOne.ModifyDateTime = DateTime.Now;
                 findOne.ModifyUserId = expenseAccount.ModifyUserId;
-                
+
             }
             db.SaveChanges();
         }
@@ -155,7 +156,7 @@ namespace com.yrtech.InventoryAPI.Service
                         ";
             db.Database.ExecuteSqlCommand(sql, para);
         }
-        public List<ExpenseAccountFile> ExpenseAccountFileSearch(string expenseAccountId,string seqNO,string fileType)
+        public List<ExpenseAccountFile> ExpenseAccountFileSearch(string expenseAccountId, string seqNO, string fileType)
         {
             if (expenseAccountId == null) expenseAccountId = "";
             if (seqNO == null) seqNO = "";
@@ -182,7 +183,7 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND FileType = @FileType";
             }
-            
+
             return db.Database.SqlQuery(t, sql, para).Cast<ExpenseAccountFile>().ToList();
         }
         public void ExpenseAccountFileSave(ExpenseAccountFile expenseAccountFile)

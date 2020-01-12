@@ -157,27 +157,34 @@
         $("#nav_promotion").addClass("active");
 
         var id = '@ViewBag.Id';
-        if (id) {
-            $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
-                if (data && data.length > 0) {
-                    data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
-                    data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
-                    $('#PromotionCreate').setForm(data[0]);
-                }
-            });
-
-            $("#MarketActionTargetModelCodeDiv").hide();
-        }
+        
         $(function () {
             loadShops().forEach(function (item) {
                 var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
                 $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
             });
-
+            //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
+            $.ajaxSetup({
+                async: false
+            });
             loadActiveStatuss();
             loadTargetModels();
             loadEventTypes();
+            $.ajaxSetup({
+                async: true
+            });
+            if (id) {
+                $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
+                    if (data && data.length > 0) {
+                        data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
+                        data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
+                        $('#PromotionCreate').setForm(data[0]);
+                        $("select").selectpicker("refresh");
+                    }
+                });
 
+                $("#MarketActionTargetModelCodeDiv").hide();
+            }
 
             /* 加载时间选择插件 */
             $("#StartDate").datetimepicker({
@@ -233,9 +240,8 @@
                 hiddenCode: ""
             }, function (data) {
                 data.forEach(function (item) {
-                    $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                    $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
                 });
-                $("#MarketActionStatusCode").selectpicker("refresh");
             })
         }
 
@@ -245,9 +251,8 @@
                 hiddenCode: ""
             }, function (data) {
                 data.forEach(function (item) {
-                    $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                    $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
                 });
-                $("#MarketActionTargetModelCode").selectpicker("refresh");
             })
         }
 
@@ -258,9 +263,8 @@
                 eventTypeNameEn: ""
             }, function (data) {
                 data.forEach(function (item) {
-                    $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(localStorage.language == 'zh' ? item.EventTypeName : item.EventTypeNameEn))
+                    $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn))
                 });
-                $("#EventTypeId").selectpicker("refresh");
             })
         }
 

@@ -35,7 +35,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             MemoryStream ms = new MemoryStream(dataBytes);
             return ms;
         }
-        
+
         public static string UploadBase64Pic(string filePath, string base64Img)
         {
             if (!string.IsNullOrEmpty(base64Img) && base64Img.Contains("data:image"))
@@ -53,7 +53,10 @@ namespace com.yrtech.InventoryAPI.Controllers
                 Stream stream = BytesToStream(Base64ToBytes(base64Img));
                 OSSClientHelper.UploadOSSFile(filePath, stream, stream.Length);
                 Thread.Sleep(1);
-
+            }
+            else
+            {
+                filePath = base64Img;
             }
             return base64Img;
         }

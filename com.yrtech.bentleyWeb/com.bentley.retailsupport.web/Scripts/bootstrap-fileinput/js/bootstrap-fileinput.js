@@ -165,10 +165,14 @@
   $.fn.fileinputInit = function (pic) {
       if (pic) {
           //$(this).parent(".fileinput-new").addClass('fileinput-exists').removeClass('fileinput-new');
-          var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
+         
           var picSrc = pic;
           if (pic.indexOf("Bentley") == 0) {
+              var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
               picSrc = baseOss + pic;
+          } else if (pic.indexOf("Upload_BL") == 0) {
+              var pre = "/Upload_BL_2019/";
+              picSrc = pre + pic
           }
           $(this).parent(".fileinput-new").find("img").prop('src', picSrc);
           //$(this).append($("<img>").prop('src', picSrc));

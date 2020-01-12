@@ -171,8 +171,8 @@
     <input id="G_ClueReport" type="hidden" value="{{'Clue Report Excel'|translate}}" />
     <input id="G_EventReport" type="hidden" value="{{'Event Report PPT' |translate}}" />
     <input id="G_UpdateReport" type="hidden" value="{{'Update leads Report Excel'|translate}}" />
-    <input id="G_ProofDocument" type="hidden" value="{{'Proof Document' |translate}}" />    
-    
+    <input id="G_ProofDocument" type="hidden" value="{{'Proof Document' |translate}}" />
+
     <input id="Draft" type="hidden" value="{{'Unsubmitted'|translate}}" />
     <input id="Pending" type="hidden" value="{{'Pending'|translate}}" />
 
@@ -236,106 +236,109 @@
                         <a href="/Document/Index">
                             <i class="fa fa-desktop fa-fw">
                                 <div class="icon-bg bg-pink"></div>
-                            </i><span class="menu-title" translate>Document Submit</span>
+                            </i>
+                            <span class="menu-title" translate>Document Submit</span>
                         </a>
                     </li>
                     <li id="nav_promotion">
                         <a href="/Marketing/Index">
                             <i class="fa fa-desktop fa-fw">
                                 <div class="icon-bg bg-pink"></div>
-                            </i><span class="menu-title" translate>Marketing Events</span>
+                            </i>
+                            <span class="menu-title" translate>Marketing Events</span>
                         </a>
                     </li>
 
-                    <li id="nav_dealer_funds">
+                    <li id="nav_dealer_funds" style="display:none">
                         <a href="/DMF/DMFItem">
                             <i class="fa fa-desktop fa-fw">
                                 <div class="icon-bg bg-pink"></div>
-                            </i><span class="menu-title" translate>Dealer Marketing Fund</span>
+                            </i>
+                            <span class="menu-title" translate>Dealer Marketing Fund</span>
                         </a>
                     </li>
 
-                    <li id="nav_reimbursement">
-                        <a href="/DMF/ExpenseAccount">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i><span class="menu-title" translate>Reimbursement</span>
-                        </a>
-                    </li>
-                    
-                    <li id="nav_IncomeCost">
-                        <a href="">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i><span class="menu-title" translate>Monthly Wholesale Condition</span>
-                        </a>
-                    </li>
+                    @*<li id="nav_reimbursement">
+                            <a href="/DMF/ExpenseAccount">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i><span class="menu-title" translate>Reimbursement</span>
+                            </a>
+                        </li>
+
+                        <li id="nav_IncomeCost">
+                            <a href="">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i><span class="menu-title" translate>Monthly Wholesale Condition</span>
+                            </a>
+                        </li>
 
 
-                    <li id="nav_dealer_funds_ov">
-                        <a href="/BudgetCost/DealersBalance">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i><span class="menu-title" translate>Marketing Fund Summary (Overview)</span>
-                        </a>
-                    </li>
+                        <li id="nav_dealer_funds_ov">
+                            <a href="/BudgetCost/DealersBalance">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i><span class="menu-title" translate>Marketing Fund Summary (Overview)</span>
+                            </a>
+                        </li>
 
 
-                    <li id="nav_budget_cost">
-                        <a href="/BudgetCost/Index">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i><span class="menu-title" translate>Budget and Expense</span>
-                        </a>
-                    </li>
+                        <li id="nav_budget_cost">
+                            <a href="/BudgetCost/Index">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i><span class="menu-title" translate>Budget and Expense</span>
+                            </a>
+                        </li>
 
 
-                    <li id="nav_log">
-                        <a href="/Home/ManageLog">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i><span class="menu-title" translate>System Log</span>
-                        </a>
-                    </li>
+                        <li id="nav_log">
+                            <a href="/Home/ManageLog">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i><span class="menu-title" translate>System Log</span>
+                            </a>
+                        </li>
 
 
-                    <li id="nav_user">
-                        <a href="/Home/ManageUsers">
-                            <i class="fa fa-edit fa-fw">
-                                <div class="icon-bg bg-violet"></div>
-                            </i><span class="menu-title" translate>User Management</span>
-                        </a>
+                        <li id="nav_user">
+                            <a href="/Home/ManageUsers">
+                                <i class="fa fa-edit fa-fw">
+                                    <div class="icon-bg bg-violet"></div>
+                                </i><span class="menu-title" translate>User Management</span>
+                            </a>
 
-                    </li>
-
-
-                    <li id="nav_area">
-                        <a href="/Home/ManageArea">
-                            <i class="fa fa-th-list fa-fw">
-                                <div class="icon-bg bg-blue"></div>
-                            </i><span class="menu-title" translate>Area Management</span>
-                        </a>
-
-                    </li>
+                        </li>
 
 
-                    <li id="nav_dealer">
-                        <a href="/Home/ManageAgent">
-                            <i class="fa fa-database fa-fw">
-                                <div class="icon-bg bg-red"></div>
-                            </i><span class="menu-title" translate>Dealer Management</span>
-                        </a>
+                        <li id="nav_area">
+                            <a href="/Home/ManageArea">
+                                <i class="fa fa-th-list fa-fw">
+                                    <div class="icon-bg bg-blue"></div>
+                                </i><span class="menu-title" translate>Area Management</span>
+                            </a>
 
-                    </li>
+                        </li>
 
-                    <li id="nav_promotiontype">
-                        <a href="/Home/ManageActionType">
-                            <i class="fa fa-file-o fa-fw">
-                                <div class="icon-bg bg-yellow"></div>
-                            </i><span class="menu-title" translate>Event Type Management</span>
-                        </a>
 
-                    </li>
+                        <li id="nav_dealer">
+                            <a href="/Home/ManageAgent">
+                                <i class="fa fa-database fa-fw">
+                                    <div class="icon-bg bg-red"></div>
+                                </i><span class="menu-title" translate>Dealer Management</span>
+                            </a>
+
+                        </li>
+
+                        <li id="nav_promotiontype">
+                            <a href="/Home/ManageActionType">
+                                <i class="fa fa-file-o fa-fw">
+                                    <div class="icon-bg bg-yellow"></div>
+                                </i><span class="menu-title" translate>Event Type Management</span>
+                            </a>
+
+                        </li>*@
                 </ul>
             </div>
         </nav>
@@ -408,7 +411,7 @@
                 $(".print").removeClass("print");
                 $(".noprint").removeClass("noprint");
             };
-            
+
         });
     </script>
 
@@ -424,7 +427,7 @@
             }
 
             var ov = gettextCatalog.getString('Overview');
-            if (ov && $('.nav_name').length>=3) {
+            if (ov && $('.nav_name').length >= 3) {
                 $('.nav_name')[0].innerText = ov;
                 $('.nav_name')[1].innerText = ov;
                 $('.nav_name')[2].innerText = ov;
@@ -484,6 +487,11 @@
         //切换数据库
         //lipeng add 20181210
         $(function () {
+            var roleName = $('#G_RoleTypeCode').val();
+            if (roleName == "SYSADMIN") {
+                $('#nav_dealer_funds').show();
+            }
+
             $(".settingDb").on("click", function () {
                 var path = $(this).attr("data-path");
             });
@@ -536,16 +544,33 @@
                 })
             }
         });
-        
+
         function loadShops() {
             try {
                 var shops = $('#G_Shops').val();
                 shops = JSON.parse(shops);
-                
+
                 return shops;
             } catch (e) {
                 console.log(e);
             }
+        }
+
+
+        /*
+         取窗口可视范围的高度
+        */
+        function getClientHeight() {
+            var clientHeight = 0;
+            if (document.body.clientHeight && document.documentElement.clientHeight) {
+                //clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
+                clientHeight = document.documentElement.clientHeight;
+            }
+            else {
+                //clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
+                clientHeight = document.documentElement.clientHeight;
+            }
+            return clientHeight;
         }
     </script>
 

@@ -125,7 +125,7 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND A.EventTypeId =@EventTypeId";
             }
-            if (expenseAccountChk!=null)
+            if (expenseAccountChk.HasValue)
             {
                 sql += " AND A.ExpenseAccout = @ExpenseAccountChk";
             }

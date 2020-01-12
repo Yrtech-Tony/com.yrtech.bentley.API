@@ -26,7 +26,6 @@ namespace com.yrtech.bentley.DAL
         }
     
         public virtual DbSet<Area> Area { get; set; }
-        public virtual DbSet<MarketAction> MarketAction { get; set; }
         public virtual DbSet<MarketActionAfter7ActualProcess> MarketActionAfter7ActualProcess { get; set; }
         public virtual DbSet<MarketActionBefore21ActivityProcess> MarketActionBefore21ActivityProcess { get; set; }
         public virtual DbSet<MarketActionBefore3BugetDetail> MarketActionBefore3BugetDetail { get; set; }
@@ -51,5 +50,6 @@ namespace com.yrtech.bentley.DAL
         public virtual DbSet<ExpenseAccountFile> ExpenseAccountFile { get; set; }
         public virtual DbSet<MonthSale> MonthSale { get; set; }
         public virtual DbSet<ExpenseAccount> ExpenseAccount { get; set; }
+        public virtual DbSet<MarketAction> MarketAction { get; set; }
     }
 }

@@ -18,10 +18,10 @@ namespace com.yrtech.InventoryAPI.Service
             if (dmfItemNameEn == null) dmfItemNameEn = "";
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@DMFItemId", dmfItemId),
                                                     new SqlParameter("@DMFItemName", dmfItemName),
-                                                    new SqlParameter("@DMFItemNameEn", dmfItemNameEn),
-                                                     new SqlParameter("@ExpenseAccountChk", expenseAccountChk),
-                                                    new SqlParameter("@PublishChk", publishChk)};
+                                                    new SqlParameter("@DMFItemNameEn", dmfItemNameEn)};
+            
             Type t = typeof(DMFItem);
+            
             string sql = "";
              sql = @"SELECT A.* 
                     FROM DMFItem A 
@@ -40,10 +40,12 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (expenseAccountChk != null)
             {
+                para.Concat(new SqlParameter[] { new SqlParameter("@ExpenseAccountChk", expenseAccountChk) });
                 sql += " AND ExpenseAccountChk = @ExpenseAccountChk"; 
             }
             if (publishChk != null)
             {
+                para.Concat(new SqlParameter[] { new SqlParameter("@PublishChk", publishChk) });
                 sql += " AND PublishChk = @PublishChk";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<DMFItem>().ToList();

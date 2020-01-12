@@ -17,10 +17,15 @@ namespace com.yrtech.InventoryAPI.Service
         /// <returns></returns>
         public List<CommitFile> CommitFileSearch(string year)
         {
+            if (year == null) year = "";
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@Year", year) };
             Type t = typeof(CommitFile);
             string sql = @"SELECT * FROM CommitFile
-                            WHERE [Year] = @Year";
+                            WHERE 1=1 ";
+            if (!string.IsNullOrEmpty(year))
+            {
+                sql += " AND [Year] = @Year";
+            }
             return db.Database.SqlQuery(t, sql, para).Cast<CommitFile>().ToList();
         }
         public List<ShopCommitFileRecord> ShopCommitFileRecordSearch(string shopId, string fileId)

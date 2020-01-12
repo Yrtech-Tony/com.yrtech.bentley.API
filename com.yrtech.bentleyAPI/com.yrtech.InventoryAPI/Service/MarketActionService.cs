@@ -129,6 +129,7 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND A.ExpenseAccout = @ExpenseAccountChk";
             }
+            sql += " ORDER BY A.StartDate DESC";
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionDto>().ToList();
         }
         public List<MarketAction> MarketActionSearchById(string marketActionId)

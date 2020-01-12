@@ -880,11 +880,12 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region 总览
         [HttpGet]
         [Route("MarketAction/MarketActionStatusCountSearch")]
-        public APIResult MarketActionStatusCountSearch(string year)
+        public APIResult MarketActionStatusCountSearch(string year,string userId,string roleTypeCode)
         {
             try
             {
-                List<MarketActionStatusCountDto> marketActionStatusCountListDto = marketActionService.MarketActionStatusCountSearch(year);
+                
+                List<MarketActionStatusCountDto> marketActionStatusCountListDto = marketActionService.MarketActionStatusCountSearch(year,accountService.GetShopByRole(userId, roleTypeCode));
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionStatusCountListDto) };
             }
             catch (Exception ex)

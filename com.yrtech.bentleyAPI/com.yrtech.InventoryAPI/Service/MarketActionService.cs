@@ -868,7 +868,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region 总览
-        public List<MarketActionStatusCountDto> MarketActionStatusCountSearch(string year)
+        public List<MarketActionStatusCountDto> MarketActionStatusCountSearch(string year,List<Shop> roleTypeShop)
         {
             if (year == null) year = "";
 
@@ -912,6 +912,22 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND Year(A.StartDate) = @Year";
 
+            }
+            if (roleTypeShop != null && roleTypeShop.Count > 0)
+            {
+                sql += " AND A.ShopId IN( ";
+                foreach (Shop shop in roleTypeShop)
+                {
+                    if (roleTypeShop.IndexOf(shop) == roleTypeShop.Count - 1)
+                    {
+                        sql += shop.ShopId;
+                    }
+                    else
+                    {
+                        sql += shop.ShopId + ",";
+                    }
+                }
+                sql += ")";
             }
             sql += " ) B";
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionStatusCountDto>().ToList();

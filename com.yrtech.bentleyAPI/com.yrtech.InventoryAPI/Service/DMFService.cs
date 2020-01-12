@@ -16,6 +16,7 @@ namespace com.yrtech.InventoryAPI.Service
             if (dmfItemId == null) dmfItemId = "";
             if (dmfItemName == null) dmfItemName = "";
             if (dmfItemNameEn == null) dmfItemNameEn = "";
+<<<<<<< .mine
             SqlParameter[] para = new SqlParameter[] {
                 new SqlParameter("@DMFItemId", dmfItemId),
                 new SqlParameter("@DMFItemName", dmfItemName),
@@ -23,7 +24,17 @@ namespace com.yrtech.InventoryAPI.Service
                 new SqlParameter("@ExpenseAccountChk", expenseAccountChk.HasValue?expenseAccountChk.Value:false),
                 new SqlParameter("@PublishChk",  publishChk.HasValue?publishChk.Value:false)
             };
+=======
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@DMFItemId", dmfItemId),
+                                                    new SqlParameter("@DMFItemName", dmfItemName),
+                                                    new SqlParameter("@DMFItemNameEn", dmfItemNameEn)};
+            
+
+
+
+>>>>>>> .theirs
             Type t = typeof(DMFItem);
+            
             string sql = "";
             sql = @"SELECT A.* 
                     FROM DMFItem A 
@@ -42,10 +53,17 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (expenseAccountChk.HasValue)
             {
+<<<<<<< .mine
                 sql += " AND ExpenseAccountChk = @ExpenseAccountChk";
+
+=======
+                para.Concat(new SqlParameter[] { new SqlParameter("@ExpenseAccountChk", expenseAccountChk) });
+                sql += " AND ExpenseAccountChk = @ExpenseAccountChk"; 
+>>>>>>> .theirs
             }
             if (publishChk.HasValue)
             {
+                para.Concat(new SqlParameter[] { new SqlParameter("@PublishChk", publishChk) });
                 sql += " AND PublishChk = @PublishChk";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<DMFItem>().ToList();

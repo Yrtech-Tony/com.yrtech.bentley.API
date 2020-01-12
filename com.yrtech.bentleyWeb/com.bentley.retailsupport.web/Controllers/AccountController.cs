@@ -17,39 +17,24 @@ namespace com.bentley.retailsupport.web.Controllers
     {
         //
         // GET: /Account/
-        public ActionResult Login()
+        public ActionResult Login(string ReturnUrl)
         {
+            ViewBag.ReturnUrl = ReturnUrl;
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Login(string UserName, string Password)
+        public ActionResult AfterLogin(string loginUser)
         {
-            HttpClient client = new HttpClient();
-
-            Uri uri = new Uri("http://" + WebConfigurationManager.AppSettings["APIHost"]);
-            client.BaseAddress = uri;
-            //添加请求的头文件
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            //发送请求并接受返回的值
-            string loginApi = string.Format("bentley/api/Account/Login?accountId={0}&password={1}", UserName, Password);
-            HttpResponseMessage message = client.GetAsync(loginApi).Result;
-            string json = message.Content.ReadAsStringAsync().Result;
-            APIResult result = CommonHelper.DecodeString<APIResult>(json);
-            if (result.Status)
+            List<AccountDto> userList = CommonHelper.DecodeString<List<AccountDto>>(loginUser);
+            if (userList != null && userList.Count > 0)
             {
-                AccountDto loginUser = CommonHelper.DecodeString<List<AccountDto>>(result.Body)[0];
-                Session["LoginUser"] = loginUser;
-                FormsAuthentication.SetAuthCookie(loginUser.AccountId, false);
+                AccountDto user = userList[0];
+                Session["LoginUser"] = user;
+                FormsAuthentication.SetAuthCookie(user.AccountId, false);
             }
-            else
-            {
-                throw new Exception("登录失败！" + result.Body);
-            }
-
-
-            return this.Redirect("/Home/Index");
+            return Json("", JsonRequestBehavior.AllowGet);
         }
+
 
         public ActionResult Logout()
         {

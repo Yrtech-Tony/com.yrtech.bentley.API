@@ -57,7 +57,7 @@
                                         </div>
                                         <div class="widget-body" style="display: block;">
                                             <a class="btn btn-primary" href="/Marketing/Create" style="float:left"><i class="icon-plus icon-white"></i><span translate>Add</span></a>
-                                            <input class="form-control input-small m-wrap no-margin" style="width: 150px !important; margin-left:5px; margin-bottom: 10px; float: left" placeholder="{{'Event Name'|translate}}" id="pname" name="pname" onchange="NameQuery()" onkeypress="EnterPress(event)" onkeydown="EnterPress()" />
+                                            <input class="form-control input-small m-wrap no-margin" style="width: 150px !important; margin-left:5px; margin-bottom: 10px; float: left" placeholder="{{'Event Name'|translate}}" id="pname" name="pname" onchange="NameQuery()" onkeypress="EnterPress(event)"/>
                                             <select name="pyear" id="pyear" class="input-small m-wrap no-margin" style="margin-left:5px;" onchange="NameQuery()">
                                                 <option value="" translate>Year</option>
                                                 <option value="2017">2017</option>
@@ -134,14 +134,14 @@
         function NameQuery() {
             loadMarketings(true);
         }
-        
+
         function loadActiveStatuss() {
             $.commonGet("Master/HiddenCodeSearch", {
                 hiddenCodeGroup: "MarketActionStatus",
                 hiddenCode: ""
             }, function (data) {
                 data.forEach(function (item) {
-                    $("#pstate").append($("<option>").val(item.HiddenCodeId).text(localStorage.language == 'zh' ? item.HiddenCodeName : item.HiddenCodeNameEn))
+                    $("#pstate").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
                 });
             })
         }
@@ -153,27 +153,28 @@
                 eventTypeNameEn: ""
             }, function (data) {
                 data.forEach(function (item) {
-                    $("#ptype").append($("<option>").val(item.EventTypeId).text(localStorage.language == 'zh' ? item.EventTypeName : item.EventTypeNameEn))
+                    $("#ptype").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn))
                 });
             })
         }
-
+        var types = isZH() ? ['数字营销', '广告及宣传', '线上平台线索获取'] : ['Digital Marketing', 'Advertisement', 'Online Sales Leads Generation'];
         function statusFormatter(value, row, index, field) {
             if (row.MarketActionStatusNameEn == "Canceled") {
                 return '';
             }
+
             if (field == "Before3Days" || field == "TheDays") {
-                if (isZH())  {
-                    if (types.indexOf(row.EventTypeName)>=0) {
+                if (isZH()) {
+                    if (types.indexOf(row.EventTypeName) >= 0) {
                         return '';
-                    }  
+                    }
                 } else {
                     if (types.indexOf(row.EventTypeNameEn) >= 0) {
                         return '';
                     }
                 }
             }
-            
+
             var href = '/Marketing/' + field + "?id=" + row.MarketActionId;
             if (field == "After2Days") {
                 href += "&ShopName=" + (isZH() ? row.ShopName : row.ShopNameEn);
@@ -218,15 +219,15 @@
                 eventTypeId: $('#ptype').val() || ' ',
                 userId: $("#G_UserId").val(),
                 roleTypeCode: $("#G_RoleTypeCode").val(),
-                expenseAccountChk:''
+                expenseAccountChk: ''
             }, function (data) {
                 if (data) {
                     $('#myMarketing').bootstrapTable("load", data);
                 }
             });
         }
-        var types = isZH()? ['数字营销','广告及宣传','线上平台线索获取']:['Digital Marketing','Advertisement','Online Sales Leads Generation' ];
-        function initTable() {  
+       
+        function initTable() {
             var columns = [[{
                 title: $("#G_No").val(),
                 field: '',
@@ -382,15 +383,18 @@
 
             $("#myMarketing").bootstrapTable({
                 columns: columns,
-                data:[],
+                pagination: true,
+                striped: true, //是否显示行间隔色
+                height: getClientHeight() - 280 + 80,
+                showColumns: false, // 开启自定义列显示功能
                 pageNumber: 1,
                 pageSize: 20,
-                pagination: true
+                pageList: [5, 10, 20, 50]
             });
         }
 
         function refreshTable(data) {
-            $("#myMarketing").bootstrapTable("refreshOptions", {
+            $("#myMarketing").bootstrapTable("load", {
                 data: data
             });
         }
@@ -409,5 +413,6 @@
                 }
             })
         }
+
     </script>
 }

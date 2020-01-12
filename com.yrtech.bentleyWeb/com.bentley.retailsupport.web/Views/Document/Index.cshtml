@@ -104,16 +104,15 @@
             loadCommitFiles('', $("#pdealer").val());
         }
         
-        function loadCommitFiles(year,shopid) {
+        function loadCommitFiles(year, shopid) {
             var columns = [];
             var datas = [];
             $.commonGet("CommitFile/ShopCommitFileRecordStatusSearch", {
-                year: year || '2020',
+                year: '2019',
                 shopid: shopid || ' ',
                 userId: userId,
                 roleTypeCode: roleType
             }, function (data) {
-                console.log(data)
                 if (data) {
                     var firstHearder = [];
                     var secondHearder = [];
@@ -181,23 +180,23 @@
                             }
                         }
                     })
-
                     columns.push(firstHearder);
                     columns.push(secondHearder);
-                    console.log(columns)
-                    if (year) {
-                        $("#myPromotion").bootstrapTable("refreshOptions", {
-                            columns: columns,
-                            data: datas,
-                            pageSize: 20,
-                            pagination:true
+                    if (shopid) {
+                        $("#myPromotion").bootstrapTable("load", {
+                            data: datas
                         });
                     } else {
                         $("#myPromotion").bootstrapTable({
                             columns: columns,
                             data: datas,
+                            pagination: true,
+                            striped: true, //是否显示行间隔色
+                            height: getClientHeight() - 280 + 80,
+                            showColumns: false, // 开启自定义列显示功能
+                            pageNumber: 1,
                             pageSize: 20,
-                            pagination: true
+                            pageList: [5, 10, 20]
                         });
                     }
                 }

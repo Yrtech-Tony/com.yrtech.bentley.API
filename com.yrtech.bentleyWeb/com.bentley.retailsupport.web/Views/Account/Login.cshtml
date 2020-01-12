@@ -9,34 +9,113 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrapValidator/css/bootstrapValidator.min.css">
     <link rel="stylesheet" href="/Content/Login2.css">
+    <script src="/Scripts/Dark/jquery-1.10.2.min.js"></script>
+
+    <script src="/Scripts/bower_components/angular-1.6.4/angular.min.js"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/angular-gettext.min.js"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/po/zh.js?0315"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/po/en.js?0315"></script>
+    <script src="/Scripts/bower_components/LanguageCheck.js"></script>
+
+    <script src="/Scripts/jquery.jqprint-0.3.js"></script>
+    <script src="/Scripts/jquery-migrate-1.2.1.min.js"></script>
+    
+    <script src="~/Scripts/Dark/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+    <script src="~/Scripts/bootstrapValidator/js/language/zh_CN.js"></script>
+    <script src="~/Scripts/api/common.js"></script>
+    <script src="/Scripts/bower_components/layer/layer.js"></script>
+    <script>
+
+        var app = angular.module("MyApp", ['gettext']);
+        angular.module('MyApp').run(function (gettextCatalog) {
+            if (isZH()) {
+                gettextCatalog.currentLanguage = 'zh';
+            }
+            else {
+                gettextCatalog.currentLanguage = 'en';
+            }
+        });
+    </script>
+    <script>
+        
+        $(function () {
+            $("#UserName").popover({ content: "用户名不能为空", placement: "bottom", trigger: "manual" });
+            $("#Password").popover({ content: "密码不能为空", placement: "bottom", trigger: "manual" });
+        })
+        function login() {
+            if ($("#UserName").val().trim() == '') {
+                $("#UserName").popover("show");
+                setTimeout(function () { $("#UserName").popover("hide"); }, 1000);
+                return;
+            }
+            if ($("#Password").val() == '') {
+                $("#Password").popover("show");
+                setTimeout(function () { $("#Password").popover("hide"); }, 1000);
+                return;
+            }
+
+            $("#btnLogin").button('loading');
+            $.get(baseApi + "Account/Login", {
+                accountId: $("#UserName").val(),
+                password: $("#Password").val()
+            }, function (data) {
+                if (data && data.Status) {
+                    $.post("../Account/AfterLogin", { loginUser: data.Body }, function () {
+                        var returnUrl = $("#valueReturnUrl").val();
+                        if (!returnUrl || returnUrl == '/') {
+                            returnUrl = "/Home/Index";
+                        }
+                        location.href = returnUrl;
+                    }).complete(function () {
+                        $("#btnLogin").button('reset');
+                    });
+                } else {
+                    $("#errorMessage").text(data.Body);
+                    $("#btnLogin").button('reset');                      
+                }
+            }).error(function (jqXHR, textStatus, errorThrown) {                  
+                $("#btnLogin").button('reset');
+            })
+                
+        }
+
+        function EnterPress(e) { //传入 event
+            var e = e || window.event;
+            if (e.keyCode == 13) { //13代表回车符
+                $("#btnLogin").click();
+            }
+        }
+    </script>
 </head>
 <body class="pushCanvas">
+    <input type="hidden" id="valueReturnUrl" value="@ViewBag.ReturnUrl" />
     <section class="loginWrap">
         <div class="loginBox">
             <h1 id="bentleyLogo">Bentley Dealer Marketing News</h1>
             <h2 id="dmn_subtitle"><a href="#">RETAILER ACTIVITY ONLINE MANAGEMENT SYSTEM</a></h2>
-            <form action="/Account/Login" class="lgoinForm" method="post" role="form">
+            <form id="lgoinForm" class="lgoinForm">
                 <div class="formItem">
                     <label for="UserName">USERNAME</label>
-                    <input class="dmn-login" data-val="true" data-val-required="The User Name field is required." id="UserName" name="UserName" type="text" value="" />
+                    <input class="dmn-login" id="UserName" name="UserName" type="text" onkeypress="EnterPress(event)" />
                 </div>
                 <div class="formItem">
                     <label for="Password">PASSWORD</label>
-
-                    <input class="dmn-login" data-val="true" data-val-required="The Password field is required." id="Password" name="Password" type="password" />
+                    <input class="dmn-login" id="Password" name="Password" type="password" onkeypress="EnterPress(event)" />
                 </div>
                 <div class="formItem">
                     <div class="col-lg-12" align="left">
-                        <div class="col-lg-9">
-                            <span style="color:red"></span>
-                        </div>
+                        <span style="color:red" id="errorMessage"></span>
                     </div>
                 </div>
-                <button type="submit">LOG IN</button>
+                <button id="btnLogin" onclick="login()">LOG IN</button>
             </form>
         </div>
     </section>
+
+
 </body>
 
 </html>

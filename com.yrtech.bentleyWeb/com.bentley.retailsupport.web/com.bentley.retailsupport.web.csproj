@@ -390,7 +390,6 @@
     <Content Include="Views\Marketing\After1Months.cshtml" />
     <Content Include="Views\Marketing\After7Days.cshtml" />
     <Content Include="Views\Marketing\After3Months.cshtml" />
-    <Content Include="线索报告.xlsx" />
     <Content Include="Views\DMF\DMFItem.cshtml" />
     <Content Include="Views\DMF\ExpenseAccount.cshtml" />
   </ItemGroup>

@@ -109,11 +109,11 @@ namespace com.bentley.retailsupport.web.Controllers
                 // 是否线索
                 sheet.GetCell("H" + (rowIndex + 21)).Value = item.LeadsCheckName;
                 //感兴趣车型
-                sheet.GetCell("I" + (rowIndex + 2)).Value = item.InterestedModel;
+                sheet.GetCell("I" + (rowIndex + 2)).Value = item.InterestedModelName;
                 //是否成交
                 sheet.GetCell("J" + (rowIndex + 2)).Value = item.DealCheckName;
                 // 成交车型
-                sheet.GetCell("K" + (rowIndex + 2)).Value = item.DealModel;
+                sheet.GetCell("K" + (rowIndex + 2)).Value = item.DealModelName;
                 rowIndex++;
             }
 

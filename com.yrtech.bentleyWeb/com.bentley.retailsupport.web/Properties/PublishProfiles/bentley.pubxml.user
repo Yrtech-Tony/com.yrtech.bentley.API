@@ -13,7 +13,7 @@
       <publishTime>12/28/2019 13:44:22</publishTime>
     </File>
     <File Include="bin/com.bentley.retailsupport.web.dll">
-      <publishTime>01/01/2020 23:39:37</publishTime>
+      <publishTime>01/10/2020 22:45:03</publishTime>
     </File>
     <File Include="bin/Infragistics3.Documents.Excel.v11.1.dll">
       <publishTime>06/25/2017 16:34:19</publishTime>
@@ -193,13 +193,13 @@
       <publishTime>12/30/2019 20:30:31</publishTime>
     </File>
     <File Include="Home/CueReport.html">
-      <publishTime>12/30/2019 20:30:31</publishTime>
+      <publishTime>01/03/2020 08:36:26</publishTime>
     </File>
     <File Include="Home/DealersBalance.html">
       <publishTime>12/30/2019 20:30:31</publishTime>
     </File>
     <File Include="Home/IncomeCost.html">
-      <publishTime>12/30/2019 20:30:31</publishTime>
+      <publishTime>01/10/2020 22:30:14</publishTime>
     </File>
     <File Include="Home/Index.html">
       <publishTime>12/28/2019 13:44:22</publishTime>
@@ -222,6 +222,9 @@
     <File Include="Home/PromotionEdit3.html">
       <publishTime>01/01/2020 23:23:45</publishTime>
     </File>
+    <File Include="Home/PromotionEdit4.html">
+      <publishTime>01/10/2020 22:30:14</publishTime>
+    </File>
     <File Include="Home/PromotionReport.html">
       <publishTime>12/29/2019 14:10:49</publishTime>
     </File>
@@ -238,10 +241,10 @@
       <publishTime>12/28/2019 13:44:22</publishTime>
     </File>
     <File Include="Scripts/api/common.js">
-      <publishTime>12/30/2019 20:30:31</publishTime>
+      <publishTime>01/05/2020 23:15:24</publishTime>
     </File>
     <File Include="Scripts/bootstrap-fileinput/js/bootstrap-fileinput.js">
-      <publishTime>12/28/2019 13:44:22</publishTime>
+      <publishTime>01/10/2020 22:30:14</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select/css/bootstrap-select.min.css">
       <publishTime>12/28/2019 13:44:22</publishTime>
@@ -324,11 +327,23 @@
     <File Include="Scripts/bower_components/layer/skin/default/layer.css">
       <publishTime>12/28/2019 13:44:22</publishTime>
     </File>
+    <File Include="Scripts/bower_components/layer/skin/default/loading-1.gif">
+      <publishTime>01/02/2020 23:19:42</publishTime>
+    </File>
+    <File Include="Scripts/curtom/CueReport.js">
+      <publishTime>01/09/2020 00:10:19</publishTime>
+    </File>
+    <File Include="Scripts/curtom/IncomeCost.js">
+      <publishTime>01/10/2020 22:30:14</publishTime>
+    </File>
+    <File Include="Scripts/curtom/MarketFund.js">
+      <publishTime>01/09/2020 00:10:19</publishTime>
+    </File>
     <File Include="Scripts/curtom/PromotionCreate.js">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/09/2020 00:10:19</publishTime>
     </File>
     <File Include="Scripts/curtom/PromotionEdit.js">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/10/2020 22:30:14</publishTime>
     </File>
     <File Include="Scripts/Dark/bootstrap-hover-dropdown.js">
       <publishTime>12/28/2019 13:44:22</publishTime>
@@ -732,8 +747,11 @@
     <File Include="Scripts/respond.min.js">
       <publishTime>12/28/2019 13:44:22</publishTime>
     </File>
+    <File Include="Scripts/xlsx.core.min.js">
+      <publishTime>01/05/2020 22:52:52</publishTime>
+    </File>
     <File Include="Scripts/_references.js">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/10/2020 22:30:14</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
       <publishTime>12/28/2019 13:44:22</publishTime>
@@ -741,35 +759,53 @@
     <File Include="Views/Account/ResetPassword.cshtml">
       <publishTime>01/01/2020 18:38:31</publishTime>
     </File>
+    <File Include="Views/DMF/DMFItem.cshtml">
+      <publishTime>01/10/2020 22:30:14</publishTime>
+    </File>
+    <File Include="Views/DMF/ExpenseAccount.cshtml">
+      <publishTime>01/10/2020 22:30:14</publishTime>
+    </File>
     <File Include="Views/Document/DocList.cshtml">
-      <publishTime>01/01/2020 18:38:31</publishTime>
+      <publishTime>01/05/2020 22:52:52</publishTime>
     </File>
     <File Include="Views/Document/Index.cshtml">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/10/2020 22:34:18</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>01/01/2020 18:38:31</publishTime>
     </File>
+    <File Include="Views/Marketing/After1Months.cshtml">
+      <publishTime>01/04/2020 20:29:21</publishTime>
+    </File>
+    <File Include="Views/Marketing/After2Days.cshtml">
+      <publishTime>01/09/2020 00:10:19</publishTime>
+    </File>
+    <File Include="Views/Marketing/After3Months.cshtml">
+      <publishTime>01/05/2020 22:52:52</publishTime>
+    </File>
+    <File Include="Views/Marketing/After7Days.cshtml">
+      <publishTime>01/10/2020 22:30:14</publishTime>
+    </File>
     <File Include="Views/Marketing/Before3Days.cshtml">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/10/2020 22:30:14</publishTime>
     </File>
     <File Include="Views/Marketing/Before3Weeks.cshtml">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/10/2020 22:30:14</publishTime>
     </File>
     <File Include="Views/Marketing/Create.cshtml">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/09/2020 00:10:19</publishTime>
     </File>
     <File Include="Views/Marketing/Index.cshtml">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/10/2020 22:30:14</publishTime>
     </File>
     <File Include="Views/Marketing/TheDays.cshtml">
-      <publishTime>01/01/2020 21:22:40</publishTime>
+      <publishTime>01/05/2020 22:52:52</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>12/28/2019 13:44:22</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/01/2020 23:23:45</publishTime>
+      <publishTime>01/10/2020 22:30:14</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>12/28/2019 13:44:22</publishTime>

@@ -156,7 +156,42 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
+        [HttpGet]
+        [Route("MarketAction/MarketActionExportSearch")]
+        public APIResult MarketActionExportSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk, string userId, string roleTypeCode)
+        {
+            try
+            {
+                MarketActionExportDto exportDto = new MarketActionExportDto();
+                List<MarketActionDto> marketActionListTemp = marketActionService.MarketActionSearch(actionName, year, month, marketActionStatusCode, shopId, eventTypeId, expenseAccountChk);
+                List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+                List<MarketActionDto> marketActionList = new List<MarketActionDto>();
 
+                foreach (MarketActionDto marketActionDto in marketActionListTemp)
+                {
+                    foreach (Shop shop in roleTypeShopList)
+                    {
+                        if (marketActionDto.ShopId == shop.ShopId)
+                        {
+                            marketActionList.Add(marketActionDto);
+                        }
+                    }
+                }
+                exportDto.MarketActionList = marketActionList;
+                if (marketActionList != null && marketActionList.Count > 0)
+                {
+                    exportDto.MaketActionBefore21List = marketActionService.MarketActionBefore21Search(marketActionList[0].MarketActionId.ToString());
+                    exportDto.MarketActionAfter7List = marketActionService.MarketActionAfter7Search(marketActionList[0].MarketActionId.ToString());
+                    exportDto.LeadsCount = marketActionService.MarketActionLeadsCountSearch(marketActionList[0].MarketActionId.ToString());
+
+                }
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(exportDto) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
         [HttpPost]
         [Route("MarketAction/MarketActionSave")]
         public APIResult MarketActionSave(MarketAction marketAction)

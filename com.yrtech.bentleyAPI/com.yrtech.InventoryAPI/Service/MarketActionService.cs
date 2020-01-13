@@ -605,14 +605,14 @@ namespace com.yrtech.InventoryAPI.Service
             string sql = "";
             sql += @"SELECT * FROM
                     (SELECT
-                            ISNULL(SUM(CASE WHEN OwnerCheck= 1 THEN 1 ELSE 0 END),0) AS LeadOwnerCount,
-                            ISNULL(SUM(CASE WHEN OwnerCheck <> 1 THEN 1 ELSE 0 END), 0) AS LeadPCCount,
+                            ISNULL(SUM(CASE WHEN OwnerCheck= 1 AND LeadsCheck = 1 THEN 1 ELSE 0 END),0) AS LeadOwnerCount,
+                            ISNULL(SUM(CASE WHEN OwnerCheck <> 1 LeadsCheck = 1 THEN 1 ELSE 0 END), 0) AS LeadPCCount,
                             ISNULL(SUM(CASE WHEN OwnerCheck = 1 AND TestDriverCheck = 1 THEN 1 ELSE 0 END), 0) AS TestDriverOwnerCount,
                             ISNULL(SUM(CASE WHEN OwnerCheck <> 1 AND TestDriverCheck = 1 THEN 1 ELSE 0 END), 0) AS TestDriverPCCount,
                             ISNULL(SUM(CASE WHEN OwnerCheck = 1 AND DealCheck = 1 THEN 1 ELSE 0 END), 0) AS ActualOrderOwnerCount,
                             ISNULL(SUM(CASE WHEN OwnerCheck <> 1 AND DealCheck = 1 THEN 1 ELSE 0 END), 0) AS ActualOrderPCCount
                     FROM MarketActionAfter2LeadsReport A 
-                    WHERE LeadsCheck = 1 AND A.MarketActionId = @MarketActionId) X INNER JOIN 
+                    WHERE   A.MarketActionId = @MarketActionId) X INNER JOIN 
                     (SELECT ISNULL(SUM(ISNULL(UnitPrice,0)*ISNULL(Counts,0)),0) AS ExpenseTotalAmt 
                     FROM MarketActionAfter7ActualExpense A WHERE A.MarketActionId = @MarketActionId) Y ON 1=1";
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionLeadsCountDto>().ToList();

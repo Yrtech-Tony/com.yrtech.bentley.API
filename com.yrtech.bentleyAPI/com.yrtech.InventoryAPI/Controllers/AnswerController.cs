@@ -204,6 +204,13 @@ namespace com.yrtech.SurveyAPI.Controllers
                     {
                         exportDto.MaketActionBefore21 = before21[0];
                     }
+                    decimal? actualExpenseSum = 0;
+                    List<MarketActionAfter7ActualExpenseDto> expenseList = marketActionService.MarketActionAfter7ActualExpenseSearch(marketActiondto.MarketActionId.ToString());
+                     foreach (MarketActionAfter7ActualExpenseDto expenseDto in expenseList)
+                    { 
+                        actualExpenseSum += expenseDto.Total;
+                    }
+                    exportDto.ActualExpenseSum = actualExpenseSum;
                     List<MarketActionAfter7> after7 = marketActionService.MarketActionAfter7Search(marketActiondto.MarketActionId.ToString());
                     if (after7 != null && after7.Count > 0)
                     {

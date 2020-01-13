@@ -28,6 +28,7 @@ namespace com.yrtech.InventoryAPI.DTO
         public string ActionPlace { get; set; }
         public Nullable<bool> ExpenseAccount { get; set; }
        public MarketActionBefore21 MaketActionBefore21{ get; set; }
+        public decimal? ActualExpenseSum { get; set; }
 
        public MarketActionAfter7  MarketActionAfter7 { get; set; }
        public MarketActionLeadsCountDto LeadsCount { get; set; }

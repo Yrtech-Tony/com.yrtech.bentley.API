@@ -27,10 +27,11 @@ namespace com.yrtech.InventoryAPI.DTO
         public Nullable<System.DateTime> EndDate { get; set; }
         public string ActionPlace { get; set; }
         public Nullable<bool> ExpenseAccount { get; set; }
-       public MarketActionBefore21 MaketActionBefore21{ get; set; }
+       public MarketActionBefore21 MarketActionBefore21{ get; set; }
 
        public MarketActionAfter7  MarketActionAfter7 { get; set; }
-       public MarketActionLeadsCountDto LeadsCount { get; set; }
+        public decimal? ActualExpenseSum { get; set; }
+        public MarketActionLeadsCountDto LeadsCount { get; set; }
 
 
 

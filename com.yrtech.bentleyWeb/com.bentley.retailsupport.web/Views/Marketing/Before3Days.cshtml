@@ -205,56 +205,22 @@
         $("#nav_promotion").addClass("active");
 
         var id = '@ViewBag.Id';
-        if (id) {
-            $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
-                if (data && data.length > 0) {
-                    data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
-                    data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
-                    $('#PromotionCreate').setForm(data[0]);
-                }
-            });
-
-            $.commonGet("MarketAction/MarketActionBefore3Search", { marketActionId: id }, function (data) {
-                if (data) {                    
-                    $('#ActivityBudgetTable').bootstrapTable("load", data.BugetDetailListDto);
-                    $('#DisplayModelsTable').bootstrapTable("load", data.DisplayModelList);
-                    $('#TestDriveTable').bootstrapTable("load", data.TestDriverList);
-
-                    if (data.BugetDetailListDto) {
-                        data.ActualExpenseDto.forEach(function (item) {
-                            if (item.SeqNO > maxActivityBudgetSeqNO) {
-                                maxActivityBudgetSeqNO = item.SeqNO;
-                            }
-                        });
-                    }
-                    if (data.DisplayModelList) {
-                        data.DisplayModelList.forEach(function (item) {
-                            if (item.SeqNO > maxDisplayModelsSeqNO) {
-                                maxDisplayModelsSeqNO = item.SeqNO;
-                            }
-                        })
-                    }
-                    if (data.TestDriverList) {
-                        data.TestDriverList.forEach(function (item) {
-                            if (item.SeqNO > maxTestDriveSeqNO) {
-                                maxTestDriveSeqNO = item.SeqNO;
-                            }
-                        })
-                    }
-
-                    $("#ActivityBudgetSum").html(dealNumber(parseFloat(data.BugetDetailSumAmt)));
-                }
-            });
-        }
+       
         $(function () {
             loadShops().forEach(function (item) {
                 var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
                 $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
             });
-
+            //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
+            $.ajaxSetup({
+                async: false
+            });
             loadActiveStatuss();
             loadTargetModels();
             loadEventTypes();
+            $.ajaxSetup({
+                async: true
+            });
 
             InitActivityBudgetTable();
             InitTestDriverTable();
@@ -267,6 +233,49 @@
             }
             else {
                 $('#VisualStatus').prop("disabled", true);
+            }
+
+            if (id) {
+                $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
+                    if (data && data.length > 0) {
+                        data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
+                        data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
+                        $('#PromotionCreate').setForm(data[0]);
+                        $("select").selectpicker("refresh");
+                    }
+                });
+
+                $.commonGet("MarketAction/MarketActionBefore3Search", { marketActionId: id }, function (data) {
+                    if (data) {
+                        $('#ActivityBudgetTable').bootstrapTable("load", data.BugetDetailListDto);
+                        $('#DisplayModelsTable').bootstrapTable("load", data.DisplayModelList);
+                        $('#TestDriveTable').bootstrapTable("load", data.TestDriverList);
+
+                        if (data.BugetDetailListDto) {
+                            data.BugetDetailListDto.forEach(function (item) {
+                                if (item.SeqNO > maxActivityBudgetSeqNO) {
+                                    maxActivityBudgetSeqNO = item.SeqNO;
+                                }
+                            });
+                        }
+                        if (data.DisplayModelList) {
+                            data.DisplayModelList.forEach(function (item) {
+                                if (item.SeqNO > maxDisplayModelsSeqNO) {
+                                    maxDisplayModelsSeqNO = item.SeqNO;
+                                }
+                            })
+                        }
+                        if (data.TestDriverList) {
+                            data.TestDriverList.forEach(function (item) {
+                                if (item.SeqNO > maxTestDriveSeqNO) {
+                                    maxTestDriveSeqNO = item.SeqNO;
+                                }
+                            })
+                        }
+
+                        $("#ActivityBudgetSum").html(dealNumber(parseFloat(data.BugetDetailSumAmt)));
+                    }
+                });
             }
         });
 

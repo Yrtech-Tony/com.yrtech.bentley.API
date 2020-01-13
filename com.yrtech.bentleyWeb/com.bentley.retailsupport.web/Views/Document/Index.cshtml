@@ -119,7 +119,7 @@
                     var secondHearder = [];
                     firstHearder.push({
                         title: $("#G_Dealer").val(),
-                        field: localStorage.language == 'en' ? 'ShopNameEn' : 'ShopName',
+                        field: isZH() ? 'ShopName' : 'ShopNameEn',
                         align: 'center',
                         valign: 'middle',
                         rowspan: 2,
@@ -196,6 +196,14 @@
                         $("#myPromotion").bootstrapTable({
                             columns: columns,
                             data: datas,
+                            pagination: true,
+                            striped: true, //是否显示行间隔色
+                            height: getClientHeight() - 280 + 80,
+                            showColumns: false, // 开启自定义列显示功能
+                            sortable: true,
+                            sortName: isZH() ? 'ShopName' : 'ShopNameEn',
+                            sortOrder: 'asc',
+                            pageNumber: 1,
                             pageSize: 20,
                             pagination: true
                         });

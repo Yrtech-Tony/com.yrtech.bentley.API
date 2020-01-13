@@ -5,12 +5,16 @@ function InitActivityFlowTable() {
     $('#ActivityFlowTable').bootstrapTable({
         pagination: true,
         striped: true, //是否显示行间隔色
+        sortable: true,
+        sortName: 'ActivityDateTime',
+        sortOrder: 'desc',
         columns: [
         {
             title: $('#TTime').val(),
             field: 'ActivityDateTime',
             valign: "left",
             align: "left",
+            sortable: true,
             editable: {
                 type: 'text',
                 title: '',

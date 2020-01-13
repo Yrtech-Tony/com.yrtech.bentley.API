@@ -787,88 +787,7 @@
 
         var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
         var id = '@ViewBag.Id';
-        if (id) {
-            $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
-                if (data && data.length > 0) {
-                    data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
-                    data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
-                    $('#PromotionCreate').setForm(data[0]);
-                    $("#MarketActionTargetModelCode").val(data[0].MarketActionTargetModelCode);
-                    $("#MarketActionTargetModelCode").selectpicker("refresh");
-                }
-            });
-           
-            $.commonGet("MarketAction/MarketActionAfter7Search", { marketActionId: id }, function (data) {
-                if (data) {
-                    var marketActionAfter7 = data.MarketActionAfter7;
-                                       
-                    $('#ActualCostTable').bootstrapTable("load", data.ActualExpenseDto);
-                    $('#ActivityFlow2Table').bootstrapTable("load", data.ActualProcess);
-                    
-                    if (data.ActualExpenseDto) {
-                        data.ActualExpenseDto.forEach(function (item) {
-                            if (item.SeqNO > maxActualCostSeqNo) {
-                                maxActualCostSeqNo = item.SeqNO;
-                            }
-                        });
-                    }
-                    if (data.ActualProcess) {
-                        data.ActualProcess.forEach(function (item) {
-                            if (item.SeqNO > maxActualActivitySeqNo) {
-                                maxActualActivitySeqNo = item.SeqNO;
-                            }
-                        })
-                    }
-                    // 从线索查询出来不需要填写的字段
-                    for(var pro in data.LeadsCount){
-                        $("#"+pro).html(data.LeadsCount[pro]);
-                    }
-                    $("#ExpenseTotalAmt").html(dealNumber(parseFloat(data.LeadsCount.ExpenseTotalAmt)));
-
-                    if (marketActionAfter7) {
-                        $('#PromotionCreate2').setForm(marketActionAfter7);
-                        
-                        
-                        //线上广告
-                        $('#OnLineAdPic01').fileinputInit(marketActionAfter7.OnLineAdPic01);
-                        $('#OnLineAdPic02').fileinputInit(marketActionAfter7.OnLineAdPic02);
-                        $('#OnLineAdPic03').fileinputInit(marketActionAfter7.OnLineAdPic03);
-                        $('#OnLineAdPic04').fileinputInit(marketActionAfter7.OnLineAdPic04);
-
-                        //展车/展示
-                        $('#CarDisplayPic01').fileinputInit(marketActionAfter7.CarDisplayPic01);
-                        $('#CarDisplayPic02').fileinputInit(marketActionAfter7.CarDisplayPic02);
-                        $('#CarDisplayPic03').fileinputInit(marketActionAfter7.CarDisplayPic03);
-                        $('#CarDisplayPic04').fileinputInit(marketActionAfter7.CarDisplayPic04);
-
-                        //展具/场地
-                        $('#PlacePic01').fileinputInit(marketActionAfter7.PlacePic01);
-                        $('#PlacePic02').fileinputInit(marketActionAfter7.PlacePic02);
-                        $('#PlacePic03').fileinputInit(marketActionAfter7.PlacePic03);
-                        $('#PlacePic04').fileinputInit(marketActionAfter7.PlacePic04)
-
-                        //互动（签到，表演）
-                        $('#RegisterLiveShowPic01').fileinputInit(marketActionAfter7.RegisterLiveShowPic01);
-                        $('#RegisterLiveShowPic02').fileinputInit(marketActionAfter7.RegisterLiveShowPic02);
-                        $('#RegisterLiveShowPic03').fileinputInit(marketActionAfter7.RegisterLiveShowPic03);
-                        $('#RegisterLiveShowPic04').fileinputInit(marketActionAfter7.RegisterLiveShowPic04);
-
-                        //人员（客户，员工，礼仪）
-                        $('#CustomerStaffModelPic01').fileinputInit(marketActionAfter7.CustomerStaffModelPic01);
-                        $('#CustomerStaffModelPic02').fileinputInit(marketActionAfter7.CustomerStaffModelPic02);
-                        $('#CustomerStaffModelPic03').fileinputInit(marketActionAfter7.CustomerStaffModelPic03);
-                        $('#CustomerStaffModelPic04').fileinputInit(marketActionAfter7.CustomerStaffModelPic04);
-
-                        //其他
-                        $('#OthersPic01').fileinputInit(marketActionAfter7.OthersPic01);
-                        $('#OthersPic02').fileinputInit(marketActionAfter7.OthersPic02);
-                        $('#OthersPic03').fileinputInit(marketActionAfter7.OthersPic03);
-                        $('#OthersPic04').fileinputInit(marketActionAfter7.OthersPic04);
-                    }                    
-
-                }
-            });
-        }
+        
 
         $(function () {
             loadShops().forEach(function (item) {
@@ -876,9 +795,16 @@
                 $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
             });
 
+            //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
+            $.ajaxSetup({
+                async: false
+            });
             loadActiveStatuss();
             loadTargetModels();
             loadEventTypes();
+            $.ajaxSetup({
+                async: true
+            });
 
             InitActualCost();
             InitActualActivityProcess();
@@ -891,6 +817,89 @@
             }
             else {
                 $('#VisualStatus').prop("disabled", true);
+            }
+
+            if (id) {
+                $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
+                    if (data && data.length > 0) {
+                        data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
+                        data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
+                        $('#PromotionCreate').setForm(data[0]);
+                        $("#MarketActionTargetModelCode").val(data[0].MarketActionTargetModelCode);
+                        $("select").selectpicker("refresh");
+                    }
+                });
+
+                $.commonGet("MarketAction/MarketActionAfter7Search", { marketActionId: id }, function (data) {
+                    if (data) {
+                        var marketActionAfter7 = data.MarketActionAfter7;
+
+                        $('#ActualCostTable').bootstrapTable("load", data.ActualExpenseDto);
+                        $('#ActivityFlow2Table').bootstrapTable("load", data.ActualProcess);
+
+                        if (data.ActualExpenseDto) {
+                            data.ActualExpenseDto.forEach(function (item) {
+                                if (item.SeqNO > maxActualCostSeqNo) {
+                                    maxActualCostSeqNo = item.SeqNO;
+                                }
+                            });
+                        }
+                        if (data.ActualProcess) {
+                            data.ActualProcess.forEach(function (item) {
+                                if (item.SeqNO > maxActualActivitySeqNo) {
+                                    maxActualActivitySeqNo = item.SeqNO;
+                                }
+                            })
+                        }
+                        // 从线索查询出来不需要填写的字段
+                        for (var pro in data.LeadsCount) {
+                            $("#" + pro).html(data.LeadsCount[pro]);
+                        }
+                        $("#ExpenseTotalAmt").html(dealNumber(parseFloat(data.LeadsCount.ExpenseTotalAmt)));
+
+                        if (marketActionAfter7) {
+                            $('#PromotionCreate2').setForm(marketActionAfter7);
+
+
+                            //线上广告
+                            $('#OnLineAdPic01').fileinputInit(marketActionAfter7.OnLineAdPic01);
+                            $('#OnLineAdPic02').fileinputInit(marketActionAfter7.OnLineAdPic02);
+                            $('#OnLineAdPic03').fileinputInit(marketActionAfter7.OnLineAdPic03);
+                            $('#OnLineAdPic04').fileinputInit(marketActionAfter7.OnLineAdPic04);
+
+                            //展车/展示
+                            $('#CarDisplayPic01').fileinputInit(marketActionAfter7.CarDisplayPic01);
+                            $('#CarDisplayPic02').fileinputInit(marketActionAfter7.CarDisplayPic02);
+                            $('#CarDisplayPic03').fileinputInit(marketActionAfter7.CarDisplayPic03);
+                            $('#CarDisplayPic04').fileinputInit(marketActionAfter7.CarDisplayPic04);
+
+                            //展具/场地
+                            $('#PlacePic01').fileinputInit(marketActionAfter7.PlacePic01);
+                            $('#PlacePic02').fileinputInit(marketActionAfter7.PlacePic02);
+                            $('#PlacePic03').fileinputInit(marketActionAfter7.PlacePic03);
+                            $('#PlacePic04').fileinputInit(marketActionAfter7.PlacePic04)
+
+                            //互动（签到，表演）
+                            $('#RegisterLiveShowPic01').fileinputInit(marketActionAfter7.RegisterLiveShowPic01);
+                            $('#RegisterLiveShowPic02').fileinputInit(marketActionAfter7.RegisterLiveShowPic02);
+                            $('#RegisterLiveShowPic03').fileinputInit(marketActionAfter7.RegisterLiveShowPic03);
+                            $('#RegisterLiveShowPic04').fileinputInit(marketActionAfter7.RegisterLiveShowPic04);
+
+                            //人员（客户，员工，礼仪）
+                            $('#CustomerStaffModelPic01').fileinputInit(marketActionAfter7.CustomerStaffModelPic01);
+                            $('#CustomerStaffModelPic02').fileinputInit(marketActionAfter7.CustomerStaffModelPic02);
+                            $('#CustomerStaffModelPic03').fileinputInit(marketActionAfter7.CustomerStaffModelPic03);
+                            $('#CustomerStaffModelPic04').fileinputInit(marketActionAfter7.CustomerStaffModelPic04);
+
+                            //其他
+                            $('#OthersPic01').fileinputInit(marketActionAfter7.OthersPic01);
+                            $('#OthersPic02').fileinputInit(marketActionAfter7.OthersPic02);
+                            $('#OthersPic03').fileinputInit(marketActionAfter7.OthersPic03);
+                            $('#OthersPic04').fileinputInit(marketActionAfter7.OthersPic04);
+                        }
+
+                    }
+                });
             }
         });
 

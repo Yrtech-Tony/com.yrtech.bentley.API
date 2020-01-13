@@ -108,7 +108,7 @@ namespace com.yrtech.InventoryAPI.Service
             string sql = "";
             sql = @"SELECT A.*,B.HiddenCodeName AS EventModeName,B.HiddenCodeNameEn AS EventModeNameEn,C.AreaCode,C.AreaName,C.AreaNameEn 
                     FROM EventType A INNER JOIN HiddenCode B ON A.EventMode = B.HiddenCodeId AND B.HiddenCodeGroup = 'EventMode' 
-                                     INNER JOIN Area C ON A.AreaId = C.AreaId
+                                     LEFT JOIN Area C ON A.AreaId = C.AreaId
                     WHERE 1=1";
             if (!string.IsNullOrEmpty(eventTypeId))
             {

@@ -104,15 +104,16 @@
             loadCommitFiles('', $("#pdealer").val());
         }
         
-        function loadCommitFiles(year, shopid) {
+        function loadCommitFiles(year,shopid) {
             var columns = [];
             var datas = [];
             $.commonGet("CommitFile/ShopCommitFileRecordStatusSearch", {
-                year: '2019',
+                year: year || '2019',
                 shopid: shopid || ' ',
                 userId: userId,
                 roleTypeCode: roleType
             }, function (data) {
+                console.log(data)
                 if (data) {
                     var firstHearder = [];
                     var secondHearder = [];
@@ -180,11 +181,16 @@
                             }
                         }
                     })
+
                     columns.push(firstHearder);
                     columns.push(secondHearder);
-                    if (shopid) {
-                        $("#myPromotion").bootstrapTable("load", {
-                            data: datas
+                    console.log(columns)
+                    if (year) {
+                        $("#myPromotion").bootstrapTable("refreshOptions", {
+                            columns: columns,
+                            data: datas,
+                            pageSize: 20,
+                            pagination:true
                         });
                     } else {
                         $("#myPromotion").bootstrapTable({
@@ -199,7 +205,7 @@
                             sortOrder: 'asc',
                             pageNumber: 1,
                             pageSize: 20,
-                            pageList: [5, 10, 20]
+                            pagination: true
                         });
                     }
                 }

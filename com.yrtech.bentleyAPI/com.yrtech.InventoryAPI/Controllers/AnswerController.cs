@@ -114,7 +114,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region MarketAction
         [HttpGet]
         [Route("MarketAction/MarketActionSearch")]
-        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk,string userId, string roleTypeCode)
+        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk, string userId, string roleTypeCode)
         {
             try
             {
@@ -156,7 +156,23 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
+        [HttpGet]
+        [Route("MarketAction/MarketActionExport")]
+        public APIResult MarketActionExportSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk, string userId, string roleTypeCode)
+        {
+            try
+            {
+                ExcelDataService excelDataService = new ExcelDataService();
+                string filePath = excelDataService.MarketActionExport(actionName,year, month, marketActionStatusCode, shopId, eventTypeId, expenseAccountChk, userId, roleTypeCode);
 
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
+
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
         [HttpPost]
         [Route("MarketAction/MarketActionSave")]
         public APIResult MarketActionSave(MarketAction marketAction)
@@ -198,7 +214,7 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 ExcelDataService excelDataService = new ExcelDataService();
-                string filePath = excelDataService.MarketActionAfter2LeadsReportExport(year);
+                string filePath = excelDataService.MarketActionAllLeadsReportExport(year);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
             }
@@ -741,7 +757,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic03 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic03);
                 marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic04 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic04);
 
-               
+
 
                 marketActionService.MarketActionAfter7Save(marketActionAfter7MainDto.MarketActionAfter7);
 
@@ -880,11 +896,12 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region 总览
         [HttpGet]
         [Route("MarketAction/MarketActionStatusCountSearch")]
-        public APIResult MarketActionStatusCountSearch(string year)
+        public APIResult MarketActionStatusCountSearch(string year, string userId, string roleTypeCode)
         {
             try
             {
-                List<MarketActionStatusCountDto> marketActionStatusCountListDto = marketActionService.MarketActionStatusCountSearch(year);
+
+                List<MarketActionStatusCountDto> marketActionStatusCountListDto = marketActionService.MarketActionStatusCountSearch(year, accountService.GetShopByRole(userId, roleTypeCode));
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionStatusCountListDto) };
             }
             catch (Exception ex)
@@ -897,11 +914,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region DMF
         [HttpGet]
         [Route("DMF/DMFItemSearch")]
-        public APIResult DMFItemSearch(string DMFItemId, string DMFItemName, string DMFItemNameEn,bool? expenseAccountChk,bool? publishChk)
+        public APIResult DMFItemSearch(string DMFItemId, string DMFItemName, string DMFItemNameEn, bool? expenseAccountChk, bool? publishChk)
         {
             try
             {
-                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(DMFItemId, DMFItemName, DMFItemNameEn, expenseAccountChk,publishChk);
+                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(DMFItemId, DMFItemName, DMFItemNameEn, expenseAccountChk, publishChk);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfItemList) };
             }
@@ -950,13 +967,13 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region ExpenseAccount
         [HttpGet]
         [Route("DMF/ExpenseAccountSearch")]
-        public APIResult ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId,string userId,string roleTypeCode)
+        public APIResult ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId, string userId, string roleTypeCode)
         {
             try
             {
                 List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
                 List<ExpenseAccountDto> expenseAccountList = new List<ExpenseAccountDto>();
-                List<ExpenseAccountDto> expenseAccountListTemp = dmfService.ExpenseAccountSearch(expenseAccountId,shopId,dmfItemId,marketActionId);
+                List<ExpenseAccountDto> expenseAccountListTemp = dmfService.ExpenseAccountSearch(expenseAccountId, shopId, dmfItemId, marketActionId);
 
                 foreach (ExpenseAccountDto expenseAccountDto in expenseAccountListTemp)
                 {
@@ -1014,11 +1031,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("DMF/ExpenseAccountFileSearch")]
-        public APIResult ExpenseAccountFileSearch(string expenseAccountId, string seqNO,string fileType)
+        public APIResult ExpenseAccountFileSearch(string expenseAccountId, string seqNO, string fileType)
         {
             try
             {
-                List<ExpenseAccountFile> expenseAccountFileList = dmfService.ExpenseAccountFileSearch(expenseAccountId, seqNO,fileType);
+                List<ExpenseAccountFile> expenseAccountFileList = dmfService.ExpenseAccountFileSearch(expenseAccountId, seqNO, fileType);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(expenseAccountFileList) };
             }
@@ -1052,7 +1069,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 List<ExpenseAccountFile> list = CommonHelper.DecodeString<List<ExpenseAccountFile>>(upload.ListJson);
                 foreach (ExpenseAccountFile expenseAccountFile in list)
                 {
-                    dmfService.ExpenseAccountFileDelete(expenseAccountFile.ExpenseAccountId.ToString(),expenseAccountFile.SeqNO.ToString());
+                    dmfService.ExpenseAccountFileDelete(expenseAccountFile.ExpenseAccountId.ToString(), expenseAccountFile.SeqNO.ToString());
                 }
                 return new APIResult() { Status = true, Body = "" };
             }

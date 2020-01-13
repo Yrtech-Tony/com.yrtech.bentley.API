@@ -154,7 +154,11 @@
     $("#nav_dash").addClass("active");
 
     $(function () {
-        $.commonGet("MarketAction/MarketActionStatusCountSearch", { year: '' }, function (data) {
+        $.commonGet("MarketAction/MarketActionStatusCountSearch", {
+            year: ''
+            , userId: $("#G_UserId").val()
+            , roleTypeCode: $("#G_RoleTypeCode").val()
+        }, function (data) {
             $("#UnsubmitBefore21").html(data[0].Before21Count);
             $("#UnsubmitBefore3").html(data[0].Before3Count);
             $("#UnsubmitAfter2").html(data[0].After2Count);

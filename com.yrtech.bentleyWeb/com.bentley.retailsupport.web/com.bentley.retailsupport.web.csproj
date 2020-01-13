@@ -133,6 +133,11 @@
     <Compile Include="DTO\Account\Area.cs" />
     <Compile Include="DTO\Account\Shop.cs" />
     <Compile Include="DTO\MarketAction\MarketActionAfter2LeadsReportDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionAfter7.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionBefore21.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionExportDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionLeadsCountDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -392,7 +397,6 @@
     <Content Include="Views\Marketing\After1Months.cshtml" />
     <Content Include="Views\Marketing\After7Days.cshtml" />
     <Content Include="Views\Marketing\After3Months.cshtml" />
-    <Content Include="线索报告.xlsx" />
     <Content Include="Views\DMF\DMFItem.cshtml" />
     <Content Include="Views\DMF\ExpenseAccount.cshtml" />
   </ItemGroup>

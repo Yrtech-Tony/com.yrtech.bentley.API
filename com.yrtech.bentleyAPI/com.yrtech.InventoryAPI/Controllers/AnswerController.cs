@@ -157,74 +157,16 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
         }
         [HttpGet]
-        [Route("MarketAction/MarketActionExportSearch")]
+        [Route("MarketAction/MarketActionExport")]
         public APIResult MarketActionExportSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk, string userId, string roleTypeCode)
         {
             try
             {
-                MarketActionExportDto exportDto = new MarketActionExportDto();
-                List<MarketActionDto> marketActionListTemp = marketActionService.MarketActionSearch(actionName, year, month, marketActionStatusCode, shopId, eventTypeId, expenseAccountChk);
-                List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
-                List<MarketActionDto> marketActionList = new List<MarketActionDto>();
+                ExcelDataService excelDataService = new ExcelDataService();
+                string filePath = excelDataService.MarketActionExport(actionName,year, month, marketActionStatusCode, shopId, eventTypeId, expenseAccountChk, userId, roleTypeCode);
 
-                foreach (MarketActionDto marketActionDto in marketActionListTemp)
-                {
-                    foreach (Shop shop in roleTypeShopList)
-                    {
-                        if (marketActionDto.ShopId == shop.ShopId)
-                        {
-                            marketActionList.Add(marketActionDto);
-                        }
-                    }
-                }
-                foreach (MarketActionDto marketActiondto in marketActionList)
-                {
-                    exportDto.ActionCode = marketActiondto.ActionCode;
-                    exportDto.ActionName = marketActiondto.ActionName;
-                    exportDto.ActionPlace = marketActiondto.ActionPlace;
-                    exportDto.EndDate = marketActiondto.EndDate;
-                    exportDto.EventTypeId = marketActiondto.EventTypeId;
-                    exportDto.EventTypeName = marketActiondto.EventTypeName;
-                    exportDto.EventTypeNameEn = marketActiondto.EventTypeNameEn;
-                    exportDto.ExpenseAccount = marketActiondto.ExpenseAccount;
-                    exportDto.MarketActionId = marketActiondto.MarketActionId;
-                    exportDto.MarketActionStatusCode = marketActiondto.MarketActionStatusCode;
-                    exportDto.MarketActionStatusName = marketActiondto.MarketActionStatusName;
-                    exportDto.MarketActionStatusNameEn = marketActiondto.MarketActionStatusNameEn;
-                    exportDto.MarketActionTargetModelCode = marketActiondto.MarketActionTargetModelCode;
-                    exportDto.MarketActionTargetModelName = marketActiondto.MarketActionTargetModelName;
-                    exportDto.MarketActionTargetModelNameEn = marketActiondto.MarketActionTargetModelNameEn;
-                    exportDto.ShopCode = marketActiondto.ShopCode;
-                    exportDto.ShopId = marketActiondto.ShopId;
-                    exportDto.ShopName = marketActiondto.ShopName;
-                    exportDto.ShopNameEn = marketActiondto.ShopNameEn;
-                    exportDto.StartDate = marketActiondto.StartDate;
-                    List<MarketActionBefore21> before21 = marketActionService.MarketActionBefore21Search(marketActiondto.MarketActionId.ToString());
-                    if (before21 != null && before21.Count > 0)
-                    {
-                        exportDto.MaketActionBefore21 = before21[0];
-                    }
-                    decimal? actualExpenseSum = 0;
-                    List<MarketActionAfter7ActualExpenseDto> expenseList = marketActionService.MarketActionAfter7ActualExpenseSearch(marketActiondto.MarketActionId.ToString());
-                     foreach (MarketActionAfter7ActualExpenseDto expenseDto in expenseList)
-                    { 
-                        actualExpenseSum += expenseDto.Total;
-                    }
-                    exportDto.ActualExpenseSum = actualExpenseSum;
-                    List<MarketActionAfter7> after7 = marketActionService.MarketActionAfter7Search(marketActiondto.MarketActionId.ToString());
-                    if (after7 != null && after7.Count > 0)
-                    {
-                        exportDto.MarketActionAfter7 = after7[0];
-                    }
-                    List<MarketActionLeadsCountDto> leadsCount = marketActionService.MarketActionLeadsCountSearch(marketActiondto.MarketActionId.ToString());
-                    if (leadsCount != null && leadsCount.Count > 0)
-                    {
-                        exportDto.LeadsCount = leadsCount[0];
-                    }
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
 
-                }
-
-                return new APIResult() { Status = true, Body = CommonHelper.Encode(exportDto) };
             }
             catch (Exception ex)
             {
@@ -272,7 +214,7 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 ExcelDataService excelDataService = new ExcelDataService();
-                string filePath = excelDataService.MarketActionAfter2LeadsReportExport(year);
+                string filePath = excelDataService.MarketActionAllLeadsReportExport(year);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
             }

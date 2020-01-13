@@ -114,7 +114,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region MarketAction
         [HttpGet]
         [Route("MarketAction/MarketActionSearch")]
-        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk,string userId, string roleTypeCode)
+        public APIResult MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk, string userId, string roleTypeCode)
         {
             try
             {
@@ -177,14 +177,46 @@ namespace com.yrtech.SurveyAPI.Controllers
                         }
                     }
                 }
-                exportDto.MarketActionList = marketActionList;
-                if (marketActionList != null && marketActionList.Count > 0)
+                foreach (MarketActionDto marketActiondto in marketActionList)
                 {
-                    exportDto.MaketActionBefore21List = marketActionService.MarketActionBefore21Search(marketActionList[0].MarketActionId.ToString());
-                    exportDto.MarketActionAfter7List = marketActionService.MarketActionAfter7Search(marketActionList[0].MarketActionId.ToString());
-                    exportDto.LeadsCount = marketActionService.MarketActionLeadsCountSearch(marketActionList[0].MarketActionId.ToString());
+                    exportDto.ActionCode = marketActiondto.ActionCode;
+                    exportDto.ActionName = marketActiondto.ActionName;
+                    exportDto.ActionPlace = marketActiondto.ActionPlace;
+                    exportDto.EndDate = marketActiondto.EndDate;
+                    exportDto.EventTypeId = marketActiondto.EventTypeId;
+                    exportDto.EventTypeName = marketActiondto.EventTypeName;
+                    exportDto.EventTypeNameEn = marketActiondto.EventTypeNameEn;
+                    exportDto.ExpenseAccount = marketActiondto.ExpenseAccount;
+                    exportDto.MarketActionId = marketActiondto.MarketActionId;
+                    exportDto.MarketActionStatusCode = marketActiondto.MarketActionStatusCode;
+                    exportDto.MarketActionStatusName = marketActiondto.MarketActionStatusName;
+                    exportDto.MarketActionStatusNameEn = marketActiondto.MarketActionStatusNameEn;
+                    exportDto.MarketActionTargetModelCode = marketActiondto.MarketActionTargetModelCode;
+                    exportDto.MarketActionTargetModelName = marketActiondto.MarketActionTargetModelName;
+                    exportDto.MarketActionTargetModelNameEn = marketActiondto.MarketActionTargetModelNameEn;
+                    exportDto.ShopCode = marketActiondto.ShopCode;
+                    exportDto.ShopId = marketActiondto.ShopId;
+                    exportDto.ShopName = marketActiondto.ShopName;
+                    exportDto.ShopNameEn = marketActiondto.ShopNameEn;
+                    exportDto.StartDate = marketActiondto.StartDate;
+                    List<MarketActionBefore21> before21 = marketActionService.MarketActionBefore21Search(marketActiondto.MarketActionId.ToString());
+                    if (before21 != null && before21.Count > 0)
+                    {
+                        exportDto.MaketActionBefore21 = before21[0];
+                    }
+                    List<MarketActionAfter7> after7 = marketActionService.MarketActionAfter7Search(marketActiondto.MarketActionId.ToString());
+                    if (after7 != null && after7.Count > 0)
+                    {
+                        exportDto.MarketActionAfter7 = after7[0];
+                    }
+                    List<MarketActionLeadsCountDto> leadsCount = marketActionService.MarketActionLeadsCountSearch(marketActiondto.MarketActionId.ToString());
+                    if (leadsCount != null && leadsCount.Count > 0)
+                    {
+                        exportDto.LeadsCount = leadsCount[0];
+                    }
 
                 }
+
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(exportDto) };
             }
             catch (Exception ex)
@@ -776,7 +808,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic03 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic03);
                 marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic04 = UploadBase64Pic("", marketActionAfter7MainDto.MarketActionAfter7.RegisterLiveShowPic04);
 
-               
+
 
                 marketActionService.MarketActionAfter7Save(marketActionAfter7MainDto.MarketActionAfter7);
 
@@ -915,12 +947,12 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region 总览
         [HttpGet]
         [Route("MarketAction/MarketActionStatusCountSearch")]
-        public APIResult MarketActionStatusCountSearch(string year,string userId,string roleTypeCode)
+        public APIResult MarketActionStatusCountSearch(string year, string userId, string roleTypeCode)
         {
             try
             {
-                
-                List<MarketActionStatusCountDto> marketActionStatusCountListDto = marketActionService.MarketActionStatusCountSearch(year,accountService.GetShopByRole(userId, roleTypeCode));
+
+                List<MarketActionStatusCountDto> marketActionStatusCountListDto = marketActionService.MarketActionStatusCountSearch(year, accountService.GetShopByRole(userId, roleTypeCode));
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionStatusCountListDto) };
             }
             catch (Exception ex)
@@ -933,11 +965,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region DMF
         [HttpGet]
         [Route("DMF/DMFItemSearch")]
-        public APIResult DMFItemSearch(string DMFItemId, string DMFItemName, string DMFItemNameEn,bool? expenseAccountChk,bool? publishChk)
+        public APIResult DMFItemSearch(string DMFItemId, string DMFItemName, string DMFItemNameEn, bool? expenseAccountChk, bool? publishChk)
         {
             try
             {
-                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(DMFItemId, DMFItemName, DMFItemNameEn, expenseAccountChk,publishChk);
+                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(DMFItemId, DMFItemName, DMFItemNameEn, expenseAccountChk, publishChk);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfItemList) };
             }
@@ -986,13 +1018,13 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region ExpenseAccount
         [HttpGet]
         [Route("DMF/ExpenseAccountSearch")]
-        public APIResult ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId,string userId,string roleTypeCode)
+        public APIResult ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId, string userId, string roleTypeCode)
         {
             try
             {
                 List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
                 List<ExpenseAccountDto> expenseAccountList = new List<ExpenseAccountDto>();
-                List<ExpenseAccountDto> expenseAccountListTemp = dmfService.ExpenseAccountSearch(expenseAccountId,shopId,dmfItemId,marketActionId);
+                List<ExpenseAccountDto> expenseAccountListTemp = dmfService.ExpenseAccountSearch(expenseAccountId, shopId, dmfItemId, marketActionId);
 
                 foreach (ExpenseAccountDto expenseAccountDto in expenseAccountListTemp)
                 {
@@ -1050,11 +1082,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("DMF/ExpenseAccountFileSearch")]
-        public APIResult ExpenseAccountFileSearch(string expenseAccountId, string seqNO,string fileType)
+        public APIResult ExpenseAccountFileSearch(string expenseAccountId, string seqNO, string fileType)
         {
             try
             {
-                List<ExpenseAccountFile> expenseAccountFileList = dmfService.ExpenseAccountFileSearch(expenseAccountId, seqNO,fileType);
+                List<ExpenseAccountFile> expenseAccountFileList = dmfService.ExpenseAccountFileSearch(expenseAccountId, seqNO, fileType);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(expenseAccountFileList) };
             }
@@ -1088,7 +1120,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 List<ExpenseAccountFile> list = CommonHelper.DecodeString<List<ExpenseAccountFile>>(upload.ListJson);
                 foreach (ExpenseAccountFile expenseAccountFile in list)
                 {
-                    dmfService.ExpenseAccountFileDelete(expenseAccountFile.ExpenseAccountId.ToString(),expenseAccountFile.SeqNO.ToString());
+                    dmfService.ExpenseAccountFileDelete(expenseAccountFile.ExpenseAccountId.ToString(), expenseAccountFile.SeqNO.ToString());
                 }
                 return new APIResult() { Status = true, Body = "" };
             }

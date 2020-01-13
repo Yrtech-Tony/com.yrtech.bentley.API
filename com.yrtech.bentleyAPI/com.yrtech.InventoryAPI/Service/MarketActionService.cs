@@ -606,7 +606,7 @@ namespace com.yrtech.InventoryAPI.Service
             sql += @"SELECT * FROM
                     (SELECT
                             ISNULL(SUM(CASE WHEN OwnerCheck= 1 AND LeadsCheck = 1 THEN 1 ELSE 0 END),0) AS LeadOwnerCount,
-                            ISNULL(SUM(CASE WHEN OwnerCheck <> 1 LeadsCheck = 1 THEN 1 ELSE 0 END), 0) AS LeadPCCount,
+                            ISNULL(SUM(CASE WHEN OwnerCheck <> 1 AND LeadsCheck = 1 THEN 1 ELSE 0 END), 0) AS LeadPCCount,
                             ISNULL(SUM(CASE WHEN OwnerCheck = 1 AND TestDriverCheck = 1 THEN 1 ELSE 0 END), 0) AS TestDriverOwnerCount,
                             ISNULL(SUM(CASE WHEN OwnerCheck <> 1 AND TestDriverCheck = 1 THEN 1 ELSE 0 END), 0) AS TestDriverPCCount,
                             ISNULL(SUM(CASE WHEN OwnerCheck = 1 AND DealCheck = 1 THEN 1 ELSE 0 END), 0) AS ActualOrderOwnerCount,

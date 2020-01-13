@@ -133,6 +133,11 @@
     <Compile Include="DTO\Account\Area.cs" />
     <Compile Include="DTO\Account\Shop.cs" />
     <Compile Include="DTO\MarketAction\MarketActionAfter2LeadsReportDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionAfter7.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionBefore21.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionExportDto.cs" />
+    <Compile Include="DTO\MarketAction\MarketActionLeadsCountDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

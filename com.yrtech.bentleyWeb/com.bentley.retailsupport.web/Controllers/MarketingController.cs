@@ -182,6 +182,60 @@ namespace com.bentley.retailsupport.web.Controllers
             book.Save(filePath);
             DownloadExcel(fileName, filePath, true);
         }
+
+        public void MarketActionExport(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk, string userId, string roleTypeCode)
+        {
+            HttpClient client = new HttpClient();
+            Uri uri = new Uri("http://" + WebConfigurationManager.AppSettings["APIHost"]);
+            client.BaseAddress = uri;
+            //添加请求的头文件
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //发送请求并接受返回的值
+            string leadsReportApi = string.Format(@"bentley/api/MarketAction/MarketActionExportSearch?actionName={0},year={1},month={2},marketActionStatusCode={3},shopId={4},eventTypeId={5},expenseAccountChk={6},userId={7},roleTypeCode={8}",
+                actionName, year, month, marketActionStatusCode, shopId, eventTypeId, expenseAccountChk, userId,roleTypeCode);
+            HttpResponseMessage message = client.GetAsync(leadsReportApi).Result;
+            string json = message.Content.ReadAsStringAsync().Result;
+            APIResult result = CommonHelper.DecodeString<APIResult>(json);
+            List<MarketActionDto> list = new List<MarketActionDto>();
+            Workbook book = Workbook.Load(Server.MapPath("~") + @"Content\Excel\" + "MarketAction.xlsx", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
+            int rowIndex = 1;
+
+            foreach (MarketActionDto item in list)
+            {
+                ////客户姓名
+                //sheet.GetCell("D" + (rowIndex + 1)).Value = item.CustomerName;
+                ////BPNO
+                //sheet.GetCell("E" + (rowIndex + 1)).Value = item.BPNO;
+                ////是否车主
+                //sheet.GetCell("F" + (rowIndex + 1)).Value = item.OwnerCheckName;
+                //// 是否试驾
+                //sheet.GetCell("G" + (rowIndex + 1)).Value = item.TestDriverCheckName;
+                //// 是否线索
+                //sheet.GetCell("H" + (rowIndex + 1)).Value = item.LeadsCheckName;
+                ////感兴趣车型
+                //sheet.GetCell("I" + (rowIndex + 1)).Value = item.InterestedModel;
+                ////是否成交
+                //sheet.GetCell("J" + (rowIndex + 1)).Value = item.DealCheckName;
+                //// 成交车型
+                //sheet.GetCell("K" + (rowIndex + 1)).Value = item.DealModel;
+                //rowIndex++;
+            }
+
+            //保存excel文件
+            string fileName = "线索报告" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string dirPath = Server.MapPath("~") + @"\Temp\";
+            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+            string filePath = dirPath + fileName;
+            book.Save(filePath);
+            DownloadExcel(fileName, filePath, true);
+        }
+
         #endregion
         #endregion
     }

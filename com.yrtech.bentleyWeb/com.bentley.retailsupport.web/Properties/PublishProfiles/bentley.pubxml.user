@@ -13,7 +13,7 @@
       <publishTime>12/18/2019 21:36:03</publishTime>
     </File>
     <File Include="bin/com.bentley.retailsupport.web.dll">
-      <publishTime>01/12/2020 00:12:21</publishTime>
+      <publishTime>01/13/2020 19:41:03</publishTime>
     </File>
     <File Include="bin/Infragistics3.Documents.Excel.v11.1.dll">
       <publishTime>01/01/2020 23:19:39</publishTime>
@@ -244,10 +244,10 @@
       <publishTime>12/18/2019 21:36:03</publishTime>
     </File>
     <File Include="Scripts/api/common.js">
-      <publishTime>01/09/2020 00:45:33</publishTime>
+      <publishTime>01/13/2020 19:05:59</publishTime>
     </File>
     <File Include="Scripts/bootstrap-fileinput/js/bootstrap-fileinput.js">
-      <publishTime>01/09/2020 21:40:16</publishTime>
+      <publishTime>01/12/2020 13:35:54</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select/css/bootstrap-select.min.css">
       <publishTime>12/19/2019 22:52:01</publishTime>
@@ -346,7 +346,7 @@
       <publishTime>01/06/2020 20:53:27</publishTime>
     </File>
     <File Include="Scripts/curtom/PromotionEdit.js">
-      <publishTime>01/09/2020 21:56:45</publishTime>
+      <publishTime>01/13/2020 19:40:56</publishTime>
     </File>
     <File Include="Scripts/Dark/bootstrap-hover-dropdown.js">
       <publishTime>12/19/2019 22:52:01</publishTime>
@@ -772,7 +772,7 @@
       <publishTime>01/11/2020 23:06:02</publishTime>
     </File>
     <File Include="Views/Document/Index.cshtml">
-      <publishTime>01/11/2020 10:50:37</publishTime>
+      <publishTime>01/13/2020 19:11:20</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>12/31/2019 19:04:38</publishTime>
@@ -787,19 +787,19 @@
       <publishTime>01/06/2020 20:11:57</publishTime>
     </File>
     <File Include="Views/Marketing/After7Days.cshtml">
-      <publishTime>01/11/2020 23:42:49</publishTime>
+      <publishTime>01/13/2020 19:07:45</publishTime>
     </File>
     <File Include="Views/Marketing/Before3Days.cshtml">
-      <publishTime>01/11/2020 23:42:49</publishTime>
+      <publishTime>01/13/2020 19:07:30</publishTime>
     </File>
     <File Include="Views/Marketing/Before3Weeks.cshtml">
-      <publishTime>01/12/2020 13:28:13</publishTime>
+      <publishTime>01/13/2020 19:02:55</publishTime>
     </File>
     <File Include="Views/Marketing/Create.cshtml">
-      <publishTime>01/11/2020 16:25:59</publishTime>
+      <publishTime>01/13/2020 19:03:23</publishTime>
     </File>
     <File Include="Views/Marketing/Index.cshtml">
-      <publishTime>01/11/2020 23:43:54</publishTime>
+      <publishTime>01/13/2020 19:36:47</publishTime>
     </File>
     <File Include="Views/Marketing/TheDays.cshtml">
       <publishTime>01/04/2020 20:50:25</publishTime>
@@ -817,7 +817,7 @@
       <publishTime>12/18/2019 21:35:55</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/12/2020 09:34:50</publishTime>
+      <publishTime>01/13/2020 19:41:04</publishTime>
     </File>
     <File Include="线索报告.xlsx">
       <publishTime>01/05/2020 19:34:41</publishTime>

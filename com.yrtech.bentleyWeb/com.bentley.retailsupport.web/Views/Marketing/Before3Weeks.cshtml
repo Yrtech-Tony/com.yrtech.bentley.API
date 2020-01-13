@@ -651,69 +651,23 @@
 
         var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
         var id = '@ViewBag.Id';
-        if (id) {
-            $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
-                if (data && data.length > 0) {
-                    data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
-                    data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
-                    $('#PromotionCreate').setForm(data[0]);
-                    $("#MarketActionTargetModelCode").val(data[0].MarketActionTargetModelCode);
-                    $("select").selectpicker("refresh");
-                }
-            });
-
-            $.commonGet("MarketAction/MarketActionBefore21Search", { marketActionId: id }, function (data) {
-                if (data) {
-                    $('#PromotionCreate2').setForm(data.MarketActionBefore21);
-                    $('#ActivityFlowTable').bootstrapTable("load", data.ActivityProcess);
-                    if (data.ActivityProcess) {
-                        data.ActivityProcess.forEach(function (item) {
-                            if (item.SeqNO > maxActivityFlowSeqNO) {
-                                maxActivityFlowSeqNO = item.SeqNO;
-                            }
-                        });
-                    }
-                    $('#img_visual1').fileinputInit(data.MarketActionBefore21.KeyVisionPic);
-
-                    //场地介绍
-                    $('#img_venue1').fileinputInit(data.MarketActionBefore21.POSDesignPic01);
-                    $('#img_venue2').fileinputInit(data.MarketActionBefore21.POSDesignPic02);
-                    $('#img_venue3').fileinputInit(data.MarketActionBefore21.POSDesignPic03);
-                    $('#img_venue4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
-
-                    //试驾路线
-                    $('#img_route1').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic01);
-                    $('#img_route2').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic02);
-                    $('#img_route3').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic03);
-                    $('#img_route4').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic04);
-
-                    //设计延展
-                    $('#img_design1').fileinputInit(data.MarketActionBefore21.OthersPic01);
-                    $('#img_design2').fileinputInit(data.MarketActionBefore21.OthersPic02);
-                    $('#img_design3').fileinputInit(data.MarketActionBefore21.OthersPic03);
-                    $('#img_design4').fileinputInit(data.MarketActionBefore21.OthersPic04);
-                    //物料
-                    $('#img_material1').fileinputInit(data.MarketActionBefore21.POSDesignPic01);
-                    $('#img_material2').fileinputInit(data.MarketActionBefore21.POSDesignPic02);
-                    $('#img_material3').fileinputInit(data.MarketActionBefore21.POSDesignPic03);
-                    $('#img_material4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
-
-                    $("#VisualStatusOld").val(data.MarketActionBefore21.KeyVisionApprovalCode);
-                    $("#VisualDescriptionOld").val(data.MarketActionBefore21.KeyVisionApprovalDesc);
-                }
-
-            });
-        }
+       
 
         $(function () {
             loadShops().forEach(function (item) {
                 var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
                 $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
             });
-
+            //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
+            $.ajaxSetup({
+                async: false
+            });
             loadActiveStatuss();
             loadTargetModels();
             loadEventTypes();
+            $.ajaxSetup({
+                async: true
+            });
 
             InitActivityFlowTable();
 
@@ -727,6 +681,59 @@
                 $('#VisualStatus').prop("disabled", true);
             }
 
+            if (id) {
+                $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
+                    if (data && data.length > 0) {
+                        data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');
+                        data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
+                        $('#PromotionCreate').setForm(data[0]);
+                        $("#MarketActionTargetModelCode").val(data[0].MarketActionTargetModelCode);
+                        $("select").selectpicker("refresh");
+                    }
+                });
+
+                $.commonGet("MarketAction/MarketActionBefore21Search", { marketActionId: id }, function (data) {
+                    if (data) {
+                        $('#PromotionCreate2').setForm(data.MarketActionBefore21);
+                        $('#ActivityFlowTable').bootstrapTable("load", data.ActivityProcess);
+                        if (data.ActivityProcess) {
+                            data.ActivityProcess.forEach(function (item) {
+                                if (item.SeqNO > maxActivityFlowSeqNO) {
+                                    maxActivityFlowSeqNO = item.SeqNO;
+                                }
+                            });
+                        }
+                        $('#img_visual1').fileinputInit(data.MarketActionBefore21.KeyVisionPic);
+
+                        //场地介绍
+                        $('#img_venue1').fileinputInit(data.MarketActionBefore21.POSDesignPic01);
+                        $('#img_venue2').fileinputInit(data.MarketActionBefore21.POSDesignPic02);
+                        $('#img_venue3').fileinputInit(data.MarketActionBefore21.POSDesignPic03);
+                        $('#img_venue4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
+
+                        //试驾路线
+                        $('#img_route1').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic01);
+                        $('#img_route2').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic02);
+                        $('#img_route3').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic03);
+                        $('#img_route4').fileinputInit(data.MarketActionBefore21.TestDriverRoadMapPic04);
+
+                        //设计延展
+                        $('#img_design1').fileinputInit(data.MarketActionBefore21.OthersPic01);
+                        $('#img_design2').fileinputInit(data.MarketActionBefore21.OthersPic02);
+                        $('#img_design3').fileinputInit(data.MarketActionBefore21.OthersPic03);
+                        $('#img_design4').fileinputInit(data.MarketActionBefore21.OthersPic04);
+                        //物料
+                        $('#img_material1').fileinputInit(data.MarketActionBefore21.POSDesignPic01);
+                        $('#img_material2').fileinputInit(data.MarketActionBefore21.POSDesignPic02);
+                        $('#img_material3').fileinputInit(data.MarketActionBefore21.POSDesignPic03);
+                        $('#img_material4').fileinputInit(data.MarketActionBefore21.POSDesignPic04);
+
+                        $("#VisualStatusOld").val(data.MarketActionBefore21.KeyVisionApprovalCode);
+                        $("#VisualDescriptionOld").val(data.MarketActionBefore21.KeyVisionApprovalDesc);
+                    }
+
+                });
+            }
             //$('#PromotionCreate2').bootstrapValidator({
             //    message: isZH() ? '该数据无效' : 'The data is invalid',
             //    feedbackIcons: {

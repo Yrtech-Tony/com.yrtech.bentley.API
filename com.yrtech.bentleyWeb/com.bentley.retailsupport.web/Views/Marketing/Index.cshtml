@@ -129,9 +129,19 @@
 
             initTable();
             loadMarketings();
+
+            HideFiledDealer();
+            SetValue();
         })
 
         function NameQuery() {
+            window.localStorage.pname = $("#pname").val();
+            window.localStorage.pyear = $("#pyear").val();
+            window.localStorage.pmonth = $("#pmonth").val();
+            window.localStorage.pstate = $("#pstate").val();
+            window.localStorage.pdealer = $("#pdealer").val();
+            window.localStorage.ptype = $("#ptype").val();
+
             loadMarketings(true);
         }
 
@@ -251,34 +261,39 @@
                 }
             }, {
                 title: $("#G_Dealer").val(),
-                field: localStorage.language == 'en' ? 'ShopNameEn' : 'ShopName',
+                field: isZH() ? 'ShopName' : 'ShopNameEn',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 rowspan: 2
             }, {
                 title: $("#G_Status").val(),
-                field: localStorage.language == 'en' ? 'MarketActionStatusNameEn' : 'MarketActionStatusName',
+                field: isZH() ? 'MarketActionStatusName' : 'MarketActionStatusNameEn',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 rowspan: 2
             }, {
                 title: $("#G_ActivityName").val(),
                 field: 'ActionName',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 rowspan: 2,
                 formatter: nameFormatter
             }, {
                 title: $("#G_EventType").val(),
-                field: localStorage.language == 'en' ? 'EventTypeNameEn' : 'EventTypeName',
+                field: isZH() ? 'EventTypeName' : 'EventTypeNameEn',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 rowspan: 2
             }, {
                 title: $("#G_StartDate").val(),
                 field: 'StartDate',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 rowspan: 2,
                 formatter: dateFormatter
             }, {
@@ -286,6 +301,7 @@
                 field: 'EndDate',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 rowspan: 2,
                 formatter: dateFormatter
             }, {
@@ -387,6 +403,9 @@
                 striped: true, //是否显示行间隔色
                 height: getClientHeight() - 280 + 80,
                 showColumns: false, // 开启自定义列显示功能
+                sortable: true,
+                sortName: 'StartDate',
+                sortOrder: 'desc',
                 pageNumber: 1,
                 pageSize: 20,
                 pageList: [5, 10, 20, 50]
@@ -412,6 +431,37 @@
                     window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
                 }
             })
+        }
+
+
+        function SetValue() {
+            if (window.localStorage.Empty != "true") {
+                window.localStorage.pname = "";
+                window.localStorage.pyear = "";
+                window.localStorage.pmonth = "";
+                window.localStorage.pstate = "";
+                window.localStorage.pdealer = "";
+                window.localStorage.ptype = "";
+            }
+            else {
+                window.localStorage.Empty = "false";
+            }
+            $("#pname").val(window.localStorage.pname);
+            $("#pyear").val(window.localStorage.pyear);
+            $("#pmonth").val(window.localStorage.pmonth);
+            $("#pstate").val(window.localStorage.pstate);
+            $("#pdealer").val(window.localStorage.pdealer);
+            $("#ptype").val(window.localStorage.ptype);
+        }
+        function EmptyValue() {
+            window.localStorage.Empty = "true";
+        }
+
+        function HideFiledDealer() {
+            var roleTypeCode = $('#G_RoleTypeCode').val();
+            if (roleTypeCode == "SHOP") {
+                $('#myMarketing').bootstrapTable('hideColumn', isZH() ? 'ShopName' : 'ShopNameEn');
+            }
         }
 
     </script>

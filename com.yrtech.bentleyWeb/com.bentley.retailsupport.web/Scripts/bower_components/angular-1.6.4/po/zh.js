@@ -46,7 +46,6 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , "Pending": "已提交"
             , "Finished": "已完成"
             , "Canceled": "已取消"
-
             , "Processing": "进行中"
 
             , "Qualified": "合格"

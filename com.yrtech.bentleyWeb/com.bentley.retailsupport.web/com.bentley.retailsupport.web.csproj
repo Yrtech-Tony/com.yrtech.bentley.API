@@ -228,6 +228,7 @@
     <Content Include="Scripts\curtom\CueReport.js" />
     <Content Include="Scripts\curtom\IncomeCost.js" />
     <Content Include="Scripts\curtom\MarketFund.js" />
+    <Content Include="Scripts\curtom\Marketing.js" />
     <Content Include="Scripts\curtom\PromotionEdit.js" />
     <Content Include="Scripts\Dark\bootstrap-hover-dropdown.js" />
     <Content Include="Scripts\Dark\bootstrap-switch.min.js" />

@@ -252,7 +252,7 @@
                         $('#TestDriveTable').bootstrapTable("load", data.TestDriverList);
 
                         if (data.BugetDetailListDto) {
-                            data.ActualExpenseDto.forEach(function (item) {
+                            data.BugetDetailListDto.forEach(function (item) {
                                 if (item.SeqNO > maxActivityBudgetSeqNO) {
                                     maxActivityBudgetSeqNO = item.SeqNO;
                                 }

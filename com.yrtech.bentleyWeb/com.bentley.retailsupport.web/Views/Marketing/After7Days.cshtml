@@ -826,7 +826,7 @@
                         data[0].EndDate = data[0].EndDate.substr(0, data[0].EndDate.indexOf(' ')).replace(/-/g, '\/');
                         $('#PromotionCreate').setForm(data[0]);
                         $("#MarketActionTargetModelCode").val(data[0].MarketActionTargetModelCode);
-                        $("#MarketActionTargetModelCode").selectpicker("refresh");
+                        $("select").selectpicker("refresh");
                     }
                 });
 

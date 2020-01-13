@@ -94,13 +94,23 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(ExpenseAccountDto);
             string sql = "";
             sql = @"SELECT A.ExpenseAccountId,A.DMFItemId,A.ShopId,A.MarketActionId,A.ExpenseAmt,A.ApprovalReason
-                       ,A.ReplyReason,
-                       CASE WHEN A.ApplyStatus IS NOT NULL AND A.ApplyStatus<>'' 
+                       ,A.ReplyReason
+                       ,CASE WHEN A.ApplyStatus IS NOT NULL AND A.ApplyStatus<>'' 
                             THEN A.ApplyStatus
-                            WHEN NOT EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId)
-                            THEN '未提交'
-                            --WHEN NOT EXISTS()
-                    B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn,D.ActionName
+                            WHEN  EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 1)
+                                 AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 2)
+                            THEN '待审批'
+                            ELSE '未提交'  
+                        END AS ApplyStatus
+                     ,CASE WHEN A.ReplyStatus IS NOT NULL AND A.ReplyStatus<>'' 
+                            THEN A.ReplyStatus
+                            WHEN  EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 3)
+                                 AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 4)
+                                AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 5)
+                            THEN '待审批'
+                            ELSE '未提交'  
+                        END AS ApplyStatus
+                    A.B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn,D.ActionName
                     FROM ExpenseAccoutId A INNER JOIN Shop B ON A.ShopId = B.ShopId
                                             INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
                                             INNER JOIN MarketAction D ON A.MarketActionId = D.MarketActionId

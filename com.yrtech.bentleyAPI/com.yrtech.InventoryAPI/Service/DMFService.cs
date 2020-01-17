@@ -229,6 +229,59 @@ namespace com.yrtech.InventoryAPI.Service
             db.Database.ExecuteSqlCommand(sql, para);
         }
         #endregion
+        #region MonthSale
+        public List<MonthSale> MonthSaleSearch(string monthSaleId, string shopId)
+        {
+            if (monthSaleId == null) monthSaleId = "";
+            if (shopId == null) shopId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MonthSaleId", monthSaleId),
+                                                    new SqlParameter("@ShopId", shopId)};
+
+            Type t = typeof(MonthSale);
+
+            string sql = "";
+            sql = @"SELECT A.* 
+                    FROM DMFItem A 
+                    WHERE 1=1";
+            if (!string.IsNullOrEmpty(monthSaleId))
+            {
+                sql += " AND MonthSaleId = @MonthSaleId";
+            }
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND ShopId = @ShopId";
+            }
+            return db.Database.SqlQuery(t, sql, para).Cast<MonthSale>().ToList();
+        }
+        public void MonthSaleSave(MonthSale monthSale)
+        {
+            MonthSale findOne = db.MonthSale.Where(x => (x.MonthSaleId == monthSale.MonthSaleId)).FirstOrDefault();
+            if (findOne == null)
+            {
+                monthSale.InDateTime = DateTime.Now;
+                monthSale.ModifyDateTime = DateTime.Now;
+                db.MonthSale.Add(monthSale);
+            }
+            else
+            {
+                findOne.ActualSaleAmt = monthSale.ActualSaleAmt;
+                findOne.ActualSaleCount = monthSale.ActualSaleCount;
+                findOne.ShopId = monthSale.ShopId;
+                findOne.YearMonth = monthSale.YearMonth;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = monthSale.ModifyUserId;
+            }
+            db.SaveChanges();
+        }
+        public void MonthSaleDelete(string monthSaleId)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MonthSaleId", monthSaleId) };
+            string sql = @"DELETE MonthSale WHERE MonthSaleId = @MonthSaleId
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
 
 
     }

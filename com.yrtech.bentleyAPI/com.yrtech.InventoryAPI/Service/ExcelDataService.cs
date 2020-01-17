@@ -42,7 +42,7 @@ namespace com.yrtech.InventoryAPI.Service
                 // 是否试驾
                 sheet.GetCell("G" + (rowIndex + 2)).Value = item.TestDriverCheckName;
                 // 是否线索
-                sheet.GetCell("H" + (rowIndex + 21)).Value = item.LeadsCheckName;
+                sheet.GetCell("H" + (rowIndex + 2)).Value = item.LeadsCheckName;
                 //感兴趣车型
                 sheet.GetCell("I" + (rowIndex + 2)).Value = item.InterestedModelName;
                 //是否成交
@@ -73,7 +73,7 @@ namespace com.yrtech.InventoryAPI.Service
             Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "LeadsReport.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];
-            int rowIndex = 1;
+            int rowIndex = 2;
 
             foreach (MarketActionAfter2LeadsReportDto item in list)
             {

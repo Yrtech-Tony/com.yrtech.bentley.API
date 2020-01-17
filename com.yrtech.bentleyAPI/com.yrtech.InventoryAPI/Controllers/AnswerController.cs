@@ -1080,6 +1080,58 @@ namespace com.yrtech.SurveyAPI.Controllers
 
         }
         #endregion
+        #region MonthSale
+        [HttpGet]
+        [Route("DMF/MonthSaleSearch")]
+        public APIResult MonthSaleSearch(string monthSaleId, string shopId)
+        {
+            try
+            {
+                List<MonthSale> monthSaleList = dmfService.MonthSaleSearch(monthSaleId,shopId);
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(monthSaleList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+
+        [HttpPost]
+        [Route("DMF/MonthSaleSave")]
+        public APIResult MonthSaleSave(MonthSale monthSale)
+        {
+            try
+            {
+                dmfService.MonthSaleSave(monthSale);
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("DMF/MonthSaleDelete")]
+        public APIResult MonthSaleDelete(UploadData upload)
+        {
+            try
+            {
+                List<MonthSale> list = CommonHelper.DecodeString<List<MonthSale>>(upload.ListJson);
+                foreach (MonthSale monthSale in list)
+                {
+                    dmfService.MonthSaleDelete(monthSale.MonthSaleId.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
 
     }
 }

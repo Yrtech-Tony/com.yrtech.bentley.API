@@ -230,7 +230,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region MonthSale
-        public List<MonthSale> MonthSaleSearch(string monthSaleId, string shopId)
+        public List<MonthSaleDto> MonthSaleSearch(string monthSaleId, string shopId)
         {
             if (monthSaleId == null) monthSaleId = "";
             if (shopId == null) shopId = "";
@@ -238,11 +238,11 @@ namespace com.yrtech.InventoryAPI.Service
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MonthSaleId", monthSaleId),
                                                     new SqlParameter("@ShopId", shopId)};
 
-            Type t = typeof(MonthSale);
+            Type t = typeof(MonthSaleDto);
 
             string sql = "";
-            sql = @"SELECT A.* 
-                    FROM DMFItem A 
+            sql = @"SELECT A.*,B.ShopCode,B.ShopName,B.ShopNameEn
+                    FROM MonthSale A INNER JOIN Shop B ON A.ShopId = B.ShopId
                     WHERE 1=1";
             if (!string.IsNullOrEmpty(monthSaleId))
             {
@@ -252,7 +252,7 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND ShopId = @ShopId";
             }
-            return db.Database.SqlQuery(t, sql, para).Cast<MonthSale>().ToList();
+            return db.Database.SqlQuery(t, sql, para).Cast<MonthSaleDto>().ToList();
         }
         public void MonthSaleSave(MonthSale monthSale)
         {

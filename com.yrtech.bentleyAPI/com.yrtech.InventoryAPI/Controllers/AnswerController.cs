@@ -1087,7 +1087,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                List<MonthSale> monthSaleList = dmfService.MonthSaleSearch(monthSaleId,shopId);
+                List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch(monthSaleId,shopId);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(monthSaleList) };
             }
@@ -1104,6 +1104,37 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 dmfService.MonthSaleSave(monthSale);
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("DMF/MonthSaleImport")]
+        public APIResult MonthSaleImport(UploadData upload)
+        {
+            try
+            {
+                List<MonthSaleDto> list = CommonHelper.DecodeString<List<MonthSaleDto>>(upload.ListJson);
+                foreach (MonthSaleDto monthSaleDto in list)
+                {
+                    List<ShopDto> shopList =  masterService.ShopSearch("", "", monthSaleDto.ShopName, "");
+                    if (shopList != null && shopList.Count > 0)
+                    {
+                        MonthSale monthSale = new MonthSale();
+                        monthSale.ActualSaleAmt = monthSaleDto.ActualSaleAmt;
+                        monthSale.ActualSaleCount = monthSaleDto.ActualSaleCount;
+                        monthSale.InUserId = monthSaleDto.InUserId;
+                        monthSale.ModifyUserId = monthSaleDto.ModifyUserId;
+                        monthSale.ShopId = shopList[0].ShopId;
+                        monthSale.YearMonth = monthSaleDto.YearMonth;
+                        dmfService.MonthSaleSave(monthSale);
+                    }
+                   
+                }
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)

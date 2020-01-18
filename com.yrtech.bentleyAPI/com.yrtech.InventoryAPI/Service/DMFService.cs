@@ -51,7 +51,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             return db.Database.SqlQuery(t, sql, para).Cast<DMFItem>().ToList();
         }
-        public void DMFItemSave(DMFItem dmfItem)
+        public DMFItem DMFItemSave(DMFItem dmfItem)
         {
             DMFItem findOne = db.DMFItem.Where(x => (x.DMFItemId == dmfItem.DMFItemId)).FirstOrDefault();
             if (findOne == null)
@@ -69,8 +69,11 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.ModifyDateTime = DateTime.Now;
                 findOne.ModifyUserId = dmfItem.ModifyUserId;
                 findOne.PublishChk = dmfItem.PublishChk;
+
+                dmfItem = findOne;
             }
             db.SaveChanges();
+            return dmfItem;
         }
         public void DMFItemDelete(string dmfItemId)
         {
@@ -97,44 +100,44 @@ namespace com.yrtech.InventoryAPI.Service
                        ,A.ReplyReason
                        ,CASE WHEN A.ApplyStatus IS NOT NULL AND A.ApplyStatus<>'' 
                             THEN A.ApplyStatus
-                            WHEN  EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 1)
-                                 AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 2)
+                            WHEN  EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileTypeCode = 1)
+                                 AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileTypeCode = 2)
                             THEN '待审批'
                             ELSE '未提交'  
                         END AS ApplyStatus
                      ,CASE WHEN A.ReplyStatus IS NOT NULL AND A.ReplyStatus<>'' 
                             THEN A.ReplyStatus
-                            WHEN  EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 3)
-                                 AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 4)
-                                AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileType = 5)
+                            WHEN  EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileTypeCode = 3)
+                                 AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileTypeCode = 4)
+                                AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileTypeCode = 5)
                             THEN '待审批'
                             ELSE '未提交'  
-                        END AS ApplyStatus
-                    A.B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn,D.ActionName
-                    FROM ExpenseAccoutId A INNER JOIN Shop B ON A.ShopId = B.ShopId
+                        END AS ApplyStatus,
+                    B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn,D.ActionName
+                    FROM ExpenseAccount A INNER JOIN Shop B ON A.ShopId = B.ShopId
                                             INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
                                             INNER JOIN MarketAction D ON A.MarketActionId = D.MarketActionId
                     WHERE 1=1";
             if (!string.IsNullOrEmpty(expenseAccountId))
             {
-                sql += " AND ExpenseAccountId = @ExpenseAccountId";
+                sql += " AND A.ExpenseAccountId = @ExpenseAccountId";
             }
             if (!string.IsNullOrEmpty(shopId))
             {
-                sql += " AND ShopId = @ShopId";
+                sql += " AND A.ShopId = @ShopId";
             }
             if (!string.IsNullOrEmpty(dmfItemId))
             {
-                sql += " AND DMFItemId = @DMFItemId";
+                sql += " AND A.DMFItemId = @DMFItemId";
             }
             if (!string.IsNullOrEmpty(marketActionId))
             {
-                sql += " AND MarketActionId = @MarketActionId";
+                sql += " AND A.MarketActionId = @MarketActionId";
             }
 
             return db.Database.SqlQuery(t, sql, para).Cast<ExpenseAccountDto>().ToList();
         }
-        public void ExpenseAccountSave(ExpenseAccount expenseAccount)
+        public ExpenseAccount ExpenseAccountSave(ExpenseAccount expenseAccount)
         {
             ExpenseAccount findOne = db.ExpenseAccount.Where(x => (x.ExpenseAccountId == expenseAccount.ExpenseAccountId)).FirstOrDefault();
             if (findOne == null)
@@ -155,9 +158,11 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.ShopId = expenseAccount.ShopId;
                 findOne.ModifyDateTime = DateTime.Now;
                 findOne.ModifyUserId = expenseAccount.ModifyUserId;
-
+                expenseAccount = findOne;
             }
             db.SaveChanges();
+
+            return expenseAccount;
         }
         public void ExpenseAccountDelete(string expenseAccountId)
         {
@@ -176,11 +181,7 @@ namespace com.yrtech.InventoryAPI.Service
                                                     new SqlParameter("@FileType", fileType)};
             Type t = typeof(ExpenseAccountFile);
             string sql = "";
-            sql = @"SELECT A.*,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn,D.ActionName
-                    FROM ExpenseAccoutId A INNER JOIN Shop B ON A.ShopId = B.ShopId
-                                            INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
-                                            INNER JOIN MarketAction D ON A.MarketActionId = D.MarketActionId
-                    WHERE 1=1";
+            sql = @"SELECT A.*  FROM dbo.ExpenseAccountFile A WHERE 1=1";
             if (!string.IsNullOrEmpty(expenseAccountId))
             {
                 sql += " AND ExpenseAccountId = @ExpenseAccountId";
@@ -191,7 +192,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (!string.IsNullOrEmpty(fileType))
             {
-                sql += " AND FileType = @FileType";
+                sql += " AND FileTypeCode = @FileType";
             }
 
             return db.Database.SqlQuery(t, sql, para).Cast<ExpenseAccountFile>().ToList();

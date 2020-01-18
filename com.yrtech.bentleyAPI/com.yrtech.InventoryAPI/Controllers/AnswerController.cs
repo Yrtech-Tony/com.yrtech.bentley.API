@@ -934,8 +934,8 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                dmfService.DMFItemSave(dmfItem);
-                return new APIResult() { Status = true, Body = "" };
+                dmfItem = dmfService.DMFItemSave(dmfItem);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfItem) };
             }
             catch (Exception ex)
             {
@@ -1000,8 +1000,8 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                dmfService.ExpenseAccountSave(expenseAccount);
-                return new APIResult() { Status = true, Body = "" };
+                expenseAccount = dmfService.ExpenseAccountSave(expenseAccount);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(expenseAccount) };
             }
             catch (Exception ex)
             {

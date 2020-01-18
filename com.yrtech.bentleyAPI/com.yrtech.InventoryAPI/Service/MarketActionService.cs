@@ -128,7 +128,7 @@ namespace com.yrtech.InventoryAPI.Service
             if (expenseAccountChk.HasValue)
             {
                 para = para.Concat(new SqlParameter[] { new SqlParameter("@ExpenseAccountChk", expenseAccountChk) }).ToArray();
-                sql += " AND A.ExpenseAccout = @ExpenseAccountChk";
+                sql += " AND A.ExpenseAccount = @ExpenseAccountChk";
             }
             sql += " ORDER BY A.StartDate DESC";
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionDto>().ToList();

@@ -15,6 +15,7 @@ namespace com.yrtech.InventoryAPI.Service
         string basePath = HostingEnvironment.MapPath(@"~/");
         MarketActionService marketActionService = new MarketActionService();
         AccountService accountService = new AccountService();
+        DMFService dmfService = new DMFService();
 
         // 导出所有线索报告
         public string MarketActionAllLeadsReportExport(string year)
@@ -111,9 +112,7 @@ namespace com.yrtech.InventoryAPI.Service
             return filePath;
         }
 
-        #region MarketAction Export
-
-
+        // MarketAction Export
         public string MarketActionExport(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk, string userId, string roleTypeCode)
         {
             List<MarketActionExportDto> list = new List<MarketActionExportDto>();
@@ -266,7 +265,87 @@ namespace com.yrtech.InventoryAPI.Service
             return filePath;
 
         }
-        #endregion
 
+        // ExpenseAccount Export
+        public string ExpenseAccountExport(string shopId)
+        {
+            List<ExpenseAccountDto> list = dmfService.ExpenseAccountSearch("",shopId,"","");
+            Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "ExpenseAccount.xlsx", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
+            int rowIndex = 2;
+
+            foreach (ExpenseAccountDto item in list)
+            {
+                //经销商名称
+                sheet.GetCell("A" + (rowIndex + 1)).Value = item.ShopName;
+                //项目
+                sheet.GetCell("B" + (rowIndex + 1)).Value = item.DMFItemName;
+                //活动名称
+                sheet.GetCell("C" + (rowIndex + 1)).Value = item.ActionName;
+                // 费用金额
+                sheet.GetCell("D" + (rowIndex + 1)).Value = item.ExpenseAmt;
+                // 申请状态
+                sheet.GetCell("E" + (rowIndex + 1)).Value = item.ApplyStatus;
+                //申请说明
+                sheet.GetCell("F" + (rowIndex + 1)).Value = item.ApprovalReason;
+                //批复结果
+                sheet.GetCell("G" + (rowIndex + 1)).Value = item.ReplyStatus;
+                // 批复说明
+                sheet.GetCell("H" + (rowIndex + 1)).Value = item.ReplyReason;
+                rowIndex++;
+            }
+
+            //保存excel文件
+            string fileName = "费用报销" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string dirPath = basePath + @"\Temp\";
+            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+            string filePath = dirPath + fileName;
+            book.Save(filePath);
+
+
+            return filePath;
+        }
+        // DMFDetail Export
+        public string DMFDetailExport(string shopId)
+        {
+            List<DMFDetailDto> list = dmfService.DMFDetailSearch("",shopId,"");
+            Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "DMFDetail.xlsx", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
+            int rowIndex = 2;
+
+            foreach (DMFDetailDto item in list)
+            {
+                //经销商
+                sheet.GetCell("A" + (rowIndex + 1)).Value = item.ShopName;
+                //项目
+                sheet.GetCell("B" + (rowIndex + 1)).Value = item.DMFItemName;
+                //预算花费
+                sheet.GetCell("C" + (rowIndex + 1)).Value = item.Budget;
+                // 实际花费
+                sheet.GetCell("D" + (rowIndex + 1)).Value = item.AcutalAmt;
+                // 备注
+                sheet.GetCell("E" + (rowIndex + 1)).Value = item.Remark;
+                rowIndex++;
+            }
+
+            //保存excel文件
+            string fileName = "预算与费用" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string dirPath = basePath + @"\Temp\";
+            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+            string filePath = dirPath + fileName;
+            book.Save(filePath);
+
+            return filePath;
+        }
     }
 }

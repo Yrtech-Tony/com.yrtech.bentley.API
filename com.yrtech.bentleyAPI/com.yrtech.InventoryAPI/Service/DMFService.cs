@@ -316,7 +316,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (!string.IsNullOrEmpty(shopId))
             {
-                sql += " AND ShopId = @ShopId";
+                sql += " AND A.ShopId = @ShopId";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<MonthSaleDto>().ToList();
         }

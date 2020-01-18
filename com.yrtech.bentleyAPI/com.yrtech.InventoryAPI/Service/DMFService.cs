@@ -41,12 +41,12 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (expenseAccountChk.HasValue)
             {
-                para.Concat(new SqlParameter[] { new SqlParameter("@ExpenseAccountChk", expenseAccountChk) });
+                para = para.Concat(new SqlParameter[] { new SqlParameter("@ExpenseAccountChk", expenseAccountChk) }).ToArray();
                 sql += " AND ExpenseAccountChk = @ExpenseAccountChk";
             }
             if (publishChk.HasValue)
             {
-                para.Concat(new SqlParameter[] { new SqlParameter("@PublishChk", publishChk) });
+                para = para.Concat(new SqlParameter[] { new SqlParameter("@PublishChk", publishChk) }).ToArray();
                 sql += " AND PublishChk = @PublishChk";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<DMFItem>().ToList();

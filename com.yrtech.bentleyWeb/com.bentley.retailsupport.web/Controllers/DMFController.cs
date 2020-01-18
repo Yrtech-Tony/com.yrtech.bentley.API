@@ -19,5 +19,18 @@ namespace com.bentley.retailsupport.web.Controllers
         {
             return View();
         }
+         
+        public ActionResult ExpenseAccountFile(string Id, string FileType)
+        {
+            ViewBag.Id = Id;
+            ViewBag.FileType = FileType;
+            return View();
+        }
+        public ActionResult MonthSale()
+        {
+            return View();
+        }
+        
+        
 	}
 }

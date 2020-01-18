@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "After3Months";
+    ViewBag.Title = "ExpenseAccountFile";
+
     com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
     if (Session["LoginUser"] != null)
     {
         LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
     }
 }
-
 <style>
     html {
         overflow: auto;
@@ -31,7 +31,9 @@
         margin-bottom: 0px !important;
     }
 </style>
+
 <input id="Id" type="hidden" value="@ViewBag.Id" />
+<input id="FileType" type="hidden" value="@ViewBag.FileType" />
 <div id="page-wrapper">
     <!--BEGIN CONTENT-->
     <div class="page-content">
@@ -48,7 +50,7 @@
                     <div id="main-content">
                         <div class="container-fluid">
                             <div style="padding-bottom:5px;">
-                                <a class="btn btn-primary" href="/Marketing/Index" translate>Back</a>
+                                <a class="btn btn-primary" href="/DMF/ExpenseAccount" translate>Back</a>
                                 <span style="padding-left:10px;" />
 
                                 <a id="selectfiles" class='btn btn-primary'><i class="icon-plus"></i><span translate>Upload </span></a>
@@ -61,7 +63,7 @@
                                 <div class="span12">
                                     <div class="widget">
                                         <div class="widget-title">
-                                            <h4><i class="icon-reorder"></i><span translate>File</span></h4>
+                                            <h4><i class="icon-reorder"></i><span translate>Document Submit</span></h4>
                                             <span class="tools">
                                                 <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
                                             </span>
@@ -69,7 +71,7 @@
 
                                         <div class="widget-body" style="display: block;">
                                             <div class="dataTables_wrapper form-inline" role="grid">
-                                                <table id="myPromotionFile" class="table table-striped table-bordered table-hover">
+                                                <table id="myExpenseAccountFile" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th data-field="FileName" data-formatter="fileNameFormatter" translate>File Name</th>
@@ -91,7 +93,7 @@
                             </div>
 
                             <p>
-                                <a class="btn btn-dark" href="/Marketing/Index" translate>Back</a>
+                                <a class="btn btn-dark" href="/DMF/ExpenseAccount" translate>Back</a>
                             </p>
                         </div>
                     </div>
@@ -113,26 +115,29 @@
     <script src="~/Scripts/oss-upload-direct/upload.js?20170928"></script>
 
     <script>
-        $("#nav_promotion").addClass("active");
+        $("#nav_reimbursement").addClass("active");
 
-        var Id = $("#Id").val();
+        var id = $("#Id").val();
+        var fileType = $("#FileType").val();
         var UserId = $("#G_UserId").val();
-        var osspath = "Bentley/MarketAction/";
+        var osspath = "Bentley/ExpenseAccount/";
         var ossClient;
         $(function () {
             //初始化LexusReport OSS 数据源
             initOssClient();
-            loadMarketActionAfter90File();
+
+            $("#myExpenseAccountFile").bootstrapTable();
+            loadExpenseAccountFiles();
 
             window.operateEvents = {
                 'click .remove': function (e, value, row, index) {
-                    deleleCommitFile([row]);
+                    deleleExpenseAccountFile([row]);
                 }
             }
         })
 
         function fileNameFormatter(value, row, index) {
-            return '<a href="/Base/DownloadFile?ossPath=' + row.FileUrl + '" download="' + row.FileName + '">' + value + '</a>';
+            return '<a href="/Base/DownloadFile?ossPath=' + row.FileNameUrl + '" download="' + row.FileName + '">' + value + '</a>';
         }
 
         function operateFormatter(value, row, index) {
@@ -144,28 +149,24 @@
         }
 
         //查询文件
-        function loadMarketActionAfter90File(refresh) {
-            $.commonGet("MarketAction/MarketActionAfter90FileSearch", { marketActionId: Id }, function (data) {
+        function loadExpenseAccountFiles() {
+            $.commonGet("DMF/ExpenseAccountFileSearch", {
+                expenseAccountId: id,
+                seqNO: '',
+                fileType: fileType
+            }, function (data) {
                 if (data) {
-                    if (refresh) {
-                        $("#myPromotionFile").bootstrapTable('refreshOptions', {
-                            data: data
-                        });
-                    } else {
-                        $("#myPromotionFile").bootstrapTable({
-                            data: data
-                        });
-                    }
+                    $("#myExpenseAccountFile").bootstrapTable('load', data);
                 }
             })
         }
         //删除文件
-        function deleleMarketActionTheDayFile(rows) {
-            $.commonPost("MarketAction/MarketActionAfter90FileDelete", {
+        function deleleExpenseAccountFile(rows) {
+            $.commonPost("DMF/ExpenseAccountFileDelete", {
                 UserId: UserId,
                 ListJson: JSON.stringify(rows)
             }, function () {
-                loadMarketActionAfter90File(true)
+                loadExpenseAccountFiles()
             })
         }
 
@@ -177,18 +178,18 @@
                 fileAddCheckMsg: "",
                 osspath: osspath,
                 uploaded: function (args) {
-                    $.commonPost("MarketAction/MarketActionAfter90FileSave", {
-                        MarketActionId: Id,
+                    $.commonPost("DMF/ExpenseAccountFileSave", {
+                        ExpenseAccountId: id,
                         FileName: args.fileName,
                         FileUrl: args.osspath,
+                        FileTypeCode: fileType,
                         InUserId: UserId,
                         ModifyUserId: UserId
                     }, function (data) {
-                        loadMarketActionAfter90File(true);
+                        loadExpenseAccountFiles();
                     });
                 }
             });
         }
     </script>
 }
-

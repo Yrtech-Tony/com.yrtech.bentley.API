@@ -4,7 +4,7 @@ InitMarketFundLst();
 $(window).resize(function () {
     $('#myMarketFund').bootstrapTable('destroy');// 销毁表格数据
     InitMarketFundLst();
-
+    loadDMFItem();
 });
 
 function GetTransName(columnName) {
@@ -19,28 +19,25 @@ function InitMarketFundLst() {
         height: getClientHeight() - 280 + 80,
         showColumns: false, // 开启自定义列显示功能
         sortable: true,
-        sortName: 'DMFItemName ',
+        sortName: 'DMFItemName',
         sortOrder: 'asc',
         pageNumber: 1,
         pageSize: 20,
         pageList: [5, 10, 20, 50],
-        columns:
-            [{
-                checkbox: true,
-                valign: "middle",
-                align: "center"
-            },
-         {
-             title: $('#NO').val(),
-             field: 'DMFItemId ',
-             width: 30,
-             valign: "middle",
-             align: "center",
-             formatter: function (value, row, index) {
-                 return index + 1;
-             }
-         },
-        {
+        columns: [{
+            checkbox: true,
+            valign: "middle",
+            align: "center"
+        }, {
+            title: $('#NO').val(),
+            field: 'DMFItemId',
+            width: 30,
+            valign: "middle",
+            align: "center",
+            formatter: function (value, row, index) {
+                return index + 1;
+            }
+        }, {
             title: $('#MarketFund_Name').val(),
             field: 'DMFItemName',
             width: "400px",
@@ -63,8 +60,7 @@ function InitMarketFundLst() {
                     return html;
                 }
             }
-        },
-        {
+        }, {
             title: $('#EnglishName').val(),
             field: 'DMFItemNameEn',
             width: "400px",
@@ -87,8 +83,7 @@ function InitMarketFundLst() {
                     return html;
                 }
             }
-        },
-        {
+        }, {
             title: $('#Tdesc').val(),
             field: "DMFItemRemark",
             width: "500px",
@@ -109,9 +104,7 @@ function InitMarketFundLst() {
                 }
             }
 
-        },
-
-        {
+        }, {
             title: $('#Treim').val(),
             field: "ExpenseAccountChk",
             valign: "middle",
@@ -128,14 +121,13 @@ function InitMarketFundLst() {
                         txml = '<input id="{0}" type="checkbox" checked >';
                     else
                         txml = '<input id="{0}" type="checkbox">';
-                    txml = txml.replace("{0}", row.DMFItemId  + "ExpenseAccountChk");
+                    txml = txml.replace("{0}", row.DMFItemId + "ExpenseAccountChk");
 
                     return txml;
                 }
             }
 
-        },
-        {
+        }, {
             title: $('#Tpublic').val(),
             valign: "middle",
             align: "center",
@@ -152,7 +144,7 @@ function InitMarketFundLst() {
                         txml = '<input id="{0}" type="checkbox" checked >';
                     else
                         txml = '<input id="{0}" type="checkbox">';
-                    txml = txml.replace("{0}", row.DMFItemId  + "PublishChk");
+                    txml = txml.replace("{0}", row.DMFItemId + "PublishChk");
 
                     return txml;
                 }
@@ -197,7 +189,7 @@ function Add() {
     $table.bootstrapTable('insertRow', {
         index: index,
         row: {
-            DMFItemId: maxDMFItemId++,
+            DMFItemId: 0,
             DMFItemName: '',
             DMFItemNameEn: '',
             DMFItemRemark: '',
@@ -207,35 +199,18 @@ function Add() {
     });
 }
 function DeleteMarke() {
-    var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
-        return row.DMFItemId ;
-    });
-    if (ids.length != 1) {
-        layer.alert(isZH() ? "请选择一行删除!" : "Please select one line to delete!");
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length == 0) {
+        layer.alert(isZH() ? "请选择需要删除的行!" : "Please select rows to delete!");
         return;
     }
-    var requestData = { Id: ids[0] };
-    $.ajax({
-        type: "post",
-        url: "/Master/MarketFundDelete",
-        data: requestData,
-        dataType: 'JSON',
-        success: function (data, status) {
-            if (data.returnValue) {
-                //console.log('提交数据成功');
-            }
-        },
-        error: function () {
-            //layer.alert('删除失败');
-        },
-        complete: function () {
-            $table.bootstrapTable('remove', {
-                field: 'DMFItemId ',
-                values: ids
-            });
-        }
-    });
 
+    $.commonPost("DMF/DMFItemDelete", {
+        ListJson: JSON.stringify(rows)
+    }, function () {
+        console.log('删除数据成功');
+        loadDMFItem();
+    });
 }
 function EmptyValue() {
     window.localStorage.Empty = "true";

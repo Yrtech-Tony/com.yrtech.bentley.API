@@ -1,6 +1,11 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "TheDays";
+
+    com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
+    if (Session["LoginUser"] != null)
+    {
+        LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
+    }
 }
 
 <style>
@@ -71,7 +76,10 @@
                                                             <th data-field="FileName" data-formatter="fileNameFormatter" translate>File Name</th>
                                                             <th data-field="InDateTime" translate>Upload Time</th>
                                                             <th data-field="ModifyDateTime" translate>Update Time</th>
-                                                            <th data-formatter="operateFormatter" data-events="operateEvents" translate>Edit</th>
+                                                            @if (LoginUser.AccountId == "admin")
+                                                            {
+                                                                <th data-formatter="operateFormatter" data-events="operateEvents" translate>Edit</th>
+                                                            }
                                                         </tr>
                                                     </thead>
                                                     <tbody></tbody>
@@ -106,81 +114,81 @@
     <script src="~/Scripts/oss-upload-direct/upload.js?20170928"></script>
 
     <script>
-    $("#nav_promotion2").addClass("active");
-    var Id = $("#Id").val();
-    var UserId = 1;
-    var osspath = "Bentley/MarketAction/";
-    var ossClient;
-    $(function () {
-        //初始化LexusReport OSS 数据源
-        initOssClient();
-        loadMarketActionTheDayFile();
+        $("#nav_promotion").addClass("active");
+        var Id = $("#Id").val();
+        var UserId = $("#G_UserId").val();
+        var osspath = "Bentley/MarketAction/";
+        var ossClient;
+        $(function () {
+            //初始化LexusReport OSS 数据源
+            initOssClient();
+            loadMarketActionTheDayFile();
 
-        window.operateEvents = {
-            'click .remove': function (e, value, row, index) {
-                deleleCommitFile([row]);
-            }
-        }
-    })
-
-    function fileNameFormatter(value, row, index) {
-        return '<a href="/Base/DownloadFile?ossPath=' + row.FileUrl + '" download="' + row.FileName + '">' + value + '</a>';
-    }         
-
-    function operateFormatter(value, row, index) {
-        return [
-          '<a class="remove" href="javascript:void(0)" title="Remove">',
-          '<i class="fa fa-trash"></i> <span translate>' + $("#G_Delete").val() + '</span>',
-          '</a>'
-        ].join('')
-    }
-
-   //查询文件
-    function loadMarketActionTheDayFile(refresh) {
-        $.commonGet("MarketAction/MarketActionTheDayFileSearch", { marketActionId: Id }, function (data) {
-            if (data) {
-                if (refresh) {
-                    $("#myPromotionFile").bootstrapTable('refreshOptions', {
-                        data: data
-                    });
-                } else {
-                    $("#myPromotionFile").bootstrapTable({
-                        data: data
-                    });
+            window.operateEvents = {
+                'click .remove': function (e, value, row, index) {
+                    deleleCommitFile([row]);
                 }
             }
         })
-    }
-    //删除文件
-    function deleleMarketActionTheDayFile(rows) {
-        $.commonPost("MarketAction/MarketActionTheDayFileDelete", {
-            UserId: UserId,
-            ListJson: JSON.stringify(rows)
-        }, function () {
-            loadMarketActionTheDayFile(true)
-        })
-    }
 
-    function initOssClient() {
-        ossClient = new OSSClient({
-            fileAddCheck: function () {
-                return true;
-            },
-            fileAddCheckMsg: "",
-            osspath: osspath,
-            uploaded: function (args) {
-                $.commonPost("MarketAction/MarketActionTheDayFileSave", {
-                    MarketActionId: Id,
-                    FileName: args.fileName,
-                    FileUrl: args.osspath,
-                    InUserId: UserId,
-                    ModifyUserId: UserId
-                }, function (data) {
-                    loadMarketActionTheDayFile(true);
-                });
-            }
-        });
-    }
+        function fileNameFormatter(value, row, index) {
+            return '<a href="/Base/DownloadFile?ossPath=' + row.FileUrl + '" download="' + row.FileName + '">' + value + '</a>';
+        }
+
+        function operateFormatter(value, row, index) {
+            return [
+              '<a class="remove" href="javascript:void(0)" title="Remove">',
+              '<i class="fa fa-trash"></i> <span translate>' + $("#G_Delete").val() + '</span>',
+              '</a>'
+            ].join('')
+        }
+
+        //查询文件
+        function loadMarketActionTheDayFile(refresh) {
+            $.commonGet("MarketAction/MarketActionTheDayFileSearch", { marketActionId: Id }, function (data) {
+                if (data) {
+                    if (refresh) {
+                        $("#myPromotionFile").bootstrapTable('refreshOptions', {
+                            data: data
+                        });
+                    } else {
+                        $("#myPromotionFile").bootstrapTable({
+                            data: data
+                        });
+                    }
+                }
+            })
+        }
+        //删除文件
+        function deleleMarketActionTheDayFile(rows) {
+            $.commonPost("MarketAction/MarketActionTheDayFileDelete", {
+                UserId: UserId,
+                ListJson: JSON.stringify(rows)
+            }, function () {
+                loadMarketActionTheDayFile(true)
+            })
+        }
+
+        function initOssClient() {
+            ossClient = new OSSClient({
+                fileAddCheck: function () {
+                    return true;
+                },
+                fileAddCheckMsg: "",
+                osspath: osspath,
+                uploaded: function (args) {
+                    $.commonPost("MarketAction/MarketActionTheDayFileSave", {
+                        MarketActionId: Id,
+                        FileName: args.fileName,
+                        FileUrl: args.osspath,
+                        InUserId: UserId,
+                        ModifyUserId: UserId
+                    }, function (data) {
+                        loadMarketActionTheDayFile(true);
+                    });
+                }
+            });
+        }
     </script>
 }
 

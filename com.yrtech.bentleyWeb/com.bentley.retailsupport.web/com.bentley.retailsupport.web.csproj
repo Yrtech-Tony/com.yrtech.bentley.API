@@ -235,6 +235,7 @@
     <Content Include="Scripts\curtom\MarketFund.js" />
     <Content Include="Scripts\curtom\Marketing.js" />
     <Content Include="Scripts\curtom\PromotionEdit.js" />
+    <Content Include="Scripts\curtom\Reimbursement.js" />
     <Content Include="Scripts\Dark\bootstrap-hover-dropdown.js" />
     <Content Include="Scripts\Dark\bootstrap-switch.min.js" />
     <Content Include="Scripts\Dark\bootstrap-toggleButtons.js" />
@@ -399,6 +400,8 @@
     <Content Include="Views\Marketing\After3Months.cshtml" />
     <Content Include="Views\DMF\DMFItem.cshtml" />
     <Content Include="Views\DMF\ExpenseAccount.cshtml" />
+    <Content Include="Views\DMF\ExpenseAccountFile.cshtml" />
+    <Content Include="Views\DMF\MonthSale.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

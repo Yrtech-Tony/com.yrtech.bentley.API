@@ -156,10 +156,14 @@ function initTable() {
     }, {
         title: $("#G_Dealer").val(),
         field: isZH() ? 'ShopName' : 'ShopNameEn',
+        width: "100px",
         align: 'center',
         valign: 'middle',
         sortable: true,
-        rowspan: 2
+        rowspan: 2,
+        formatter: function (value, row, index) {
+            return '<div style="min-width:100px">' + value + '</div>';
+        }
     }, {
         title: $("#G_Status").val(),
         field: 'MarketActionStatusCode',

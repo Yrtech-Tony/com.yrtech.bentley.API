@@ -1,5 +1,10 @@
 ﻿@{
     ViewBag.Title = "DocList";
+    com.yrtech.InventoryAPI.DTO.AccountDto LoginUser = null;
+    if (Session["LoginUser"] != null)
+    {
+        LoginUser = (com.yrtech.InventoryAPI.DTO.AccountDto)Session["LoginUser"];
+    }
 }
 <style>
     html {
@@ -70,7 +75,10 @@
                                                             <th data-field="ShopCommitFileName" data-formatter="fileNameFormatter" translate>File Name</th>
                                                             <th data-field="InDateTime" translate>Upload Time</th>
                                                             <th data-field="ModifyDateTime" translate>Update Time</th>
-                                                            <th data-formatter="operateFormatter" data-events="operateEvents" translate>Edit</th>
+                                                            @if (LoginUser.AccountId == "admin")
+                                                            {
+                                                                <th data-formatter="operateFormatter" data-events="operateEvents" translate>Edit</th>
+                                                            }
                                                         </tr>
                                                     </thead>
                                                     <tbody></tbody>
@@ -109,7 +117,7 @@
 
     var shopId = $("#ShopId").val();
     var fileId = $("#FileId").val();
-    var UserId = 1;
+    var UserId = $("#G_UserId").val();
     var osspath = "Bentley/CommitFile/";
     var ossClient;
     $(function () {

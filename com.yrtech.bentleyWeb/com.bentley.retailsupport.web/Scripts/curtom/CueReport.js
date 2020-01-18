@@ -16,7 +16,7 @@ $.commonGet("Master/HiddenCodeSearch", {
 function Del() {
     var rows = $table.bootstrapTable('getSelections');
     if (rows.length == 0) {
-        layer.alert(isZH() ? "请选择一行删除!" : "Please select one line to delete!");
+        layer.alert(isZH() ? "请选择要删除的行!" : "Please select rows to delete!");
         return;
     }
     $.commonPost("MarketAction/MarketActionAfter2LeadsReportDelete", {

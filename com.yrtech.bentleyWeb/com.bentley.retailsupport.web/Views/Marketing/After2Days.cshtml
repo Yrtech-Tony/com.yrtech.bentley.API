@@ -87,7 +87,6 @@
     <script>
         $("#nav_promotion").addClass("active");
 
-
         var id = $("#MarketActionId").val();
         function loadCueReport() {
             if (id) {
@@ -101,24 +100,6 @@
 
         loadCueReport();
 
-        //导入文件事件
-        $("#uploadFile").change(uploadLeadsReports);
-        function uploadFile() {
-            $("#uploadFile").click();
-            return false;
-        };
-
-
-        function SProcessing() {
-            //loading层
-            var index = layer.load(1, {
-                shade: [0.1, '#fff'] //0.1透明度的白色背景
-            });
-        }
-        function EProcessing() {
-            layer.closeAll('loading');
-        }
-
         function downloadFile() {
             $.commonGet("MarketAction/MarketActionAfter2LeadsReportExport", { marketActionId: id }, function (data) {
                 if (data) {
@@ -126,6 +107,13 @@
                 }
             })
         }
+
+        //导入文件事件
+        $("#uploadFile").change(uploadLeadsReports);
+        function uploadFile() {
+            $("#uploadFile").click();
+            return false;
+        };
 
         function uploadLeadsReports() {
             var file_obj = document.getElementById('uploadFile').files[0];
@@ -185,14 +173,25 @@
 
         //导入线索报告信息
         function importLeadsReports(leadsReports) {
+            SProcessing();
             $.commonPost("MarketAction/MarketActionAfter2LeadsReportImport", {
                 UserId: $("#G_UserId").val(),
                 ListJson: JSON.stringify(leadsReports)
             }, function (data) {
+                EProcessing();
                 console.log(data);
                 loadCueReport();
+            }, EProcessing);
+        }
+        
+        function SProcessing() {
+            //loading层
+            var index = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
             });
         }
-
+        function EProcessing() {
+            layer.closeAll('loading');
+        }
     </script>
 }

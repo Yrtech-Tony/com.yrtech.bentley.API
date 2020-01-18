@@ -2,12 +2,12 @@
 var IsEdit = false;
 var curRow;
 function GoUpload(id, type) {
-    if (!curRow || curRow.ExpenseAccountId==0) {
-        var rows =$table.bootstrapTable('getData');
-        var filters =rows.filter(function(item){
+    if (!curRow || curRow.ExpenseAccountId == 0) {
+        var rows = $table.bootstrapTable('getData');
+        var filters = rows.filter(function (item) {
             return item.ExpenseAccountId == id;
         })
-        if(filters && filters.length>0){
+        if (filters && filters.length > 0) {
             curRow = filters[0];
         } else {
             curRow = rows[0]
@@ -16,12 +16,12 @@ function GoUpload(id, type) {
     if (!curRow.DMFItemId && !IsEdit) {
         layer.alert(isZH() ? '请填写项目，再上传文件！' : 'Please fill in the project and upload the files!');
         return;
-    } 
+    }
     if (!curRow.MarketActionId && !IsEdit) {
         layer.alert(isZH() ? '请填写活动名称，再上传文件！' : 'Please fill in the activity name and upload the file!');
         return;
     }
-   
+
     IsEdit = false;
     var url = '/DMF/ExpenseAccountFile?id=' + id + '&fileType=' + type;
     window.location.href = url;
@@ -62,7 +62,7 @@ function InitMarketFundLst() {
             align: "center",
             width: "100px",
             formatter: function (value, row, index) {
-                var name = isZH()?row.ShopName:row.ShopNameEn;
+                var name = isZH() ? row.ShopName : row.ShopNameEn;
                 return '<div style="min-width:100px">' + name + '</div>';
             }
         }, {
@@ -81,203 +81,195 @@ function InitMarketFundLst() {
                     if (!v) return isZH() ? '项目不能为空' : 'The Tick-box Item cannot be empty';
                 },
                 noeditFormatter: function (value, row, index) {
-                    value = isZH()?row.DMFItemName:row.DMFItemNameEn;
+                    value = isZH() ? row.DMFItemName : row.DMFItemNameEn;
                     var html = '<a href="javascript:void(0)" data-name="DMFItemId" data-pk="undefined" data-value="" class="editable editable-click">' + value + '</a>';
                     if (!value) {
                         html = '<a href="javascript:void(0)" data-name="DMFItemId" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
                     }
                     return html;
                 }
-            }}, {
-                title: $('#Promotion_Name').val(),
-                field: "MarketActionId",
-                width: "300px",
-                valign: "middle",
-                align: "center",
-                sortable: false,
-                editable: {
-                    type: 'select',
-                    title: '',
-                    source: activityData,
-                    validate: function (v) {
-                        if (!v) return isZH() ? '活动名称不能为空' : 'The activity name cannot be empty';
-                    },
-                    noeditFormatter: function (value, row, index) {
-                        var html = '<a href="javascript:void(0)" data-name="MarketActionId" data-pk="undefined" data-value="" class="editable editable-click">' + row.ActionName + '</a>';
-                        if (!row.ActionName) {
-                            html = '<a href="javascript:void(0)" data-name="MarketActionId" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
-                        }
-                        return html;
+            }
+        }, {
+            title: $('#Promotion_Name').val(),
+            field: "MarketActionId",
+            width: "300px",
+            valign: "middle",
+            align: "center",
+            sortable: false,
+            editable: {
+                type: 'select',
+                title: '',
+                source: activityData,
+                validate: function (v) {
+                    if (!v) return isZH() ? '活动名称不能为空' : 'The activity name cannot be empty';
+                },
+                noeditFormatter: function (value, row, index) {
+                    var html = '<a href="javascript:void(0)" data-name="MarketActionId" data-pk="undefined" data-value="" class="editable editable-click">' + row.ActionName + '</a>';
+                    if (!row.ActionName) {
+                        html = '<a href="javascript:void(0)" data-name="MarketActionId" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
                     }
+                    return html;
                 }
-            }, {
-                title: $('#TExpense').val(),
-                field: "ExpenseAmt",
-                valign: "middle",
-                align: "center",
-                editable: {
-                    type: 'text',
-                    title: '',
-                    validate: function (v) {
-                        v = $.trim(v);
-                        var vil = isZH() ? '实际花费不能为空，且必须是数字' : 'The actual cost cannot be null, and only numbers accepted';
-                        if (!v) {
-                            return vil;
-                        }
-                        if (!/^(-?\d+)(\.\d+)?$/.test(v)) {
-                            return vil;
-                        }
-                    },
-                    noeditFormatter: function (value, row, index) {
-                        var result = { filed: "ExpenseAmt", value: value };
-                        var html = '<a href="javascript:void(0)" data-name="ExpenseAmt" data-pk="undefined" data-value="" class="editable editable-click">' + dealNumber(result.value) + '</a>';
-                        if (!result.value) {
-                            html = '<a href="javascript:void(0)" data-name="ExpenseAmt" data-pk="undefined" data-value="" class="editable editable-click">0</a>';
-                        }
-                        if (roleType != "SYSADMIN" && row.ApplyStatus == '通过') {
-                            html = dealNumber(result.value);
-                        }
-                        return html;
+            }
+        }, {
+            title: $('#TExpense').val(),
+            field: "ExpenseAmt",
+            valign: "middle",
+            align: "center",
+            editable: {
+                type: 'text',
+                title: '',
+                validate: function (v) {
+                    v = $.trim(v);
+                    var vil = isZH() ? '实际花费不能为空，且必须是数字' : 'The actual cost cannot be null, and only numbers accepted';
+                    if (!v) {
+                        return vil;
                     }
+                    if (!/^(-?\d+)(\.\d+)?$/.test(v)) {
+                        return vil;
+                    }
+                },
+                noeditFormatter: function (value, row, index) {
+                    var result = { filed: "ExpenseAmt", value: value };
+                    var html = '<a href="javascript:void(0)" data-name="ExpenseAmt" data-pk="undefined" data-value="" class="editable editable-click">' + dealNumber(result.value) + '</a>';
+                    if (!result.value) {
+                        html = '<a href="javascript:void(0)" data-name="ExpenseAmt" data-pk="undefined" data-value="" class="editable editable-click">0</a>';
+                    }
+                    if (roleType != "SYSADMIN" && row.ApplyStatus == '通过') {
+                        html = dealNumber(result.value);
+                    }
+                    return html;
                 }
-            }, {
-                title: $('#TAD').val(),
-                valign: "middle",
-                width: "170px",
-                align: "center",
-                field: "",
-                formatter: function (value, row, index) {
-                    var cnt = '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'1\');">' + $('#TRAN_Quotation').val() + '</button> &nbsp;';
-                    cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'2\');">' + $('#_ht_emailSnapshot').val() + '</button>';
-                    return cnt;
-                }
-            }, {
-                title: $('#TAppSta').val(),
-                width: '90px',
-                valign: "middle",
-                align: "center",
-                field: "ApplyStatus",
-                formatter: function (value, row, index) {
+            }
+        }, {
+            title: $('#TAD').val(),
+            valign: "middle",
+            width: "170px",
+            align: "center",
+            field: "",
+            formatter: function (value, row, index) {
+                var cnt = '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'1\');">' + $('#TRAN_Quotation').val() + '</button> &nbsp;';
+                cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'2\');">' + $('#_ht_emailSnapshot').val() + '</button>';
+                return cnt;
+            }
+        }, {
+            title: $('#TAppSta').val(),
+            width: '90px',
+            valign: "middle",
+            align: "center",
+            field: "ApplyStatus",
+            editable: {
+                type: 'select',
+                title: '',
+                source: arySelect,
+                noeditFormatter: function (value, row, index) {
                     var result = { filed: "ApplyStatus", value: value };
-                    var real = '';
+                    var real = '未提交';
                     for (var i = 0; i < ary.length; i++) {
                         if (ary[i].value == value) {
                             real = ary[i].text;
                         }
                     }
-                    var cnt = '<input type="button" class="btn btn-success btn-sm" value="' + real + '" onclick="if(this.value ==\'已批准\'){this.value=\'未批准\';this.className=\' \'}else{this.value=\'已批准\';this.className=\'btn btn-success btn-sm\'}"/>';
-                    return cnt;
-                },
-                editable: {
-                    type: 'select',
-                    title: '',
-                    source: arySelect,
-                    noeditFormatter: function (value, row, index) {
-                        var result = { filed: "ApplyStatus", value: value };
-                        var real = '';
-                        for (var i = 0; i < ary.length; i++) {
-                            if (ary[i].value == value) {
-                                real = ary[i].text;
-                            }
+                    if (roleType != 'SHOP') {
+                        var html = '<a href="javascript:void(0)" data-name="ApplyStatus" data-pk="undefined" data-value="" onclick="if(this.value ==\'通过\'){this.className=\'btn btn-success btn-sm\'}else if(this.value ==\'修改\'){this.className=\'btn btn-warning  btn-sm\'}else{this.className=\'btn btn-primary  btn-sm\'}">' + real + '</a>';
+
+                        if (real == '通过') {
+                            html = real;
                         }
-                        if (roleType != 'SHOP') {
-                            var html = '<a href="javascript:void(0)" data-name="ApplyStatus" >' + real + '</a>';
-                            if (real == '通过') {
-                                html = real;
-                            } else if (!result.value) {
-                                html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ApplyStatus" class="editable editable-click">' + real + '</a>';
-                            }
-                            return html;
-                        } else { 
-                            return real; 
+                        if (!result.value) {
+                            html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ApplyStatus" class="editable editable-click">' + real + '</a>';
                         }
-                    }
-                }
-            }, {
-                title: $('#Tnae').val(),
-                field: "ApprovalReason",
-                width: "150px",
-                valign: "middle",
-                align: "center",
-                editable: {
-                    type: 'text',
-                    title: '',
-                    validate: function (v) {
-                    },
-                    noeditFormatter: function (value, row, index) {
-                        var result = { filed: "ApprovalReason", value: value };
-                        if (roleType != 'SHOP') {
-                            var html = '<a href="javascript:void(0)" data-name="ApprovalReason" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
-                            if (!result.value) {
-                                html = '<a href="javascript:void(0)" data-name="ApprovalReason" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
-                            }
-                            return html;
-                        } else { return value; }
-                    }
-                }
-            }, {
-                title: $('#Trsd').val(),
-                valign: "middle",
-                width: "260px",
-                align: "center",
-                field: "",
-                formatter: function (value, row, index) {
-                    var cnt = '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'3\');">' + $('#TContract').val() + '</button> &nbsp;';
-                    cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'4\');">' + $('#TInvoice').val() + '</button> &nbsp;';
-                    cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'5\');">' + $('#TRAN_Quotation').val() + '</button> &nbsp;';
-                    cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'6\');">' + $('#TRAN_OTHERS').val() + '</button>';
-                    return cnt;
-                }
-            }, {
-                title: $('#TRAN_AR').val(),
-                field: "ReplyResult",
-                valign: "middle",
-                align: "center",
-                sortable: false,
-                editable: {
-                    type: 'select',
-                    title: '',
-                    source: arySelect,
-                    noeditFormatter: function (value, row, index) {
-                        var result = { filed: "ReplyStatus", value: value };
-                        var real = '';
-                        for (var i = 0; i < ary.length; i++) {
-                            if (ary[i].value == value) {
-                                real = ary[i].text;
-                            }
-                        }
-                        if (roleType != 'SHOP') {
-                            var html = '<a href="javascript:void(0)" data-name="ReplyResult" data-pk="undefined" data-value="">' + real + '</a>';
-                            if (!result.valu) {
-                                html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ReplyResult" class="editable editable-click">' + real + '</a>';
-                            }
-                            return html;
-                        } else { return real }
-                    }
-                }
-            }, {
-                title: $('#NAE').val(),
-                field: "ReplyReason",
-                width: "150px",
-                valign: "middle",
-                align: "center",
-                editable: {
-                    type: 'text',
-                    title: '',
-                    validate: function (v) {
-                    },
-                    noeditFormatter: function (value, row, index) {
-                        var result = { filed: "ReplyReason", value: value };
-                        if (roleType != 'SHOP') {
-                            var html = '<a href="javascript:void(0)" data-name="ReplyReason" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
-                            if (!result.value) {
-                                html = '<a href="javascript:void(0)" data-name="ReplyReason" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
-                            }
-                            return html;
-                        } else { return value; }
+                        return html;
+                    } else {
+                        return real;
                     }
                 }
             }
+        }, {
+            title: $('#Tnae').val(),
+            field: "ApprovalReason",
+            width: "150px",
+            valign: "middle",
+            align: "center",
+            editable: {
+                type: 'text',
+                title: '',
+                validate: function (v) {
+                },
+                noeditFormatter: function (value, row, index) {
+                    var result = { filed: "ApprovalReason", value: value };
+                    if (roleType != 'SHOP') {
+                        var html = '<a href="javascript:void(0)" data-name="ApprovalReason" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
+                        if (!result.value) {
+                            html = '<a href="javascript:void(0)" data-name="ApprovalReason" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
+                        }
+                        return html;
+                    } else { return value; }
+                }
+            }
+        }, {
+            title: $('#Trsd').val(),
+            valign: "middle",
+            width: "260px",
+            align: "center",
+            field: "",
+            formatter: function (value, row, index) {
+                var cnt = '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'3\');">' + $('#TContract').val() + '</button> &nbsp;';
+                cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'4\');">' + $('#TInvoice').val() + '</button> &nbsp;';
+                cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'5\');">' + $('#TRAN_Quotation').val() + '</button> &nbsp;';
+                cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'6\');">' + $('#TRAN_OTHERS').val() + '</button>';
+                return cnt;
+            }
+        }, {
+            title: $('#TRAN_AR').val(),
+            field: "ReplyResult",
+            valign: "middle",
+            align: "center",
+            sortable: false,
+            editable: {
+                type: 'select',
+                title: '',
+                source: arySelect,
+                noeditFormatter: function (value, row, index) {
+                    var result = { filed: "ReplyStatus", value: value };
+                    var real = '未提交';
+                    for (var i = 0; i < ary.length; i++) {
+                        if (ary[i].value == value) {
+                            real = ary[i].text;
+                        }
+                    }
+                    if (roleType != 'SHOP') {
+                        var html = '<a href="javascript:void(0)" data-name="ReplyResult" data-pk="undefined" data-value="">' + real + '</a>';
+                        if (!result.valu) {
+                            html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ReplyResult" class="editable editable-click">' + real + '</a>';
+                        }
+                        return html;
+                    } else { return real }
+                }
+            }
+        }, {
+            title: $('#NAE').val(),
+            field: "ReplyReason",
+            width: "150px",
+            valign: "middle",
+            align: "center",
+            editable: {
+                type: 'text',
+                title: '',
+                validate: function (v) {
+                },
+                noeditFormatter: function (value, row, index) {
+                    var result = { filed: "ReplyReason", value: value };
+                    if (roleType != 'SHOP') {
+                        var html = '<a href="javascript:void(0)" data-name="ReplyReason" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
+                        if (!result.value) {
+                            html = '<a href="javascript:void(0)" data-name="ReplyReason" data-pk="undefined" data-value="" class="editable editable-click">NULL</a>';
+                        }
+                        return html;
+                    } else { return value; }
+                }
+            }
+        }
         ],
         onClickCell: function (field, value, row, $element) {
             return false;
@@ -294,12 +286,12 @@ function InitMarketFundLst() {
                 IsEdit = true;
             }, function (msg) {
                 var error = isZH() ? '编辑失败!' : 'Edit failure!';
-                error += (msg ||'')
+                error += (msg || '')
                 layer.alert(error);
             })
             var ShopName = isZH() ? row.ShopName : row.ShopNameEn;
             if (row.ExpenseAmt && row.DMFItemId && ShopName && row.ApplyStatus == '通过') {
-                 //调用更新市场基金实际费用的api  待确认
+                //调用更新市场基金实际费用的api  待确认
             }
         }
     });
@@ -316,12 +308,12 @@ function AddRow() {
     var index = $table.bootstrapTable('getData').length;
     var newRow = {
         ExpenseAccountId: 0,
-        ShopId:$("#ShopId").val(),
+        ShopId: $("#ShopId").val(),
         ShopName: $('#_hd_dealName').val(),
         DMFItemId: '',
         MarketActionId: '',
         ExpenseAmt: 0,
-        ApplyStatus:'' ,
+        ApplyStatus: '',
         ApprovalReason: '',
         ReplyStatus: '',
         ReplyReason: ''
@@ -339,7 +331,7 @@ function Del() {
         layer.alert(isZH() ? "请选择需要删除的行!" : "Please select rows to delete!");
         return;
     }
-     
+
     $.commonPost("DMF/ExpenseAccountDelete", {
         ListJson: JSON.stringify(rows)
     }, function () {

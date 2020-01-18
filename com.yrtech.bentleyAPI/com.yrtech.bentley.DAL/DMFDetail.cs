@@ -23,5 +23,6 @@ namespace com.yrtech.bentley.DAL
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
         public Nullable<int> ModifyUserId { get; set; }
+        public Nullable<System.DateTime> ModifyDateTime { get; set; }
     }
 }

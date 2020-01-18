@@ -911,14 +911,14 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         #endregion
         #endregion
-        #region DMF
+        #region DMFItem
         [HttpGet]
         [Route("DMF/DMFItemSearch")]
-        public APIResult DMFItemSearch(string DMFItemId, string DMFItemName, string DMFItemNameEn, bool? expenseAccountChk, bool? publishChk)
+        public APIResult DMFItemSearch(string dmfItemId, string dmfItemName, string dmfItemNameEn, bool? expenseAccountChk, bool? publishChk)
         {
             try
             {
-                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(DMFItemId, DMFItemName, DMFItemNameEn, expenseAccountChk, publishChk);
+                List<DMFItem> dmfItemList = dmfService.DMFItemSearch(dmfItemId, dmfItemName, dmfItemNameEn, expenseAccountChk, publishChk);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfItemList) };
             }
@@ -954,6 +954,58 @@ namespace com.yrtech.SurveyAPI.Controllers
                 foreach (DMFItem dfmItem in list)
                 {
                     dmfService.DMFItemDelete(dfmItem.DMFItemId.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
+        #region DMFDetail
+        [HttpGet]
+        [Route("DMF/DMFDetailSearch")]
+        public APIResult DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId)
+        {
+            try
+            {
+                List<DMFDetailDto> dmfDetailList = dmfService.DMFDetailSearch(dmfDetailId, shopId, dmfItemId);
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfDetailList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+
+        [HttpPost]
+        [Route("DMF/DMFDetailSave")]
+        public APIResult DMFDetailSave(DMFDetail dmfDetail)
+        {
+            try
+            {
+                dmfDetail = dmfService.DMFDetailSave(dmfDetail);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfDetail) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("DMF/DMFDetailDelete")]
+        public APIResult DMFDetailDelete(UploadData upload)
+        {
+            try
+            {
+                List<DMFDetail> list = CommonHelper.DecodeString<List<DMFDetail>>(upload.ListJson);
+                foreach (DMFDetail dmfDetail in list)
+                {
+                    dmfService.DMFDetailDelete(dmfDetail.DMFDetailId.ToString());
                 }
                 return new APIResult() { Status = true, Body = "" };
             }

@@ -32,8 +32,6 @@
           <Property Name="ModifyUserId" Type="int" />
           <Property Name="ModifyDateTime" Type="datetime" />
         </EntityType>
-        <!--生成过程中发现错误:
-警告 6005: 目标实体框架版本目前不支持数据类型“date”；已排除表“Bentley.dbo.DMFDetail”中的列“ModifyDateTime”。-->
         <EntityType Name="DMFDetail">
           <Key>
             <PropertyRef Name="DMFDetailId" />
@@ -47,6 +45,7 @@
           <Property Name="InUserId" Type="int" />
           <Property Name="InDateTime" Type="datetime" />
           <Property Name="ModifyUserId" Type="int" />
+          <Property Name="ModifyDateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="DMFItem">
           <Key>
@@ -696,11 +695,11 @@
           <EntitySet Name="DMFItem" EntityType="BentleyModel.DMFItem" />
           <EntitySet Name="MarketActionAfter7" EntityType="BentleyModel.MarketActionAfter7" />
           <EntitySet Name="MarketActionBefore21" EntityType="BentleyModel.MarketActionBefore21" />
-          <EntitySet Name="DMFDetail" EntityType="BentleyModel.DMFDetail" />
           <EntitySet Name="ExpenseAccountFile" EntityType="BentleyModel.ExpenseAccountFile" />
           <EntitySet Name="MonthSale" EntityType="BentleyModel.MonthSale" />
           <EntitySet Name="ExpenseAccount" EntityType="BentleyModel.ExpenseAccount" />
           <EntitySet Name="MarketAction" EntityType="BentleyModel.MarketAction" />
+          <EntitySet Name="DMFDetail" EntityType="BentleyModel.DMFDetail" />
         </EntityContainer>
         <EntityType Name="UserInfo">
           <Key>
@@ -962,20 +961,6 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="DMFDetail">
-          <Key>
-            <PropertyRef Name="DMFDetailId" />
-          </Key>
-          <Property Name="DMFDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ShopId" Type="Int32" />
-          <Property Name="DMFItemId" Type="Int32" />
-          <Property Name="Budget" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="AcutalAmt" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-        </EntityType>
         <EntityType Name="ExpenseAccountFile">
           <Key>
             <PropertyRef Name="ExpenseAccountId" />
@@ -1038,6 +1023,21 @@
           <Property Name="EndDate" Type="DateTime" Precision="3" />
           <Property Name="ActionPlace" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ExpenseAccount" Type="Boolean" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DMFDetail">
+          <Key>
+            <PropertyRef Name="DMFDetailId" />
+          </Key>
+          <Property Name="DMFDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShopId" Type="Int32" />
+          <Property Name="DMFItemId" Type="Int32" />
+          <Property Name="Budget" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="AcutalAmt" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InUserId" Type="Int32" />
           <Property Name="InDateTime" Type="DateTime" Precision="3" />
           <Property Name="ModifyUserId" Type="Int32" />
@@ -1465,21 +1465,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DMFDetail">
-            <EntityTypeMapping TypeName="BentleyModel.DMFDetail">
-              <MappingFragment StoreEntitySet="DMFDetail">
-                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
-                <ScalarProperty Name="AcutalAmt" ColumnName="AcutalAmt" />
-                <ScalarProperty Name="Budget" ColumnName="Budget" />
-                <ScalarProperty Name="DMFItemId" ColumnName="DMFItemId" />
-                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
-                <ScalarProperty Name="DMFDetailId" ColumnName="DMFDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ExpenseAccountFile">
             <EntityTypeMapping TypeName="BentleyModel.ExpenseAccountFile">
               <MappingFragment StoreEntitySet="ExpenseAccountFile">
@@ -1547,6 +1532,22 @@
                 <ScalarProperty Name="ActionName" ColumnName="ActionName" />
                 <ScalarProperty Name="ShopId" ColumnName="ShopId" />
                 <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMFDetail">
+            <EntityTypeMapping TypeName="BentleyModel.DMFDetail">
+              <MappingFragment StoreEntitySet="DMFDetail">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="AcutalAmt" ColumnName="AcutalAmt" />
+                <ScalarProperty Name="Budget" ColumnName="Budget" />
+                <ScalarProperty Name="DMFItemId" ColumnName="DMFItemId" />
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="DMFDetailId" ColumnName="DMFDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

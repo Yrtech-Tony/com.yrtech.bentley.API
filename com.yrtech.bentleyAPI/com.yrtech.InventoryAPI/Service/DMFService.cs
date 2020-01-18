@@ -83,6 +83,71 @@ namespace com.yrtech.InventoryAPI.Service
             db.Database.ExecuteSqlCommand(sql, para);
         }
         #endregion
+        #region DMFDetail
+        public List<DMFDetailDto> DMFDetailSearch(string dmfDetailId, string shopId,string dmfItemId)
+        {
+            if (dmfDetailId == null) dmfDetailId = "";
+            if (shopId == null) shopId = "";
+            if (dmfItemId == null) dmfItemId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@DMFDetailId", dmfDetailId),
+                                                    new SqlParameter("@ShopId", shopId),
+                                                    new SqlParameter("@DMFItemId", dmfItemId)};
+
+            Type t = typeof(DMFDetailDto);
+
+            string sql = "";
+            sql = @"SELECT A.* 
+                    FROM DMFDetail A INNER JOIN Shop B ON A.ShopId = B.ShopId
+                                    INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
+                    WHERE 1=1";
+            if (!string.IsNullOrEmpty(dmfDetailId))
+            {
+                sql += " AND DMFDetailId = @DMFDetailId";
+            }
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND ShopId = @ShopId";
+            }
+            if (!string.IsNullOrEmpty(dmfItemId))
+            {
+                sql += " AND DMFItemId = @DMFItemId";
+            }
+           
+            return db.Database.SqlQuery(t, sql, para).Cast<DMFDetailDto>().ToList();
+        }
+        public DMFDetail DMFDetailSave(DMFDetail dmfDetail)
+        {
+            DMFDetail findOne = db.DMFDetail.Where(x => (x.DMFDetailId == dmfDetail.DMFDetailId)).FirstOrDefault();
+            if (findOne == null)
+            {
+                dmfDetail.InDateTime = DateTime.Now;
+                dmfDetail.ModifyDateTime = DateTime.Now;
+                db.DMFDetail.Add(dmfDetail);
+            }
+            else
+            {
+                findOne.AcutalAmt = dmfDetail.AcutalAmt;
+                findOne.Budget = dmfDetail.Budget;
+                findOne.DMFItemId = dmfDetail.DMFItemId;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = dmfDetail.ModifyUserId;
+                findOne.Remark = dmfDetail.Remark;
+                findOne.ShopId = dmfDetail.ShopId;
+
+                dmfDetail = findOne;
+            }
+            db.SaveChanges();
+            return dmfDetail;
+        }
+        public void DMFDetailDelete(string dmfDetailId)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@DMFDetailId", dmfDetailId) };
+            string sql = @"DELETE DMFDetail WHERE DMFDetailId = @DMFDetailId
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
         #region ExpenseAccount
         public List<ExpenseAccountDto> ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId)
         {

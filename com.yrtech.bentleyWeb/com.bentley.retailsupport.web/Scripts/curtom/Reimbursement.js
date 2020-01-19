@@ -222,7 +222,7 @@ function InitMarketFundLst() {
             }
         }, {
             title: $('#TRAN_AR').val(),
-            field: "ReplyResult",
+            field: "ReplyStatus",
             valign: "middle",
             align: "center",
             sortable: false,
@@ -238,10 +238,11 @@ function InitMarketFundLst() {
                             real = ary[i].text;
                         }
                     }
+                    
                     if (roleType != 'SHOP') {
-                        var html = '<a href="javascript:void(0)" data-name="ReplyResult" data-pk="undefined" data-value="">' + real + '</a>';
-                        if (!result.valu) {
-                            html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ReplyResult" class="editable editable-click">' + real + '</a>';
+                        var html = '<a href="javascript:void(0)" data-name="ReplyStatus" data-pk="undefined" data-value="">' + real + '</a>';
+                        if (!result.value) {
+                            html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ReplyStatus" class="editable editable-click">' + real + '</a>';
                         }
                         return html;
                     } else { return real }
@@ -278,6 +279,8 @@ function InitMarketFundLst() {
             curRow = row;
         },
         onEditableSave: function (field, row, oldValue, $el) {
+            row.InUserId = $("#G_UserId").val();
+            row.ModifyUserId = $("#G_UserId").val();
             $.commonPost("DMF/ExpenseAccountSave", row, function (data) {
                 if (data) {
                     row.ExpenseAccountId = data.ExpenseAccountId;
@@ -381,19 +384,3 @@ var undoNubmer = function (money) {
         return "";
     }
 };
-
-function downloadFile() {
-    var url = "/Master/DownloadReimbursementLst?userId={0}&currentpage={1}&pagesize={2}&dealerId={3}";
-    url = url.replace('{0}', $('#G_UserId').val());
-    url = url.replace('{1}', 1);
-    url = url.replace('{2}', 100000);
-    url = url.replace('{3}', $('#pdealer').val());
-
-    var iframe = document.createElement("iframe");
-    iframe.src = url;
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    iframe.style.display = 'none';
-    var div = document.getElementById('footer');
-    div.appendChild(iframe);
-}

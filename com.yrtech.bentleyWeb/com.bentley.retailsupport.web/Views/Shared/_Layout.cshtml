@@ -227,8 +227,7 @@
                     <div class="clearfix"></div>
                     @if (LoginUser.RoleTypeCode == "SYSADMIN"
                         || LoginUser.RoleTypeCode == "AREA"
-                        || LoginUser.RoleTypeCode == "SHOP"
-                        || LoginUser.RoleTypeCode == "MARKET")
+                        || LoginUser.RoleTypeCode == "SHOP")
                     {
                         <li id="nav_dash">
                             <a href="/Home/Index">
@@ -268,45 +267,53 @@
                             </a>
                         </li>
                     }
+                    @if (LoginUser.RoleTypeCode == "SYSADMIN"
+                        || LoginUser.RoleTypeCode == "AREA"
+                        || LoginUser.RoleTypeCode == "SHOP")
+                    {
+                        <li id="nav_reimbursement">
+                            <a href="/DMF/ExpenseAccount">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i>
+                                <span class="menu-title" translate>Reimbursement</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="nav_reimbursement">
-                        <a href="/DMF/ExpenseAccount">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i>
-                            <span class="menu-title" translate>Reimbursement</span>
-                        </a>
-                    </li>
+                    @if (LoginUser.AccountId == "admin")
+                    {
+                        <li id="nav_IncomeCost">
+                            <a href="/DMF/MonthSale">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i>
+                                <span class="menu-title" translate>Monthly Wholesale Condition</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="nav_IncomeCost">
-                        <a href="/DMF/MonthSale">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i>
-                            <span class="menu-title" translate>Monthly Wholesale Condition</span>
-                        </a>
-                    </li>
+                    @*<li id="nav_dealer_funds_ov">
+                            <a href="/DMF/DMFDetail">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i>
+                                <span class="menu-title" translate>Marketing Fund Summary (Overview)</span>
+                            </a>
+                        </li>*@
 
-
-                    <li id="nav_dealer_funds_ov">
-                        <a href="/DMF/DMFDetail">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i>
-                            <span class="menu-title" translate>Marketing Fund Summary (Overview)</span>
-                        </a>
-                    </li>
-
-
-                    <li id="nav_budget_cost">
-                        <a href="/DMF/DMFDetail">
-                            <i class="fa fa-desktop fa-fw">
-                                <div class="icon-bg bg-pink"></div>
-                            </i>
-                            <span class="menu-title" translate>Budget and Expense</span>
-                        </a>
-                    </li>
-
+                    @if (LoginUser.AccountId == "admin"
+                        || LoginUser.RoleTypeCode == "SHOP")
+                    {
+                        <li id="nav_budget_cost">
+                            <a href="/DMF/DMFDetail">
+                                <i class="fa fa-desktop fa-fw">
+                                    <div class="icon-bg bg-pink"></div>
+                                </i>
+                                <span class="menu-title" translate>Budget and Expense</span>
+                            </a>
+                        </li>
+                    }
                     @*
                         <li id="nav_log">
                             <a href="/Home/ManageLog">

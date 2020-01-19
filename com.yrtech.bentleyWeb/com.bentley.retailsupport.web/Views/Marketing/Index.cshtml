@@ -139,11 +139,14 @@
             initTable();
             loadMarketings();
 
+            var clientWidth = document.body.clientWidth;
             $(window).resize(function () {
-                $('#myMarketing').bootstrapTable('destroy');// 销毁表格数据
-                initTable();
-                loadMarketings();
-                HideFiledDealer();
+                if (document.body.clientWidth != clientWidth) {
+                    $('#myMarketing').bootstrapTable('destroy');// 销毁表格数据
+                    initTable();
+                    loadMarketings();
+                    HideFiledDealer();
+                }
             });
         })
     </script>

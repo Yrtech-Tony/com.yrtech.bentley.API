@@ -270,9 +270,9 @@ function InitCueLst() {
         onClickCell: function (field, value, row, $element) {
             if ($element.find(":checkbox").length == 0) {
                 return false;
-            }
-            $element.find(":checkbox").prop("checked",true);
+            }            
             row[field] = !value;
+            $element.find(":checkbox").prop("checked", !value);
             saveLeadsReport(row);
         },
         onEditableSave: function (field, row, oldValue, $el) {

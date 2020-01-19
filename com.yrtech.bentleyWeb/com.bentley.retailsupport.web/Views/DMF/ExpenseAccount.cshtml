@@ -189,18 +189,29 @@
                 $('#pdealer').val(window.localStorage["_reimbursement"]||'');
             }
 
+            var clientWidth = document.body.clientWidth;
             $(window).resize(function () {
-                $('#myReimbursement').bootstrapTable('destroy');// 销毁表格数据
-                InitMarketFundLst();
-                HidenField();
-                loadExpenseAccount();
+                if (document.body.clientWidth != clientWidth) {
+                    $table.bootstrapTable('destroy');// 销毁表格数据
+                    InitMarketFundLst();
+                    HidenField();
+                    loadExpenseAccount();
+                }
             });
-
+           
             InitMarketFundLst();
             HidenField();
             loadExpenseAccount();
         })
             
+        function downloadFile() {
+            $.commonGet("DMF/ExpenseAccountExport", { shopId: $("#pdealer").val() }, function (data) {
+                if (data) {
+                    window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
+                }
+            })
+        }
+
         function NameQuery() {
             if (window.localStorage) {
                 var storage = window.localStorage;

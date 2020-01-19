@@ -91,7 +91,7 @@
                                                     </div>
                                                 </span>
                                             </div>
-                                            <div id="toptable" class="widget-body" style="margin-left:10px">
+                                            <div id="toptable" class="widget-body" style="margin-left:10px;display:none">
                                                 <div class="row">
                                                     <div class="col-xs-12">
                                                         <div class="table-responsible">
@@ -186,8 +186,9 @@
                 hdData.push({ value: item.ShopId, text: shopName });
             });
             if (roleType == "SHOP") {
+                $('#toptable').show();
                 $('#phbuttons').hide();
-                $('#pdbuttons2').hide();
+                $("#pdealer").remove();
             }
             else {
                 $('#toptable').hide();
@@ -213,21 +214,27 @@
             $(window).resize(function () {
                 if (document.body.clientWidth != clientWidth) {
                     $table.bootstrapTable('destroy');// 销毁表格数据
-                    InitDMFDetail();
-                    loadDMFDetail();
-                    HideColumn();
+                    loadDMFDetailOrQuarter();
                 }              
             });
-
-            InitDMFDetail();
-            loadDMFDetail();
-            HideColumn();
+            loadDMFDetailOrQuarter();
         })
+
+        function loadDMFDetailOrQuarter() {
+            InitDMFDetail();
+            if (roleType == "SHOP") {
+                loadDMFQuarter();
+            } else {
+                loadDMFDetail();
+            }
+            HideColumn();
+        }
 
         function HideColumn() {
             $table.bootstrapTable('hideColumn', 'isReimburse');
-            if (roleType == "SHOP")
+            if (roleType == "SHOP") {
                 $table.bootstrapTable('hideColumn', 'checkedId');
+            } 
         }
 
         function NameQuery() {
@@ -242,8 +249,72 @@
             }, function (data) {
                 if (data) {
                     $table.bootstrapTable("load", data);
+                    loadTotalDiv(data);
                 }
             });
+        }
+        function loadDMFQuarter() {
+            $.commonGet("DMF/DMFQuarterSearch", {
+                shopId: $("#pdealer").val() || loadShops()[0].ShopId
+            }, function (data) {
+                if (data) {
+                    $table.bootstrapTable("load", data.DMFDetailList);
+                    loadTopTable(data.DMFQuarterList)
+                    loadTotalDiv(data.DMFDetailList);
+                }
+            });
+        }
+
+        function loadTotalDiv(data) {            
+            var sumBuget = 0;
+            var sumCost = 0;
+            for (var i = 0; i < data.length; i++) {
+                sumBuget += data[i]["Budget"];
+                sumCost += data[i]["AcutalAmt"];
+            }
+            $("#totalDiv").html("<span>" + (isZH() ? "预算花费总计" : "Total Budget Amount") + "：" + dealNumber(sumBuget) + "</span/> &nbsp;&nbsp; &nbsp;&nbsp; " + (isZH() ? "实际花费总计" : "Total Actual Expense") + "：" + dealNumber(sumCost));
+
+        }
+
+        function loadTopTable(quarterList) {
+            if (quarterList && quarterList.length>0) {
+                var sumNum = 0;
+                var sumIncome = 0;
+                for (var i in quarterList) {
+                    var quarter = quarterList[i];
+                    if (quarter.Quarters == "Q1") {
+                        tbl.rows[1].cells[1].innerHTML = quarter.ActualMonthSaleCount;
+                        tbl.rows[1].cells[2].innerHTML = quarter.ActualMonthSaleAmt;
+                    }
+                    else if (quarter.Quarters == "Q2") {
+                        tbl.rows[2].cells[1].innerHTML = quarter.ActualMonthSaleCount;
+                        tbl.rows[2].cells[2].innerHTML = quarter.ActualMonthSaleAmt;
+                    }
+                    else if (quarter.Quarters == "Q3") {
+                        tbl.rows[3].cells[1].innerHTML = quarter.ActualMonthSaleCount;
+                        tbl.rows[3].cells[2].innerHTML = quarter.ActualMonthSaleAmt;
+                    }
+                    else {
+                        tbl.rows[4].cells[1].innerHTML = quarter.ActualMonthSaleCount;
+                        tbl.rows[4].cells[2].innerHTML = quarter.ActualMonthSaleAmt;
+                    }
+                    sumNum += parseInt(quarter.ActualMonthSaleCount);
+                    sumIncome += parseFloat(quarter.ActualMonthSaleAmt);
+                }
+
+                var tbl = document.getElementById('chart');
+                tbl.rows[1].cells[3].innerHTML = dealNumber(quarterList[0].ActualAmt);
+                tbl.rows[5].cells[1].innerHTML = sumNum;
+                tbl.rows[5].cells[2].innerHTML = dealNumber(sumIncome);
+                var howmuch = quarterList[0].DiffAmt;
+                if (howmuch > 0) {
+                    tbl.rows[1].cells[4].innerHTML = dealNumber(howmuch);
+                } else {
+                    var newMsg = isZH() ? "如基金年度差额为负值，宾利汽车中国将暂停向经销商的款项支付，处理意见另行通知" : "If the annual balance is negative, BMC will withhold the payment for the retailer until further notice";
+                    tbl.rows[1].cells[4].innerHTML = "<font color='red'>" + dealNumber(howmuch) + "</font><br/><p>" + newMsg + "</p>";
+                }
+            }
+           
         }
 
         function downloadFile() {

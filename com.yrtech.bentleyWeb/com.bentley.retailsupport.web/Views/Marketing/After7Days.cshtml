@@ -903,43 +903,6 @@
             }
         });
 
-        function loadActiveStatuss() {
-            $.commonGet("Master/HiddenCodeSearch", {
-                hiddenCodeGroup: "MarketActionStatus",
-                hiddenCode: ""
-            }, function (data) {
-                data.forEach(function (item) {
-                    $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
-                });
-                $("#MarketActionStatusCode").selectpicker("refresh");
-            })
-        }
-
-        function loadTargetModels() {
-            $.commonGet("Master/HiddenCodeSearch", {
-                hiddenCodeGroup: "TargetModels",
-                hiddenCode: ""
-            }, function (data) {
-                data.forEach(function (item) {
-                    $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
-                });
-                $("#MarketActionTargetModelCode").selectpicker("refresh");
-            })
-        }
-
-        function loadEventTypes() {
-            $.commonGet("Master/EventTypeSearch", {
-                eventTypeId: "",
-                eventTypeName: "",
-                eventTypeNameEn: ""
-            }, function (data) {
-                data.forEach(function (item) {
-                    $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn))
-                });
-                $("#EventTypeId").selectpicker("refresh");
-            })
-        }
-
         function SProcessing() {
             //loading
             var index = layer.load(1, {

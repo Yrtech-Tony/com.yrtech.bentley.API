@@ -256,20 +256,7 @@
                 });
             })
         }
-
-        function loadEventTypes() {
-            $.commonGet("Master/EventTypeSearch", {
-                eventTypeId: "",
-                eventTypeName: "",
-                eventTypeNameEn: ""
-            }, function (data) {
-                data.forEach(function (item) {
-                    $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn))
-                });
-            })
-        }
-
-
+        
         function PromotionCreate() {            
             var data = $('#PromotionCreate').data('bootstrapValidator');
             if (data) {

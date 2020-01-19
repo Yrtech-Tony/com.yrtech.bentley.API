@@ -40,10 +40,10 @@ function InitDMFDetail() {
     $('#myBudgetCost').bootstrapTable({
         pagination: true,
         striped: true, //是否显示行间隔色
-        height: getClientHeight() - 280 + 80 - 150,
+        height: getClientHeight() - 280 + 80 - 211,
         showColumns: false, // 开启自定义列显示功能
         sortable: true,
-        sortName: 'Id',
+        sortName: 'DMFDetailId',
         sortOrder: 'asc',
         pageNumber: 1,
         pageSize: 10,
@@ -226,75 +226,10 @@ function InitDMFDetail() {
         onClickRow: function (row, $element) {
             curRow = row;
         },
-        onLoadSuccess: function (data) {
-            var sumBuget = 0;
-            var sumCost = 0;
-            for (var i = 0; i < data.rows.length; i++) {
-                sumBuget += data.rows[i]["Budget"];
-                sumCost += data.rows[i]["AcutalAmt"];
-            }
-            //if (data.rows.length > 0) {
-            $("#totalDiv").html("<span>" + (isZH() ? "预算花费总计" : "Total Budget Amount") + "：" + dealNumber(sumBuget) + "</span/> &nbsp;&nbsp; &nbsp;&nbsp; " + (isZH() ? "实际花费总计" : "Total Actual Expense") + "：" + dealNumber(sumCost));
-
-            //var yearn = new Date().getFullYear();
-            //var sn = role == "经销商" ? 0 : 1;
-            //var _dealerId = data.rows.length > 0 ? data.rows[0]["DealerId"] : eval($('#_hd_dealer').val())[0].value;
-            //var requestData = { year: yearn, dealerId: _dealerId, sign: sn };
-            //$.ajax({
-            //    type: "post",
-            //    url: "/BudgetCost/CostTotal",
-            //    data: requestData,
-            //    dataType: 'JSON',
-            //    success: function (data, status) {
-            //        if (data.returnValue) {
-            //            console.log('提交数据成功');
-            //        }
-            //    },
-            //    error: function () {
-            //        //layer.alert('删除失败');
-            //    },
-            //    complete: function (data, status) {
-            //        var tbl = document.getElementById('chart');
-            //        var sumNum = 0;
-            //        var sumIncome = 0;
-            //        if (data.responseJSON != undefined && data.responseJSON.IncomeCosts.length > 0) {
-            //            for (var x = 0; x < data.responseJSON.IncomeCosts.length; x++) {
-            //                if (data.responseJSON.IncomeCosts[x]["Season"] == "Q1") {
-            //                    tbl.rows[1].cells[1].innerHTML = data.responseJSON.IncomeCosts[x]["Num"];
-            //                    tbl.rows[1].cells[2].innerHTML = dealNumber(data.responseJSON.IncomeCosts[x]["Money"]);
-            //                }
-            //                else if (data.responseJSON.IncomeCosts[x]["Season"] == "Q2") {
-            //                    tbl.rows[2].cells[1].innerHTML = data.responseJSON.IncomeCosts[x]["Num"];
-            //                    tbl.rows[2].cells[2].innerHTML = dealNumber(data.responseJSON.IncomeCosts[x]["Money"]);
-            //                }
-            //                else if (data.responseJSON.IncomeCosts[x]["Season"] == "Q3") {
-            //                    tbl.rows[3].cells[1].innerHTML = data.responseJSON.IncomeCosts[x]["Num"];
-            //                    tbl.rows[3].cells[2].innerHTML = dealNumber(data.responseJSON.IncomeCosts[x]["Money"]);
-            //                }
-            //                else {
-            //                    tbl.rows[4].cells[1].innerHTML = data.responseJSON.IncomeCosts[x]["Num"];
-            //                    tbl.rows[4].cells[2].innerHTML = dealNumber(data.responseJSON.IncomeCosts[x]["Money"]);
-            //                }
-            //                sumNum += data.responseJSON.IncomeCosts[x]["Num"];
-            //                sumIncome += data.responseJSON.IncomeCosts[x]["Money"];
-            //            }
-            //        }
-            //        tbl.rows[1].cells[3].innerHTML = dealNumber(data.responseJSON.ActualCost);
-            //        tbl.rows[5].cells[1].innerHTML = sumNum;
-            //        tbl.rows[5].cells[2].innerHTML = dealNumber(sumIncome);
-            //        var howmuch = sumIncome - data.responseJSON.ActualCost;
-            //        if (howmuch > 0) {
-            //            tbl.rows[1].cells[4].innerHTML = dealNumber(howmuch);
-            //        } else {
-            //            var newMsg = isZH() ? "如基金年度差额为负值，宾利汽车中国将暂停向经销商的款项支付，处理意见另行通知" : "If the annual balance is negative, BMC will withhold the payment for the retailer until further notice";
-            //            tbl.rows[1].cells[4].innerHTML = "<font color='red'>" + dealNumber(howmuch) + "</font><br/><p>" + newMsg + "</p>";
-            //        }
-            //    }
-            //});
-            //}
-        },
         onEditableSave: function (field, row, oldValue, $el) {
             if (row.DMFItemId && row.ShopId) {
+                row.InUserId = $("#G_UserId").val();
+                row.ModifyUserId = $("#G_UserId").val();
                 $.commonPost("DMF/DMFDetailSave", row, function (data) {
                     if (data) {
                         row.DMFDetailId = data.DMFDetailId;
@@ -309,7 +244,6 @@ function InitDMFDetail() {
             }
         }
     });
-
 }
 
 function DeleteBudgetCost() {

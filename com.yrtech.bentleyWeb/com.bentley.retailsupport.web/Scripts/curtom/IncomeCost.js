@@ -182,6 +182,8 @@ function InitIncomeCostList() {
         },
         onEditableSave: function (field, row, oldValue, $el) {
             if (row.YearMonth && row.ShopId) {
+                row.InUserId = $("#G_UserId").val();
+                row.ModifyUserId = $("#G_UserId").val();
                 $.commonPost("DMF/MonthSaleSave", row, function (data) {
                     if (data) {
                         row.MonthSaleId  = data.MonthSaleId ;

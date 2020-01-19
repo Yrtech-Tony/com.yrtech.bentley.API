@@ -39,29 +39,6 @@ function NameQuery() {
     loadMarketings(true);
 }
 
-function loadActiveStatuss() {
-    $.commonGet("Master/HiddenCodeSearch", {
-        hiddenCodeGroup: "MarketActionStatus",
-        hiddenCode: ""
-    }, function (data) {
-        data.forEach(function (item) {
-            $("#pstate").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
-        });
-    })
-}
-
-function loadEventTypes() {
-    $.commonGet("Master/EventTypeSearch", {
-        eventTypeId: "",
-        eventTypeName: "",
-        eventTypeNameEn: "",
-        showStatus: 'ture'
-    }, function (data) {
-        data.forEach(function (item) {
-            $("#ptype").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn))
-        });
-    })
-}
 var types = isZH() ? ['数字营销', '广告及宣传', '线上平台线索获取'] : ['Digital Marketing', 'Advertisement', 'Online Sales Leads Generation'];
 function statusFormatter(value, row, index, field) {
     if (row.MarketActionStatusNameEn == "Canceled") {

@@ -177,6 +177,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Home\ActualCueReport.html" />
+    <Content Include="Home\BudgetCost\Index.html" />
     <Content Include="Home\CueReport.html" />
     <Content Include="Home\DealersBalance.html" />
     <Content Include="Home\IncomeCost.html" />
@@ -230,6 +231,7 @@
     <Content Include="Scripts\bower_components\layer\layer.js" />
     <Content Include="Scripts\bower_components\layer\skin\default\layer.css" />
     <Content Include="Scripts\bower_components\layer\skin\default\loading-1.gif" />
+    <Content Include="Scripts\curtom\BudgetCost.js" />
     <Content Include="Scripts\curtom\CueReport.js" />
     <Content Include="Scripts\curtom\IncomeCost.js" />
     <Content Include="Scripts\curtom\MarketFund.js" />
@@ -402,6 +404,7 @@
     <Content Include="Views\DMF\ExpenseAccount.cshtml" />
     <Content Include="Views\DMF\ExpenseAccountFile.cshtml" />
     <Content Include="Views\DMF\MonthSale.cshtml" />
+    <Content Include="Views\DMF\DMFDetail.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

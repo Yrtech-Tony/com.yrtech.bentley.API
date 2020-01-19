@@ -82,8 +82,6 @@
                                                         <select class="input-small m-wrap no-margin" id="pdealer" name="pdealer" style="background-color: white;" onchange="NameQuery()">
                                                             <option value="" translate>Dealer Name</option>
                                                         </select>
-                                                        <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadFile()"><i class="icon-download-alt"></i><span translate>Export</span></a>
-
                                                     </div>
                                                 </span>
                                             </div>
@@ -120,14 +118,15 @@
         var $table = $('#myIncomeCost');
         var roleType = $("#G_RoleTypeCode").val();
         var account = $("#G_AccountId").val();
-        var hdData = loadShops();
+        var hdData = [];
         $(function () {
             //下载模板地址
             templateDownloadA.href = host + "/Content/Excel/MonthSaleImport.xlsx";
 
-            hdData.forEach(function (item) {
+            loadShops().forEach(function (item) {
                 var shopName = isZH() ? item.ShopName : item.ShopNameEn;
                 $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
+                hdData.push({ value: item.ShopId, text: shopName });
             });
             if (roleType == "SHOP") {
                 $('#pdbuttons2').hide();
@@ -140,7 +139,6 @@
             });
 
             InitIncomeCostList();
-            HidenField();
             loadMonthSale();
         })
         
@@ -150,65 +148,53 @@
         
         function loadMonthSale() {
             $.commonGet("DMF/MonthSaleSearch", {
-                expenseAccountId: '',
-                shopId: $("#pdealer").val(),
-                dmfItemId: '',
-                marketActionId: '',
-                userId: $('#G_UserId').val(),
-                roleTypeCode: $('#G_RoleTypeCode').val()
+                monthSaleId: '',
+                shopId: $("#pdealer").val()
             }, function (data) {
                 if (data) {
-                    $('#myReimbursement').bootstrapTable("load", data);
+                    $table.bootstrapTable("load", data);
                 }
             });
         }
 
         //导入文件事件
-        $("#uploadFile").change(uploadLeadsReports);
+        $("#uploadFile").change(uploadMonthSales);
         function uploadFile() {
             $("#uploadFile").click();
             return false;
         };
 
-        function uploadLeadsReports() {
+        function uploadMonthSales() {
             var file_obj = document.getElementById('uploadFile').files[0];
             readWorkbookFromLocalFile(file_obj, function (workbook) {
                 document.getElementById('uploadFile').value = '';
                 var worksheet = workbook.Sheets['我的工作表'];
                 var json = XLSX.utils.sheet_to_json(worksheet);
                 if (json && json.length > 0) {
-                    var leadsReports = [];
+                    var monthSales = [];
                     $.each(json, function (i, item) {
+                        if (i == 0) return;
                         try {
-                            var CustomerName = $.trim(item["客户姓名"]);
-                            var BPNO = $.trim(item["BP号"]);
-                            var OwnerCheck = $.trim(item["是否车主"]);
-                            var TestDriverCheck = $.trim(item["是否试驾"]);
-                            var LeadsCheck = $.trim(item["是否为线索"]);
-                            var InterestedModel = $.trim(item["感兴趣车型"]);
-                            var DealCheck = $.trim(item["是否成交"]);
-                            var DealModel = $.trim(item["成交车型"]);
+                            var ShopName = $.trim(item["DealerName"]);
+                            var YearMonth = $.trim(item["YearAndMonth"]);
+                            var ActualSaleCount = $.trim(item["Number"]);
+                            var ActualSaleAmt = $.trim(item["Income"]);
 
-                            leadsReports.push({
-                                MarketActionId: id,
-                                CustomerName: CustomerName,
-                                BPNO: BPNO,
-                                OwnerCheck: OwnerCheck,
-                                TestDriverCheck: TestDriverCheck,
-                                LeadsCheck: LeadsCheck,
-                                InterestedModel: InterestedModel,
-                                DealCheck: DealCheck,
-                                DealModel: DealModel,
+                            monthSales.push({
+                                YearMonth: YearMonth,
+                                ShopName: ShopName,
+                                ActualSaleCount: ActualSaleCount,
+                                ActualSaleAmt: ActualSaleAmt,
                                 InUserId: $("#G_UserId").val(),
                                 ModifyUserId: $("#G_UserId").val()
                             });
 
                         } catch (e) {
-                            console.error('处理清单出错', e);
+                            console.error('读取月批售概况出错', e);
                         }
 
                     })
-                    importLeadsReports(leadsReports);
+                    importMonthSales(monthSales);
                 } else {
                     alert("Excel中没有清单数据！");
                 }
@@ -227,15 +213,15 @@
         }
 
         //导入线索报告信息
-        function importLeadsReports(leadsReports) {
+        function importMonthSales(monthSales) {
             SProcessing();
-            $.commonPost("MarketAction/MarketActionAfter2LeadsReportImport", {
+            $.commonPost("DMF/MonthSaleImport", {
                 UserId: $("#G_UserId").val(),
-                ListJson: JSON.stringify(leadsReports)
+                ListJson: JSON.stringify(monthSales)
             }, function (data) {
                 EProcessing();
                 console.log(data);
-                loadCueReport();
+                loadMonthSale();
             }, EProcessing);
         }
 

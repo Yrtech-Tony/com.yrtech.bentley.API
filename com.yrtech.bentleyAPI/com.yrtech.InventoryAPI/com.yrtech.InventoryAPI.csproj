@@ -190,6 +190,8 @@
     <Compile Include="DTO\Answer\AnswerDto.cs" />
     <Compile Include="DTO\Answer\AnswerPhotoDto.cs" />
     <Compile Include="DTO\Answer\AnswerShopInfoDto.cs" />
+    <Compile Include="DTO\DMF\DMFQuarterMainDto.cs" />
+    <Compile Include="DTO\DMF\DMFDto.cs" />
     <Compile Include="DTO\DMF\ExpenseAccountDto.cs" />
     <Compile Include="DTO\DMF\DMFDetailDto.cs" />
     <Compile Include="DTO\DMF\MonthSaleDto.cs" />

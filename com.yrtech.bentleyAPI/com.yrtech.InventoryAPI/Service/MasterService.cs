@@ -44,7 +44,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             return db.Database.SqlQuery(t, sql, para).Cast<ShopDto>().ToList();
         }
-        public void ShopSave(Shop shop)
+        public Shop ShopSave(Shop shop)
         {
             Shop findOne = db.Shop.Where(x => (x.ShopId ==shop.ShopId)).FirstOrDefault();
             if (findOne == null)
@@ -64,8 +64,74 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.City = shop.City;
                 findOne.ModifyDateTime = DateTime.Now;
                 findOne.ModifyUserId = shop.ModifyUserId;
+                shop = findOne;
             }
             db.SaveChanges();
+            return shop;
+        }
+        public void ShopDelete(string shopId)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
+            string sql = @"DELETE Shop WHERE ShopId = @ShopId
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
+        #region Area
+        public List<Area> AreaSearch(string areaId, string areaName, string areaNameEn)
+        {
+            if (areaId == null) areaId = "";
+            if (areaName == null) areaName = "";
+            if (areaNameEn == null) areaNameEn = "";
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@AreaId", areaId),
+                                                    new SqlParameter("@AreaName", areaName),
+                                                    new SqlParameter("@AreaNameEn", areaNameEn)};
+            Type t = typeof(Area);
+            string sql = "";
+            sql = @"SELECT A.* 
+                    FROM Area A 
+                    WHERE 1=1";
+            if (!string.IsNullOrEmpty(areaId))
+            {
+                sql += " AND AreaId = @AreaId";
+            }
+            if (!string.IsNullOrEmpty(areaName))
+            {
+                sql += " AND AreaName = @AreaName";
+            }
+            if (!string.IsNullOrEmpty(areaNameEn))
+            {
+                sql += " AND AreaNameEn = @AreaNameEn";
+            }
+            return db.Database.SqlQuery(t, sql, para).Cast<Area>().ToList();
+        }
+        public Area AreaSave(Area area)
+        {
+            Area findOne = db.Area.Where(x => (x.AreaId == area.AreaId)).FirstOrDefault();
+            if (findOne == null)
+            {
+                area.InDateTime = DateTime.Now;
+                area.ModifyDateTime = DateTime.Now;
+                db.Area.Add(area);
+            }
+            else
+            {
+                findOne.AreaCode = area.AreaCode;
+                findOne.AreaName = area.AreaName;
+                findOne.AreaNameEn = area.AreaNameEn;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = area.ModifyUserId;
+                area = findOne;
+            }
+            db.SaveChanges();
+            return area;
+        }
+        public void AreaDelete(string areaId)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@AreaId", areaId) };
+            string sql = @"DELETE Area WHERE AreaId = @AreaId
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
         }
         #endregion
         #region HiddenCode
@@ -124,7 +190,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             return db.Database.SqlQuery(t, sql, para).Cast<EventTypeDto>().ToList();
         }
-        public void EventTypeSave(EventType eventType)
+        public EventType EventTypeSave(EventType eventType)
         {
             EventType findOne = db.EventType.Where(x => (x.EventTypeId == eventType.EventTypeId)).FirstOrDefault();
             if (findOne == null)
@@ -143,9 +209,115 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.ModifyDateTime = DateTime.Now;
                 findOne.ModifyUserId = eventType.ModifyUserId;
                 findOne.ShowStatus = eventType.ShowStatus;
-                
+                eventType = findOne;
             }
             db.SaveChanges();
+            return eventType;
+        }
+        public void EventTypeDelete(string eventTypeId)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@EventTypeId", eventTypeId) };
+            string sql = @"DELETE EventType WHERE EventTypeId = @EventTypeId
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
+        #region UserInfo
+        public List<UserInfoDto> UserInfoSearch(string userId, string accountId, string accountName)
+        {
+            if (userId == null) userId = "";
+            if (accountId == null) accountId = "";
+            if (accountName == null) accountName = "";
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@UserId", userId),
+                                                    new SqlParameter("@AccountId", accountId),
+                                                    new SqlParameter("@AccountName", accountName)};
+            Type t = typeof(UserInfoDto);
+            string sql = "";
+            sql = @"SELECT [UserId]
+                    ,[AccountId]
+                    ,[Password]
+                    ,[AccountName]
+                    ,[AccountNameEn]
+                    ,[TelNO]
+                    ,[Email]
+                    ,RoleTypeCode
+                    ,CASE WHEN [RoleTypeCode] = 'SYSADMIN' THEN '管理员'
+			            WHEN [RoleTypeCode] = 'AREA' THEN '区域经理'
+			            WHEN [RoleTypeCode] = 'BMC' THEN 'BMC'
+			            WHEN [RoleTypeCode] = 'Shop' THEN '经销商'
+			            ELSE '' END AS RoleTypeName
+                    ,A.[ShopId]
+                    ,CASE WHEN [RoleTypeCode] IN ('SYSADMIN','BMC','AREA') THEN ''
+		                WHEN [RoleTypeCode] IN ('Shop') THEN B.ShopName
+		                ELSE '' END AS ShopName
+                    ,CASE WHEN [RoleTypeCode] IN ('SYSADMIN','BMC','AREA') THEN ''
+		                WHEN [RoleTypeCode] IN ('Shop') THEN B.ShopNameEn
+		                ELSE '' END AS ShopNameEn
+	                ,CASE WHEN [RoleTypeCode] IN ('SYSADMIN','BMC') THEN ''
+		                WHEN [RoleTypeCode] IN ('Shop') 
+		                THEN (SELECT TOP 1 AreaName FROM Shop A INNER JOIN Area B ON A.AreaId = B.AreaId) 
+		                WHEN [RoleTypeCode] IN ('AREA') THEN C.AreaName
+		                ELSE '' END AS AreaName
+		            ,CASE WHEN [RoleTypeCode] IN ('SYSADMIN','BMC') THEN ''
+		                WHEN [RoleTypeCode] IN ('Shop') 
+		                THEN (SELECT TOP 1 AreaNameEn FROM Shop A INNER JOIN Area B ON A.AreaId = B.AreaId) 
+		                WHEN [RoleTypeCode] IN ('AREA') THEN C.AreaNameEn
+		                ELSE '' END AS AreaNameEn
+                    ,A.[AreaId]
+                    ,A.[InUserId]
+                    ,A.[InDateTime]
+                    ,A.[ModifyUserId]
+                    ,A.[ModifyDateTime]
+                FROM UserInfo A LEFT JOIN Shop B ON A.ShopId = B.ShopId
+				                LEFT JOIN Area C ON A.AreaId = C.AreaId
+                    WHERE 1=1";
+            if (!string.IsNullOrEmpty(userId))
+            {
+                sql += " AND UserId = @UserId";
+            }
+            if (!string.IsNullOrEmpty(accountId))
+            {
+                sql += " AND AccountId = @AccountId";
+            }
+            if (!string.IsNullOrEmpty(accountName))
+            {
+                sql += " AND AccountName = @AccountName";
+            }
+            return db.Database.SqlQuery(t, sql, para).Cast<UserInfoDto>().ToList();
+        }
+        public UserInfo UserInfoSave(UserInfo userInfo)
+        {
+            UserInfo findOne = db.UserInfo.Where(x => (x.UserId == userInfo.UserId)).FirstOrDefault();
+            if (findOne == null)
+            {
+                userInfo.InDateTime = DateTime.Now;
+                userInfo.ModifyDateTime = DateTime.Now;
+                db.UserInfo.Add(userInfo);
+            }
+            else
+            {
+                findOne.AccountId = userInfo.AccountId;
+                findOne.AccountName = userInfo.AccountName;
+                findOne.AccountNameEn = userInfo.AccountNameEn;
+                findOne.AreaId = userInfo.AreaId;
+                findOne.Email = userInfo.Email;
+                findOne.ModifyDateTime = DateTime.Now;
+                findOne.ModifyUserId = userInfo.ModifyUserId;
+                findOne.Password = userInfo.Password;
+                findOne.RoleTypeCode = userInfo.RoleTypeCode;
+                findOne.ShopId = userInfo.ShopId;
+                findOne.TelNO = userInfo.TelNO;
+                userInfo = findOne;
+            }
+            db.SaveChanges();
+            return userInfo;
+        }
+        public void UserInfoDelete(string userId)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@UserId", userId) };
+            string sql = @"DELETE UserInfo WHERE UserId = @UserId
+                        ";
+            db.Database.ExecuteSqlCommand(sql, para);
         }
         #endregion
 

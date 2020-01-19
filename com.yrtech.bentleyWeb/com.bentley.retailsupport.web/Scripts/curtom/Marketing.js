@@ -54,7 +54,8 @@ function loadEventTypes() {
     $.commonGet("Master/EventTypeSearch", {
         eventTypeId: "",
         eventTypeName: "",
-        eventTypeNameEn: ""
+        eventTypeNameEn: "",
+        showStatus: 'ture'
     }, function (data) {
         data.forEach(function (item) {
             $("#ptype").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn))

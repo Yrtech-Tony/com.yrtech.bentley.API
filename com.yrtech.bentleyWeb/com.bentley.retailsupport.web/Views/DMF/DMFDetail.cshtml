@@ -209,11 +209,14 @@
             });
             $.ajaxSettings.async = true;
 
+            var clientWidth = document.body.clientWidth;
             $(window).resize(function () {
-                $table.bootstrapTable('destroy');// 销毁表格数据
-                InitIncomeCostList();
-                loadDMFDetail();
-                HideColumn();
+                if (document.body.clientWidth != clientWidth) {
+                    $table.bootstrapTable('destroy');// 销毁表格数据
+                    InitDMFDetail();
+                    loadDMFDetail();
+                    HideColumn();
+                }              
             });
 
             InitDMFDetail();
@@ -269,7 +272,6 @@
                     $.each(json, function (i, item) {
                         if (i == 0) return;
                         try {
-                            debugger
                             var ShopName = $.trim(item["DealerName"]);
                             var DMFItemName = $.trim(item["ProjectName"]);
                             var Budget = $.trim(item["BudgetCost"]);

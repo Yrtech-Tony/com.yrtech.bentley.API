@@ -962,6 +962,53 @@ namespace com.yrtech.SurveyAPI.Controllers
 
         }
         #endregion
+        #region DMF
+        [HttpGet]
+        [Route("DMF/DMFSearch")]
+        public APIResult DMFSearch(string shopId)
+        {
+            try
+            {
+                List<DMFDto> dmfList = dmfService.DMFSearch(shopId);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpGet]
+        [Route("DMF/DMFQuarterSearch")]
+        public APIResult DMFQuarterSearch(string shopId)
+        {
+            try
+            {
+                DMFQuarterMainDto dmfQuarterMainDto = new DMFQuarterMainDto();
+                // 季度
+                List<DMFDto> dmfList = dmfService.DMFSearch(shopId);
+                List<DMFDto> dmfQuarterList = dmfService.DMFQuarterSearch(shopId);
+                foreach (DMFDto quarter in dmfQuarterList)
+                {
+                    foreach (DMFDto dmf in dmfList)
+                    {
+                        if (quarter.ShopId == dmf.ShopId)
+                        {
+                            quarter.ActualAmt = dmf.ActualAmt;
+                            quarter.DiffAmt = dmf.DiffAmt;
+                        }
+                    }
+                }
+
+                dmfQuarterMainDto.DMFQuarterList = dmfQuarterList;
+                dmfQuarterMainDto.DMFDetailList = dmfService.DMFDetailSearch("", shopId, ""); ;
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        #endregion
         #region DMFDetail
         [HttpGet]
         [Route("DMF/DMFDetailSearch")]

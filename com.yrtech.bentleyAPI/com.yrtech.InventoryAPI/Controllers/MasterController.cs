@@ -35,7 +35,79 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                masterService.ShopSave(shop);
+                shop = masterService.ShopSave(shop);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(shop) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("Master/ShopDelete")]
+        public APIResult ShopDelete(UploadData upload)
+        {
+            try
+            {
+                List<Shop> list = CommonHelper.DecodeString<List<Shop>>(upload.ListJson);
+                // 需要添加一个已经使用不能删除的验证。后期添加
+                foreach (Shop shop in list)
+                {
+                    masterService.ShopDelete(shop.ShopId.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
+        #region Shop
+        [HttpGet]
+        [Route("Master/AreaSearch")]
+        public APIResult AreaSearch(string areaId, string areaName, string areaNameEn)
+        {
+            try
+            {
+                List<Area> areaList = masterService.AreaSearch(areaId, areaName, areaNameEn);
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(areaList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpPost]
+        [Route("Master/AreaSave")]
+        public APIResult AreaSave(Area area)
+        {
+            try
+            {
+                area = masterService.AreaSave(area);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(area) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("Master/AreaDelete")]
+        public APIResult AreaDelete(UploadData upload)
+        {
+            try
+            {
+                List<Area> list = CommonHelper.DecodeString<List<Area>>(upload.ListJson);
+                // 需要添加一个已经使用不能删除的验证。后期添加
+                foreach (Area area in list)
+                {
+                    masterService.AreaDelete(area.AreaId.ToString());
+                }
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)
@@ -67,7 +139,27 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                masterService.EventTypeSave(eventType);
+                eventType = masterService.EventTypeSave(eventType);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(eventType) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("Master/EventTypeDelete")]
+        public APIResult EventTypeDelete(UploadData upload)
+        {
+            try
+            {
+                List<EventType> list = CommonHelper.DecodeString<List<EventType>>(upload.ListJson);
+                // 需要添加一个已经使用不能删除的验证。后期添加
+                foreach (EventType eventType in list)
+                {
+                    masterService.EventTypeDelete(eventType.EventTypeId.ToString());
+                }
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)
@@ -94,7 +186,59 @@ namespace com.yrtech.InventoryAPI.Controllers
             }
         }
         #endregion
-       
+        #region UserInfo
+        [HttpGet]
+        [Route("Master/UserInfoSearch")]
+        public APIResult UserInfoSearch(string userId, string accountId, string accountName)
+        {
+            try
+            {
+                List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userId,accountId,accountName);
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfoList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpPost]
+        [Route("Master/UserInfoSave")]
+        public APIResult UserInfoSave(UserInfo userInfo)
+        {
+            try
+            {
+                userInfo = masterService.UserInfoSave(userInfo);
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfo) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("Master/UserInfoDelete")]
+        public APIResult UserInfoDelete(UploadData upload)
+        {
+            try
+            {
+                List<UserInfo> list = CommonHelper.DecodeString<List<UserInfo>>(upload.ListJson);
+                // 需要添加一个已经使用不能删除的验证。后期添加
+                foreach (UserInfo userInfo in list)
+                {
+                    masterService.UserInfoDelete(userInfo.UserId.ToString());
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        #endregion
+
 
     }
 }

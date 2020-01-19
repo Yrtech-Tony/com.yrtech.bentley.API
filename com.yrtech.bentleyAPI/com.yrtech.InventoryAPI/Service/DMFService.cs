@@ -22,7 +22,7 @@ namespace com.yrtech.InventoryAPI.Service
                                                     new SqlParameter("@DMFItemNameEn", dmfItemNameEn)};
 
             Type t = typeof(DMFItem);
-            
+
             string sql = "";
             sql = @"SELECT A.* 
                     FROM DMFItem A 
@@ -84,7 +84,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region DMFDetail
-        public List<DMFDetailDto> DMFDetailSearch(string dmfDetailId, string shopId,string dmfItemId)
+        public List<DMFDetailDto> DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId)
         {
             if (dmfDetailId == null) dmfDetailId = "";
             if (shopId == null) shopId = "";
@@ -97,7 +97,7 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(DMFDetailDto);
 
             string sql = "";
-            sql = @"SELECT A.* 
+            sql = @"SELECT A.*,B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
                     FROM DMFDetail A INNER JOIN Shop B ON A.ShopId = B.ShopId
                                     INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
                     WHERE 1=1";
@@ -107,13 +107,13 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (!string.IsNullOrEmpty(shopId))
             {
-                sql += " AND ShopId = @ShopId";
+                sql += " AND A.ShopId = @ShopId";
             }
             if (!string.IsNullOrEmpty(dmfItemId))
             {
-                sql += " AND DMFItemId = @DMFItemId";
+                sql += " AND A.DMFItemId = @DMFItemId";
             }
-           
+
             return db.Database.SqlQuery(t, sql, para).Cast<DMFDetailDto>().ToList();
         }
         public DMFDetail DMFDetailSave(DMFDetail dmfDetail)
@@ -146,6 +146,70 @@ namespace com.yrtech.InventoryAPI.Service
             string sql = @"DELETE DMFDetail WHERE DMFDetailId = @DMFDetailId
                         ";
             db.Database.ExecuteSqlCommand(sql, para);
+        }
+        #endregion
+        #region DMF
+        public List<DMFDto> DMFSearch(string shopId)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
+
+            Type t = typeof(DMFDto);
+
+            string sql = "";
+            sql = @"                 
+                SELECT DISTINCT A.ShopId,A.ShopCode,A.ShopName,A.ShopNameEn
+			                ,ISNULL(B.ActualMonthSaleCount,0) AS ActualMonthSaleCount
+			                ,ISNULL(B.ActualMonthSaleAmt,0) AS ActualMonthSaleAmt
+			                ,ISNULL(C.ActualAmt,0) AS ActualAmt
+			                ,ISNULL(B.ActualMonthSaleAmt,0)-ISNULL(C.ActualAmt,0) AS DiffAmt
+                FROM Shop A LEFT JOIN
+                            (SELECT ShopId
+		                            ,ISNULL(SUM(ActualSaleCount),0) AS ActualMonthSaleCount
+		                            ,ISNULL(SUM(ActualSaleAmt),0) AS ActualMonthSaleAmt
+                            FROM dbo.MonthSale GROUP BY ShopId) B ON A.ShopId = B.ShopId
+                            LEFT JOIN
+                            (SELECT ShopId
+		                            ,ISNULL(SUM(AcutalAmt),0) AS ActualAmt 
+                            FROM dbo.DMFDetail GROUP BY ShopId) C ON A.ShopId = C.ShopId
+               WHERE 1=1";
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND A.ShopId = @ShopId";
+            }
+            return db.Database.SqlQuery(t, sql, para).Cast<DMFDto>().ToList();
+        }
+        public List<DMFDto> DMFQuarterSearch(string shopId)
+        {
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
+
+            Type t = typeof(DMFDto);
+
+            string sql = "";
+            sql = @"                 
+                SELECT A.ShopId,A.ShopName,A.ShopNameEn,Y.Quarters
+	                ,ISNULL(SUM(Y.ActualSaleCount),0) AS ActualSaleCount
+	                ,ISNULL(SUM(Y.ActualSaleAmt),0) AS ActualSaleAmt
+                FROM Shop A INNER JOIN 
+			                (SELECT ShopId,CASE WHEN MonthStr IN ('01','1','02','2','3','03') THEN 'Q1'
+								                WHEN MonthStr IN ('04','4','05','5','06','6') THEN 'Q2'
+								                WHEN MonthStr IN ('07','7','08','8','09','9') THEN 'Q3'
+								                ELSE 'Q4' END AS Quarters
+				                  ,ActualSaleAmt,ActualSaleCount
+			                FROM 
+				                (SELECT ShopId
+					                ,CASE WHEN LEN(YearMonth)=7 THEN LEFT(YearMonth,2)
+						                   WHEN LEN(YearMonth)=6 THEN LEFT(YearMonth,1)
+						                   ELSE '' END AS MonthStr
+					                ,ActualSaleAmt,ActualSaleCount
+				                FROM MonthSale) X) Y ON A.ShopId = Y.ShopId
+                WHERE 1=1 
+               ";
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND A.ShopId = @ShopId";
+            }
+            sql += " GROUP BY A.ShopId,A.ShopName,A.ShopNameEn,Y.Quarters";
+            return db.Database.SqlQuery(t, sql, para).Cast<DMFDto>().ToList();
         }
         #endregion
         #region ExpenseAccount

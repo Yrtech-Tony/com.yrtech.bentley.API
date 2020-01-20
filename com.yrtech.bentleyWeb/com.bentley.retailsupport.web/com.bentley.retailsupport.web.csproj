@@ -182,6 +182,8 @@
     <Content Include="Home\DealersBalance.html" />
     <Content Include="Home\IncomeCost.html" />
     <Content Include="Home\Index.html" />
+    <Content Include="Home\ManageAgent.html" />
+    <Content Include="Home\ManageUsers.html" />
     <Content Include="Home\MarketFund.html" />
     <Content Include="Home\Promotion.html" />
     <Content Include="Home\PromotionCreate.html" />
@@ -193,6 +195,8 @@
     <Content Include="Home\PromotionReport2.html" />
     <Content Include="Home\PromotionReport3.html" />
     <Content Include="Home\Reimbursement.html" />
+    <Content Include="Home\UserCreate.html" />
+    <Content Include="Home\UserEdit.html" />
     <Content Include="Scripts\api\common.js" />
     <Content Include="Scripts\bootstrap-fileinput\js\bootstrap-fileinput.js" />
     <Content Include="Scripts\bootstrap-select\css\bootstrap-select.min.css" />
@@ -231,13 +235,18 @@
     <Content Include="Scripts\bower_components\layer\layer.js" />
     <Content Include="Scripts\bower_components\layer\skin\default\layer.css" />
     <Content Include="Scripts\bower_components\layer\skin\default\loading-1.gif" />
+    <Content Include="Scripts\curtom\AgentCreate.js" />
     <Content Include="Scripts\curtom\BudgetCost.js" />
     <Content Include="Scripts\curtom\CueReport.js" />
+    <Content Include="Scripts\curtom\DealersBalance.js" />
     <Content Include="Scripts\curtom\IncomeCost.js" />
+    <Content Include="Scripts\curtom\ManageAgent.js" />
+    <Content Include="Scripts\curtom\ManageUser.js" />
     <Content Include="Scripts\curtom\MarketFund.js" />
     <Content Include="Scripts\curtom\Marketing.js" />
     <Content Include="Scripts\curtom\PromotionEdit.js" />
     <Content Include="Scripts\curtom\Reimbursement.js" />
+    <Content Include="Scripts\curtom\UserCreate.js" />
     <Content Include="Scripts\Dark\bootstrap-hover-dropdown.js" />
     <Content Include="Scripts\Dark\bootstrap-switch.min.js" />
     <Content Include="Scripts\Dark\bootstrap-toggleButtons.js" />
@@ -405,6 +414,14 @@
     <Content Include="Views\DMF\ExpenseAccountFile.cshtml" />
     <Content Include="Views\DMF\MonthSale.cshtml" />
     <Content Include="Views\DMF\DMFDetail.cshtml" />
+    <Content Include="Views\DMF\DMF.cshtml" />
+    <Content Include="Views\Home\ManageAgent.cshtml" />
+    <Content Include="Views\Home\AreaIndex.cshtml" />
+    <Content Include="Views\Home\AgentEdit.cshtml" />
+    <Content Include="Views\Home\ManageUsers.cshtml" />
+    <Content Include="Views\Home\UserCreate.cshtml" />
+    <Content Include="Views\Account\UserEdit.cshtml" />
+    <Content Include="Views\Account\UserCreate.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

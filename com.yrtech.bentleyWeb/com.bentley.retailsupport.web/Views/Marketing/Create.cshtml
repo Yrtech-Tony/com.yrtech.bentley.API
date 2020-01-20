@@ -173,8 +173,8 @@
             $.ajaxSetup({
                 async: true
             });
+
             if (id) {
-                debugger
                 $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: id }, function (data) {
                     if (data && data.length > 0) {
                         data[0].StartDate = data[0].StartDate.substr(0, data[0].StartDate.indexOf(' ')).replace(/-/g, '\/');

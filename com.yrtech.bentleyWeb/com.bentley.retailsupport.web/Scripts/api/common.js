@@ -9,7 +9,7 @@ var baseApi = "http://39.106.71.65:8001/bentley/api/";
 
 
 $.commonGet = function (url, params, callback) {
-    $.get(baseApi + url, params, function (data) {       
+    $.get(baseApi + url, params, function (data) {
         if (data && data.Status) {
             if (data.Body) {
                 var lst = JSON.parse(data.Body);
@@ -26,7 +26,7 @@ $.commonGet = function (url, params, callback) {
             layer.alert(data.Body);
         }
     }).error(function (jqXHR, textStatus, errorThrown) {
-        console.log(url+" execute error ");
+        console.log(url + " execute error ");
     })
 }
 
@@ -58,10 +58,17 @@ function loadActiveStatuss() {
         hiddenCodeGroup: "MarketActionStatus",
         hiddenCode: ""
     }, function (data) {
-        data.forEach(function (item) {
-            $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
-        });
-        $("#MarketActionStatusCode").selectpicker("refresh");
+        if ($("#MarketActionStatusCode").length > 0) {
+            data.forEach(function (item) {
+                $("#MarketActionStatusCode").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn));
+            });
+            $("#MarketActionStatusCode").selectpicker("refresh");
+        }
+        if ($("#pstate").length > 0) {
+            data.forEach(function (item) {
+                $("#pstate").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn));
+            });
+        }
     })
 }
 
@@ -70,10 +77,12 @@ function loadTargetModels() {
         hiddenCodeGroup: "TargetModels",
         hiddenCode: ""
     }, function (data) {
-        data.forEach(function (item) {
-            $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
-        });
-        $("#MarketActionTargetModelCode").selectpicker("refresh");
+        if ($("#MarketActionTargetModelCode").length > 0) {
+            data.forEach(function (item) {
+                $("#MarketActionTargetModelCode").append($("<option>").val(item.HiddenCodeId).text(isZH() ? item.HiddenCodeName : item.HiddenCodeNameEn))
+            });
+            $("#MarketActionTargetModelCode").selectpicker("refresh");
+        }
     })
 }
 
@@ -84,8 +93,16 @@ function loadEventTypes() {
         eventTypeNameEn: "",
         showStatus: 'true'
     }, function (data) {
-        data.forEach(function (item) {
-            $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn))
-        });
+        if ($("#EventTypeId").length > 0) {
+            data.forEach(function (item) {
+                $("#EventTypeId").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn));
+            });
+            $("#EventTypeId").selectpicker("refresh");
+        }
+        if ($("#ptype").length > 0) {
+            data.forEach(function (item) {
+                $("#ptype").append($("<option>").val(item.EventTypeId).text(isZH() ? item.EventTypeName : item.EventTypeNameEn));
+            });
+        }
     })
 }

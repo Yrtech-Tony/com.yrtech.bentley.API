@@ -151,7 +151,8 @@ namespace com.yrtech.InventoryAPI.Service
         #region DMF
         public List<DMFDto> DMFSearch(string shopId)
         {
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
+            if (shopId == null) shopId = "";
+             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
 
             Type t = typeof(DMFDto);
 
@@ -180,7 +181,8 @@ namespace com.yrtech.InventoryAPI.Service
         }
         public List<DMFDto> DMFQuarterSearch(string shopId)
         {
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
+            if (shopId == null) shopId = "";
+             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
 
             Type t = typeof(DMFDto);
 

@@ -96,10 +96,10 @@ namespace com.yrtech.InventoryAPI.Service
 			                      THEN 'UnCommitTime'
 			                      ELSE 'UnCommit'
 	                        END AS 	After3Months
-                    FROM MarketAction A INNER JOIN Shop B ON A.ShopId = B.ShopId
-					                    INNER JOIN EventType C ON A.EventTypeId = C.EventTypeId
-					                    INNER JOIN HiddenCode D ON A.MarketActionStatusCode = D.HiddenCodeId AND D.HiddenCodeGroup = 'MarketActionStatus'
-					                    INNER JOIN HiddenCode E ON A.MarketActionTargetModelCode  = E.HiddenCodeId AND E.HiddenCodeGroup = 'TargetModels'
+                    FROM MarketAction A LEFT JOIN Shop B ON A.ShopId = B.ShopId
+					                    LEFT JOIN EventType C ON A.EventTypeId = C.EventTypeId
+					                    LEFT JOIN HiddenCode D ON A.MarketActionStatusCode = D.HiddenCodeId AND D.HiddenCodeGroup = 'MarketActionStatus'
+					                    LEFT JOIN HiddenCode E ON A.MarketActionTargetModelCode  = E.HiddenCodeId AND E.HiddenCodeGroup = 'TargetModels'
                     WHERE 1=1";
             if (!string.IsNullOrEmpty(actionName))
             {

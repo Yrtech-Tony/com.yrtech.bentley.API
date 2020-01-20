@@ -1001,7 +1001,7 @@ namespace com.yrtech.SurveyAPI.Controllers
 
                 dmfQuarterMainDto.DMFQuarterList = dmfQuarterList;
                 dmfQuarterMainDto.DMFDetailList = dmfService.DMFDetailSearch("", shopId, ""); ;
-                return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfList) };
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfQuarterMainDto) };
             }
             catch (Exception ex)
             {

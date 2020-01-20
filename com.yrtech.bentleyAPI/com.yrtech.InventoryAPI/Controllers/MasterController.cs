@@ -120,11 +120,11 @@ namespace com.yrtech.InventoryAPI.Controllers
         #region EventType
         [HttpGet]
         [Route("Master/EventTypeSearch")]
-        public APIResult EventTypeSearch(string eventTypeId, string eventTypeName, string eventTypeNameEn)
+        public APIResult EventTypeSearch(string eventTypeId, string eventTypeName, string eventTypeNameEn,bool? showStatus)
         {
             try
             {
-                List<EventTypeDto> eventTypeList = masterService.EventTypeSearch(eventTypeId,eventTypeName,eventTypeNameEn);
+                List<EventTypeDto> eventTypeList = masterService.EventTypeSearch(eventTypeId,eventTypeName,eventTypeNameEn, showStatus);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(eventTypeList) };
             }

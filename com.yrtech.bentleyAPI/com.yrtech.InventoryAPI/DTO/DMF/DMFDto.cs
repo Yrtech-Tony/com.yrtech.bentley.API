@@ -7,7 +7,7 @@ namespace com.yrtech.InventoryAPI.DTO
     [Serializable]
     public class DMFDto
     {
-        public string ShopId { get; set; }
+        public int ShopId { get; set; }
         public string ShopCode { get; set; }
         public string ShopName { get; set; }
         public string ShopNameEn { get; set; }

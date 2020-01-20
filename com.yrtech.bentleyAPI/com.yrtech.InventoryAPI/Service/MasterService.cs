@@ -162,7 +162,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region EventType
-        public List<EventTypeDto> EventTypeSearch(string eventTypeId, string eventTypeName,string eventTypeNameEn)
+        public List<EventTypeDto> EventTypeSearch(string eventTypeId, string eventTypeName,string eventTypeNameEn,bool? showStatus)
         {
             if (eventTypeId == null) eventTypeId = "";
             if (eventTypeName == null) eventTypeName = "";
@@ -188,10 +188,16 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND EventTypeNameEn = @EventTypeNameEn";
             }
+            if (showStatus.HasValue)
+            {
+                para = para.Concat(new SqlParameter[] { new SqlParameter("@ShowStatus", showStatus) }).ToArray();
+                sql += " AND ShowStatus = @ShowStatus";
+            }
             return db.Database.SqlQuery(t, sql, para).Cast<EventTypeDto>().ToList();
         }
         public EventType EventTypeSave(EventType eventType)
         {
+
             EventType findOne = db.EventType.Where(x => (x.EventTypeId == eventType.EventTypeId)).FirstOrDefault();
             if (findOne == null)
             {

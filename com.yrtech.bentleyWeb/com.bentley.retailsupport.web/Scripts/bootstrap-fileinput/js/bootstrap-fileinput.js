@@ -179,4 +179,7 @@
       } 
   }
 
+  $.fn.getImgSrc = function () {
+      return $(this).find("img").attr('src') || $(this).parent(".fileinput-new").find("img").attr('src');
+  }
 }(window.jQuery);

@@ -45,7 +45,6 @@ function InitDMFDetail() {
         sortable: true,
         sortName: 'DMFDetailId',
         sortOrder: 'asc',
-        pageNumber: 1,
         pageSize: 10,
         pageList: [5, 10, 20, 50],
         columns: [{
@@ -226,6 +225,11 @@ function InitDMFDetail() {
         onClickRow: function (row, $element) {
             curRow = row;
         },
+        onPageChange: function (number, size) {
+            pageNumber = number;
+            pageSize = size;
+            loadTotalDiv();
+        },
         onEditableSave: function (field, row, oldValue, $el) {
             if (row.DMFItemId && row.ShopId) {
                 row.InUserId = $("#G_UserId").val();
@@ -244,6 +248,8 @@ function InitDMFDetail() {
             }
         }
     });
+
+    $("#myBudgetCost").bootstrapTable("selectPage", pageNumber);
 }
 
 function DeleteBudgetCost() {

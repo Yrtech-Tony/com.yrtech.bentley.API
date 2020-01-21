@@ -49,5 +49,16 @@ namespace com.bentley.retailsupport.web.Controllers
             return View();
         }
         
+        public ActionResult UserCreate()
+        {
+            return View();
+        }
+
+        public ActionResult UserEdit(string Id)
+        {
+            ViewBag.UserId = Id;
+            return View();
+        }
+        
     }
 }

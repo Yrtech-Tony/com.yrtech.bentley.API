@@ -19,7 +19,7 @@ namespace com.bentley.retailsupport.web.Controllers
         {
             return View();
         }
-         
+
         public ActionResult ExpenseAccountFile(string Id, string FileType)
         {
             ViewBag.Id = Id;
@@ -30,10 +30,16 @@ namespace com.bentley.retailsupport.web.Controllers
         {
             return View();
         }
-        public ActionResult DMFDetail()
+        public ActionResult DMFDetail(string ShopId)
+        {
+            ViewBag.ShopId = ShopId;
+            return View();
+        }
+        public ActionResult DMF()
         {
             return View();
         }
-        
-	}
+
+
+    }
 }

@@ -292,16 +292,17 @@
                             </a>
                         </li>
                     }
-
-                    @*<li id="nav_dealer_funds_ov">
-                            <a href="/DMF/DMFDetail">
+                    @if (LoginUser.AccountId == "admin")
+                    {
+                        <li id="nav_dealer_funds_ov">
+                            <a href="/DMF/DMF">
                                 <i class="fa fa-desktop fa-fw">
                                     <div class="icon-bg bg-pink"></div>
                                 </i>
                                 <span class="menu-title" translate>Marketing Fund Summary (Overview)</span>
                             </a>
-                        </li>*@
-
+                        </li>
+                    }
                     @if (LoginUser.AccountId == "admin"
                         || LoginUser.RoleTypeCode == "SHOP")
                     {
@@ -314,53 +315,50 @@
                             </a>
                         </li>
                     }
-                    @*
-                        <li id="nav_log">
-                            <a href="/Home/ManageLog">
-                                <i class="fa fa-desktop fa-fw">
-                                    <div class="icon-bg bg-pink"></div>
-                                </i><span class="menu-title" translate>System Log</span>
-                            </a>
-                        </li>
-
-
+                    @if (LoginUser.AccountId == "admin")
+                    {
+                       
                         <li id="nav_user">
                             <a href="/Home/ManageUsers">
                                 <i class="fa fa-edit fa-fw">
                                     <div class="icon-bg bg-violet"></div>
-                                </i><span class="menu-title" translate>User Management</span>
+                                </i>
+                                <span class="menu-title" translate>User Management</span>
                             </a>
 
                         </li>
 
 
-                        <li id="nav_area">
-                            <a href="/Home/ManageArea">
-                                <i class="fa fa-th-list fa-fw">
-                                    <div class="icon-bg bg-blue"></div>
-                                </i><span class="menu-title" translate>Area Management</span>
-                            </a>
+                        @*<li id="nav_area">
+        <a href="/Home/ManageArea">
+            <i class="fa fa-th-list fa-fw">
+                <div class="icon-bg bg-blue"></div>
+            </i>
+            <span class="menu-title" translate>Area Management</span>
+        </a>
 
-                        </li>
+    </li>
 
 
-                        <li id="nav_dealer">
-                            <a href="/Home/ManageAgent">
-                                <i class="fa fa-database fa-fw">
-                                    <div class="icon-bg bg-red"></div>
-                                </i><span class="menu-title" translate>Dealer Management</span>
-                            </a>
+    <li id="nav_dealer">
+        <a href="/Home/ManageAgent">
+            <i class="fa fa-database fa-fw">
+                <div class="icon-bg bg-red"></div>
+            </i>
+            <span class="menu-title" translate>Dealer Management</span>
+        </a>
 
-                        </li>
+    </li>
 
-                        <li id="nav_promotiontype">
-                            <a href="/Home/ManageActionType">
-                                <i class="fa fa-file-o fa-fw">
-                                    <div class="icon-bg bg-yellow"></div>
-                                </i><span class="menu-title" translate>Event Type Management</span>
-                            </a>
-
-                        </li>*@
+    <li id="nav_promotiontype">
+        <a href="/Home/ManageActionType">
+            <i class="fa fa-file-o fa-fw">
+                <div class="icon-bg bg-yellow"></div>
+            </i>
+            <span class="menu-title" translate>Event Type Management</span>
+        </a>
+    </li>*@
+                    }
                 </ul>
             </div>
         </nav>

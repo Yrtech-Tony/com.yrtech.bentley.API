@@ -12,7 +12,7 @@
       <publishTime>12/18/2019 21:36:03</publishTime>
     </File>
     <File Include="bin/com.bentley.retailsupport.web.dll">
-      <publishTime>01/19/2020 21:51:01</publishTime>
+      <publishTime>01/21/2020 12:34:44</publishTime>
     </File>
     <File Include="bin/Infragistics3.Documents.Excel.v11.1.dll">
       <publishTime>01/01/2020 23:19:39</publishTime>
@@ -198,13 +198,19 @@
       <publishTime>01/03/2020 00:00:18</publishTime>
     </File>
     <File Include="Home/DealersBalance.html">
-      <publishTime>12/30/2019 19:49:03</publishTime>
+      <publishTime>01/20/2020 20:29:58</publishTime>
     </File>
     <File Include="Home/IncomeCost.html">
       <publishTime>01/18/2020 15:46:18</publishTime>
     </File>
     <File Include="Home/Index.html">
       <publishTime>12/22/2019 21:58:56</publishTime>
+    </File>
+    <File Include="Home/ManageAgent.html">
+      <publishTime>01/20/2020 22:09:20</publishTime>
+    </File>
+    <File Include="Home/ManageUsers.html">
+      <publishTime>01/20/2020 22:26:48</publishTime>
     </File>
     <File Include="Home/MarketFund.html">
       <publishTime>12/30/2019 19:39:32</publishTime>
@@ -239,11 +245,17 @@
     <File Include="Home/Reimbursement.html">
       <publishTime>01/15/2020 21:53:48</publishTime>
     </File>
+    <File Include="Home/UserCreate.html">
+      <publishTime>01/20/2020 22:22:13</publishTime>
+    </File>
+    <File Include="Home/UserEdit.html">
+      <publishTime>01/20/2020 23:27:28</publishTime>
+    </File>
     <File Include="packages.config">
       <publishTime>12/18/2019 21:36:03</publishTime>
     </File>
     <File Include="Scripts/api/common.js">
-      <publishTime>01/19/2020 23:12:05</publishTime>
+      <publishTime>01/20/2020 22:00:41</publishTime>
     </File>
     <File Include="Scripts/bootstrap-fileinput/js/bootstrap-fileinput.js">
       <publishTime>01/12/2020 13:35:54</publishTime>
@@ -332,14 +344,26 @@
     <File Include="Scripts/bower_components/layer/skin/default/loading-1.gif">
       <publishTime>01/02/2020 00:16:27</publishTime>
     </File>
+    <File Include="Scripts/curtom/AgentCreate.js">
+      <publishTime>01/20/2020 22:24:53</publishTime>
+    </File>
     <File Include="Scripts/curtom/BudgetCost.js">
       <publishTime>01/20/2020 00:51:32</publishTime>
     </File>
     <File Include="Scripts/curtom/CueReport.js">
       <publishTime>01/19/2020 22:32:18</publishTime>
     </File>
+    <File Include="Scripts/curtom/DealersBalance.js">
+      <publishTime>01/20/2020 22:19:07</publishTime>
+    </File>
     <File Include="Scripts/curtom/incomecost.js">
       <publishTime>01/19/2020 22:08:53</publishTime>
+    </File>
+    <File Include="Scripts/curtom/ManageAgent.js">
+      <publishTime>01/20/2020 22:12:30</publishTime>
+    </File>
+    <File Include="Scripts/curtom/ManageUser.js">
+      <publishTime>01/20/2020 23:41:30</publishTime>
     </File>
     <File Include="Scripts/curtom/MarketFund.js">
       <publishTime>01/18/2020 15:42:37</publishTime>
@@ -355,6 +379,9 @@
     </File>
     <File Include="Scripts/curtom/Reimbursement.js">
       <publishTime>01/19/2020 22:53:21</publishTime>
+    </File>
+    <File Include="Scripts/curtom/UserCreate.js">
+      <publishTime>01/20/2020 22:25:34</publishTime>
     </File>
     <File Include="Scripts/Dark/bootstrap-hover-dropdown.js">
       <publishTime>12/19/2019 22:52:01</publishTime>
@@ -762,7 +789,7 @@
       <publishTime>01/05/2020 19:37:29</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>01/15/2020 21:57:41</publishTime>
+      <publishTime>01/20/2020 22:27:59</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
       <publishTime>01/12/2020 00:01:17</publishTime>
@@ -770,8 +797,17 @@
     <File Include="Views/Account/ResetPassword.cshtml">
       <publishTime>01/11/2020 23:42:49</publishTime>
     </File>
+    <File Include="Views/Account/UserCreate.cshtml">
+      <publishTime>01/20/2020 23:26:06</publishTime>
+    </File>
+    <File Include="Views/Account/UserEdit.cshtml">
+      <publishTime>01/20/2020 23:52:56</publishTime>
+    </File>
+    <File Include="Views/DMF/DMF.cshtml">
+      <publishTime>01/20/2020 22:02:43</publishTime>
+    </File>
     <File Include="Views/DMF/DMFDetail.cshtml">
-      <publishTime>01/20/2020 00:52:36</publishTime>
+      <publishTime>01/20/2020 21:09:29</publishTime>
     </File>
     <File Include="Views/DMF/DMFItem.cshtml">
       <publishTime>01/18/2020 15:34:20</publishTime>
@@ -780,7 +816,7 @@
       <publishTime>01/19/2020 22:01:56</publishTime>
     </File>
     <File Include="Views/DMF/ExpenseAccountFile.cshtml">
-      <publishTime>01/18/2020 15:07:18</publishTime>
+      <publishTime>01/21/2020 12:51:58</publishTime>
     </File>
     <File Include="Views/DMF/MonthSale.cshtml">
       <publishTime>01/18/2020 21:27:04</publishTime>
@@ -791,8 +827,23 @@
     <File Include="Views/Document/Index.cshtml">
       <publishTime>01/13/2020 22:22:26</publishTime>
     </File>
+    <File Include="Views/Home/AgentEdit.cshtml">
+      <publishTime>01/20/2020 22:13:51</publishTime>
+    </File>
+    <File Include="Views/Home/AreaIndex.cshtml">
+      <publishTime>01/20/2020 22:18:17</publishTime>
+    </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>01/13/2020 22:20:29</publishTime>
+    </File>
+    <File Include="Views/Home/ManageAgent.cshtml">
+      <publishTime>01/20/2020 22:34:25</publishTime>
+    </File>
+    <File Include="Views/Home/ManageUsers.cshtml">
+      <publishTime>01/20/2020 23:41:23</publishTime>
+    </File>
+    <File Include="Views/Home/UserCreate.cshtml">
+      <publishTime>01/20/2020 22:21:22</publishTime>
     </File>
     <File Include="Views/Marketing/After1Months.cshtml">
       <publishTime>01/04/2020 10:44:21</publishTime>
@@ -804,16 +855,16 @@
       <publishTime>01/18/2020 10:34:26</publishTime>
     </File>
     <File Include="Views/Marketing/After7Days.cshtml">
-      <publishTime>01/19/2020 23:10:52</publishTime>
+      <publishTime>01/20/2020 21:58:11</publishTime>
     </File>
     <File Include="Views/Marketing/Before3Days.cshtml">
       <publishTime>01/19/2020 23:11:18</publishTime>
     </File>
     <File Include="Views/Marketing/Before3Weeks.cshtml">
-      <publishTime>01/19/2020 23:11:49</publishTime>
+      <publishTime>01/21/2020 00:01:22</publishTime>
     </File>
     <File Include="Views/Marketing/Create.cshtml">
-      <publishTime>01/19/2020 23:12:11</publishTime>
+      <publishTime>01/20/2020 23:48:40</publishTime>
     </File>
     <File Include="Views/Marketing/Index.cshtml">
       <publishTime>01/19/2020 21:59:32</publishTime>
@@ -825,7 +876,7 @@
       <publishTime>12/18/2019 21:35:55</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/19/2020 22:46:53</publishTime>
+      <publishTime>01/21/2020 12:41:08</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>12/18/2019 21:35:55</publishTime>

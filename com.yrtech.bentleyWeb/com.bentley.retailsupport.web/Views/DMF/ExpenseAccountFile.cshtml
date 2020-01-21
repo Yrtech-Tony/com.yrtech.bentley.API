@@ -137,7 +137,8 @@
         })
 
         function fileNameFormatter(value, row, index) {
-            return '<a href="/Base/DownloadFile?ossPath=' + row.FileNameUrl + '" download="' + row.FileName + '">' + value + '</a>';
+            console.log(row)
+            return '<a href="/Base/DownloadFile?ossPath=' + row.FileUrl + '" download="' + row.FileName + '">' + value + '</a>';
         }
 
         function operateFormatter(value, row, index) {

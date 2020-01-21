@@ -200,8 +200,8 @@ namespace com.yrtech.InventoryAPI.Service
             string sql = "";
             sql = @"                 
                 SELECT A.ShopId,A.ShopName,A.ShopNameEn,Y.Quarters
-	                ,ISNULL(SUM(Y.ActualSaleCount),0) AS ActualSaleCount
-	                ,ISNULL(SUM(Y.ActualSaleAmt),0) AS ActualSaleAmt
+	                ,ISNULL(SUM(Y.ActualSaleCount),0) AS ActualMonthSaleCount
+	                ,ISNULL(SUM(Y.ActualSaleAmt),0) AS ActualMonthSaleAmt
                 FROM Shop A INNER JOIN 
 			                (SELECT ShopId,CASE WHEN MonthStr IN ('01','1','02','2','3','03') THEN 'Q1'
 								                WHEN MonthStr IN ('04','4','05','5','06','6') THEN 'Q2'

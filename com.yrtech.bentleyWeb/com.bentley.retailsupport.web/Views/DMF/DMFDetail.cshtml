@@ -43,6 +43,9 @@
     <input id="TAE" type="hidden" value="{{'Actual Expense'|translate}}" />
     <input id="TBudget" type="hidden" value="{{'Budget'|translate}}" />
     <input id="TEI" type="hidden" value="{{'Tick-box Item'|translate}}" />
+
+    <input id="ShopId" type="hidden" value="@ViewBag.ShopId" />
+    
 </div>
 <form id="upload-form" style="display:none">
     <input type='file' id='uploadFile'>
@@ -169,7 +172,9 @@
     <script src="~/Scripts/xlsx.core.min.js"></script>
 
     <script type="text/javascript">
-        $("#nav_budget_cost").addClass("active");
+        if (!$("#ShopId").val()) {
+            $("#nav_budget_cost").addClass("active");
+        }        
 
         var $table = $('#myBudgetCost');
         var roleType = $("#G_RoleTypeCode").val();
@@ -185,7 +190,7 @@
                 $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
                 hdData.push({ value: item.ShopId, text: shopName });
             });
-            if (roleType == "SHOP") {
+            if (roleType == "SHOP" || $("#ShopId").val()) {
                 $('#toptable').show();
                 $('#phbuttons').hide();
                 $("#pdealer").remove();
@@ -199,7 +204,7 @@
                 DMFItemId: '',
                 DMFItemName: '',
                 DMFItemNameEn: '',
-                expenseAccountChk: 'true',
+                expenseAccountChk: '',
                 publishChk: ''
             }, function (data) {
                 if (data) {
@@ -222,7 +227,7 @@
 
         function loadDMFDetailOrQuarter() {
             InitDMFDetail();
-            if (roleType == "SHOP") {
+            if (roleType == "SHOP" || $("#ShopId").val()) {
                 loadDMFQuarter();
             } else {
                 loadDMFDetail();
@@ -254,8 +259,17 @@
             });
         }
         function loadDMFQuarter() {
+            var shopId;
+            if ($("#pdealer").length > 0) {
+                shopId = $("#pdealer").val();
+            } else if (roleType == "SHOP") {
+                shopId = loadShops()[0].ShopId;
+            } else {
+                shopId = $("#ShopId").val();
+            }
+            
             $.commonGet("DMF/DMFQuarterSearch", {
-                shopId: $("#pdealer").val() || loadShops()[0].ShopId
+                shopId: shopId
             }, function (data) {
                 if (data) {
                     $table.bootstrapTable("load", data.DMFDetailList);
@@ -280,6 +294,7 @@
             if (quarterList && quarterList.length>0) {
                 var sumNum = 0;
                 var sumIncome = 0;
+                var tbl = document.getElementById('chart');
                 for (var i in quarterList) {
                     var quarter = quarterList[i];
                     if (quarter.Quarters == "Q1") {
@@ -302,7 +317,7 @@
                     sumIncome += parseFloat(quarter.ActualMonthSaleAmt);
                 }
 
-                var tbl = document.getElementById('chart');
+                
                 tbl.rows[1].cells[3].innerHTML = dealNumber(quarterList[0].ActualAmt);
                 tbl.rows[5].cells[1].innerHTML = sumNum;
                 tbl.rows[5].cells[2].innerHTML = dealNumber(sumIncome);
@@ -382,7 +397,7 @@
             reader.readAsBinaryString(file);
         }
 
-        //导入线索报告信息
+        //导入基金详情信息
         function importDMFDetails(dmfDetails) {
             SProcessing();
             $.commonPost("DMF/DMFDetailImport", {

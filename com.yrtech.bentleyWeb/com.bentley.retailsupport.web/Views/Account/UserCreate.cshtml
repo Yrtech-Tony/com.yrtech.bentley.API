@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "UserCreate";
+
+}
+<style type="text/css" media="print">
+    .control-label {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .noprint, .widget-title .tools, #sidebar, #ListVisuals_0__ImgRemark, #VisualDescription, #totop, .icon-plus, table tr td:last-child, table tr th:last-child,
+    .btn-dark, .btn-success, .btn-file {
+        display: none !important;
+    }
+
+    .row .control-label {
+        width: 100%;
+    }
+
+    form .row.print .col-md-6 {
+        width: calc(50% - 15px);
+        display: inline-block;
+    }
+
+        form .row.print .col-md-6 .col-md-4 {
+            zoom: 0.5;
+            display: inline-block;
+        }
+</style>
+
+<div id="page-wrapper">
+    <!--BEGIN CONTENT-->
+    <div class="page-content">
+        <div id="tab-general">
+            <div class="row mbl">
+                <div class="col-lg-12">
+                    <div class="col-md-12">
+                        <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div id="main-content">
+                        <div class="container-fluid">
+                            <p><a class="btn btn-primary" id="btnNew" href="/Home/AgentCreate"><i class="icon-plus icon-white"></i><span translate>Add</span></a></p>
+
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <!-- BEGIN SAMPLE FORM widget-->
+                                    <div class="widget">
+                                        <div class="widget-title">
+                                            <h4><i class="icon-reorder"></i><span translate>Add</span></h4>
+                                            <span class="tools">
+                                                <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+                                            </span>
+                                        </div>
+                                        <div class="widget-body form" style="display:block;">
+                                            <form class="form-horizontal" id="userCreate">
+                                                <input id="uId" name="uId" value="" type="hidden" />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>UserName</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-6">
+                                                                <input class="form-control" id="AccountName" name="AccountName" style="width:100%;" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>Account</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-6">
+                                                                <input class="form-control" id="AccountId" name="AccountId" style="width:100%;" type="text" value="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>Password</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-6">
+                                                                <input class="form-control" id="Password" name="Password" style="width:100%;" type="password" value="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>Email</span>:</label>
+                                                            <div class="col-md-6">
+                                                                <input class="form-control" id="Email" maxlength="255" name="Email" style="width:100%;" type="text" value="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>ContactWay</span>:</label>
+                                                            <div class="col-md-6">
+                                                                <input class="form-control" id="TelNO" name="TelNO" style="width:100%;" type="text" value="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>Role</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-3">
+                                                                <select name="RoleTypeCode" class="selectpicker">
+                                                                    <option value=""></option>
+                                                                    <option value="SYSADMIN">管理员</option>
+                                                                    <option value="AREA">区域经理</option>
+                                                                    <option value="BMC">市场活动</option>
+                                                                    <option value="SHOP">经销商</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>Dealer</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-3">
+                                                                <select name="ShopId" class="selectpicker"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-actions">
+                                                    <a type="button" class="btn btn-success " onclick="Create();" translate>Add</a>
+                                                    <a class="btn btn-dark" href="/Home/ManageUsers" translate>Back</a>
+                                                </div>
+                                            </form>
+                                            <!-- END FORM-->
+                                        </div>
+                                    </div>
+                                    <!-- END SAMPLE FORM widget-->
+                                </div>
+                            </div>
+                            <!-- END ADVANCED TABLE widget-->
+                            <!-- END PAGE CONTENT-->
+                        </div>
+                    </div>
+                    <!--END CONTENT-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END CONTENT-->
+</div>
+@section scripts{
+    <script src="~/Scripts/api/common.js"></script>
+    <script src="~/Scripts/curtom/UserCreate.js"></script>
+    <script>
+        var userId = $('#G_UserId').val();
+        $('#uId').val(userId);
+
+        $(function () {
+            loadShops().forEach(function (item) {
+                var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
+                $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
+            });
+            $("#ShopId").selectpicker("refresh");
+        });
+        function ShowDiv() {
+            if ($('.widget-body.form')[0].style.display == 'none') {
+                $('.widget-body.form')[0].style.display = 'block';
+            }
+            else {
+                $('.widget-body.form')[0].style.display = 'none';
+            }
+        }
+
+        function Create() {
+            var data = $('#userCreate').data('bootstrapValidator');
+            if (data) {
+                // 修复记忆的组件不验证
+                data.validate();
+
+                if (!data.isValid()) {
+                    return false;
+                }
+                else {
+                    try {
+                        var oMyForm = $('#userCreate').serializeObject();
+                        if (!oMyForm.InUserId) {
+                            oMyForm.InUserId = $("#G_UserId").val();
+                            oMyForm.ModifyUserId = $("#G_UserId").val();
+                        }
+                        console.log(oMyForm)
+                        $.commonPost('Master/UserInfoSave', oMyForm, function (res) {
+                            window.location.href = "/Home/ManageUsers";
+                        })
+                    }
+                    catch (e) {
+                        $('#message').text('请更新您的浏览器至IE10或者更高版本');
+                    }
+                }
+            }
+
+        }
+    </script>
+}

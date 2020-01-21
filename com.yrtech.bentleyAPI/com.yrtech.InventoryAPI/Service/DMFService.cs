@@ -97,9 +97,21 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(DMFDetailDto);
 
             string sql = "";
-            sql = @"SELECT A.*,B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
+            sql = @" SELECT A.[DMFDetailId]
+                          ,A.[ShopId]
+                          ,A.[DMFItemId]
+                          ,A.[Budget]
+                          ,ISNULL(A.[AcutalAmt],0)+ ISNULL(ExpenseAmt,0) AS AcutalAmt
+                          ,A.[Remark]
+                          ,A.[InUserId]
+                          ,A.[InDateTime]
+                          ,A.[ModifyUserId]
+                          ,A.[ModifyDateTime],B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
                     FROM DMFDetail A INNER JOIN Shop B ON A.ShopId = B.ShopId
                                     INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
+					                LEFT JOIN 
+							                (SELECT ShopId,DMFItemId,ISNULL(SUM(ExpenseAmt),0) AS ExpenseAmt FROM ExpenseAccount 
+							                WHERE ReplyStatus='通过' GROUP BY ShopId,DMFItemId) D ON A.ShopId = D.ShopId AND A.DMFItemId = D.DMFItemId
                     WHERE 1=1";
             if (!string.IsNullOrEmpty(dmfDetailId))
             {
@@ -113,7 +125,6 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND A.DMFItemId = @DMFItemId";
             }
-
             return db.Database.SqlQuery(t, sql, para).Cast<DMFDetailDto>().ToList();
         }
         public DMFDetail DMFDetailSave(DMFDetail dmfDetail)

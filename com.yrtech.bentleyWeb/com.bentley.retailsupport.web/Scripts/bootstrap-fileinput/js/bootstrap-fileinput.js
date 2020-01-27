@@ -174,9 +174,20 @@
               var pre = "/Upload_BL_2019/";
               picSrc = pre + pic
           }
-          $(this).parent(".fileinput-new").find("img").prop('src', picSrc);
+          var img =$(this).parent(".fileinput-new").find("img");
+          img.prop('src', picSrc);
+          img.prop('data', pic);
           //$(this).append($("<img>").prop('src', picSrc));
       } 
   }
 
+  $.fn.getImgSrc = function () {
+      var defaultPic = "/Content/bootstrap-fileinput/img/noimage.png";
+      var thisImg = $(this).find("img");
+      if (thisImg.length == 0 || thisImg.attr('src') == defaultPic) {
+          return $(this).parent(".fileinput-new").find("img").prop('data');
+      } else {
+          return $(this).find("img").prop('src');
+      }
+  }
 }(window.jQuery);

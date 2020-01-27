@@ -290,9 +290,9 @@
                                             <div style="margin-top:5px;">
                                                 <input type="hidden" id="VisualStatusOld" />
                                                 <select id="VisualStatus" name="KeyVisionApprovalCode" class="selectpicker">
-                                                    <option value="0" selected="" translate>Waiting for Approval</option>
-                                                    <option value="1" translate>Approved</option>
-                                                    <option value="2" translate>Waiting for Change</option>
+                                                    <option value="1" selected="" translate>Waiting for Approval</option>
+                                                    <option value="2" translate>Approved</option>
+                                                    <option value="3" translate>Waiting for Change</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -703,6 +703,7 @@
                                 }
                             });
                         }
+                        $("#VisualStatus").selectpicker("refresh");
                         $('#img_visual1').fileinputInit(data.MarketActionBefore21.KeyVisionPic);
 
                         //场地介绍
@@ -774,29 +775,29 @@
             MarketActionBefore21.ModifyUserId = $("#G_UserId").val();
 
             //场地介绍
-            MarketActionBefore21.PlaceIntroPic01 = $('#img_venue1 img').attr('src');
-            MarketActionBefore21.PlaceIntroPic02 = $('#img_venue2 img').attr('src');
-            MarketActionBefore21.PlaceIntroPic03 = $('#img_venue3 img').attr('src');
-            MarketActionBefore21.PlaceIntroPic04 = $('#img_venue4 img').attr('src');
+            MarketActionBefore21.PlaceIntroPic01 = $('#img_venue1').getImgSrc();
+            MarketActionBefore21.PlaceIntroPic02 = $('#img_venue2').getImgSrc();
+            MarketActionBefore21.PlaceIntroPic03 = $('#img_venue3').getImgSrc();
+            MarketActionBefore21.PlaceIntroPic04 = $('#img_venue4').getImgSrc();
             //试驾路线
-            MarketActionBefore21.TestDriverRoadMapPic01 = $('#img_route1 img').attr('src');
-            MarketActionBefore21.TestDriverRoadMapPic02 = $('#img_route2 img').attr('src');
-            MarketActionBefore21.TestDriverRoadMapPic03 = $('#img_route3 img').attr('src');
-            MarketActionBefore21.TestDriverRoadMapPic04 = $('#img_route4 img').attr('src');
+            MarketActionBefore21.TestDriverRoadMapPic01 = $('#img_route1').getImgSrc();
+            MarketActionBefore21.TestDriverRoadMapPic02 = $('#img_route2').getImgSrc();
+            MarketActionBefore21.TestDriverRoadMapPic03 = $('#img_route3').getImgSrc();
+            MarketActionBefore21.TestDriverRoadMapPic04 = $('#img_route4').getImgSrc();
 
             //设计延展
-            MarketActionBefore21.OthersPic01 = $('#img_design1 img').attr('src');
-            MarketActionBefore21.OthersPic02 = $('#img_design2 img').attr('src');
-            MarketActionBefore21.OthersPic03 = $('#img_design3 img').attr('src');
-            MarketActionBefore21.OthersPic04 = $('#img_design4 img').attr('src');
+            MarketActionBefore21.OthersPic01 = $('#img_design1').getImgSrc();
+            MarketActionBefore21.OthersPic02 = $('#img_design2').getImgSrc();
+            MarketActionBefore21.OthersPic03 = $('#img_design2').getImgSrc();
+            MarketActionBefore21.OthersPic04 = $('#img_design2').getImgSrc();
             //物料
-            MarketActionBefore21.POSDesignPic01 = $('#img_material1 img').attr('src');
-            MarketActionBefore21.POSDesignPic02 = $('#img_material2 img').attr('src');
-            MarketActionBefore21.POSDesignPic03 = $('#img_material3 img').attr('src');
-            MarketActionBefore21.POSDesignPic04 = $('#img_material4 img').attr('src');
+            MarketActionBefore21.POSDesignPic01 = $('#img_material1').getImgSrc();
+            MarketActionBefore21.POSDesignPic02 = $('#img_material2').getImgSrc();
+            MarketActionBefore21.POSDesignPic03 = $('#img_material3').getImgSrc();
+            MarketActionBefore21.POSDesignPic04 = $('#img_material4').getImgSrc();
 
             //主视觉
-            MarketActionBefore21.KeyVisionPic = $('#img_visual1 img').attr('src');
+            MarketActionBefore21.KeyVisionPic = $('#img_visual1').getImgSrc();
 
             for (var pro in MarketActionBefore21) {
                 if (pro.indexOf("Pic") > 0 && MarketActionBefore21[pro] && MarketActionBefore21[pro].substr(0, 4) != 'data') {
@@ -843,7 +844,7 @@
                 });
             })
         }
-
+              
         function OpenForm(obj) {
             var url = obj.src;
             url = url.replace('_min.', '.');

@@ -255,7 +255,7 @@
             }, function (data) {
                 if (data) {
                     $table.bootstrapTable("load", data);
-                    loadTotalDiv(data);
+                    loadTotalDiv();
                 }
             });
         }
@@ -275,17 +275,20 @@
                 if (data) {
                     $table.bootstrapTable("load", data.DMFDetailList);
                     loadTopTable(data.DMFQuarterList)
-                    loadTotalDiv(data.DMFDetailList);
+                    loadTotalDiv();
                 }
             });
         }
-
-        function loadTotalDiv(data) {            
+        var pageNumber=1, pageSize=10;
+        function loadTotalDiv() {
+            var rows = $table.bootstrapTable('getData');
+            var start = pageSize * (pageNumber - 1);
+            var end = pageNumber * pageSize;
             var sumBuget = 0;
             var sumCost = 0;
-            for (var i = 0; i < data.length; i++) {
-                sumBuget += data[i]["Budget"];
-                sumCost += data[i]["AcutalAmt"];
+            for (var i = start; i < end; i++) {
+                sumBuget += rows[i]["Budget"];
+                sumCost += rows[i]["AcutalAmt"];
             }
             $("#totalDiv").html("<span>" + (isZH() ? "预算花费总计" : "Total Budget Amount") + "：" + dealNumber(sumBuget) + "</span/> &nbsp;&nbsp; &nbsp;&nbsp; " + (isZH() ? "实际花费总计" : "Total Actual Expense") + "：" + dealNumber(sumCost));
 

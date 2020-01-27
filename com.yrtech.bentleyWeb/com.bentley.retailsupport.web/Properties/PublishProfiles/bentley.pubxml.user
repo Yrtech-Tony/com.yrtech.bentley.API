@@ -258,7 +258,7 @@
       <publishTime>01/20/2020 22:00:41</publishTime>
     </File>
     <File Include="Scripts/bootstrap-fileinput/js/bootstrap-fileinput.js">
-      <publishTime>01/12/2020 13:35:54</publishTime>
+      <publishTime>01/22/2020 00:29:47</publishTime>
     </File>
     <File Include="Scripts/bootstrap-select/css/bootstrap-select.min.css">
       <publishTime>12/19/2019 22:52:01</publishTime>
@@ -348,13 +348,13 @@
       <publishTime>01/20/2020 22:24:53</publishTime>
     </File>
     <File Include="Scripts/curtom/BudgetCost.js">
-      <publishTime>01/20/2020 00:51:32</publishTime>
+      <publishTime>01/22/2020 00:04:35</publishTime>
     </File>
     <File Include="Scripts/curtom/CueReport.js">
       <publishTime>01/19/2020 22:32:18</publishTime>
     </File>
     <File Include="Scripts/curtom/DealersBalance.js">
-      <publishTime>01/20/2020 22:19:07</publishTime>
+      <publishTime>01/21/2020 23:34:15</publishTime>
     </File>
     <File Include="Scripts/curtom/incomecost.js">
       <publishTime>01/19/2020 22:08:53</publishTime>
@@ -369,7 +369,7 @@
       <publishTime>01/18/2020 15:42:37</publishTime>
     </File>
     <File Include="Scripts/curtom/Marketing.js">
-      <publishTime>01/19/2020 23:13:14</publishTime>
+      <publishTime>01/22/2020 00:05:31</publishTime>
     </File>
     <File Include="Scripts/curtom/PromotionCreate.js">
       <publishTime>01/06/2020 20:53:27</publishTime>
@@ -807,7 +807,7 @@
       <publishTime>01/20/2020 22:02:43</publishTime>
     </File>
     <File Include="Views/DMF/DMFDetail.cshtml">
-      <publishTime>01/20/2020 21:09:29</publishTime>
+      <publishTime>01/22/2020 00:02:58</publishTime>
     </File>
     <File Include="Views/DMF/DMFItem.cshtml">
       <publishTime>01/18/2020 15:34:20</publishTime>
@@ -855,19 +855,19 @@
       <publishTime>01/18/2020 10:34:26</publishTime>
     </File>
     <File Include="Views/Marketing/After7Days.cshtml">
-      <publishTime>01/20/2020 21:58:11</publishTime>
+      <publishTime>01/22/2020 00:28:19</publishTime>
     </File>
     <File Include="Views/Marketing/Before3Days.cshtml">
       <publishTime>01/19/2020 23:11:18</publishTime>
     </File>
     <File Include="Views/Marketing/Before3Weeks.cshtml">
-      <publishTime>01/21/2020 00:01:22</publishTime>
+      <publishTime>01/22/2020 00:26:51</publishTime>
     </File>
     <File Include="Views/Marketing/Create.cshtml">
       <publishTime>01/20/2020 23:48:40</publishTime>
     </File>
     <File Include="Views/Marketing/Index.cshtml">
-      <publishTime>01/19/2020 21:59:32</publishTime>
+      <publishTime>01/21/2020 23:38:55</publishTime>
     </File>
     <File Include="Views/Marketing/TheDays.cshtml">
       <publishTime>01/18/2020 10:34:58</publishTime>
@@ -876,7 +876,7 @@
       <publishTime>12/18/2019 21:35:55</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/21/2020 12:41:08</publishTime>
+      <publishTime>01/21/2020 23:34:15</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>12/18/2019 21:35:55</publishTime>

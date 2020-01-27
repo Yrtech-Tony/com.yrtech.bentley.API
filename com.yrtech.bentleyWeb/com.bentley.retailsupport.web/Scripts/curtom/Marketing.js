@@ -105,6 +105,7 @@ function loadMarketings(refresh) {
     }, function (data) {
         if (data) {
             $('#myMarketing').bootstrapTable("load", data);
+            $("#myMarketing").bootstrapTable("selectPage", parseInt(window.localStorage.pageNumberMarket)||1);
         }
     });
 }
@@ -283,9 +284,11 @@ function initTable() {
         sortable: true,
         sortName: 'StartDate',
         sortOrder: 'desc',
-        pageNumber: 1,
         pageSize: 20,
-        pageList: [5, 10, 20, 50]
+        pageList: [5, 10, 20, 50],
+        onPageChange: function (number, size) {
+            window.localStorage.pageNumberMarket = number;
+        }
     });
 }
 

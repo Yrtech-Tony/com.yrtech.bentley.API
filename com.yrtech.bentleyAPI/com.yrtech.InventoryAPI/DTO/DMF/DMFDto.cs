@@ -13,9 +13,9 @@ namespace com.yrtech.InventoryAPI.DTO
         public string ShopNameEn { get; set; }
         public string Quarters { get; set; }
         public int ActualMonthSaleCount { get; set; }
-        public decimal ActualMonthSaleAmt { get; set; }
-        public decimal ActualAmt { get; set; }
-        public decimal DiffAmt { get; set; }
+        public decimal? ActualMonthSaleAmt { get; set; }
+        public decimal? ActualAmt { get; set; }
+        public decimal? DiffAmt { get; set; }
 
     }
 }

@@ -48,6 +48,7 @@ namespace com.yrtech.InventoryAPI.Service
                         FROM Shop A INNER JOIN UserInfo B ON A.ShopId = B.ShopId
                         WHERE B.UserId = @UserId";
             }
+            sql += @" ORDER BY ShopName";
             return db.Database.SqlQuery(t, sql, para).Cast<Shop>().ToList();
         }
 

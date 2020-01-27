@@ -84,11 +84,12 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region DMFDetail
-        public List<DMFDetailDto> DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId)
+        public List<DMFDetailDto> DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId,string dmfItemName)
         {
             if (dmfDetailId == null) dmfDetailId = "";
             if (shopId == null) shopId = "";
             if (dmfItemId == null) dmfItemId = "";
+            if (dmfItemName == null) dmfItemName = "";
 
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@DMFDetailId", dmfDetailId),
                                                     new SqlParameter("@ShopId", shopId),
@@ -97,33 +98,40 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(DMFDetailDto);
 
             string sql = "";
-            sql = @" SELECT A.[DMFDetailId]
-                          ,A.[ShopId]
-                          ,A.[DMFItemId]
-                          ,A.[Budget]
-                          ,ISNULL(A.[AcutalAmt],0)+ ISNULL(ExpenseAmt,0) AS AcutalAmt
-                          ,A.[Remark]
-                          ,A.[InUserId]
-                          ,A.[InDateTime]
-                          ,A.[ModifyUserId]
-                          ,A.[ModifyDateTime],B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
+            sql = @"  SELECT * FROM (
+                        SELECT ISNULL(D.DMFDetailId,0) AS DMFDetailId,A.ShopId,A.DMFItemId,ISNULL(D.Budget,0) AS Budget
+							    ,A.AcutalAmt,ISNULL(D.Remark,'') AS Remark
+							    ,B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
+					    FROM (
+							    SELECT ShopId,DMFItemId,ISNULL(SUM(ExpenseAmt),0) AS AcutalAmt
+							    FROM ExpenseAccount  
+							    WHERE ApplyStatus='通过'
+							    GROUP BY ShopId,DMFItemId) A INNER JOIN Shop B ON A.ShopId = B.ShopId
+														    INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
+														LEFT JOIN DMFDetail D ON A.ShopId = D.ShopId AND A.DMFItemId = D.DMFItemId	
+                    UNION ALL
+					 
+					SELECT A.[DMFDetailId],A.[ShopId],A.[DMFItemId],A.[Budget],ISNULL(A.[AcutalAmt],0) AS AcutalAmt
+                           ,A.[Remark],B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
                     FROM DMFDetail A INNER JOIN Shop B ON A.ShopId = B.ShopId
                                     INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
-					                LEFT JOIN 
-							                (SELECT ShopId,DMFItemId,ISNULL(SUM(ExpenseAmt),0) AS ExpenseAmt FROM ExpenseAccount 
-							                WHERE ReplyStatus='通过' GROUP BY ShopId,DMFItemId) D ON A.ShopId = D.ShopId AND A.DMFItemId = D.DMFItemId
-                    WHERE 1=1";
+                    WHERE NOT EXISTS(SELECT 1 FROM ExpenseAccount WHERE ShopId = A.ShopId AND DMFItemId = A.DMFItemId)
+                    ) X WHERE 1=1";
             if (!string.IsNullOrEmpty(dmfDetailId))
             {
                 sql += " AND DMFDetailId = @DMFDetailId";
             }
             if (!string.IsNullOrEmpty(shopId))
             {
-                sql += " AND A.ShopId = @ShopId";
+                sql += " AND X.ShopId = @ShopId";
             }
             if (!string.IsNullOrEmpty(dmfItemId))
             {
-                sql += " AND A.DMFItemId = @DMFItemId";
+                sql += " AND X.DMFItemId = @DMFItemId";
+            }
+            if (!string.IsNullOrEmpty(dmfItemName))
+            {
+                sql += " AND X.dmfItemName LIKE '%'+ @DMFItemId+ '%'";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<DMFDetailDto>().ToList();
         }
@@ -172,17 +180,11 @@ namespace com.yrtech.InventoryAPI.Service
                 SELECT DISTINCT A.ShopId,A.ShopCode,A.ShopName,A.ShopNameEn
 			                ,ISNULL(B.ActualMonthSaleCount,0) AS ActualMonthSaleCount
 			                ,ISNULL(B.ActualMonthSaleAmt,0) AS ActualMonthSaleAmt
-			                ,ISNULL(C.ActualAmt,0) AS ActualAmt
-			                ,ISNULL(B.ActualMonthSaleAmt,0)-ISNULL(C.ActualAmt,0) AS DiffAmt
                 FROM Shop A LEFT JOIN
                             (SELECT ShopId
 		                            ,ISNULL(SUM(ActualSaleCount),0) AS ActualMonthSaleCount
 		                            ,ISNULL(SUM(ActualSaleAmt),0) AS ActualMonthSaleAmt
                             FROM dbo.MonthSale GROUP BY ShopId) B ON A.ShopId = B.ShopId
-                            LEFT JOIN
-                            (SELECT ShopId
-		                            ,ISNULL(SUM(AcutalAmt),0) AS ActualAmt 
-                            FROM dbo.DMFDetail GROUP BY ShopId) C ON A.ShopId = C.ShopId
                WHERE 1=1";
             if (!string.IsNullOrEmpty(shopId))
             {
@@ -254,7 +256,7 @@ namespace com.yrtech.InventoryAPI.Service
                                 AND EXISTS(SELECT 1 FROM ExpenseAccountFile WHERE ExpenseAccountId = A.ExpenseAccountId AND FileTypeCode = 5)
                             THEN '待审批'
                             ELSE '未提交'  
-                        END AS ApplyStatus,
+                        END AS ReplyStatus,
                     B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn,D.ActionName
                     FROM ExpenseAccount A INNER JOIN Shop B ON A.ShopId = B.ShopId
                                             INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId

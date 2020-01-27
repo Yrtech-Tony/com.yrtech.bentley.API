@@ -311,9 +311,9 @@ namespace com.yrtech.InventoryAPI.Service
             return filePath;
         }
         // DMFDetail Export
-        public string DMFDetailExport(string shopId)
+        public string DMFDetailExport(string shopId,string dmfItemName)
         {
-            List<DMFDetailDto> list = dmfService.DMFDetailSearch("",shopId,"");
+            List<DMFDetailDto> list = dmfService.DMFDetailSearch("",shopId,"", dmfItemName);
             Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "DMFDetail.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];

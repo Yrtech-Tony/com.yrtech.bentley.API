@@ -1,17 +1,12 @@
 ﻿using System.Web.Http;
+using System.Linq;
 using com.yrtech.InventoryAPI.Service;
 using com.yrtech.InventoryAPI.Common;
 using System.Collections.Generic;
 using System;
 using com.yrtech.InventoryAPI.Controllers;
 using com.yrtech.InventoryAPI.DTO;
-using System.Net.Http;
 using com.yrtech.bentley.DAL;
-using System.IO;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Net;
-using System.Net.Http.Headers;
 
 namespace com.yrtech.SurveyAPI.Controllers
 {
@@ -970,6 +965,25 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 List<DMFDto> dmfList = dmfService.DMFSearch(shopId);
+                var detailList = dmfService.DMFDetailSearch("", shopId, "", "").GroupBy(x => new { x.ShopId, x.ShopName, x.ShopNameEn, x.AcutalAmt }).Select(y => new
+                {
+                    ShopId = y.Key.ShopId,
+                    ShopName = y.Key.ShopName,
+                    ShopNameEn = y.Key.ShopNameEn,
+                    ActualAmt = y.Sum(x => x.AcutalAmt)
+                }).ToList();
+
+                foreach (DMFDto dmf in dmfList)
+                {
+                    foreach (var dmfDetail in detailList)
+                    {
+                        if (dmf.ShopId == dmfDetail.ShopId)
+                        {
+                            dmf.ActualAmt = dmfDetail.ActualAmt;
+                            dmf.DiffAmt = dmf.ActualMonthSaleAmt - dmfDetail.ActualAmt;
+                        }
+                    }
+                }
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfList) };
             }
             catch (Exception ex)
@@ -1000,7 +1014,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 }
 
                 dmfQuarterMainDto.DMFQuarterList = dmfQuarterList;
-                dmfQuarterMainDto.DMFDetailList = dmfService.DMFDetailSearch("", shopId, ""); ;
+                dmfQuarterMainDto.DMFDetailList = dmfService.DMFDetailSearch("", shopId, "",""); ;
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfQuarterMainDto) };
             }
             catch (Exception ex)
@@ -1016,7 +1030,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                List<DMFDetailDto> dmfDetailList = dmfService.DMFDetailSearch(dmfDetailId, shopId, dmfItemId);
+                List<DMFDetailDto> dmfDetailList = dmfService.DMFDetailSearch(dmfDetailId, shopId, dmfItemId, "");
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfDetailList) };
             }
@@ -1032,6 +1046,16 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
+                List<DMFDetailDto> detailList = dmfService.DMFDetailSearch("",dmfDetail.ShopId.ToString(),dmfDetail.DMFItemId.ToString(),"");
+                if (detailList != null && detailList.Count != 0 && detailList[0].DMFDetailId != dmfDetail.DMFDetailId)
+                {
+                    return new APIResult() { Status = false, Body = "保存失败,同一经销商不能添加重复项目" };
+                }
+                List<DMFItem> itemList = dmfService.DMFItemSearch(dmfDetail.DMFItemId.ToString(),"","",null,null);
+                if(itemList!=null&&itemList.Count>0&&itemList[0].ExpenseAccountChk==false)
+                {
+                    return new APIResult() { Status = false, Body = "保存失败,不能添加费用报销项目" };
+                }
                 dmfDetail = dmfService.DMFDetailSave(dmfDetail);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfDetail) };
             }
@@ -1062,11 +1086,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("DMF/DMFDetailExport")]
-        public APIResult DMFDetailExport(string shopId)
+        public APIResult DMFDetailExport(string shopId,string dmfItemName)
         {
             try
             {
-                string filePath = excelDataService.DMFDetailExport(shopId);
+                string filePath = excelDataService.DMFDetailExport(shopId, dmfItemName);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
 
             }

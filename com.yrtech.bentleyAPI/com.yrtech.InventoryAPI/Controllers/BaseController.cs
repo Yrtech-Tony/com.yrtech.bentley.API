@@ -58,7 +58,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             {
                 filePath = base64Img;
             }
-            return base64Img;
+            return filePath;
         }
 
         public void SendEmail(string emailTo, string emailCC, string subjects, string body, string attachmentStream, string attachementFileName)

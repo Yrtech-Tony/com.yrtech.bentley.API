@@ -250,7 +250,8 @@
             $.commonGet("DMF/DMFDetailSearch", {
                 dmfDetailId: '',
                 shopId: $("#pdealer").val(),
-                dmfItemId: ''
+                dmfItemId: ''//,
+                //dmfItemName: $("#pname").val()
             }, function (data) {
                 if (data) {
                     $table.bootstrapTable("load", data);

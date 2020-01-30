@@ -193,7 +193,7 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userId,accountId,accountName);
+                List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userId,accountId,accountName,"");
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfoList) };
             }

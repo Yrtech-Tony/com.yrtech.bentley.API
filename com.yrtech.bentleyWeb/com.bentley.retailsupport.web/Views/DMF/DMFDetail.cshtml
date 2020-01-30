@@ -283,7 +283,7 @@
         function loadTotalDiv() {
             var rows = $table.bootstrapTable('getData');
             var start = pageSize * (pageNumber - 1);
-            var end = pageNumber * pageSize;
+            var end = pageNumber * pageSize > rows.length ? rows.length : pageNumber * pageSize;
             var sumBuget = 0;
             var sumCost = 0;
             for (var i = start; i < end; i++) {

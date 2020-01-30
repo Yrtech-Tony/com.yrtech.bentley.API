@@ -207,7 +207,7 @@ function InitDMFDetail() {
                     var result = { filed: "Remark", value: value };
                     if (roleType != "SHOP") {
                         var html = '<a href="javascript:void(0)" data-name="Remark" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
-                        if (result.value == "") {
+                        if (result.value == ""||result.value==null) {
                             html = '<a href="javascript:void(0)" data-name="Remark" data-pk="undefined" data-value="" class="editable editable-click">未填写</a>';
                         }
                         return html;

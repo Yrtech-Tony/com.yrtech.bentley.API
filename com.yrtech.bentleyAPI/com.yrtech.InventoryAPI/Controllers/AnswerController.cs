@@ -7,6 +7,7 @@ using System;
 using com.yrtech.InventoryAPI.Controllers;
 using com.yrtech.InventoryAPI.DTO;
 using com.yrtech.bentley.DAL;
+using System.Web.Configuration;
 
 namespace com.yrtech.SurveyAPI.Controllers
 {
@@ -371,7 +372,16 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                SendEmail("71443365@qq.com", "mou.junsheng@eland.co.kr", "主视觉审批", "主视觉审批", "", "http://yrtech.oss-cn-beijing-internal.aliyuncs.com/AODISatisfaction/%E5%A5%A5%E8%BF%AA%E6%BB%A1%E6%84%8F%E5%BA%A6%E6%8F%90%E5%8D%87%E4%B8%8A%E6%B5%B7%E4%B8%80%E6%B1%BD%E6%B2%AA%E5%A5%A5/A01-1/%E5%9B%9E%E6%89%A7%E9%82%AE%E4%BB%B6%E6%8B%8D%E7%85%A7.jpg");
+                string marketactionName = "";
+                List<MarketAction> marketAction = marketActionService.MarketActionSearchById(marketActionId);
+                List<ShopDto> shop = new List<ShopDto>();
+                if (marketAction != null && marketAction.Count > 0)
+                {
+                    marketactionName = marketAction[0].ActionName;
+                    shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
+                }
+                SendEmail(WebConfigurationManager.AppSettings["KeyVisionEmail_To"], WebConfigurationManager.AppSettings["KeyVisionEmail_CC"]
+                        , "主视觉画面审批", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核已提交，请审核", "", "");
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)
@@ -385,7 +395,17 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                SendEmail("71443365@qq.com", "mou.junsheng@eland.co.kr", "主视觉审批修改意见", "主视觉审批修改意见", "", "http://yrtech.oss-cn-beijing-internal.aliyuncs.com/AODISatisfaction/%E5%A5%A5%E8%BF%AA%E6%BB%A1%E6%84%8F%E5%BA%A6%E6%8F%90%E5%8D%87%E4%B8%8A%E6%B5%B7%E4%B8%80%E6%B1%BD%E6%B2%AA%E5%A5%A5/A01-1/%E5%9B%9E%E6%89%A7%E9%82%AE%E4%BB%B6%E6%8B%8D%E7%85%A7.jpg");
+                string marketactionName = "";
+                List<MarketAction> marketAction = marketActionService.MarketActionSearchById(marketActionId);
+                List<ShopDto> shop = new List<ShopDto>();
+                List<UserInfoDto> userinfo = new List<UserInfoDto>();
+                if (marketAction != null && marketAction.Count > 0)
+                {
+                    marketactionName = marketAction[0].ActionName;
+                    shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
+                    userinfo = masterService.UserInfoSearch("", "", "", marketAction[0].ShopId.ToString());
+                }
+                SendEmail(userinfo[0].Email, "", "主视觉审批修改意见", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核意见已更新,请登陆DMN系统查看，并按要求完成更新", "", "");
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)
@@ -965,25 +985,6 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 List<DMFDto> dmfList = dmfService.DMFSearch(shopId);
-                var detailList = dmfService.DMFDetailSearch("", shopId, "", "").GroupBy(x => new { x.ShopId, x.ShopName, x.ShopNameEn, x.AcutalAmt }).Select(y => new
-                {
-                    ShopId = y.Key.ShopId,
-                    ShopName = y.Key.ShopName,
-                    ShopNameEn = y.Key.ShopNameEn,
-                    ActualAmt = y.Sum(x => x.AcutalAmt)
-                }).ToList();
-
-                foreach (DMFDto dmf in dmfList)
-                {
-                    foreach (var dmfDetail in detailList)
-                    {
-                        if (dmf.ShopId == dmfDetail.ShopId)
-                        {
-                            dmf.ActualAmt = dmfDetail.ActualAmt;
-                            dmf.DiffAmt = dmf.ActualMonthSaleAmt - dmfDetail.ActualAmt;
-                        }
-                    }
-                }
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfList) };
             }
             catch (Exception ex)
@@ -1014,7 +1015,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 }
 
                 dmfQuarterMainDto.DMFQuarterList = dmfQuarterList;
-                dmfQuarterMainDto.DMFDetailList = dmfService.DMFDetailSearch("", shopId, "",""); ;
+                dmfQuarterMainDto.DMFDetailList = dmfService.DMFDetailSearch("", shopId, "", ""); ;
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfQuarterMainDto) };
             }
             catch (Exception ex)
@@ -1026,11 +1027,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region DMFDetail
         [HttpGet]
         [Route("DMF/DMFDetailSearch")]
-        public APIResult DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId)
+        public APIResult DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId,string dmfItemName)
         {
             try
             {
-                List<DMFDetailDto> dmfDetailList = dmfService.DMFDetailSearch(dmfDetailId, shopId, dmfItemId, "");
+                List<DMFDetailDto> dmfDetailList = dmfService.DMFDetailSearch(dmfDetailId, shopId, dmfItemId, dmfItemName);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfDetailList) };
             }
@@ -1046,13 +1047,13 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                List<DMFDetailDto> detailList = dmfService.DMFDetailSearch("",dmfDetail.ShopId.ToString(),dmfDetail.DMFItemId.ToString(),"");
+                List<DMFDetailDto> detailList = dmfService.DMFDetailSearch("", dmfDetail.ShopId.ToString(), dmfDetail.DMFItemId.ToString(), "");
                 if (detailList != null && detailList.Count != 0 && detailList[0].DMFDetailId != dmfDetail.DMFDetailId)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,同一经销商不能添加重复项目" };
                 }
-                List<DMFItem> itemList = dmfService.DMFItemSearch(dmfDetail.DMFItemId.ToString(),"","",null,null);
-                if(itemList!=null&&itemList.Count>0&&itemList[0].ExpenseAccountChk==false)
+                List<DMFItem> itemList = dmfService.DMFItemSearch(dmfDetail.DMFItemId.ToString(), "", "", null, null);
+                if (itemList != null && itemList.Count > 0 && itemList[0].ExpenseAccountChk == false)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,不能添加费用报销项目" };
                 }
@@ -1086,7 +1087,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("DMF/DMFDetailExport")]
-        public APIResult DMFDetailExport(string shopId,string dmfItemName)
+        public APIResult DMFDetailExport(string shopId, string dmfItemName)
         {
             try
             {
@@ -1275,7 +1276,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch(monthSaleId, shopId);
+                List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch(monthSaleId, shopId, "");
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(monthSaleList) };
             }
@@ -1291,6 +1292,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
+                List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch("", monthSale.ShopId.ToString(), monthSale.YearMonth);
+                if (monthSaleList != null && monthSaleList.Count != 0&& monthSaleList[0].MonthSaleId!= monthSale.MonthSaleId)
+                {
+                    return new APIResult() { Status = false, Body = "保存失败,同一经销商年月不能重复" };
+                }
                 dmfService.MonthSaleSave(monthSale);
                 return new APIResult() { Status = true, Body = "" };
             }
@@ -1308,6 +1314,29 @@ namespace com.yrtech.SurveyAPI.Controllers
             {
                 List<MonthSaleDto> list = CommonHelper.DecodeString<List<MonthSaleDto>>(upload.ListJson);
                 foreach (MonthSaleDto monthSaleDto in list)
+                {
+                    foreach (MonthSaleDto monthSaleDto1 in list)
+                    {
+                        if (monthSaleDto != monthSaleDto1 && monthSaleDto.ShopId == monthSaleDto1.ShopId && monthSaleDto.YearMonth == monthSaleDto1.YearMonth)
+                        {
+                            return new APIResult() { Status = false, Body = "导入失败,经销商名称及年月重复，请检查文件" };
+                        }
+                    }
+                }
+                foreach (MonthSaleDto monthSaleDto in list)
+                {
+                    List<ShopDto> shopList = masterService.ShopSearch("", "", monthSaleDto.ShopName, "");
+                    if (shopList != null && shopList.Count > 0)
+                    {
+                        monthSaleDto.ShopId = shopList[0].ShopId;
+                    }
+                    List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch("", monthSaleDto.ShopId.ToString(), monthSaleDto.YearMonth);
+                    if (monthSaleList != null && monthSaleList.Count != 0&& monthSaleDto.MonthSaleId!= monthSaleList[0].MonthSaleId)
+                    {
+                        return new APIResult() { Status = false, Body = "导入失败,同一经销商年月不能重复，请检查文件" }; 
+                    }
+                }
+                    foreach (MonthSaleDto monthSaleDto in list)
                 {
                     MonthSale monthSale = new MonthSale();
                     List<ShopDto> shopList = masterService.ShopSearch("", "", monthSaleDto.ShopName, "");

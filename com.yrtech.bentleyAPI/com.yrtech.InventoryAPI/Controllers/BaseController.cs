@@ -75,7 +75,10 @@ namespace com.yrtech.InventoryAPI.Controllers
             //因为上面用的用户名abc作SMTP服务器认证，所以这里发信人的邮箱地址也应该写为abc@163.com
             //Message.To.Add("123456@gmail.com");//将邮件发送给Gmail
             Message.To.Add(emailTo);//将邮件发送给QQ邮箱
-            Message.CC.Add(emailCC);
+            if (!string.IsNullOrEmpty(emailCC))
+            {
+                Message.CC.Add(emailCC);
+            }
             Message.Subject = subjects;
             Message.Body = body;
             // Message.Attachments.Add(new System.Net.Mail.Attachment(@"C:\Workspace\com.yrtech.Bentley\com.yrtech.bentleyAPI\com.yrtech.InventoryAPI\Content\Excel\LeadsReport.xlsx", System.Net.Mime.MediaTypeNames.Application.Octet));

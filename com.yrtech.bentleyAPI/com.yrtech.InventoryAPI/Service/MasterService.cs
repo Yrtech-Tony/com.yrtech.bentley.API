@@ -229,14 +229,16 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region UserInfo
-        public List<UserInfoDto> UserInfoSearch(string userId, string accountId, string accountName)
+        public List<UserInfoDto> UserInfoSearch(string userId, string accountId, string accountName,string shopId)
         {
             if (userId == null) userId = "";
             if (accountId == null) accountId = "";
             if (accountName == null) accountName = "";
+            if (shopId == null) shopId = "";
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@UserId", userId),
                                                     new SqlParameter("@AccountId", accountId),
-                                                    new SqlParameter("@AccountName", accountName)};
+                                                    new SqlParameter("@AccountName", accountName),
+                                                    new SqlParameter("@ShopId", shopId)};
             Type t = typeof(UserInfoDto);
             string sql = "";
             sql = @"SELECT [UserId]
@@ -288,6 +290,10 @@ namespace com.yrtech.InventoryAPI.Service
             if (!string.IsNullOrEmpty(accountName))
             {
                 sql += " AND AccountName = @AccountName";
+            }
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND ShopId = @ShopId";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<UserInfoDto>().ToList();
         }

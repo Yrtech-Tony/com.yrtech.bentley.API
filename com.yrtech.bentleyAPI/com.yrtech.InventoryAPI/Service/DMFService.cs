@@ -112,10 +112,10 @@ namespace com.yrtech.InventoryAPI.Service
                     UNION ALL
 					 
 					SELECT A.[DMFDetailId],A.[ShopId],A.[DMFItemId],A.[Budget],ISNULL(A.[AcutalAmt],0) AS AcutalAmt
-                           ,A.[Remark],B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
+                           ,ISNULL(A.[Remark],'') AS Remark,B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
                     FROM DMFDetail A INNER JOIN Shop B ON A.ShopId = B.ShopId
                                     INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
-                    WHERE NOT EXISTS(SELECT 1 FROM ExpenseAccount WHERE ShopId = A.ShopId AND DMFItemId = A.DMFItemId)
+                    WHERE NOT EXISTS(SELECT 1 FROM ExpenseAccount WHERE ShopId = A.ShopId AND DMFItemId = A.DMFItemId AND  ApplyStatus='通过')
                     ) X WHERE 1=1";
             if (!string.IsNullOrEmpty(dmfDetailId))
             {
@@ -190,7 +190,29 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND A.ShopId = @ShopId";
             }
-            return db.Database.SqlQuery(t, sql, para).Cast<DMFDto>().ToList();
+            List<DMFDto> dmfList =  db.Database.SqlQuery(t, sql, para).Cast<DMFDto>().ToList();
+
+            // 实际费用和差额赋值
+            var detailList = DMFDetailSearch("", shopId, "", "").GroupBy(x => new { x.ShopId, x.ShopName, x.ShopNameEn }).Select(y => new
+            {
+                ShopId = y.Key.ShopId,
+                ShopName = y.Key.ShopName,
+                ShopNameEn = y.Key.ShopNameEn,
+                ActualAmt = y.Sum(x => x.AcutalAmt)
+            }).ToList();
+
+            foreach (DMFDto dmf in dmfList)
+            {
+                foreach (var dmfDetail in detailList)
+                {
+                    if (dmf.ShopId == dmfDetail.ShopId)
+                    {
+                        dmf.ActualAmt = dmfDetail.ActualAmt;
+                        dmf.DiffAmt = dmf.ActualMonthSaleAmt - dmfDetail.ActualAmt;
+                    }
+                }
+            }
+            return dmfList;
         }
         public List<DMFDto> DMFQuarterSearch(string shopId)
         {
@@ -240,7 +262,7 @@ namespace com.yrtech.InventoryAPI.Service
                                                     new SqlParameter("@MarketActionId", marketActionId)};
             Type t = typeof(ExpenseAccountDto);
             string sql = "";
-            sql = @"SELECT A.ExpenseAccountId,A.DMFItemId,A.ShopId,A.MarketActionId,A.ExpenseAmt,A.ApprovalReason
+            sql = @"SELECT DISTINCT A.ExpenseAccountId,A.DMFItemId,A.ShopId,A.MarketActionId,A.ExpenseAmt,A.ApprovalReason
                        ,A.ReplyReason
                        ,CASE WHEN A.ApplyStatus IS NOT NULL AND A.ApplyStatus<>'' 
                             THEN A.ApplyStatus
@@ -259,8 +281,8 @@ namespace com.yrtech.InventoryAPI.Service
                         END AS ReplyStatus,
                     B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn,D.ActionName
                     FROM ExpenseAccount A INNER JOIN Shop B ON A.ShopId = B.ShopId
-                                            INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
-                                            INNER JOIN MarketAction D ON A.MarketActionId = D.MarketActionId
+                                            LEFT JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
+                                            LEFT JOIN MarketAction D ON A.MarketActionId = D.MarketActionId
                     WHERE 1=1";
             if (!string.IsNullOrEmpty(expenseAccountId))
             {
@@ -375,13 +397,16 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region MonthSale
-        public List<MonthSaleDto> MonthSaleSearch(string monthSaleId, string shopId)
+        public List<MonthSaleDto> MonthSaleSearch(string monthSaleId, string shopId,string yearMonth)
         {
             if (monthSaleId == null) monthSaleId = "";
             if (shopId == null) shopId = "";
+            if (yearMonth == null) yearMonth = "";
+            
 
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MonthSaleId", monthSaleId),
-                                                    new SqlParameter("@ShopId", shopId)};
+                                                    new SqlParameter("@ShopId", shopId),
+                                                 new SqlParameter("@YearMonth", yearMonth)};
 
             Type t = typeof(MonthSaleDto);
 
@@ -396,6 +421,10 @@ namespace com.yrtech.InventoryAPI.Service
             if (!string.IsNullOrEmpty(shopId))
             {
                 sql += " AND A.ShopId = @ShopId";
+            }
+            if (!string.IsNullOrEmpty(yearMonth))
+            {
+                sql += " AND A.YearMonth = @YearMonth";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<MonthSaleDto>().ToList();
         }

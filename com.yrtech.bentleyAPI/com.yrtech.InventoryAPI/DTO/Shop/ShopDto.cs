@@ -12,6 +12,7 @@ namespace com.yrtech.InventoryAPI.DTO
         public string ShopName { get; set; }
         public string ShopNameEn { get; set; }
         public string City { get; set; }
+        public string Email { get; set; }
         public Nullable<decimal> Budget { get; set; }
         public Nullable<decimal> Balance { get; set; }
         public Nullable<int> AreaId { get; set; }

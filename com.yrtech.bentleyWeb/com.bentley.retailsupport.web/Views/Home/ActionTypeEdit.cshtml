@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "AgentEdit";
+    ViewBag.Title = "ActionTypeEdit";
 
 }
 <style type="text/css" media="print">
@@ -44,23 +44,9 @@
                         <div class="container-fluid">
                             <div class="row-fluid">
                                 <div class="span12">
-                                    <!-- BEGIN THEME CUSTOMIZER-->
-                                    <div id="theme-change" class="hidden-phone" style="display: none;">
-                                        <i class="icon-cogs"></i>
-                                        <span class="settings">
-                                            <span class="text">Theme:</span>
-                                            <span class="colors">
-                                                <span class="color-default" data-style="default"></span>
-                                                <span class="color-gray" data-style="gray"></span>
-                                                <span class="color-purple" data-style="purple"></span>
-                                                <span class="color-navy-blue" data-style="navy-blue"></span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <!-- END THEME CUSTOMIZER-->
                                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                                     <h3 class="page-title">
-                                        <span translate>Update</span>
+                                        <span translate>Add</span>
                                         <small translate>Dealer</small>
                                     </h3>
 
@@ -73,20 +59,21 @@
                                     <!-- BEGIN SAMPLE FORM widget-->
                                     <div class="widget">
                                         <div class="widget-title">
-                                            <h4><i class="icon-reorder"></i><span translate>Update</span></h4>
+                                            <h4><i class="icon-reorder"></i><span translate>Add</span></h4>
                                             <span class="tools">
                                                 <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
                                             </span>
                                         </div>
                                         <div class="widget-body form" style="display:block;">
-                                            <form class="form-horizontal" id="agentCreate">
-                                                <input id="ShopId" name="ShopId" type="hidden" />
+                                            <form class="form-horizontal" id="actionTypeCreate">
+
+                                                <input id="EventTypeId" name="EventTypeId" type="hidden" />
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3"><span translate>Name</span><span class="required" style="color:red">*</span>:</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="ShopName" maxlength="255" name="ShopName" style="width:100%;" type="text" value="" />
+                                                                <input class="form-control" id="EventTypeName" name="EventTypeName" style="width:100%;" type="text" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -96,7 +83,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3"><span translate>English Name</span>:</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="ShopNameEn" maxlength="255" name="ShopNameEn" style="width:100%;" type="text" value="" />
+                                                                <input class="form-control" id="EventTypeNameEn" name="EventTypeNameEn" style="width:100%;" type="text" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -104,9 +91,12 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label col-md-3"><span translate>City</span><span class="required" style="color:red">*</span>:</label>
-                                                            <div class="col-md-6">
-                                                                <input class="form-control" id="City" maxlength="255" name="City" style="width:100%;" type="text" value="" />
+                                                            <label class="control-label col-md-3"><span translate>Activity Mode</span>:</label>
+                                                            <div class="col-md-3">
+                                                                <select name="EventMode" class="selectpicker">
+                                                                    <option value="1" translate>Online Activities</option>
+                                                                    <option value="2" selected translate>Offline Activities</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -114,7 +104,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label col-md-3"><span translate>Area</span><span class="required" style="color:red">*</span>:</label>
+                                                            <label class="control-label col-md-3"><span translate>Area</span>:</label>
                                                             <div class="col-md-3">
                                                                 <select id="AreaId" name="AreaId" class="selectpicker"></select>
                                                             </div>
@@ -124,16 +114,28 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label col-md-3"><span translate>Budget</span>:</label>
+                                                            <label class="control-label col-md-3"><span translate>Maximum Amount</span><span class="required" style="color:red">*</span>:</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" data-val="true" data-val-number="The field 预算 must be a number." data-val-required="The 预算 field is required." id="Budget" maxlength="255" name="Budget" style="width:100%;" type="text" value="" />
+                                                                <input class="form-control" id="ApprovalMaxAmt" name="ApprovalMaxAmt" style="width:100%;" type="text" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>Show</span>:</label>
+                                                            <div class="col-md-6">
+                                                                <div class="switch" data-on="danger" data-off="primary">
+                                                                    <input id="ShowStatus" name="ShowStatus" type="checkbox" value="1" checked />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-actions">
-                                                    <button class="btn btn-success" onclick="Create();" translate>Save</button>
-                                                    <a class="btn btn-dark" href="/Home/ManageAgent" translate>Back</a>
+                                                    <button class="btn btn-success" onclick="Create();" translate>Add</button>
+                                                    <a class="btn btn-dark" href="/Home/ManageActionType" translate>Back</a>
                                                 </div>
                                             </form>
                                             <!-- END FORM-->
@@ -155,13 +157,15 @@
 </div>
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
-    <script src="~/Scripts/curtom/AgentCreate.js"></script>
+    <script src="~/Scripts/curtom/ActionTypeCreate.js"></script>
     <script>
-        $("#nav_dealer").addClass("active");
+        $("#nav_promotiontype").addClass("active");
 
+        var id = '@ViewBag.ActionTypeId';
         var userId = $('#G_UserId').val();
-        var id = '@ViewBag.ShopId';
         $(function () {
+            $("[type='checkbox']").bootstrapSwitch();
+
             //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
             $.ajaxSetup({
                 async: false
@@ -185,14 +189,15 @@
             $("select").selectpicker("refresh");
 
             if (id) {
-                $.commonGet("Master/ShopSearch", {
-                    shopId: id,
-                    shopCode: '',
-                    shopName: '',
-                    shopNameEn: ''
+                $.commonGet("Master/EventTypeSearch", {
+                    eventTypeId: id,
+                    eventTypeName: '',
+                    eventTypeNameEn: '',
+                    showStatus: ''
                 }, function (data) {
                     if (data && data.length > 0) {
-                        $('#agentCreate').setForm(data[0]);
+                        data[0].ShowStatus = data[0].ShowStatus?'true':'false';
+                        $('#actionTypeCreate').setForm(data[0]);
                         $("select").selectpicker("refresh");
                     }
                 });
@@ -208,7 +213,7 @@
         }
 
         function Create() {
-            var data = $('#agentCreate').data('bootstrapValidator');
+            var data = $('#actionTypeCreate').data('bootstrapValidator');
             if (data) {
                 // 修复记忆的组件不验证
                 data.validate();
@@ -218,14 +223,15 @@
                 }
                 else {
                     try {
-                        var oMyForm = $('#agentCreate').serializeObject();
+                        var oMyForm = $('#actionTypeCreate').serializeObject();
+                        oMyForm.ShowStatus = $("#ShowStatus").is(":checked") ? true : false;
                         if (!oMyForm.InUserId) {
                             oMyForm.InUserId = $("#G_UserId").val();
                             oMyForm.ModifyUserId = $("#G_UserId").val();
                         }
                         console.log(oMyForm)
-                        $.commonPost('Master/ShopSave', oMyForm, function (res) {
-                            window.location.href = "/Home/ManageAgent";
+                        $.commonPost('Master/EventTypeSave', oMyForm, function (res) {
+                            window.location.href = "/Home/ManageActionType";
                         })
                     }
                     catch (e) {

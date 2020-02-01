@@ -1,0 +1,652 @@
+<form action="/Account/LogOff" class="navbar-right" id="logoutForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="0CpCz4UK4IrUmC1pYevmXMKBJ4vfQe4UCkc1jntlz0w3rbChJpM8z-nBcqlF2hPRiM5HO6AxW2-XCje_cKok4l23-UArX6KoTl_QHjjkYgvN1py9QXqiS2BtsH476u4ZV-4hFtkgHm97sooF1zpIig2" /></form>
+
+<!DOCTYPE html>
+<html ng-app="MyApp">
+<head>
+    <title translate>Dealer Activity Online Management System</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!--Loading bootstrap css-->
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
+    <link type="text/css" rel="stylesheet" href="/Content/style/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrap-table/bootstrap-table.css">
+
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrapValidator/css/bootstrapValidator.min.css">
+
+    <link type="text/css" rel="stylesheet" href="/Content/style/bootstrap-responsive.min.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/bootstrap-toggle-buttons.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/bootstrap-switch.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrap-select/css/bootstrap-select.min.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bootstrap3-editable/css/bootstrap-editable.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bower_components/Font-Awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/Scripts/bower_components/Font-Awesome/css/checkbox.css">
+
+    <link type="text/css" rel="stylesheet" href="/Content/style/animate.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/all.css">
+    
+    <link type="text/css" rel="stylesheet" href="/Content/style/main.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/style.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/style-responsive.css">
+    <link type="text/css" rel="stylesheet" href="/Content/style/pace.css">
+    <link href="/Content/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="/Content/bootstrap-fileinput/css/bootstrap-fileinput.css" rel="stylesheet">
+    
+    <script src="/Scripts/Dark/jquery-1.10.2.min.js"></script>
+
+
+    <script src="/Scripts/bower_components/angular-1.6.4/angular.min.js"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/angular-gettext.min.js"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/po/zh.js?0315"></script>
+    <script src="/Scripts/bower_components/angular-1.6.4/po/en.js?0315"></script>
+    <script src="/Scripts/bower_components/LanguageCheck.js"></script>
+
+    <script src="/Scripts/jquery.jqprint-0.3.js"></script>
+    <script src="/Scripts/jquery-migrate-1.2.1.min.js"></script>
+    
+
+    
+    <style type="text/css" media="print">
+        .control-label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .noprint, .widget-title .tools, #sidebar, #ListVisuals_0__ImgRemark, #VisualDescription, #totop, .icon-plus, table tr td:last-child, table tr th:last-child,
+        .btn-dark, .btn-success, .btn-file {
+            display: none !important;
+        }
+
+        .row .control-label {
+            width: 100%;
+        }
+
+        form .row.print .col-md-6 {
+            width: calc(50% - 15px);
+            display: inline-block;
+        }
+
+            form .row.print .col-md-6 .col-md-4 {
+                zoom: 0.5;
+                display: inline-block;
+            }
+    </style>
+    <script>
+        $(function () {
+            window.onbeforeprint = function () {
+                //图片项的缩放
+                $("form .row").each(function (index, item) {
+                    var $this = $(this);
+                    if ($this.find(".col-md-4 .fileinput").length != 0) {
+                        $this.addClass("print");
+                    }
+
+                    $this.find(".col-md-4").each(function (index, item2) {
+                        if ($(item2).find("img").attr("src") == "/Content/bootstrap-fileinput/img/noimage.png") {
+                            $(item2).addClass("noprint");
+                        }
+                        else {
+                            if ($(item2).find("textarea").text() == "") {
+                                $(item2).find("textarea").addClass("noprint");
+                            }
+                        }
+
+                    });
+                });
+            };
+
+            window.onafterprint = function () {
+                $(".print").removeClass("print");
+                $(".noprint").removeClass("noprint");
+            };
+        });
+
+    </script>
+
+
+
+    <script>
+
+        var language = "1";
+        if (language == '1')
+            language = "zh";
+        else
+            language = "en";
+
+        setLanguage2(language);
+
+        var app = angular.module("MyApp", ['gettext']);
+
+        angular.module('MyApp').run(function (gettextCatalog) {
+            if (isZH()) {
+                gettextCatalog.currentLanguage = 'zh';
+            }
+            else {
+                gettextCatalog.currentLanguage = 'en';
+            }
+        });
+    </script>
+
+    
+
+    <style>
+        .btn-sm {
+            padding: 3px 4px !important;
+            font-size: 10px !important;
+            line-height: 1.0 !important;
+            border-radius: 3px !important;
+        }
+
+        .pagination-detail {
+            display: none !important;
+        }
+
+        .btn {
+            /*padding: 4px 12px !important;*/
+            /*width:90px !important;*/
+        }
+
+        table {
+            white-space: normal;
+            line-height: 100%;
+            font-size: 13px;
+        }
+
+        #sidebar {
+            min-height: 0px !important;
+        }
+
+        #topbar .navbar-top-links {
+            margin-left: 240px;
+            margin-right: 15px;
+        }
+
+        /*add lipeng 20181210*/
+        .settingDb {
+            font-size: 14px;
+            cursor: pointer;
+            padding: 3px 10px;
+        }
+
+            .settingDb.hover {
+                color: #fff;
+                border: 1px solid;
+            }
+
+            .settingDb:hover {
+                color: #fff;
+                border: 1px solid;
+            }
+    </style>
+</head>
+
+
+<body>
+    <div>
+        <!--BEGIN THEME SETTING-->
+
+
+        <input id="G_UserId" type="hidden" value="aff2e40c-477b-e711-81a3-8cf1a35086b6" />
+        <input id="G_Admin01" type="hidden" value="w79y3t9,v4pxawv,ezhoru0,ezhalt0,etongt0,jessy,ewayle0,eyucheg0,el9kayr,agenda,gamq5bm" />
+        <input id="G_UserAccount" type="hidden" value="admin" />
+        <input id="G_RoleId" type="hidden" value="01e36013-467b-e711-81a3-8cf1a35086b6" />
+        <input id="G_RoleName" type="hidden" value="管理员" />
+        <input id="G_Language" type="hidden" value="1" />
+        <input id="G_ResetPassword" type="hidden" value="{{'ResetPassword'|translate}}" />
+        <input id="G_Update" type="hidden" value="{{'Update'|translate}}" />
+        <input id="G_Delete" type="hidden" value="{{'Delete'|translate}}" />
+        <input id="G_Add" type="hidden" value="{{'Add'|translate}}" />
+        <input id="G_Show" type="hidden" value="{{'Show'|translate}}" />
+        <input id="G_NoShow" type="hidden" value="{{'NoShow'|translate}}" />
+        <input id="G_Online" type="hidden" value="{{'Online Activities'|translate}}" />
+        <input id="G_Offline" type="hidden" value="{{'Offline Activities'|translate}}" />
+        <input id="G_promotion_delete" type="hidden" value="{{'Are you sure you want to delete the promotion?'|translate}}" />
+        <input id="G_file_delete" type="hidden" value="{{'Are you sure you want to delete the file?'|translate}}" />
+        <input id="G_Yes" type="hidden" value="{{'Yes'|translate}}" />
+        <input id="G_No" type="hidden" value="{{'No'|translate}}" />
+        <input id="G_Info" type="hidden" value="{{'Information'|translate}}" />
+        <!--END THEME SETTING-->
+        <!--BEGIN BACK TO TOP-->
+        <a id="totop" href="#"><i class="fa fa-angle-up"></i></a>
+        <!--END BACK TO TOP-->
+        <!--BEGIN TOPBAR-->
+        <div id="header-topbar-option-demo" class="page-header-topbar nprint">
+            <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
+                <div class="navbar-header">
+                    <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                    <a id="logo" href="/Home" class="navbar-brand"><span class="fa fa-rocket"></span><span id="logoTxt" class="logo-text" translate>Operating Platform</span><span style="display: none" class="logo-text-icon">µ</span></a>
+                </div>
+                <div class="topbar-main">
+                    <a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
+
+                    <ul class="nav navbar navbar-top-links navbar-right mbn">
+                        
+                        <li class="dropdown topbar-user">
+                            <a data-hover="dropdown" href="#" class="dropdown-toggle"><span id="G_userName" class="hidden-xs">管理员</span>&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-user pull-right">
+                                <li><a href="javascript:" onclick="SetLanguage()" id="setLanguage"><i class="fa fa-star"></i><span translate>To Chinese</span></a></li>
+                                <li><a href="/Account/ResetPassword"><i class="fa fa-key"></i><span translate>Change Password</span></a></li>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-lock"></i><span translate>Logout</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!--END TOPBAR-->
+        <div id="wrapper">
+            <!--BEGIN SIDEBAR MENU-->
+            <nav id="sidebar" role="navigation" data-step="2" data-intro="Template has &lt;b&gt;many navigation styles&lt;/b&gt;"
+                 data-position="right" class="navbar-default navbar-static-side nprint">
+                <div class="sidebar-collapse menu-scroll">
+                    <ul id="side-menu" class="nav">
+                        <div class="clearfix"></div>
+                                <li id="nav_dash">
+                                    <a href="/Home/Index">
+                                        <i class="fa fa-tachometer fa-fw">
+                                            <div class="icon-bg bg-orange"></div>
+                                        </i>
+                                        <span class="menu-title" translate>Overview</span>
+                                    </a>
+                                </li>
+                                    <li id="nav_promotion2">
+                                        <a href="/Home/Promotion?type=2">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Document Submit</span>
+                                        </a>
+                                    </li>
+                                    <li id="nav_promotion">
+                                        <a href="/Home/Promotion">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Marketing Events</span>
+                                        </a>
+                                    </li>
+                                
+                                    <li id="nav_dealer_funds">
+                                        <a href="/Master/MarketFund">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Dealer Marketing Fund</span>
+                                        </a>
+                                    </li>
+                                
+                                <li id="nav_reimbursement">
+                                    <a href="/BudgetCost/Reimbursement?userId=aff2e40c-477b-e711-81a3-8cf1a35086b6">
+                                        <i class="fa fa-desktop fa-fw">
+                                            <div class="icon-bg bg-pink"></div>
+                                        </i><span class="menu-title" translate>Reimbursement</span>
+                                    </a>
+                                </li>
+                                
+                                    <li id="nav_IncomeCost">
+                                        <a href="/BudgetCost/IncomeCost">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Monthly Wholesale Condition</span>
+                                        </a>
+                                    </li>
+                                
+                                
+                                    <li id="nav_dealer_funds_ov">
+                                        <a href="/BudgetCost/DealersBalance">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Marketing Fund Summary (Overview)</span>
+                                        </a>
+                                    </li>
+                                
+                                
+                                    <li id="nav_budget_cost">
+                                        <a href="/BudgetCost/Index">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>Budget and Expense</span>
+                                        </a>
+                                    </li>
+                                
+                                
+                                    <li id="nav_log">
+                                        <a href="/Home/ManageLog">
+                                            <i class="fa fa-desktop fa-fw">
+                                                <div class="icon-bg bg-pink"></div>
+                                            </i><span class="menu-title" translate>System Log</span>
+                                        </a>
+                                    </li>
+                                
+                                
+                                    <li id="nav_user">
+                                        <a href="/Home/ManageUsers">
+                                            <i class="fa fa-edit fa-fw">
+                                                <div class="icon-bg bg-violet"></div>
+                                            </i><span class="menu-title" translate>User Management</span>
+                                        </a>
+
+                                    </li>
+                                
+                                
+                                    <li id="nav_area">
+                                        <a href="/Home/ManageArea">
+                                            <i class="fa fa-th-list fa-fw">
+                                                <div class="icon-bg bg-blue"></div>
+                                            </i><span class="menu-title" translate>Area Management</span>
+                                        </a>
+
+                                    </li>
+                                
+                                
+                                    <li id="nav_dealer">
+                                        <a href="/Home/ManageAgent">
+                                            <i class="fa fa-database fa-fw">
+                                                <div class="icon-bg bg-red"></div>
+                                            </i><span class="menu-title" translate>Dealer Management</span>
+                                        </a>
+
+                                    </li>
+                                
+                                
+                                    <li id="nav_promotiontype">
+                                        <a href="/Home/ManageActionType">
+                                            <i class="fa fa-file-o fa-fw">
+                                                <div class="icon-bg bg-yellow"></div>
+                                            </i><span class="menu-title" translate>Event Type Management</span>
+                                        </a>
+
+                                    </li>
+                                
+
+
+                    </ul>
+                </div>
+            </nav>
+            <div id="page-wrapper">
+                <!--BEGIN TITLE & BREADCRUMB PAGE-->
+                <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
+                    <div class="page-header pull-left">
+                        <div class="page-title nav_name">
+
+                        </div>
+                    </div>
+                    <ol class="breadcrumb page-breadcrumb pull-right">
+                        <li><i class="fa fa-home"></i>&nbsp;<a href="/Home/Index" translate>Home</a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="hidden"><a href="#" class="nav_name"></a>&nbsp;&nbsp;<i class="fa fa-angle-right"></i>&nbsp;&nbsp;</li>
+                        <li class="active nav_name"></li>
+                    </ol>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <!--END TITLE & BREADCRUMB PAGE-->
+                <!--BEGIN CONTENT-->
+                <div class="page-content">
+                    <div id="tab-general">
+                        <div class="row mbl">
+                            <div class="col-lg-12">
+                                <div class="col-md-12">
+                                    <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <!--BEGIN CONTENT-->
+                                
+<div id="main-content">
+    <div class="container-fluid">
+
+    
+        <p><a class="btn btn-primary" id="btnNew" href="/Home/AreaCreate"><i class="icon-plus icon-white"></i><span translate>Add</span></a></p>
+
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN EXAMPLE TABLE widget-->
+                <div class="widget">
+                    <div class="widget-title">
+                        <h4><i class="icon-reorder"></i><span translate>List</span></h4>
+                        <span class="tools">
+                            <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+
+                        </span>
+                    </div>
+                    <div class="widget-body" style="display:block;">
+                        <div id="sample_1_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <div id="sample_1_length" class="dataTables_length" hidden>
+                                        <label>
+                                            每页显示
+                                            <select size="1" name="sample_1_length" aria-controls="sample_1" class="input-mini" onchange="selectOnchang(this)">
+                                                <option value="10" selected="selected">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>条数据
+                                        </label>
+                                        <input id="pagesize" type="hidden" value="10" />
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <div class="dataTables_filter" id="sample_1_filter">
+                                        <label>
+                                            <input type="text" id="search" class="search-query" placeholder="{{'Keyword'|translate}}">
+                                            <button type="button" class="btn btn-primary" style="margin-top:-10px;" onclick="selectOnSearch()" translate>Search</button>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end row-fluid-->
+                            <table class="table table-bordered table-hover" id="AreaTable"> </table>
+                            <div class="row-fluid">
+                                <div class="span6">
+                                </div>
+                                <div class="span6">
+                                    <div class="dataTables_info" id="sample_1_info">
+                                        <!--MvcPager v2.0 for ASP.NET MVC 3.0+ © 2009-2013 Webdiyer (http://www.webdiyer.com)-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- END EXAMPLE TABLE widget-->
+            </div>
+        </div>
+    </div>
+</div>
+
+                                <!--END CONTENT-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--END CONTENT-->
+                <!--BEGIN FOOTER-->
+
+                <div id="footer" style="display:none">
+                    <div class="copyright">
+                        
+                    </div>
+                </div>
+                <!--END FOOTER-->
+            </div>
+            <!--END PAGE WRAPPER-->
+        </div>
+
+
+        <div style="display:none">
+            <input id="Draft" type="hidden" value="{{'Unsubmitted'|translate}}" />
+            <input id="Pending" type="hidden" value="{{'Pending'|translate}}" />
+
+            <input id="Rejected" type="hidden" value="{{'Rejected'|translate}}" />
+            <input id="Qualified" type="hidden" value="{{'Qualified'|translate}}" />
+            <input id="Unqualified" type="hidden" value="{{'Unqualified'|translate}}" />
+            <input id="Incompleted" type="hidden" value="{{'Incompleted'|translate}}" />
+
+            <input id="ActivityCancel" type="hidden" value="{{'Canceled'|translate}}" />
+            <input id="Approved" type="hidden" value="{{'Finished'|translate}}" />
+            <input id="Approvaling" type="hidden" value="{{'Processing'|translate}}" />
+
+            <input id="G_Edit" type="hidden" value="{{'Edit'|translate}}" />
+        </div>
+    </div>
+    <script src="/Scripts/bootstrap-fileinput/js/bootstrap-fileinput.js"></script>
+    
+
+    <script src="/Scripts/Dark/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Dark/bootstrap.min.js"></script>
+    <script src="/Scripts/bootstrapValidator/js/bootstrapValidator.min.js"></script>
+    <script src="/Scripts/bootstrapValidator/js/language/zh_CN.js"></script>
+    <script src="/Scripts/Dark/bootstrap-hover-dropdown.js"></script>
+
+    <script src="/Scripts/Dark/html5shiv.js"></script>
+    <script src="/Scripts/Dark/respond.min.js"></script>
+    <script src="/Scripts/Dark/jquery.metisMenu.js"></script>
+    <script src="/Scripts/Dark/jquery.slimscroll.js"></script>
+    <script src="/Scripts/Dark/jquery.cookie.js"></script>
+    <script src="/Scripts/Dark/custom.min.js"></script>
+
+    <script src="/Scripts/Dark/jquery.menu.js"></script>
+    <script src="/Scripts/Dark/pace.min.js"></script>
+    <script src="/Scripts/Dark/holder.js"></script>
+    <script src="/Scripts/Dark/responsive-tabs.js"></script>
+    <script src="/Scripts/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="/Scripts/bootstrap-table/bootstrap-table.js"></script>
+        <script src="/Scripts/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+        <script src="/Scripts/bower_components/layer/layer.js"></script>
+    <script src="/Scripts/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="/Scripts/bootstrap-table/extensions/editable/bootstrap-table-editable.min.js"></script>
+
+    <!--LOADING SCRIPTS FOR CHARTS-->
+    <script src="/Scripts/Dark/bootstrap-toggleButtons.js"></script>
+    <script src="/Scripts/Dark/bootstrap-switch.min.js"></script>
+
+
+    <script type="text/javascript" src="/Content/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/Content/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+    <script type="text/javascript" src="/Scripts/bower_components/jquery.serializejson.min.js" charset="UTF-8"></script>
+
+    <!--CORE JAVASCRIPT-->
+    <script src="/Scripts/Dark/main.js"></script>
+
+    <script>
+        var csstxt = isZH() ? "'黑体'" : "'BentleySemiBold'";
+        $("body").css("font-family", isZH() ? "'黑体'" : "'BentleyLight'");
+        $("li[id]").css("font-family", csstxt);
+        $("#logoTxt").css("font-family", csstxt);
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+
+        function ShowDiv() {
+            if ($('.widget-body')[0].style.display == 'none') {
+                $('.widget-body')[0].style.display = 'block';
+            }
+            else {
+                $('.widget-body')[0].style.display = 'none';
+            }
+        }
+        function SetLanguage() {
+            if (isZH()) {
+                setLanguage('en');
+
+            }
+            else {
+                setLanguage('zh');
+            }
+
+            setTimeout("window.location.reload()", 200);
+
+        }
+        //超时退出系统
+        //var lastTime = new Date().getTime();
+        //var currentTime = new Date().getTime();
+        //var timeOut = 10 * 60 * 1000; //设置超时时间： 10分
+
+        //$(function () {
+        //    /* 鼠标移动事件 */
+        //    $(document).mouseover(function () {
+        //        lastTime = new Date().getTime(); //更新操作时间
+        //    });
+        //});
+
+        //function monitoringTime() {
+        //    currentTime = new Date().getTime(); //更新当前时间
+        //    if (currentTime - lastTime > timeOut) { //判断是否超时
+        //        document.getElementById('logoutForm').submit()
+        //    }
+        //}
+
+        ///* 定时器  间隔1秒检测是否长时间未操作页面  */
+        //window.setInterval(monitoringTime, 1000);
+
+        //切换数据库
+        //lipeng add 20181210
+        $(function () {
+            $(".settingDb").on("click", function () {
+                var path = $(this).attr("data-path");
+                //$.getJSON(path, function (res) {
+                //    if (res.returnValue)
+                //    {
+                //        window.location.href = "/Home/Index";
+                //    }
+                //});
+            });
+        });
+
+    </script>
+
+    
+<script src="/Scripts/ManageArea.js"></script>
+<script>
+    selectDatas();
+    function selectOnchang(obj) {
+        var value = obj.options[obj.selectedIndex].value;
+        $('#pagesize').val(value);
+        ReSearch();
+    }
+    function selectOnSearch() {
+        ReSearch();
+    }
+
+    $('#nav_area').addClass('active');
+    $('.nav_name')[0].innerText = "{{'AreaSetting'|translate}}";
+    $('.nav_name')[1].innerText = "{{'AreaSetting'|translate}}";
+    $('.nav_name')[2].innerText = "{{'AreaSetting'|translate}}";
+
+    function ShowDiv() {
+        if ($('.widget-body')[0].style.display == 'none') {
+            $('.widget-body')[0].style.display = 'block';
+        }
+        else {
+            $('.widget-body')[0].style.display = 'none';
+        }
+    }
+</script>
+
+
+
+</body>
+</html>

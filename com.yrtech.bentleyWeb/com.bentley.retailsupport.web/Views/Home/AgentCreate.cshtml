@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "AgentEdit";
+    ViewBag.Title = "AgentCreate";
 
 }
 <style type="text/css" media="print">
@@ -60,7 +60,7 @@
                                     <!-- END THEME CUSTOMIZER-->
                                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                                     <h3 class="page-title">
-                                        <span translate>Update</span>
+                                        <span translate>Add</span>
                                         <small translate>Dealer</small>
                                     </h3>
 
@@ -73,14 +73,14 @@
                                     <!-- BEGIN SAMPLE FORM widget-->
                                     <div class="widget">
                                         <div class="widget-title">
-                                            <h4><i class="icon-reorder"></i><span translate>Update</span></h4>
+                                            <h4><i class="icon-reorder"></i><span translate>Add</span></h4>
                                             <span class="tools">
                                                 <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
                                             </span>
                                         </div>
                                         <div class="widget-body form" style="display:block;">
                                             <form class="form-horizontal" id="agentCreate">
-                                                <input id="ShopId" name="ShopId" type="hidden" />
+                                                <input id="userId" name="userId" value="" type="hidden" />
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -132,7 +132,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-actions">
-                                                    <button class="btn btn-success" onclick="Create();" translate>Save</button>
+                                                    <button class="btn btn-success" onclick="Create();" translate>Add</button>
                                                     <a class="btn btn-dark" href="/Home/ManageAgent" translate>Back</a>
                                                 </div>
                                             </form>
@@ -160,7 +160,6 @@
         $("#nav_dealer").addClass("active");
 
         var userId = $('#G_UserId').val();
-        var id = '@ViewBag.ShopId';
         $(function () {
             //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
             $.ajaxSetup({
@@ -183,20 +182,6 @@
             });
 
             $("select").selectpicker("refresh");
-
-            if (id) {
-                $.commonGet("Master/ShopSearch", {
-                    shopId: id,
-                    shopCode: '',
-                    shopName: '',
-                    shopNameEn: ''
-                }, function (data) {
-                    if (data && data.length > 0) {
-                        $('#agentCreate').setForm(data[0]);
-                        $("select").selectpicker("refresh");
-                    }
-                });
-            }
         });
         function ShowDiv() {
             if ($('.widget-body.form')[0].style.display == 'none') {

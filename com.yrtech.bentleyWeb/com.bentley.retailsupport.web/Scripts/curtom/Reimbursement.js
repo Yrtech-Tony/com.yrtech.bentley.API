@@ -172,12 +172,11 @@ function InitMarketFundLst() {
                     }
                     if (roleType != 'SHOP') {
                         var html = '<a href="javascript:void(0)" data-name="ApplyStatus" data-pk="undefined" data-value="" onclick="if(this.value ==\'通过\'){this.className=\'btn btn-success btn-sm\'}else if(this.value ==\'修改\'){this.className=\'btn btn-warning  btn-sm\'}else{this.className=\'btn btn-primary  btn-sm\'}">' + real + '</a>';
-
                         if (real == '通过') {
                             html = real;
                         }
-                        if (!result.value) {
-                            html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ApplyStatus" class="editable editable-click">' + real + '</a>';
+                        if (!real || real == '未提交') {
+                            html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ApplyStatus" data-pk="undefined" data-value="" class="editable editable-click">' + real + '</a>';
                         }
                         return html;
                     } else {
@@ -241,7 +240,7 @@ function InitMarketFundLst() {
                     
                     if (roleType != 'SHOP') {
                         var html = '<a href="javascript:void(0)" data-name="ReplyStatus" data-pk="undefined" data-value="">' + real + '</a>';
-                        if (!result.value) {
+                        if (!real || real == '未提交') {
                             html = '<a href="javascript:void(0)" class="btn btn-success btn-sm" data-name="ReplyStatus" class="editable editable-click">' + real + '</a>';
                         }
                         return html;

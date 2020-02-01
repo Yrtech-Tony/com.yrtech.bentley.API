@@ -997,7 +997,7 @@
 
         function OpenForm(obj) {
             var url = obj.src;
-            url = url.replace('_min.', '.');
+            url = url.replace('_min.', '.').replace("?x-oss-process=image/resize,h_100", "");
             if (!new RegExp('Content/bootstrap-fileinput/img/noimage').test(url)) {
                 window.open(url);
             }

@@ -45,7 +45,7 @@
     <input id="TEI" type="hidden" value="{{'Tick-box Item'|translate}}" />
 
     <input id="ShopId" type="hidden" value="@ViewBag.ShopId" />
-    
+
 </div>
 <form id="upload-form" style="display:none">
     <input type='file' id='uploadFile'>
@@ -91,6 +91,7 @@
                                                         <select class="input-small m-wrap no-margin" id="pdealer" name="pdealer" style="background-color: white;" onchange="NameQuery()">
                                                             <option value="" translate>Dealer Name</option>
                                                         </select>
+                                                        <input type="text" id="pname" name="pname" placeholder="项目" onchange="NameQuery()" onkeypress="EnterPress(event)" />
                                                     </div>
                                                 </span>
                                             </div>
@@ -174,7 +175,7 @@
     <script type="text/javascript">
         if (!$("#ShopId").val()) {
             $("#nav_budget_cost").addClass("active");
-        }        
+        }
 
         var $table = $('#myBudgetCost');
         var roleType = $("#G_RoleTypeCode").val();
@@ -220,7 +221,7 @@
                 if (document.body.clientWidth != clientWidth) {
                     $table.bootstrapTable('destroy');// 销毁表格数据
                     loadDMFDetailOrQuarter();
-                }              
+                }
             });
             loadDMFDetailOrQuarter();
         })
@@ -239,7 +240,7 @@
             $table.bootstrapTable('hideColumn', 'isReimburse');
             if (roleType == "SHOP") {
                 $table.bootstrapTable('hideColumn', 'checkedId');
-            } 
+            }
         }
 
         function NameQuery() {
@@ -250,8 +251,8 @@
             $.commonGet("DMF/DMFDetailSearch", {
                 dmfDetailId: '',
                 shopId: $("#pdealer").val(),
-                dmfItemId: ''//,
-                //dmfItemName: $("#pname").val()
+                dmfItemId: '',
+                dmfItemName: $('#pname').val()
             }, function (data) {
                 if (data) {
                     $table.bootstrapTable("load", data);
@@ -268,7 +269,7 @@
             } else {
                 shopId = $("#ShopId").val();
             }
-            
+
             $.commonGet("DMF/DMFQuarterSearch", {
                 shopId: shopId
             }, function (data) {
@@ -279,7 +280,7 @@
                 }
             });
         }
-        var pageNumber=1, pageSize=10;
+        var pageNumber = 1, pageSize = 10;
         function loadTotalDiv() {
             var rows = $table.bootstrapTable('getData');
             var start = pageSize * (pageNumber - 1);
@@ -295,7 +296,7 @@
         }
 
         function loadTopTable(quarterList) {
-            if (quarterList && quarterList.length>0) {
+            if (quarterList && quarterList.length > 0) {
                 var sumNum = 0;
                 var sumIncome = 0;
                 var tbl = document.getElementById('chart');
@@ -321,7 +322,7 @@
                     sumIncome += parseFloat(quarter.ActualMonthSaleAmt);
                 }
 
-                
+
                 tbl.rows[1].cells[3].innerHTML = dealNumber(quarterList[0].ActualAmt);
                 tbl.rows[5].cells[1].innerHTML = sumNum;
                 tbl.rows[5].cells[2].innerHTML = dealNumber(sumIncome);
@@ -333,11 +334,14 @@
                     tbl.rows[1].cells[4].innerHTML = "<font color='red'>" + dealNumber(howmuch) + "</font><br/><p>" + newMsg + "</p>";
                 }
             }
-           
+
         }
 
         function downloadFile() {
-            $.commonGet("DMF/DMFDetailExport", { shopId: $("#pdealer").val() }, function (data) {
+            $.commonGet("DMF/DMFDetailExport", {
+                shopId: $("#pdealer").val(),
+                dmfItemName: $('#pname').val()
+            }, function (data) {
                 if (data) {
                     window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
                 }
@@ -423,6 +427,13 @@
         }
         function EProcessing() {
             layer.closeAll('loading');
+        }
+
+        function EnterPress(e) { //传入 event
+            var e = e || window.event;
+            if (e.keyCode == 13) { //13代表回车符
+                NameQuery();
+            }
         }
     </script>
 }

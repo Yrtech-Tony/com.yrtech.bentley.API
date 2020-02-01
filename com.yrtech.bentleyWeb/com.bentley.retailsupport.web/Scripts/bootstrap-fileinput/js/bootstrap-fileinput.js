@@ -169,7 +169,7 @@
           var picSrc = pic;
           if (pic.indexOf("Bentley") == 0) {
               var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
-              picSrc = baseOss + pic;
+              picSrc = baseOss + pic + "?x-oss-process=image/resize,h_100";
           } else if (pic.indexOf("Upload_BL") == 0) {
               var pre = "/Upload_BL_2019/";
               picSrc = pre + pic

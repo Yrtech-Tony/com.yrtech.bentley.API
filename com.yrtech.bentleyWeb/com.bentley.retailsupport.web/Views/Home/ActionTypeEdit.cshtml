@@ -164,7 +164,7 @@
         var id = '@ViewBag.ActionTypeId';
         var userId = $('#G_UserId').val();
         $(function () {
-            $("[type='checkbox']").bootstrapSwitch();
+            //$("[type='checkbox']").bootstrapSwitch();
 
             //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
             $.ajaxSetup({
@@ -196,8 +196,9 @@
                     showStatus: ''
                 }, function (data) {
                     if (data && data.length > 0) {
-                        data[0].ShowStatus = data[0].ShowStatus?'true':'false';
+                        data[0].ShowStatus = data[0].ShowStatus?'1':'0';
                         $('#actionTypeCreate').setForm(data[0]);
+                        $("[type='checkbox']").bootstrapSwitch();
                         $("select").selectpicker("refresh");
                     }
                 });

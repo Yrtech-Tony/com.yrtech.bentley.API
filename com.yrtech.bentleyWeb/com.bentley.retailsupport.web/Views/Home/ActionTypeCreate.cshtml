@@ -71,7 +71,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3"><span translate>Name</span><span class="required" style="color:red">*</span>:</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="ActionTypeName" maxlength="255" name="ActionTypeName" style="width:100%;" type="text" value="" />
+                                                                <input class="form-control" id="EventTypeName" name="EventTypeName" style="width:100%;" type="text" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -81,7 +81,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3"><span translate>English Name</span>:</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="ActionTypeEnName" maxlength="255" name="ActionTypeEnName" style="width:100%;" type="text" value="" />
+                                                                <input class="form-control" id="EventTypeNameEn" name="EventTypeNameEn" style="width:100%;" type="text" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -91,9 +91,9 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3"><span translate>Activity Mode</span>:</label>
                                                             <div class="col-md-3">
-                                                                <select name="Type" class="selectpicker">
-                                                                    <option value="1" selected translate>Online Activities</option>
-                                                                    <option value="2" translate>Offline Activities</option>
+                                                                <select name="EventMode" class="selectpicker">
+                                                                    <option value="1" translate>Online Activities</option>
+                                                                    <option value="2" selected translate>Offline Activities</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -105,7 +105,6 @@
                                                             <label class="control-label col-md-3"><span translate>Area</span>:</label>
                                                             <div class="col-md-3">
                                                                 <select id="AreaId" name="AreaId" class="selectpicker"></select>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -115,7 +114,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3"><span translate>Maximum Amount</span><span class="required" style="color:red">*</span>:</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" data-val="true" data-val-number="The field MaximumAmount must be a number." id="MaximumAmount" maxlength="255" name="MaximumAmount" style="width:100%;" type="text" value="" />
+                                                                <input class="form-control" id="ApprovalMaxAmt" name="ApprovalMaxAmt" style="width:100%;" type="text" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -126,7 +125,7 @@
                                                             <label class="control-label col-md-3"><span translate>Show</span>:</label>
                                                             <div class="col-md-6">
                                                                 <div class="switch" data-on="danger" data-off="primary">
-                                                                    <input name="State" type="checkbox" checked />
+                                                                    <input id="ShowStatus" name="ShowStatus" type="checkbox" value="1" checked />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -207,6 +206,7 @@
                 else {
                     try {
                         var oMyForm = $('#actionTypeCreate').serializeObject();
+                        oMyForm.ShowStatus = $("#ShowStatus").is(":checked") ? true : false;
                         if (!oMyForm.InUserId) {
                             oMyForm.InUserId = $("#G_UserId").val();
                             oMyForm.ModifyUserId = $("#G_UserId").val();

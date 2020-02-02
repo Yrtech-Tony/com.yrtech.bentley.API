@@ -93,7 +93,8 @@ namespace com.yrtech.InventoryAPI.Service
 
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@DMFDetailId", dmfDetailId),
                                                     new SqlParameter("@ShopId", shopId),
-                                                    new SqlParameter("@DMFItemId", dmfItemId)};
+                                                    new SqlParameter("@DMFItemId", dmfItemId),
+                                                    new SqlParameter("@DMFItemName", dmfItemName)};
 
             Type t = typeof(DMFDetailDto);
 
@@ -131,7 +132,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (!string.IsNullOrEmpty(dmfItemName))
             {
-                sql += " AND X.dmfItemName LIKE '%'+ @DMFItemId+ '%'";
+                sql += " AND X.dmfItemName LIKE '%'+ @DMFItemName+ '%'";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<DMFDetailDto>().ToList();
         }

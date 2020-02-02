@@ -125,24 +125,25 @@
                     $.each(json, function (i, item) {
                         if (i == 0) return;
                         try {
-                            var CustomerName = $.trim(item["客户姓名"]);
-                            var BPNO = $.trim(item["BP号"]);
-                            var OwnerCheck = $.trim(item["是否车主"]);
-                            var TestDriverCheck = $.trim(item["是否试驾"]);
-                            var LeadsCheck = $.trim(item["是否为线索"]);
-                            var InterestedModel = $.trim(item["感兴趣车型"]);
-                            var DealCheck = $.trim(item["是否成交"]);
-                            var DealModel = $.trim(item["成交车型"]);
+                            debugger
+                            var CustomerName = $.trim(item["CueOwner"]);
+                            var BPNO = $.trim(item["CueBP"]);
+                            var OwnerCheck = $.trim(item["IsOwnerName"]);
+                            var TestDriverCheck = $.trim(item["IsAttendName"]);
+                            var LeadsCheck = $.trim(item["IsClueName"]);
+                            var InterestedModel = $.trim(item["LikeModel"]);
+                            var DealCheck = $.trim(item["IsDealName"]);
+                            var DealModel = $.trim(item["Model"]);
                                                         
                             leadsReports.push({
                                 MarketActionId:id,
                                 CustomerName: CustomerName,
                                 BPNO: BPNO,
-                                OwnerCheck: OwnerCheck,
-                                TestDriverCheck: TestDriverCheck,
-                                LeadsCheck: LeadsCheck,
+                                OwnerCheckName: OwnerCheck,
+                                TestDriverCheckName: TestDriverCheck,
+                                LeadsCheckName: LeadsCheck,
                                 InterestedModel: InterestedModel,
-                                DealCheck: DealCheck,
+                                DealCheckName: DealCheck,
                                 DealModel: DealModel,
                                 InUserId: $("#G_UserId").val(),
                                 ModifyUserId: $("#G_UserId").val()

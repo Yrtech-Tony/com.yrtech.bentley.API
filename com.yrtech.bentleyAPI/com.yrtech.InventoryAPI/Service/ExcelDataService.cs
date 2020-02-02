@@ -79,21 +79,21 @@ namespace com.yrtech.InventoryAPI.Service
             foreach (MarketActionAfter2LeadsReportDto item in list)
             {
                 //客户姓名
-                sheet.GetCell("D" + (rowIndex + 1)).Value = item.CustomerName;
+                sheet.GetCell("A" + (rowIndex + 1)).Value = item.CustomerName;
                 //BPNO
-                sheet.GetCell("E" + (rowIndex + 1)).Value = item.BPNO;
+                sheet.GetCell("B" + (rowIndex + 1)).Value = item.BPNO;
                 //是否车主
-                sheet.GetCell("F" + (rowIndex + 1)).Value = item.OwnerCheckName;
+                sheet.GetCell("C" + (rowIndex + 1)).Value = item.OwnerCheckName;
                 // 是否试驾
-                sheet.GetCell("G" + (rowIndex + 1)).Value = item.TestDriverCheckName;
+                sheet.GetCell("D" + (rowIndex + 1)).Value = item.TestDriverCheckName;
                 // 是否线索
-                sheet.GetCell("H" + (rowIndex + 1)).Value = item.LeadsCheckName;
+                sheet.GetCell("E" + (rowIndex + 1)).Value = item.LeadsCheckName;
                 //感兴趣车型
-                sheet.GetCell("I" + (rowIndex + 1)).Value = item.InterestedModelName;
+                sheet.GetCell("F" + (rowIndex + 1)).Value = item.InterestedModelName;
                 //是否成交
-                sheet.GetCell("J" + (rowIndex + 1)).Value = item.DealCheckName;
+                sheet.GetCell("G" + (rowIndex + 1)).Value = item.DealCheckName;
                 // 成交车型
-                sheet.GetCell("K" + (rowIndex + 1)).Value = item.DealModelName;
+                sheet.GetCell("H" + (rowIndex + 1)).Value = item.DealModelName;
                 rowIndex++;
             }
 

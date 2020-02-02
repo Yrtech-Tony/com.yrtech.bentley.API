@@ -652,7 +652,8 @@
         var baseOss = "https://yrsurvey.oss-cn-beijing.aliyuncs.com/";
         var id = '@ViewBag.Id';
        
-
+        $('#UserId').val($('#G_UserId').val());
+        var roleName = $('#G_RoleTypeCode').val();
         $(function () {
             loadShops().forEach(function (item) {
                 var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
@@ -670,10 +671,8 @@
             });
 
             InitActivityFlowTable();
-
-            $('#UserId').val($('#G_UserId').val());
-            var roleName = $('#G_RoleTypeCode').val();
-            if (roleName == "SYSADMIN" || roleName == "MARKET") {
+                       
+            if (roleName == "SYSADMIN" || roleName == "BMC") {
                 $('#ActiveShow').show();
                 $('#VisualStatus').prop("disabled", false);
                 $('#VisualDescription').prop("disabled", false);                
@@ -801,6 +800,15 @@
             //主视觉
             MarketActionBefore21.KeyVisionPic = $('#img_visual1').getImgSrc();
 
+            var VisualDescriptionOld = $("#VisualDescriptionOld").val();
+            var VisualDescription = $("#VisualDescription").val();
+            var VisualStatus = $("#VisualStatus").val();
+            var VisualStatusOld = $("#VisualStatusOld").val() || "1"; //如果是新创建时，值为""
+            if (!(roleName == "SYSADMIN" || roleName == "BMC")) {
+                MarketActionBefore21.KeyVisionApprovalCode = VisualStatusOld;
+                MarketActionBefore21.KeyVisionApprovalDesc = VisualDescriptionOld;
+            }
+
             for (var pro in MarketActionBefore21) {
                 if (pro.indexOf("Pic") > 0 && MarketActionBefore21[pro] && MarketActionBefore21[pro].substr(0, 4) != 'data') {
                     MarketActionBefore21[pro] = MarketActionBefore21[pro].replace(baseOss, '');
@@ -825,16 +833,12 @@
                     skin: 'layui-layer-molv', closeBtn: 0
                 }, function (datas) {
                     //1.给主视觉设计公司发送邮件
-                    if (MarketActionBefore21.KeyVisionPic) {
+                    if (MarketActionBefore21.KeyVisionPic && MarketActionBefore21.KeyVisionPic.indexOf("data:image") == 0) {
                         console.log("send KeyVisionSendEmailToBMC 主视觉设计公司 marketActionId=" + id)
                         $.commonGet("MarketAction/KeyVisionSendEmailToBMC", { marketActionId: id }, function (data) { });
                     }
+                   
                     //2.如果主视觉审核意见有修改时给经销商发邮件
-                    var VisualDescriptionOld = $("#VisualDescriptionOld").val();
-                    var VisualDescription = $("#VisualDescription").val();
-                    var VisualStatus = $("#VisualStatus").val();
-                    var VisualStatusOld = $("#VisualStatusOld").val() || "0"; //如果是新创建时，值为""
-
                     if (((VisualDescriptionOld != VisualDescription) || (VisualStatus != VisualStatusOld))) //有邮件地址并且内容被修改了
                     {
                         console.log("send KeyVisionSendEmailToShop 经销商 marketActionId=" + id)

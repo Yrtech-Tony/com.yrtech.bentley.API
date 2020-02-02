@@ -69,7 +69,7 @@
                                                 <span translate>Pending Leads Reports</span>
                                             </p>
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div id="non-passed" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
                                         <div class="circle-wrap">
                                             <div class="stats-circle brown-color" style="background-color:#d63f20">
@@ -100,7 +100,7 @@
                                     </div>
                                 </div>
 
-                                @*<h4 class="page-title" translate style="font-family: BentleySemiBold;">Reimbursement</h4>
+                                <h4 class="page-title" translate style="font-family: BentleySemiBold;">Reimbursement</h4>
                                 <div class="row-fluid circle-state-overview">
                                     <div id="non-passed" class="span2 responsive" data-tablet="span3" data-desktop="span2" onclick="goto(this)">
                                         <div class="circle-wrap">
@@ -109,8 +109,8 @@
                                             </div>
                                             <p>
                                                 <strong style="color: #44474e">
-                                                    <a style="color: #44474e" href="#">
-                                                        63
+                                                    <a id="ApplyStatus" style="color: #44474e" href="#">
+                                                        0
                                                     </a>
                                                 </strong>
                                                 <span translate>Modification Requests for Application Documents</span>
@@ -124,15 +124,15 @@
                                             </div>
                                             <p>
                                                 <strong style="color: #232323">
-                                                    <a style="color: #232323" href="#">
-                                                        76
+                                                    <a id="ReplyStatus" style="color: #232323" href="#">
+                                                        0
                                                     </a>
                                                 </strong>
                                                 <span translate>Modification Requests for Supporting Documents</span>
                                             </p>
                                         </div>
                                     </div>
-                                </div>*@
+                                </div>
 
 
                                 <!-- END OVERVIEW STATISTIC BARS-->
@@ -149,24 +149,45 @@
     <!--END CONTENT-->
 </div>
 @section scripts{
-<script src="~/Scripts/api/common.js"></script>
-<script>
-    $("#nav_dash").addClass("active");
+    <script src="~/Scripts/api/common.js"></script>
+    <script>
+        $("#nav_dash").addClass("active");
 
-    $(function () {
-        $.commonGet("MarketAction/MarketActionStatusCountSearch", {
-            year: ''
-            , userId: $("#G_UserId").val()
-            , roleTypeCode: $("#G_RoleTypeCode").val()
-        }, function (data) {
-            $("#UnsubmitBefore21").html(data[0].Before21Count);
-            $("#UnsubmitBefore3").html(data[0].Before3Count);
-            $("#UnsubmitAfter2").html(data[0].After2Count);
-            $("#UnsubmitAfter7").html(data[0].After7Count);
-            $("#UnsubmitAfter30").html(data[0].After30Count);
+        $(function () {
+            $.commonGet("MarketAction/MarketActionStatusCountSearch", {
+                year: '',
+                userId: $("#G_UserId").val(),
+                roleTypeCode: $("#G_RoleTypeCode").val()
+            }, function (data) {
+                $("#UnsubmitBefore21").html(data[0].Before21Count);
+                $("#UnsubmitBefore3").html(data[0].Before3Count);
+                $("#UnsubmitAfter2").html(data[0].After2Count);
+                $("#UnsubmitAfter7").html(data[0].After7Count);
+                $("#UnsubmitAfter30").html(data[0].After30Count);
+            })
+
+            $.commonGet("DMF/ExpenseAccountSearch", {
+                expenseAccountId: '',
+                shopId: '',
+                dmfItemId: '',
+                marketActionId: '',
+                userId: $("#G_UserId").val(),
+                roleTypeCode: $("#G_RoleTypeCode").val()
+            }, function (data) {
+                var apply = 0, relay = 0;
+                if (data && data.length > 0) {
+                    data.forEach(function (item) {
+                        if (item.ApplyStatus == "未提交")
+                            apply += 1;
+                        if (item.ReplyStatus == "未提交")
+                            relay += 1;
+                    })
+                }
+                $("#ApplyStatus").html(apply);
+                $("#ReplyStatus").html(relay);
+            })
         })
-    })
-</script>
+    </script>
 }
 
 

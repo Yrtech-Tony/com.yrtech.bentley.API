@@ -35,6 +35,11 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
+                List<ShopDto> shopList = masterService.ShopSearch("","",shop.ShopName,"");
+                if (shopList != null && shopList.Count != 0 && shopList[0].ShopId != shop.ShopId)
+                {
+                    return new APIResult() { Status = false, Body = "保存失败,经销商名称重复" };
+                }
                 shop = masterService.ShopSave(shop);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(shop) };
             }
@@ -65,7 +70,7 @@ namespace com.yrtech.InventoryAPI.Controllers
 
         }
         #endregion
-        #region Shop
+        #region Area
         [HttpGet]
         [Route("Master/AreaSearch")]
         public APIResult AreaSearch(string areaId, string areaName, string areaNameEn)
@@ -87,6 +92,11 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
+                List<Area> areaList = masterService.AreaSearch("",area.AreaName,"");
+                if (areaList != null && areaList.Count != 0 && areaList[0].AreaId != area.AreaId)
+                {
+                    return new APIResult() { Status = false, Body = "保存失败,区域中文名称重复" };
+                }
                 area = masterService.AreaSave(area);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(area) };
             }
@@ -139,6 +149,11 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
+                List<EventTypeDto> eventTypeList = masterService.EventTypeSearch("",eventType.EventTypeName,"",null);
+                if (eventTypeList != null && eventTypeList.Count != 0 && eventTypeList[0].EventTypeId != eventType.EventTypeId)
+                {
+                    return new APIResult() { Status = false, Body = "保存失败,活动类型名称重复" };
+                }
                 eventType = masterService.EventTypeSave(eventType);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(eventType) };
             }
@@ -208,6 +223,11 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
+                List<UserInfoDto> userInfoList = masterService.UserInfoSearch("",userInfo.AccountId,"","");
+                if (userInfoList != null && userInfoList.Count != 0 && userInfoList[0].UserId != userInfo.UserId)
+                {
+                    return new APIResult() { Status = false, Body = "保存失败,账号重复" };
+                }
                 userInfo = masterService.UserInfoSave(userInfo);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfo) };
             }

@@ -176,13 +176,21 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Home\ActionTypeCreate.html" />
+    <Content Include="Home\ActionTypeEdit.html" />
     <Content Include="Home\ActualCueReport.html" />
+    <Content Include="Home\AgentCreate.html" />
+    <Content Include="Home\AgentEdit.html" />
+    <Content Include="Home\AreaCreate.html" />
+    <Content Include="Home\AreaEdit.html" />
     <Content Include="Home\BudgetCost\Index.html" />
     <Content Include="Home\CueReport.html" />
     <Content Include="Home\DealersBalance.html" />
     <Content Include="Home\IncomeCost.html" />
     <Content Include="Home\Index.html" />
+    <Content Include="Home\ManageActionType.html" />
     <Content Include="Home\ManageAgent.html" />
+    <Content Include="Home\ManageArea.html" />
     <Content Include="Home\ManageUsers.html" />
     <Content Include="Home\MarketFund.html" />
     <Content Include="Home\Promotion.html" />
@@ -235,12 +243,16 @@
     <Content Include="Scripts\bower_components\layer\layer.js" />
     <Content Include="Scripts\bower_components\layer\skin\default\layer.css" />
     <Content Include="Scripts\bower_components\layer\skin\default\loading-1.gif" />
+    <Content Include="Scripts\curtom\ActionTypeCreate.js" />
     <Content Include="Scripts\curtom\AgentCreate.js" />
+    <Content Include="Scripts\curtom\AreaCreate.js" />
     <Content Include="Scripts\curtom\BudgetCost.js" />
     <Content Include="Scripts\curtom\CueReport.js" />
     <Content Include="Scripts\curtom\DealersBalance.js" />
     <Content Include="Scripts\curtom\IncomeCost.js" />
+    <Content Include="Scripts\curtom\ManageActionType.js" />
     <Content Include="Scripts\curtom\ManageAgent.js" />
+    <Content Include="Scripts\curtom\ManageArea.js" />
     <Content Include="Scripts\curtom\ManageUser.js" />
     <Content Include="Scripts\curtom\MarketFund.js" />
     <Content Include="Scripts\curtom\Marketing.js" />
@@ -416,12 +428,17 @@
     <Content Include="Views\DMF\DMFDetail.cshtml" />
     <Content Include="Views\DMF\DMF.cshtml" />
     <Content Include="Views\Home\ManageAgent.cshtml" />
-    <Content Include="Views\Home\AreaIndex.cshtml" />
+    <Content Include="Views\Home\ManageArea.cshtml" />
     <Content Include="Views\Home\AgentEdit.cshtml" />
     <Content Include="Views\Home\ManageUsers.cshtml" />
-    <Content Include="Views\Home\UserCreate.cshtml" />
     <Content Include="Views\Account\UserEdit.cshtml" />
     <Content Include="Views\Account\UserCreate.cshtml" />
+    <Content Include="Views\Home\AgentCreate.cshtml" />
+    <Content Include="Views\Home\AreaCreate.cshtml" />
+    <Content Include="Views\Home\AreaEdit.cshtml" />
+    <Content Include="Views\Home\ManageActionType.cshtml" />
+    <Content Include="Views\Home\ActionTypeCreate.cshtml" />
+    <Content Include="Views\Home\ActionTypeEdit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

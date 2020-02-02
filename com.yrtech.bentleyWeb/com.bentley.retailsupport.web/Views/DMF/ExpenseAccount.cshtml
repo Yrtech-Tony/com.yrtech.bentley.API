@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "费用类型";
+    ViewBag.Title = "费用报销";
 }
 
 <style>
@@ -150,7 +150,7 @@
                     var shopName = isZH() ? item.ShopName : item.ShopNameEn;
                     $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
                 });                
-            }
+            }           
            
             $.ajaxSettings.async = false;
             $.commonGet("DMF/DMFItemSearch", {
@@ -172,7 +172,7 @@
                 year: '',
                 month: '',
                 marketActionStatusCode: '',
-                shopId: ' ',
+                shopId: '',
                 eventTypeId: ' ',
                 expenseAccountChk: 'true',
                 userId: $("#G_UserId").val(),
@@ -217,6 +217,19 @@
                 var storage = window.localStorage;
                 storage["_reimbursement"] = $('#pdealer').val();               
             }
+            if ($('#pdealer').length > 0) {
+                if ($('#pdealer').val()) {
+                    var shopName = $('#pdealer').find("option:selected").text();
+                    var shopId = $('#pdealer').find("option:selected").val();
+                    $('#_hd_dealName').val(shopName);
+                    $("#ShopId").val(shopId)
+                } else {
+                    var shopName = $('#pdealer').find("option:eq(1)").text();
+                    var shopId = $('#pdealer').find("option:eq(1)").val();
+                    $('#_hd_dealName').val(shopName);
+                    $("#ShopId").val(shopId)
+                }
+            }
             loadExpenseAccount();
         }
 
@@ -230,24 +243,10 @@
             }
         }
 
-        function loadExpenseAccount() {            
-            if ($('#pdealer').length > 0) {
-                if ($('#pdealer').val()) {
-                    var shopName = $('#pdealer').find("option:selected").text();
-                    var shopId = $('#pdealer').find("option:selected").val();
-                    $('#_hd_dealName').val(shopName);
-                    $("#ShopId").val(shopId)
-                } else {
-                    var shopName = $('#pdealer').find("option:eq(1)").text();
-                    var shopId = $('#pdealer').find("option:eq(1)").val();
-                    $('#_hd_dealName').val(shopName);
-                    $("#ShopId").val(shopId)
-                }                
-            }           
-           
+        function loadExpenseAccount() {
             $.commonGet("DMF/ExpenseAccountSearch", {
                 expenseAccountId: '',
-                shopId: $("#pdealer").val(),
+                shopId: $('#pdealer').val()||'',
                 dmfItemId: '',
                 marketActionId: '',
                 userId: $('#G_UserId').val(),

@@ -92,5 +92,21 @@
 
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
-    <script src="~/Scripts/curtom/DealersBalance.js"></script>
+    <script src="~/Scripts/curtom/ManageAgent.js"></script>
+    <script>
+        $("#nav_dealer").addClass("active");
+        
+        function loadAgent() {
+            $.commonGet("/Master/ShopSearch", {
+                shopId: '',
+                shopCode: '',
+                shopName: '',
+                shopNameEn: ''
+            }, function (data) {
+                $('#AgentTable').bootstrapTable("load", data);
+            })
+        }
+        loadAgent();
+    </script>
+
 }

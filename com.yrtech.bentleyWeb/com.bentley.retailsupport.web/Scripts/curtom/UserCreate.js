@@ -6,7 +6,7 @@ $('#userCreate').bootstrapValidator({
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            UserName: {
+            AccountName: {
                 message: isZH()?'姓名无效':'The username is not valid',
                 validators: {
                     notEmpty: {
@@ -19,7 +19,7 @@ $('#userCreate').bootstrapValidator({
                     }
                 }
             },
-            AccountName: {
+            AccountId: {
                 message: isZH()?'用户名无效':'The AccountName is not valid',
                 validators: {
                     notEmpty: {

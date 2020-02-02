@@ -676,9 +676,11 @@
             if (roleName == "SYSADMIN" || roleName == "MARKET") {
                 $('#ActiveShow').show();
                 $('#VisualStatus').prop("disabled", false);
+                $('#VisualDescription').prop("disabled", false);                
             }
             else {
                 $('#VisualStatus').prop("disabled", true);
+                $('#VisualDescription').prop("disabled", true);
             }
 
             if (id) {
@@ -822,7 +824,6 @@
                 layer.alert(msg, {
                     skin: 'layui-layer-molv', closeBtn: 0
                 }, function (datas) {
-                    debugger
                     //1.给主视觉设计公司发送邮件
                     if (MarketActionBefore21.KeyVisionPic) {
                         console.log("send KeyVisionSendEmailToBMC 主视觉设计公司 marketActionId=" + id)
@@ -847,7 +848,7 @@
               
         function OpenForm(obj) {
             var url = obj.src;
-            url = url.replace('_min.', '.');
+            url = url.replace('_min.', '.').replace("?x-oss-process=image/resize,h_100","");
             if (!new RegExp('Content/bootstrap-fileinput/img/noimage').test(url)) {
                 window.open(url);
             }

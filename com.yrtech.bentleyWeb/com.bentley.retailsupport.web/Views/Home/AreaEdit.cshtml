@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "AgentEdit";
+    ViewBag.Title = "AreaCreate";
 
 }
 <style type="text/css" media="print">
@@ -60,8 +60,8 @@
                                     <!-- END THEME CUSTOMIZER-->
                                     <!-- BEGIN PAGE TITLE & BREADCRUMB-->
                                     <h3 class="page-title">
-                                        <span translate>Update</span>
-                                        <small translate>Dealer</small>
+                                        <span translate>Edit</span>
+                                        <small translate>AreaEdit</small>
                                     </h3>
 
                                     <!-- END PAGE TITLE & BREADCRUMB-->
@@ -73,20 +73,21 @@
                                     <!-- BEGIN SAMPLE FORM widget-->
                                     <div class="widget">
                                         <div class="widget-title">
-                                            <h4><i class="icon-reorder"></i><span translate>Update</span></h4>
+                                            <h4><i class="icon-reorder"></i><span translate>Edit</span></h4>
                                             <span class="tools">
                                                 <a href="javascript:;" class="icon-chevron-down" onclick="ShowDiv()"></a>
+
                                             </span>
                                         </div>
                                         <div class="widget-body form" style="display:block;">
-                                            <form class="form-horizontal" id="agentCreate">
-                                                <input id="ShopId" name="ShopId" type="hidden" />
+                                            <form class="form-horizontal" id="areaCreate" name="areaCreate">
+                                                <input id="AreaId" name="AreaId" type="hidden" />
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3"><span translate>Name</span><span class="required" style="color:red">*</span>:</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="ShopName" maxlength="255" name="ShopName" style="width:100%;" type="text" value="" />
+                                                                <input class="form-control" id="AreaName" maxlength="255" name="AreaName" style="width:100%;" type="text"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -94,56 +95,23 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label col-md-3"><span translate>English Name</span>:</label>
+                                                            <label class="control-label col-md-3"><span translate>EnName</span>:</label>
                                                             <div class="col-md-6">
-                                                                <input class="form-control" id="ShopNameEn" maxlength="255" name="ShopNameEn" style="width:100%;" type="text" value="" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3"><span translate>City</span><span class="required" style="color:red">*</span>:</label>
-                                                            <div class="col-md-6">
-                                                                <input class="form-control" id="City" maxlength="255" name="City" style="width:100%;" type="text" value="" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3"><span translate>Area</span><span class="required" style="color:red">*</span>:</label>
-                                                            <div class="col-md-3">
-                                                                <select id="AreaId" name="AreaId" class="selectpicker"></select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3"><span translate>Budget</span>:</label>
-                                                            <div class="col-md-6">
-                                                                <input class="form-control" data-val="true" data-val-number="The field 预算 must be a number." data-val-required="The 预算 field is required." id="Budget" maxlength="255" name="Budget" style="width:100%;" type="text" value="" />
+                                                                <input class="form-control" id="AreaNameEn" maxlength="255" name="AreaNameEn" style="width:100%;" type="text"/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-actions">
                                                     <button class="btn btn-success" onclick="Create();" translate>Save</button>
-                                                    <a class="btn btn-dark" href="/Home/ManageAgent" translate>Back</a>
+                                                    <a class="btn btn-dark" href="/Home/ManageArea" translate>Cancel</a>
                                                 </div>
-                                            </form>
-                                            <!-- END FORM-->
+                                            </form>                        <!-- END FORM-->
                                         </div>
                                     </div>
                                     <!-- END SAMPLE FORM widget-->
                                 </div>
                             </div>
-                            <!-- END ADVANCED TABLE widget-->
-                            <!-- END PAGE CONTENT-->
                         </div>
                     </div>
                     <!--END CONTENT-->
@@ -155,49 +123,24 @@
 </div>
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
-    <script src="~/Scripts/curtom/AgentCreate.js"></script>
+    <script src="~/Scripts/curtom/AreaCreate.js"></script>
     <script>
         $("#nav_dealer").addClass("active");
 
+        var id = '@ViewBag.AreaId';
         var userId = $('#G_UserId').val();
-        var id = '@ViewBag.ShopId';
-        $(function () {
-            //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
-            $.ajaxSetup({
-                async: false
-            });
+        if (id) {
             $.commonGet("Master/AreaSearch", {
-                areaId: '',
+                areaId: id,
                 areaName: '',
                 areaNameEn: ''
             }, function (data) {
                 if (data && data.length > 0) {
-                    data.forEach(function (item) {
-                        var areaName = localStorage.language == 'en' ? item.AreaNameEn : item.AreaName;
-                        $('#AreaId').append($("<option>").val(item.AreaId).text(areaName));
-                    });
+                    $('#areaCreate').setForm(data[0]);
                 }
             });
-            $.ajaxSetup({
-                async: true
-            });
+        }
 
-            $("select").selectpicker("refresh");
-
-            if (id) {
-                $.commonGet("Master/ShopSearch", {
-                    shopId: id,
-                    shopCode: '',
-                    shopName: '',
-                    shopNameEn: ''
-                }, function (data) {
-                    if (data && data.length > 0) {
-                        $('#agentCreate').setForm(data[0]);
-                        $("select").selectpicker("refresh");
-                    }
-                });
-            }
-        });
         function ShowDiv() {
             if ($('.widget-body.form')[0].style.display == 'none') {
                 $('.widget-body.form')[0].style.display = 'block';
@@ -208,7 +151,7 @@
         }
 
         function Create() {
-            var data = $('#agentCreate').data('bootstrapValidator');
+            var data = $('#areaCreate').data('bootstrapValidator');
             if (data) {
                 // 修复记忆的组件不验证
                 data.validate();
@@ -218,14 +161,14 @@
                 }
                 else {
                     try {
-                        var oMyForm = $('#agentCreate').serializeObject();
+                        var oMyForm = $('#areaCreate').serializeObject();
                         if (!oMyForm.InUserId) {
                             oMyForm.InUserId = $("#G_UserId").val();
                             oMyForm.ModifyUserId = $("#G_UserId").val();
                         }
                         console.log(oMyForm)
-                        $.commonPost('Master/ShopSave', oMyForm, function (res) {
-                            window.location.href = "/Home/ManageAgent";
+                        $.commonPost('Master/AreaSave', oMyForm, function (res) {
+                            window.location.href = "/Home/ManageArea";
                         })
                     }
                     catch (e) {

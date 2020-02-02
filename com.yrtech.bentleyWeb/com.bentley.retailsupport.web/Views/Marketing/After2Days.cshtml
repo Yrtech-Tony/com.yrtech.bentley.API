@@ -123,6 +123,7 @@
                 if (json && json.length > 0) {
                     var leadsReports = [];
                     $.each(json, function (i, item) {
+                        if (i == 0) return;
                         try {
                             var CustomerName = $.trim(item["客户姓名"]);
                             var BPNO = $.trim(item["BP号"]);
@@ -148,13 +149,13 @@
                             });
 
                         } catch (e) {
-                            console.error('处理清单出错', e);
+                            console.error('处理线索报告出错', e);
                         }
 
                     })
                     importLeadsReports(leadsReports);
                 } else {
-                    alert("Excel中没有清单数据！");
+                    alert("Excel中没有线索报告数据！");
                 }
             })
         }

@@ -42,8 +42,15 @@
                 <div class="col-lg-12">
                     <div id="main-content">
                         <div class="container-fluid">
-                            <p><a class="btn btn-primary" id="btnNew" href="/Home/AgentCreate"><i class="icon-plus icon-white"></i><span translate>Add</span></a></p>
-
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                                    <h3 class="page-title">
+                                        <span translate>CreateUser</span>
+                                        <small translate>CreateNewUser</small>
+                                    </h3>
+                                </div>
+                            </div>
                             <div class="row-fluid">
                                 <div class="span12">
                                     <!-- BEGIN SAMPLE FORM widget-->
@@ -113,7 +120,6 @@
                                                             <label class="control-label col-md-3"><span translate>Role</span><span class="required" style="color:red">*</span>:</label>
                                                             <div class="col-md-3">
                                                                 <select name="RoleTypeCode" class="selectpicker">
-                                                                    <option value=""></option>
                                                                     <option value="SYSADMIN">管理员</option>
                                                                     <option value="AREA">区域经理</option>
                                                                     <option value="BMC">市场活动</option>
@@ -128,7 +134,17 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-md-3"><span translate>Dealer</span><span class="required" style="color:red">*</span>:</label>
                                                             <div class="col-md-3">
-                                                                <select name="ShopId" class="selectpicker"></select>
+                                                                <select id="ShopId" name="ShopId" class="selectpicker"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3"><span translate>AreaName</span><span class="required" style="color:red">*</span>:</label>
+                                                            <div class="col-md-3">
+                                                                <select id="AreaId" name="AreaId" class="selectpicker"></select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -159,6 +175,8 @@
     <script src="~/Scripts/api/common.js"></script>
     <script src="~/Scripts/curtom/UserCreate.js"></script>
     <script>
+        $("#nav_user").addClass("active");
+
         var userId = $('#G_UserId').val();
         $('#uId').val(userId);
 
@@ -167,7 +185,27 @@
                 var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
                 $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));
             });
-            $("#ShopId").selectpicker("refresh");
+            //设置同步调用 必须先绑定下拉列表数据再查询市场活动信息
+            $.ajaxSetup({
+                async: false
+            });
+            $.commonGet("Master/AreaSearch", {
+                areaId: '',
+                areaName: '',
+                areaNameEn: ''
+            }, function (data) {
+                if (data && data.length > 0) {
+                    data.forEach(function (item) {
+                        var areaName = localStorage.language == 'en' ? item.AreaNameEn : item.AreaName;
+                        $('#AreaId').append($("<option>").val(item.AreaId).text(areaName));
+                    });
+                }
+            });
+            $.ajaxSetup({
+                async: true
+            });
+
+            $("select").selectpicker("refresh");
         });
         function ShowDiv() {
             if ($('.widget-body.form')[0].style.display == 'none') {

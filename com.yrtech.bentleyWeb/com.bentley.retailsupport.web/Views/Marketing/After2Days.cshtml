@@ -125,7 +125,6 @@
                     $.each(json, function (i, item) {
                         if (i == 0) return;
                         try {
-                            debugger
                             var CustomerName = $.trim(item["CueOwner"]);
                             var BPNO = $.trim(item["CueBP"]);
                             var OwnerCheck = $.trim(item["IsOwnerName"]);
@@ -142,9 +141,9 @@
                                 OwnerCheckName: OwnerCheck,
                                 TestDriverCheckName: TestDriverCheck,
                                 LeadsCheckName: LeadsCheck,
-                                InterestedModel: InterestedModel,
+                                InterestedModelName: InterestedModel,
                                 DealCheckName: DealCheck,
-                                DealModel: DealModel,
+                                DealModelName: DealModel,
                                 InUserId: $("#G_UserId").val(),
                                 ModifyUserId: $("#G_UserId").val()
                             });

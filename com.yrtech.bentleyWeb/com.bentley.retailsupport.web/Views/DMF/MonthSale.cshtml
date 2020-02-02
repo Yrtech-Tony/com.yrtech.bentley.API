@@ -108,7 +108,7 @@
 </div>
 
 @section scripts{
-    <script src="~/Scripts/api/common.js"></script>
+    <script src="~/Scripts/api/common.js?20200202"></script>
     <script src="~/Scripts/curtom/IncomeCost.js"></script>
     <script src="~/Scripts/xlsx.core.min.js"></script>
 
@@ -222,7 +222,10 @@
                 EProcessing();
                 console.log(data);
                 loadMonthSale();
-            }, EProcessing);
+            }, function () {
+                debugger
+                EProcessing();
+            });
         }
 
 

@@ -8,7 +8,7 @@ var baseApi = "http://39.106.71.65:8001/bentley/api/";
 //var baseApi = "http://localhost:57328/bentley/api/";
 
 
-$.commonGet = function (url, params, callback) {
+$.commonGet = function (url, params, callback, err) {
     $.get(baseApi + url, params, function (data) {
         if (data && data.Status) {
             if (data.Body) {
@@ -22,15 +22,21 @@ $.commonGet = function (url, params, callback) {
                 }
             }
         } else {
+            if (err) {
+                err();
+            }
             console.log(url + " execute error " + data.Body);
             layer.alert(data.Body);
         }
     }).error(function (jqXHR, textStatus, errorThrown) {
         console.log(url + " execute error ");
+        if (err) {
+            err();
+        }
     })
 }
 
-$.commonPost = function (url, params, callback) {
+$.commonPost = function (url, params, callback, err) {
     $.post(baseApi + url, params, function (data) {
         if (data && data.Status) {
             if (data.Body) {
@@ -44,14 +50,19 @@ $.commonPost = function (url, params, callback) {
                 }
             }
         } else {
+            if (err) {
+                err();
+            }
             console.log(url + " execute error " + data.Body);
             layer.alert(data.Body);
         }
     }).error(function (jqXHR, textStatus, errorThrown) {
         console.log(url + " execute error ");
+        if (err) {
+            err();
+        }
     })
 }
-
 
 function loadActiveStatuss() {
     $.commonGet("Master/HiddenCodeSearch", {

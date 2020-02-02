@@ -254,7 +254,9 @@ namespace com.yrtech.InventoryAPI.Service
 			            WHEN [RoleTypeCode] = 'BMC' THEN 'BMC'
 			            WHEN [RoleTypeCode] = 'Shop' THEN '经销商'
 			            ELSE '' END AS RoleTypeName
-                    ,A.[ShopId]
+                     ,CASE WHEN [RoleTypeCode] IN ('SYSADMIN','BMC','AREA') THEN 0
+		                WHEN [RoleTypeCode] IN ('Shop') THEN A.ShopId
+		                ELSE '' END AS ShopId
                     ,CASE WHEN [RoleTypeCode] IN ('SYSADMIN','BMC','AREA') THEN ''
 		                WHEN [RoleTypeCode] IN ('Shop') THEN B.ShopName
 		                ELSE '' END AS ShopName

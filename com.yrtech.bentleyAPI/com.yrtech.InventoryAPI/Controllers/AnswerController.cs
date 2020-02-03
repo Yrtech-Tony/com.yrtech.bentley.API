@@ -403,13 +403,14 @@ namespace com.yrtech.SurveyAPI.Controllers
                 {
                     marketactionName = marketAction[0].ActionName;
                     shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
-                    userinfo = masterService.UserInfoSearch("", "", "", marketAction[0].ShopId.ToString());
+                    userinfo = masterService.UserInfoSearch("", "", shop[0].ShopName.ToString());
                 }
                 SendEmail(userinfo[0].Email, "", "主视觉审批修改意见", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核意见已更新,请登陆DMN系统查看，并按要求完成更新", "", "");
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)
             {
+                CommonHelper.log(ex.Message.ToString());
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }

@@ -608,16 +608,23 @@ namespace com.yrtech.SurveyAPI.Controllers
                     {
                         leadsReport.DealCheck = false;
                     }
-                    List<HiddenCode> hiddenCodeList = masterService.HiddenCodeSearch("TargetModels", "", leadsReportDto.DealModelName);
-                    if (hiddenCodeList != null && hiddenCodeList.Count > 0)
+                    if (!string.IsNullOrEmpty(leadsReportDto.DealModelName))
                     {
-                        leadsReport.DealModel = hiddenCodeList[0].HiddenCodeId;
+                        List<HiddenCode> hiddenCodeList = masterService.HiddenCodeSearch("TargetModels", "", leadsReportDto.DealModelName);
+                        if (hiddenCodeList != null && hiddenCodeList.Count > 0)
+                        {
+                            leadsReport.DealModel = hiddenCodeList[0].HiddenCodeId;
+                        }
                     }
-                    List<HiddenCode> hiddenCodeList_Insterested = masterService.HiddenCodeSearch("TargetModels", "", leadsReportDto.DealModelName);
-                    if (hiddenCodeList_Insterested != null && hiddenCodeList_Insterested.Count > 0)
+                    if (!string.IsNullOrEmpty(leadsReportDto.InterestedModelName))
                     {
-                        leadsReport.InterestedModel = hiddenCodeList_Insterested[0].HiddenCodeId;
+                        List<HiddenCode> hiddenCodeList_Insterested = masterService.HiddenCodeSearch("TargetModels", "", leadsReportDto.InterestedModelName);
+                        if (hiddenCodeList_Insterested != null && hiddenCodeList_Insterested.Count > 0)
+                        {
+                            leadsReport.InterestedModel = hiddenCodeList_Insterested[0].HiddenCodeId;
+                        }
                     }
+                    leadsReport.InUserId = leadsReportDto.InUserId;
                     if (leadsReportDto.LeadsCheckName == "是")
                     { leadsReport.LeadsCheck = true; }
                     else

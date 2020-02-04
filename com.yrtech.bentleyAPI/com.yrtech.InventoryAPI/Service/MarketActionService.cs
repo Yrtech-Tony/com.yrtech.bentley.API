@@ -133,6 +133,25 @@ namespace com.yrtech.InventoryAPI.Service
             sql += " ORDER BY A.StartDate DESC";
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionDto>().ToList();
         }
+        // 查询未取消的市场活动
+        public List<MarketAction> MarketActionNotCancelSearch(string eventTypeId)
+        {
+            if (eventTypeId == null) eventTypeId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@EventTypeId", eventTypeId)};
+            Type t = typeof(MarketAction);
+            string sql = "";
+            sql += @"SELECT *
+                    FROM MarketAction A 
+                    WHERE A.MarketActionStatusCode<>2";
+         
+            if (!string.IsNullOrEmpty(eventTypeId))
+            {
+                sql += " AND A.EventTypeId =@EventTypeId";
+            }
+            sql += " ORDER BY A.StartDate DESC";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketAction>().ToList();
+        }
         public List<MarketAction> MarketActionSearchById(string marketActionId)
         {
             if (marketActionId == null) marketActionId = "";

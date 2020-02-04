@@ -138,6 +138,34 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
         }
         [HttpGet]
+        [Route("MarketAction/MarketActionNotCancelSearch")]
+        public APIResult MarketActionNotCancelSearch(string eventTypeId,string userId, string roleTypeCode)
+        {
+            try
+            {
+
+                List<MarketAction> marketActionListTemp = marketActionService.MarketActionNotCancelSearch( eventTypeId);
+                List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+                List<MarketAction> marketActionList = new List<MarketAction>();
+
+                foreach (MarketAction marketAction in marketActionListTemp)
+                {
+                    foreach (Shop shop in roleTypeShopList)
+                    {
+                        if (marketAction.ShopId == shop.ShopId)
+                        {
+                            marketActionList.Add(marketAction);
+                        }
+                    }
+                }
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(marketActionList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpGet]
         [Route("MarketAction/MarketActionSearchById")]
         public APIResult MarketActionSearchById(string marketActionId)
         {
@@ -386,6 +414,7 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
             catch (Exception ex)
             {
+                CommonHelper.log(ex.Message.ToString());
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
@@ -405,7 +434,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                     shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
                     userinfo = masterService.UserInfoSearch("", "", shop[0].ShopName.ToString());
                 }
-                SendEmail(userinfo[0].Email, "", "主视觉审批修改意见", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核意见已更新,请登陆DMN系统查看，并按要求完成更新", "", "");
+                SendEmail(userinfo[0].Email, WebConfigurationManager.AppSettings["KeyVisionEmail_CC"], "主视觉审批修改意见", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核意见已更新,请登陆DMN系统查看，并按要求完成更新", "", "");
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)

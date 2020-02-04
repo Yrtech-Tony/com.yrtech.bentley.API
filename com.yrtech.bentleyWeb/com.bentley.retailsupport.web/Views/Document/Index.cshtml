@@ -113,7 +113,6 @@
                 userId: userId,
                 roleTypeCode: roleType
             }, function (data) {
-                console.log(data)
                 if (data) {
                     var firstHearder = [];
                     var secondHearder = [];
@@ -185,7 +184,7 @@
                     columns.push(firstHearder);
                     columns.push(secondHearder);
                     console.log(columns)
-                    if (year) {
+                    if (shopid) {
                         $("#myPromotion").bootstrapTable("refreshOptions", {
                             columns: columns,
                             data: datas,

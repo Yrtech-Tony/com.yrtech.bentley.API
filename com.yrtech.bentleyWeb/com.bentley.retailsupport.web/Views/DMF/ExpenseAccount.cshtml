@@ -167,14 +167,8 @@
                 }
             });
             
-            $.commonGet("MarketAction/MarketActionSearch", {
-                actionName: '',
-                year: '',
-                month: '',
-                marketActionStatusCode: '',
-                shopId: '',
+            $.commonGet("MarketAction/MarketActionNotCancelSearch", {
                 eventTypeId: ' ',
-                expenseAccountChk: 'true',
                 userId: $("#G_UserId").val(),
                 roleTypeCode: $("#G_RoleTypeCode").val()
             }, function (data) {

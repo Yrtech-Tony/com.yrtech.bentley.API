@@ -101,15 +101,15 @@
         })
         
         function NameQuery() {
-            loadCommitFiles('', $("#pdealer").val());
+            loadCommitFiles($("#pdealer").val());
         }
         
-        function loadCommitFiles(year,shopid) {
+        function loadCommitFiles(shopid) {
             var columns = [];
             var datas = [];
             $.commonGet("CommitFile/ShopCommitFileRecordStatusSearch", {
-                year: year || '2019',
-                shopid: shopid || ' ',
+                year: year,
+                shopid: shopid || '',
                 userId: userId,
                 roleTypeCode: roleType
             }, function (data) {

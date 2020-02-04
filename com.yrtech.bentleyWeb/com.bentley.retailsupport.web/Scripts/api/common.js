@@ -4,7 +4,7 @@ API 公用方法
 需要引用jquery
 */
 var year = 2020;
-var host = "http://39.106.71.65:8001/"
+var host = "http://39.106.71.65:8120/"
 //var host = "http://localhost:57328/"
 var baseApi = host+"bentley/api/";
 

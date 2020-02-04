@@ -3,9 +3,10 @@
 API 公用方法
 需要引用jquery
 */
+var year = 2020;
 var host = "http://39.106.71.65:8001/"
-//var baseApi = "http://39.106.71.65:8001/bentley/api/";
-var baseApi = "http://localhost:57328/bentley/api/";
+//var host = "http://localhost:57328/"
+var baseApi = host+"bentley/api/";
 
 
 $.commonGet = function (url, params, callback, err) {

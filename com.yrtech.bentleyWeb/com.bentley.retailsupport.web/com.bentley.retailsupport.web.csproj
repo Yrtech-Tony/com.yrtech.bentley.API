@@ -176,7 +176,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="historySite.html" />
     <Content Include="Home\ActionTypeCreate.html" />
     <Content Include="Home\ActionTypeEdit.html" />
     <Content Include="Home\ActualCueReport.html" />

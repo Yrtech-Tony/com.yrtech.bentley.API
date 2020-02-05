@@ -293,7 +293,8 @@
                             </a>
                         </li>
                     }
-                    @if (LoginUser.AccountId == "admin")
+                    @if (LoginUser.RoleTypeCode == "SYSADMIN"
+                        || LoginUser.RoleTypeCode == "AREA")
                     {
                         <li id="nav_dealer_funds_ov">
                             <a href="/DMF/DMF">

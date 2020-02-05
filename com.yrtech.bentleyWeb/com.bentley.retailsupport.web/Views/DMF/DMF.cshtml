@@ -115,7 +115,10 @@
 
         function loadDMF() {
             $.commonGet("DMF/DMFSearch", {
-                shopId: ''
+                shopId: '',
+                userId: $("#G_UserId").val(),
+                roleTypeCode:$('#G_RoleTypeCode').val()
+
             }, function (data) {
                 if (data) {
                     $table.bootstrapTable("load", data);

@@ -115,7 +115,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (!string.IsNullOrEmpty(marketActionStatusCode))
             {
-                sql += " AND A.marketActionStatusCode =@MarketActionStatusCode";
+                sql += " AND A.MarketActionStatusCode =@MarketActionStatusCode";
             }
             if (!string.IsNullOrEmpty(shopId))
             {
@@ -143,7 +143,7 @@ namespace com.yrtech.InventoryAPI.Service
             string sql = "";
             sql += @"SELECT *
                     FROM MarketAction A 
-                    WHERE A.MarketActionStatusCode<>2";
+                    WHERE A.MarketActionStatusCode<>2 AND  A.ExpenseAccount=1";
          
             if (!string.IsNullOrEmpty(eventTypeId))
             {

@@ -44,7 +44,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             {
                 if (string.IsNullOrEmpty(filePath))
                 {
-                    filePath = WebConfigurationManager.AppSettings["KeyVisionEmail_To"]+ @"/Bentley/MarketAction/" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
+                    filePath = @"Bentley/"+WebConfigurationManager.AppSettings["Year"]+ @"/MarketAction/" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
                 }
                 base64Img = base64Img.Trim().Replace("%", "").Replace(",", "").Replace(" ", "+");
                 base64Img = base64Img.Substring(base64Img.IndexOf("base64") + 6);

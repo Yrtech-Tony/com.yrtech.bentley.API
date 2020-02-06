@@ -1017,11 +1017,25 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region DMF
         [HttpGet]
         [Route("DMF/DMFSearch")]
-        public APIResult DMFSearch(string shopId)
+        public APIResult DMFSearch(string shopId,string userId,string roleTypeCode)
         {
             try
             {
-                List<DMFDto> dmfList = dmfService.DMFSearch(shopId);
+                List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+                List<DMFDto> dmfList = new List<DMFDto>();
+                List<DMFDto> dmfListTemp = dmfService.DMFSearch(shopId);
+
+                foreach (DMFDto dmfDto in dmfListTemp)
+                {
+                    foreach (Shop shop in roleTypeShopList)
+                    {
+                        if (dmfDto.ShopId == shop.ShopId)
+                        {
+                            dmfList.Add(dmfDto);
+
+                        }
+                    }
+                }
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfList) };
             }
             catch (Exception ex)

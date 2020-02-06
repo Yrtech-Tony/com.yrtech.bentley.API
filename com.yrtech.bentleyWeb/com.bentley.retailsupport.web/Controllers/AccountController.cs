@@ -1,13 +1,8 @@
 ﻿using com.bentley.retailsupport.web.Common;
-using com.bentley.retailsupport.web.DTO.Account;
 using com.yrtech.InventoryAPI.DTO;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using System.Net.Http;
-using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;

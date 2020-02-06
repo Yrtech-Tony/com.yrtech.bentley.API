@@ -244,7 +244,7 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.KeyVisionApprovalDesc = marketActionBefore21.KeyVisionApprovalDesc;
                 findOne.KeyVisionDesc = marketActionBefore21.KeyVisionDesc;
                 findOne.KeyVisionPic = marketActionBefore21.KeyVisionPic;
-                findOne.ModifyDateTime = marketActionBefore21.ModifyDateTime;
+                findOne.ModifyDateTime = DateTime.Now;
                 findOne.ModifyUserId = marketActionBefore21.ModifyUserId;
                 findOne.OtherDesc01 = marketActionBefore21.OtherDesc01;
                 findOne.OtherDesc02 = marketActionBefore21.OtherDesc02;

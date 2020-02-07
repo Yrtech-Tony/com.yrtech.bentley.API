@@ -262,7 +262,7 @@
                                             <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
                                                 <div class="fileinput-new thumbnail" style="width: 200px;height:150px;">
 
-                                                    <img id="picImg" onclick="OpenForm(this)" style="width: 190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png" alt="">
+                                                    <img id="picImg" onclick="OpenForm(this)" style="width: 190px;height:140px;" src="/Content/bootstrap-fileinput/img/noimage.png">
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail" id="img_visual1" style="width: 200px; height: 150px;"></div>
                                                 <div>
@@ -655,6 +655,11 @@
         $('#UserId').val($('#G_UserId').val());
         var roleName = $('#G_RoleTypeCode').val();
         $(function () {
+            $('img').error(function () {
+                console.log("image error")
+                $(this).attr('src', 'http://imgsrc.baidu.com/forum/w=580/sign=4272ba4f2e2dd42a5f0901a3333b5b2f/f2aaaafb43166d22da12fab24d2309f79052d205.jpg');
+            });
+
             loadShops().forEach(function (item) {
                 var shopName = localStorage.language == 'en' ? item.ShopNameEn : item.ShopName;
                 $("#ShopId").append($("<option>").val(item.ShopId).text(shopName));

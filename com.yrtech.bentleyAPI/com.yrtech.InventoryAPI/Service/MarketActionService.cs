@@ -10,12 +10,15 @@ namespace com.yrtech.InventoryAPI.Service
     public class MarketActionService
     {
         Bentley db = new Bentley();
+        #region Common
+        #endregion
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        public List<MarketActionDto> MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId,bool? expenseAccountChk)
+        public List<MarketActionDto> MarketActionSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, bool? expenseAccountChk)
         {
             if (actionName == null) actionName = "";
             if (year == null) year = "";
@@ -138,13 +141,13 @@ namespace com.yrtech.InventoryAPI.Service
         {
             if (eventTypeId == null) eventTypeId = "";
 
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@EventTypeId", eventTypeId)};
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@EventTypeId", eventTypeId) };
             Type t = typeof(MarketAction);
             string sql = "";
             sql += @"SELECT *
                     FROM MarketAction A 
                     WHERE A.MarketActionStatusCode<>2 AND  A.ExpenseAccount=1";
-         
+
             if (!string.IsNullOrEmpty(eventTypeId))
             {
                 sql += " AND A.EventTypeId =@EventTypeId";
@@ -155,13 +158,13 @@ namespace com.yrtech.InventoryAPI.Service
         public List<MarketAction> MarketActionSearchById(string marketActionId)
         {
             if (marketActionId == null) marketActionId = "";
-            
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId)};
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
             Type t = typeof(MarketAction);
             string sql = "";
             sql += @"SELECT * FROM MarketAction
                     WHERE 1=1 AND MarketActionId = @MarketActionId";
-            
+
             return db.Database.SqlQuery(t, sql, para).Cast<MarketAction>().ToList();
         }
         public void MarketActionSave(MarketAction marketAction)
@@ -243,33 +246,46 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.KeyVisionApprovalCode = marketActionBefore21.KeyVisionApprovalCode;
                 findOne.KeyVisionApprovalDesc = marketActionBefore21.KeyVisionApprovalDesc;
                 findOne.KeyVisionDesc = marketActionBefore21.KeyVisionDesc;
-                findOne.KeyVisionPic = marketActionBefore21.KeyVisionPic;
+                if (!marketActionBefore21.KeyVisionPic.Contains("fail2.png"))
+                    findOne.KeyVisionPic = marketActionBefore21.KeyVisionPic;
                 findOne.ModifyDateTime = DateTime.Now;
                 findOne.ModifyUserId = marketActionBefore21.ModifyUserId;
                 findOne.OtherDesc01 = marketActionBefore21.OtherDesc01;
                 findOne.OtherDesc02 = marketActionBefore21.OtherDesc02;
                 findOne.OtherDesc03 = marketActionBefore21.OtherDesc03;
                 findOne.OtherDesc04 = marketActionBefore21.OtherDesc04;
-                findOne.OthersPic01 = marketActionBefore21.OthersPic01;
-                findOne.OthersPic02 = marketActionBefore21.OthersPic02;
-                findOne.OthersPic03 = marketActionBefore21.OthersPic03;
-                findOne.OthersPic04 = marketActionBefore21.OthersPic04;
+                if (!marketActionBefore21.OthersPic01.Contains("fail2.png"))
+                    findOne.OthersPic01 = marketActionBefore21.OthersPic01;
+                if (!marketActionBefore21.OthersPic02.Contains("fail2.png"))
+                    findOne.OthersPic02 = marketActionBefore21.OthersPic02;
+                if (!marketActionBefore21.OthersPic03.Contains("fail2.png"))
+                    findOne.OthersPic03 = marketActionBefore21.OthersPic03;
+                if (!marketActionBefore21.OthersPic04.Contains("fail2.png"))
+                    findOne.OthersPic04 = marketActionBefore21.OthersPic04;
                 findOne.PlaceIntroDesc01 = marketActionBefore21.PlaceIntroDesc01;
                 findOne.PlaceIntroDesc02 = marketActionBefore21.PlaceIntroDesc02;
                 findOne.PlaceIntroDesc03 = marketActionBefore21.PlaceIntroDesc03;
                 findOne.PlaceIntroDesc04 = marketActionBefore21.PlaceIntroDesc04;
-                findOne.PlaceIntroPic01 = marketActionBefore21.PlaceIntroPic01;
-                findOne.PlaceIntroPic02 = marketActionBefore21.PlaceIntroPic02;
-                findOne.PlaceIntroPic03 = marketActionBefore21.PlaceIntroPic03;
-                findOne.PlaceIntroPic04 = marketActionBefore21.PlaceIntroPic04;
+                if (!marketActionBefore21.PlaceIntroPic01.Contains("fail2.png"))
+                    findOne.PlaceIntroPic01 = marketActionBefore21.PlaceIntroPic01;
+                if (!marketActionBefore21.PlaceIntroPic02.Contains("fail2.png"))
+                    findOne.PlaceIntroPic02 = marketActionBefore21.PlaceIntroPic02;
+                if (!marketActionBefore21.PlaceIntroPic03.Contains("fail2.png"))
+                    findOne.PlaceIntroPic03 = marketActionBefore21.PlaceIntroPic03;
+                if (!marketActionBefore21.PlaceIntroPic04.Contains("fail2.png"))
+                    findOne.PlaceIntroPic04 = marketActionBefore21.PlaceIntroPic04;
                 findOne.POSDesignDesc01 = marketActionBefore21.POSDesignDesc01;
                 findOne.POSDesignDesc02 = marketActionBefore21.POSDesignDesc02;
                 findOne.POSDesignDesc03 = marketActionBefore21.POSDesignDesc03;
                 findOne.POSDesignDesc04 = marketActionBefore21.POSDesignDesc04;
-                findOne.POSDesignPic01 = marketActionBefore21.POSDesignPic01;
-                findOne.POSDesignPic02 = marketActionBefore21.POSDesignPic02;
-                findOne.POSDesignPic03 = marketActionBefore21.POSDesignPic03;
-                findOne.POSDesignPic04 = marketActionBefore21.POSDesignPic04;
+                if (!marketActionBefore21.POSDesignPic01.Contains("fail2.png"))
+                    findOne.POSDesignPic01 = marketActionBefore21.POSDesignPic01;
+                if (!marketActionBefore21.POSDesignPic02.Contains("fail2.png"))
+                    findOne.POSDesignPic02 = marketActionBefore21.POSDesignPic02;
+                if (!marketActionBefore21.POSDesignPic03.Contains("fail2.png"))
+                    findOne.POSDesignPic03 = marketActionBefore21.POSDesignPic03;
+                if (!marketActionBefore21.POSDesignPic04.Contains("fail2.png"))
+                    findOne.POSDesignPic04 = marketActionBefore21.POSDesignPic04;
                 findOne.TargetLeadsOwnerCount = marketActionBefore21.TargetLeadsOwnerCount;
                 findOne.TargetLeadsPCCount = marketActionBefore21.TargetLeadsPCCount;
                 findOne.TargetOrdersOwnerCount = marketActionBefore21.TargetOrdersOwnerCount;
@@ -282,10 +298,14 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.TestDriverRoadMapDesc02 = marketActionBefore21.TestDriverRoadMapDesc02;
                 findOne.TestDriverRoadMapDesc03 = marketActionBefore21.TestDriverRoadMapDesc03;
                 findOne.TestDriverRoadMapDesc04 = marketActionBefore21.TestDriverRoadMapDesc04;
-                findOne.TestDriverRoadMapPic01 = marketActionBefore21.TestDriverRoadMapPic01;
-                findOne.TestDriverRoadMapPic02 = marketActionBefore21.TestDriverRoadMapPic02;
-                findOne.TestDriverRoadMapPic03 = marketActionBefore21.TestDriverRoadMapPic03;
-                findOne.TestDriverRoadMapPic04 = marketActionBefore21.TestDriverRoadMapPic04;
+                if (!marketActionBefore21.TestDriverRoadMapPic01.Contains("fail2.png"))
+                    findOne.TestDriverRoadMapPic01 = marketActionBefore21.TestDriverRoadMapPic01;
+                if (!marketActionBefore21.TestDriverRoadMapPic02.Contains("fail2.png"))
+                    findOne.TestDriverRoadMapPic02 = marketActionBefore21.TestDriverRoadMapPic02;
+                if (!marketActionBefore21.TestDriverRoadMapPic03.Contains("fail2.png"))
+                    findOne.TestDriverRoadMapPic03 = marketActionBefore21.TestDriverRoadMapPic03;
+                if (!marketActionBefore21.TestDriverRoadMapPic04.Contains("fail2.png"))
+                    findOne.TestDriverRoadMapPic04 = marketActionBefore21.TestDriverRoadMapPic04;
 
             }
 
@@ -305,29 +325,29 @@ namespace com.yrtech.InventoryAPI.Service
         {
             //if (marketActionBefore21ActivityProcess.SeqNO == 0)
             //{
-                MarketActionBefore21ActivityProcess findOneMax = db.MarketActionBefore21ActivityProcess.Where(x => (x.MarketActionId == marketActionBefore21ActivityProcess.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
-                if (findOneMax == null)
-                {
-                    marketActionBefore21ActivityProcess.SeqNO = 1;
-                }
-                else
-                {
-                    marketActionBefore21ActivityProcess.SeqNO = findOneMax.SeqNO + 1;
-                }
-                marketActionBefore21ActivityProcess.InDateTime = DateTime.Now;
-                marketActionBefore21ActivityProcess.ModifyDateTime = DateTime.Now;
-                db.MarketActionBefore21ActivityProcess.Add(marketActionBefore21ActivityProcess);
+            MarketActionBefore21ActivityProcess findOneMax = db.MarketActionBefore21ActivityProcess.Where(x => (x.MarketActionId == marketActionBefore21ActivityProcess.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+            if (findOneMax == null)
+            {
+                marketActionBefore21ActivityProcess.SeqNO = 1;
+            }
+            else
+            {
+                marketActionBefore21ActivityProcess.SeqNO = findOneMax.SeqNO + 1;
+            }
+            marketActionBefore21ActivityProcess.InDateTime = DateTime.Now;
+            marketActionBefore21ActivityProcess.ModifyDateTime = DateTime.Now;
+            db.MarketActionBefore21ActivityProcess.Add(marketActionBefore21ActivityProcess);
 
             //}
             //else
             //{
-                //MarketActionBefore21ActivityProcess findOne = db.MarketActionBefore21ActivityProcess.Where(x => (x.MarketActionId == marketActionBefore21ActivityProcess.MarketActionId && x.SeqNO == marketActionBefore21ActivityProcess.SeqNO)).FirstOrDefault();
-                //findOne.ActivityDateTime = marketActionBefore21ActivityProcess.ActivityDateTime;
-                //findOne.Contents = marketActionBefore21ActivityProcess.Contents;
-                //findOne.Item = marketActionBefore21ActivityProcess.Item;
-                //findOne.ModifyDateTime = DateTime.Now;
-                //findOne.ModifyUserId = marketActionBefore21ActivityProcess.ModifyUserId;
-                //findOne.Remark = marketActionBefore21ActivityProcess.Remark;
+            //MarketActionBefore21ActivityProcess findOne = db.MarketActionBefore21ActivityProcess.Where(x => (x.MarketActionId == marketActionBefore21ActivityProcess.MarketActionId && x.SeqNO == marketActionBefore21ActivityProcess.SeqNO)).FirstOrDefault();
+            //findOne.ActivityDateTime = marketActionBefore21ActivityProcess.ActivityDateTime;
+            //findOne.Contents = marketActionBefore21ActivityProcess.Contents;
+            //findOne.Item = marketActionBefore21ActivityProcess.Item;
+            //findOne.ModifyDateTime = DateTime.Now;
+            //findOne.ModifyUserId = marketActionBefore21ActivityProcess.ModifyUserId;
+            //findOne.Remark = marketActionBefore21ActivityProcess.Remark;
             //}
             db.SaveChanges();
         }
@@ -392,18 +412,18 @@ namespace com.yrtech.InventoryAPI.Service
         {
             //if (marketActionBefore3TestDriver.SeqNO == 0)
             //{
-                MarketActionBefore3TestDriver findOneMax = db.MarketActionBefore3TestDriver.Where(x => (x.MarketActionId == marketActionBefore3TestDriver.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
-                if (findOneMax == null)
-                {
-                    marketActionBefore3TestDriver.SeqNO = 1;
-                }
-                else
-                {
-                    marketActionBefore3TestDriver.SeqNO = findOneMax.SeqNO + 1;
-                }
-                marketActionBefore3TestDriver.InDateTime = DateTime.Now;
-                marketActionBefore3TestDriver.ModifyDateTime = DateTime.Now;
-                db.MarketActionBefore3TestDriver.Add(marketActionBefore3TestDriver);
+            MarketActionBefore3TestDriver findOneMax = db.MarketActionBefore3TestDriver.Where(x => (x.MarketActionId == marketActionBefore3TestDriver.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+            if (findOneMax == null)
+            {
+                marketActionBefore3TestDriver.SeqNO = 1;
+            }
+            else
+            {
+                marketActionBefore3TestDriver.SeqNO = findOneMax.SeqNO + 1;
+            }
+            marketActionBefore3TestDriver.InDateTime = DateTime.Now;
+            marketActionBefore3TestDriver.ModifyDateTime = DateTime.Now;
+            db.MarketActionBefore3TestDriver.Add(marketActionBefore3TestDriver);
 
             //}
             //else
@@ -420,18 +440,18 @@ namespace com.yrtech.InventoryAPI.Service
         {
             //if (marketActionBefore3DisplayModel.SeqNO == 0)
             //{
-                MarketActionBefore3DisplayModel findOneMax = db.MarketActionBefore3DisplayModel.Where(x => (x.MarketActionId == marketActionBefore3DisplayModel.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
-                if (findOneMax == null)
-                {
-                    marketActionBefore3DisplayModel.SeqNO = 1;
-                }
-                else
-                {
-                    marketActionBefore3DisplayModel.SeqNO = findOneMax.SeqNO + 1;
-                }
-                marketActionBefore3DisplayModel.InDateTime = DateTime.Now;
-                marketActionBefore3DisplayModel.ModifyDateTime = DateTime.Now;
-                db.MarketActionBefore3DisplayModel.Add(marketActionBefore3DisplayModel);
+            MarketActionBefore3DisplayModel findOneMax = db.MarketActionBefore3DisplayModel.Where(x => (x.MarketActionId == marketActionBefore3DisplayModel.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+            if (findOneMax == null)
+            {
+                marketActionBefore3DisplayModel.SeqNO = 1;
+            }
+            else
+            {
+                marketActionBefore3DisplayModel.SeqNO = findOneMax.SeqNO + 1;
+            }
+            marketActionBefore3DisplayModel.InDateTime = DateTime.Now;
+            marketActionBefore3DisplayModel.ModifyDateTime = DateTime.Now;
+            db.MarketActionBefore3DisplayModel.Add(marketActionBefore3DisplayModel);
 
             //}
             //else
@@ -448,18 +468,18 @@ namespace com.yrtech.InventoryAPI.Service
         {
             //if (marketActionBefore3BugetDetail.SeqNO == 0)
             //{
-                MarketActionBefore3BugetDetail findOneMax = db.MarketActionBefore3BugetDetail.Where(x => (x.MarketActionId == marketActionBefore3BugetDetail.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
-                if (findOneMax == null)
-                {
-                    marketActionBefore3BugetDetail.SeqNO = 1;
-                }
-                else
-                {
-                    marketActionBefore3BugetDetail.SeqNO = findOneMax.SeqNO + 1;
-                }
-                marketActionBefore3BugetDetail.InDateTime = DateTime.Now;
-                marketActionBefore3BugetDetail.ModifyDateTime = DateTime.Now;
-                db.MarketActionBefore3BugetDetail.Add(marketActionBefore3BugetDetail);
+            MarketActionBefore3BugetDetail findOneMax = db.MarketActionBefore3BugetDetail.Where(x => (x.MarketActionId == marketActionBefore3BugetDetail.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+            if (findOneMax == null)
+            {
+                marketActionBefore3BugetDetail.SeqNO = 1;
+            }
+            else
+            {
+                marketActionBefore3BugetDetail.SeqNO = findOneMax.SeqNO + 1;
+            }
+            marketActionBefore3BugetDetail.InDateTime = DateTime.Now;
+            marketActionBefore3BugetDetail.ModifyDateTime = DateTime.Now;
+            db.MarketActionBefore3BugetDetail.Add(marketActionBefore3BugetDetail);
 
             //}
             //else
@@ -542,7 +562,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region two days after
-        public List<MarketActionAfter2LeadsReportDto> MarketActionAfter2LeadsReportSearch(string marketActionId,string year)
+        public List<MarketActionAfter2LeadsReportDto> MarketActionAfter2LeadsReportSearch(string marketActionId, string year)
         {
             if (marketActionId == null) marketActionId = "";
             if (year == null) year = "";
@@ -669,19 +689,27 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.CarDisplayDesc02 = marketActionAfter7.CarDisplayDesc02;
                 findOne.CarDisplayDesc03 = marketActionAfter7.CarDisplayDesc03;
                 findOne.CarDisplayDesc04 = marketActionAfter7.CarDisplayDesc04;
-                findOne.CarDisplayPic01 = marketActionAfter7.CarDisplayPic01;
-                findOne.CarDisplayPic02 = marketActionAfter7.CarDisplayPic02;
-                findOne.CarDisplayPic03 = marketActionAfter7.CarDisplayPic03;
-                findOne.CarDisplayPic04 = marketActionAfter7.CarDisplayPic04;
+                if (!marketActionAfter7.CarDisplayPic01.Contains("fail2.png"))
+                    findOne.CarDisplayPic01 = marketActionAfter7.CarDisplayPic01;
+                if (!marketActionAfter7.CarDisplayPic02.Contains("fail2.png"))
+                    findOne.CarDisplayPic02 = marketActionAfter7.CarDisplayPic02;
+                if (!marketActionAfter7.CarDisplayPic03.Contains("fail2.png"))
+                    findOne.CarDisplayPic03 = marketActionAfter7.CarDisplayPic03;
+                if (!marketActionAfter7.CarDisplayPic04.Contains("fail2.png"))
+                    findOne.CarDisplayPic04 = marketActionAfter7.CarDisplayPic04;
                 findOne.CustomerFeedback = marketActionAfter7.CustomerFeedback;
                 findOne.CustomerStaffModelDesc01 = marketActionAfter7.CustomerStaffModelDesc01;
                 findOne.CustomerStaffModelDesc02 = marketActionAfter7.CustomerStaffModelDesc02;
                 findOne.CustomerStaffModelDesc03 = marketActionAfter7.CustomerStaffModelDesc03;
                 findOne.CustomerStaffModelDesc04 = marketActionAfter7.CustomerStaffModelDesc04;
-                findOne.CustomerStaffModelPic01 = marketActionAfter7.CustomerStaffModelPic01;
-                findOne.CustomerStaffModelPic02 = marketActionAfter7.CustomerStaffModelPic02;
-                findOne.CustomerStaffModelPic03 = marketActionAfter7.CustomerStaffModelPic03;
-                findOne.CustomerStaffModelPic04 = marketActionAfter7.CustomerStaffModelPic04;
+                if (!marketActionAfter7.CustomerStaffModelPic01.Contains("fail2.png"))
+                    findOne.CustomerStaffModelPic01 = marketActionAfter7.CustomerStaffModelPic01;
+                if (!marketActionAfter7.CustomerStaffModelPic02.Contains("fail2.png"))
+                    findOne.CustomerStaffModelPic02 = marketActionAfter7.CustomerStaffModelPic02;
+                if (!marketActionAfter7.CustomerStaffModelPic03.Contains("fail2.png"))
+                    findOne.CustomerStaffModelPic03 = marketActionAfter7.CustomerStaffModelPic03;
+                if (!marketActionAfter7.CustomerStaffModelPic04.Contains("fail2.png"))
+                    findOne.CustomerStaffModelPic04 = marketActionAfter7.CustomerStaffModelPic04;
                 findOne.HightLights = marketActionAfter7.HightLights;
                 findOne.ImproveArea = marketActionAfter7.ImproveArea;
                 findOne.MarketSaleTeamAdvice = marketActionAfter7.MarketSaleTeamAdvice;
@@ -691,34 +719,50 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.OnLineAdDesc02 = marketActionAfter7.OnLineAdDesc02;
                 findOne.OnLineAdDesc03 = marketActionAfter7.OnLineAdDesc03;
                 findOne.OnLineAdDesc04 = marketActionAfter7.OnLineAdDesc04;
-                findOne.OnLineAdPic01 = marketActionAfter7.OnLineAdPic01;
-                findOne.OnLineAdPic02 = marketActionAfter7.OnLineAdPic02;
-                findOne.OnLineAdPic03 = marketActionAfter7.OnLineAdPic03;
-                findOne.OnLineAdPic04 = marketActionAfter7.OnLineAdPic04;
+                if (!marketActionAfter7.OnLineAdPic01.Contains("fail2.png"))
+                    findOne.OnLineAdPic01 = marketActionAfter7.OnLineAdPic01;
+                if (!marketActionAfter7.OnLineAdPic02.Contains("fail2.png"))
+                    findOne.OnLineAdPic02 = marketActionAfter7.OnLineAdPic02;
+                if (!marketActionAfter7.OnLineAdPic03.Contains("fail2.png"))
+                    findOne.OnLineAdPic03 = marketActionAfter7.OnLineAdPic03;
+                if (!marketActionAfter7.OnLineAdPic04.Contains("fail2.png"))
+                    findOne.OnLineAdPic04 = marketActionAfter7.OnLineAdPic04;
                 findOne.OthersDesc01 = marketActionAfter7.OthersDesc01;
                 findOne.OthersDesc02 = marketActionAfter7.OthersDesc02;
                 findOne.OthersDesc03 = marketActionAfter7.OthersDesc03;
                 findOne.OthersDesc04 = marketActionAfter7.OthersDesc04;
-                findOne.OthersPic01 = marketActionAfter7.OthersPic01;
-                findOne.OthersPic02 = marketActionAfter7.OthersPic02;
-                findOne.OthersPic03 = marketActionAfter7.OthersPic03;
-                findOne.OthersPic04 = marketActionAfter7.OthersPic04;
+                if (!marketActionAfter7.OthersPic01.Contains("fail2.png"))
+                    findOne.OthersPic01 = marketActionAfter7.OthersPic01;
+                if (!marketActionAfter7.OthersPic02.Contains("fail2.png"))
+                    findOne.OthersPic02 = marketActionAfter7.OthersPic02;
+                if (!marketActionAfter7.OthersPic03.Contains("fail2.png"))
+                    findOne.OthersPic03 = marketActionAfter7.OthersPic03;
+                if (!marketActionAfter7.OthersPic04.Contains("fail2.png"))
+                    findOne.OthersPic04 = marketActionAfter7.OthersPic04;
                 findOne.PlaceDesc01 = marketActionAfter7.PlaceDesc01;
                 findOne.PlaceDesc02 = marketActionAfter7.PlaceDesc02;
                 findOne.PlaceDesc03 = marketActionAfter7.PlaceDesc03;
                 findOne.PlaceDesc04 = marketActionAfter7.PlaceDesc04;
-                findOne.PlacePic01 = marketActionAfter7.PlacePic01;
-                findOne.PlacePic02 = marketActionAfter7.PlacePic02;
-                findOne.PlacePic03 = marketActionAfter7.PlacePic03;
-                findOne.PlacePic04 = marketActionAfter7.PlacePic04;
+                if (!marketActionAfter7.PlacePic01.Contains("fail2.png"))
+                    findOne.PlacePic01 = marketActionAfter7.PlacePic01;
+                if (!marketActionAfter7.PlacePic02.Contains("fail2.png"))
+                    findOne.PlacePic02 = marketActionAfter7.PlacePic02;
+                if (!marketActionAfter7.PlacePic03.Contains("fail2.png"))
+                    findOne.PlacePic03 = marketActionAfter7.PlacePic03;
+                if (!marketActionAfter7.PlacePic04.Contains("fail2.png"))
+                    findOne.PlacePic04 = marketActionAfter7.PlacePic04;
                 findOne.RegisterLiveShowDesc01 = marketActionAfter7.RegisterLiveShowDesc01;
                 findOne.RegisterLiveShowDesc02 = marketActionAfter7.RegisterLiveShowDesc02;
                 findOne.RegisterLiveShowDesc03 = marketActionAfter7.RegisterLiveShowDesc03;
                 findOne.RegisterLiveShowDesc04 = marketActionAfter7.RegisterLiveShowDesc04;
-                findOne.RegisterLiveShowPic01 = marketActionAfter7.RegisterLiveShowPic01;
-                findOne.RegisterLiveShowPic02 = marketActionAfter7.RegisterLiveShowPic02;
-                findOne.RegisterLiveShowPic03 = marketActionAfter7.RegisterLiveShowPic03;
-                findOne.RegisterLiveShowPic04 = marketActionAfter7.RegisterLiveShowPic04;
+                if (!marketActionAfter7.RegisterLiveShowPic01.Contains("fail2.png"))
+                    findOne.RegisterLiveShowPic01 = marketActionAfter7.RegisterLiveShowPic01;
+                if (!marketActionAfter7.RegisterLiveShowPic02.Contains("fail2.png"))
+                    findOne.RegisterLiveShowPic02 = marketActionAfter7.RegisterLiveShowPic02;
+                if (!marketActionAfter7.RegisterLiveShowPic03.Contains("fail2.png"))
+                    findOne.RegisterLiveShowPic03 = marketActionAfter7.RegisterLiveShowPic03;
+                if (!marketActionAfter7.RegisterLiveShowPic04.Contains("fail2.png"))
+                    findOne.RegisterLiveShowPic04 = marketActionAfter7.RegisterLiveShowPic04;
 
             }
 
@@ -738,18 +782,18 @@ namespace com.yrtech.InventoryAPI.Service
         {
             //if (marketActionAfter7ActualExpense.SeqNO == 0)
             //{
-                MarketActionAfter7ActualExpense findOneMax = db.MarketActionAfter7ActualExpense.Where(x => (x.MarketActionId == marketActionAfter7ActualExpense.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
-                if (findOneMax == null)
-                {
-                    marketActionAfter7ActualExpense.SeqNO = 1;
-                }
-                else
-                {
-                    marketActionAfter7ActualExpense.SeqNO = findOneMax.SeqNO + 1;
-                }
-                marketActionAfter7ActualExpense.InDateTime = DateTime.Now;
-                marketActionAfter7ActualExpense.ModifyDateTime = DateTime.Now;
-                db.MarketActionAfter7ActualExpense.Add(marketActionAfter7ActualExpense);
+            MarketActionAfter7ActualExpense findOneMax = db.MarketActionAfter7ActualExpense.Where(x => (x.MarketActionId == marketActionAfter7ActualExpense.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+            if (findOneMax == null)
+            {
+                marketActionAfter7ActualExpense.SeqNO = 1;
+            }
+            else
+            {
+                marketActionAfter7ActualExpense.SeqNO = findOneMax.SeqNO + 1;
+            }
+            marketActionAfter7ActualExpense.InDateTime = DateTime.Now;
+            marketActionAfter7ActualExpense.ModifyDateTime = DateTime.Now;
+            db.MarketActionAfter7ActualExpense.Add(marketActionAfter7ActualExpense);
 
             //}
             //else
@@ -786,18 +830,18 @@ namespace com.yrtech.InventoryAPI.Service
         {
             //if (marketActionAfter7ActualProcess.SeqNO == 0)
             //{
-                MarketActionAfter7ActualProcess findOneMax = db.MarketActionAfter7ActualProcess.Where(x => (x.MarketActionId == marketActionAfter7ActualProcess.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
-                if (findOneMax == null)
-                {
-                    marketActionAfter7ActualProcess.SeqNO = 1;
-                }
-                else
-                {
-                    marketActionAfter7ActualProcess.SeqNO = findOneMax.SeqNO + 1;
-                }
-                marketActionAfter7ActualProcess.InDateTime = DateTime.Now;
-                marketActionAfter7ActualProcess.ModifyDateTime = DateTime.Now;
-                db.MarketActionAfter7ActualProcess.Add(marketActionAfter7ActualProcess);
+            MarketActionAfter7ActualProcess findOneMax = db.MarketActionAfter7ActualProcess.Where(x => (x.MarketActionId == marketActionAfter7ActualProcess.MarketActionId)).OrderByDescending(x => x.SeqNO).FirstOrDefault();
+            if (findOneMax == null)
+            {
+                marketActionAfter7ActualProcess.SeqNO = 1;
+            }
+            else
+            {
+                marketActionAfter7ActualProcess.SeqNO = findOneMax.SeqNO + 1;
+            }
+            marketActionAfter7ActualProcess.InDateTime = DateTime.Now;
+            marketActionAfter7ActualProcess.ModifyDateTime = DateTime.Now;
+            db.MarketActionAfter7ActualProcess.Add(marketActionAfter7ActualProcess);
 
             //}
             //else
@@ -888,7 +932,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region 总览
-        public List<MarketActionStatusCountDto> MarketActionStatusCountSearch(string year,List<Shop> roleTypeShop)
+        public List<MarketActionStatusCountDto> MarketActionStatusCountSearch(string year, List<Shop> roleTypeShop)
         {
             if (year == null) year = "";
 

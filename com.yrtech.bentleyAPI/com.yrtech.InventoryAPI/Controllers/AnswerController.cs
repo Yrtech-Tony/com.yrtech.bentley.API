@@ -414,7 +414,7 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
             catch (Exception ex)
             {
-                CommonHelper.log(ex.Message.ToString());
+                //CommonHelper.log(ex.Message.ToString());
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
@@ -439,7 +439,7 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
             catch (Exception ex)
             {
-                CommonHelper.log(ex.Message.ToString());
+                //CommonHelper.log(ex.Message.ToString());
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }

@@ -204,11 +204,11 @@ namespace com.yrtech.InventoryAPI.Controllers
         #region UserInfo
         [HttpGet]
         [Route("Master/UserInfoSearch")]
-        public APIResult UserInfoSearch(string userId, string accountId, string accountName)
+        public APIResult UserInfoSearch(string userId, string accountId, string accountName,string shopCode,string shopName)
         {
             try
             {
-                List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userId,accountId,accountName);
+                List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userId,accountId,accountName, shopCode,shopName);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfoList) };
             }
@@ -223,12 +223,12 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<UserInfoDto> userInfoList = masterService.UserInfoSearch("",userInfo.AccountId,"");
+                List<UserInfoDto> userInfoList = masterService.UserInfoSearch("",userInfo.AccountId,"","","");
                 if (userInfoList != null && userInfoList.Count != 0 && userInfoList[0].UserId != userInfo.UserId)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,账号重复" };
                 }
-                List<UserInfoDto> userInfoList1 = masterService.UserInfoSearch("", "", userInfo.AccountName);
+                List<UserInfoDto> userInfoList1 = masterService.UserInfoSearch("", "", userInfo.AccountName,"","");
                 if (userInfoList1 != null && userInfoList1.Count != 0 && userInfoList1[0].UserId != userInfo.UserId)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,账号名称重复" };

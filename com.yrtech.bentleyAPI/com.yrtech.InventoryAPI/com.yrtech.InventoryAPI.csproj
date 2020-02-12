@@ -48,6 +48,9 @@
     <Reference Include="Aliyun.OSS">
       <HintPath>..\packages\Aliyun.OSS.SDK.2.8.0\lib\Aliyun.OSS.dll</HintPath>
     </Reference>
+    <Reference Include="DES">
+      <HintPath>..\..\DES\bin\Debug\DES.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\com.yrtech.SurveyAPI\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>

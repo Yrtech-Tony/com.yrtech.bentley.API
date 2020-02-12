@@ -1,6 +1,4 @@
-﻿using Aliyun.OSS;
-using Aliyun.OSS.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,7 +14,7 @@ namespace com.yrtech.InventoryAPI.Common
         //秘钥
         protected const string _encryptKey = "76159843";
         //默认密钥向量  
-        protected static byte[] Keys = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
+        protected static string iv = "12344321";
 
         /// DES加密字符串          
         /// 待加密的字符串  
@@ -27,7 +25,7 @@ namespace com.yrtech.InventoryAPI.Common
             try
             {
                 byte[] rgbKey = Encoding.UTF8.GetBytes(_encryptKey);
-                byte[] rgbIV = Keys;
+                byte[] rgbIV = Encoding.UTF8.GetBytes(iv);
                 byte[] inputByteArray = Encoding.UTF8.GetBytes(encryptString);
                 DESCryptoServiceProvider dCSP = new DESCryptoServiceProvider();
                 MemoryStream mStream = new MemoryStream();
@@ -50,7 +48,7 @@ namespace com.yrtech.InventoryAPI.Common
             try
             {
                 byte[] rgbKey = Encoding.UTF8.GetBytes(_encryptKey);
-                byte[] rgbIV = Keys;
+                byte[] rgbIV = Encoding.UTF8.GetBytes(iv);
                 byte[] inputByteArray = Convert.FromBase64String(decryptString);
                 DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
                 MemoryStream mStream = new MemoryStream();

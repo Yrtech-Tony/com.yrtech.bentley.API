@@ -36,7 +36,13 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                return new APIResult() { Status = true, Body = CommonHelper.Encode(TokenHelper.DecryptDES(token.TokenString)) };
+                DateTime start = DateTime.Now;
+                for (int i = 0; i < 200; i++)
+                {
+                    TokenHelper.DecryptDES(token.TokenString);
+                }
+                TimeSpan  span = DateTime.Now-start;
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(span.ToString()) };
             }
             catch (Exception ex)
             {

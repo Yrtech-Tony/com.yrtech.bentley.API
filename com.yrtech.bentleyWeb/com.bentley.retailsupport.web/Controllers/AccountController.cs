@@ -1,4 +1,5 @@
 ﻿using com.bentley.retailsupport.web.Common;
+using com.yrtech.InventoryAPI.Common;
 using com.yrtech.InventoryAPI.DTO;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace com.bentley.retailsupport.web.Controllers
             return View();
         }
 
-        public ActionResult ShopLogin(string shop)
+        public ActionResult TokenLogin(string token)
         {
             HttpClient client = new HttpClient();
             Uri uri = new Uri("http://" + WebConfigurationManager.AppSettings["APIHost"]);
@@ -64,6 +65,7 @@ namespace com.bentley.retailsupport.web.Controllers
             //添加请求的头文件
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             //发送请求并接受返回的值
+            String shop = TokenHelper.DecryptDES(token);
             string getUserApi = string.Format("bentley/api/Master/UserInfoSearch?userId=&accountId=&accountName={0}", shop);
             HttpResponseMessage message = client.GetAsync(getUserApi).Result;
             string json = message.Content.ReadAsStringAsync().Result;

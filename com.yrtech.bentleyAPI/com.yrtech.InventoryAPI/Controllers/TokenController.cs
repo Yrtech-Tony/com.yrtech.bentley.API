@@ -35,14 +35,9 @@ namespace com.yrtech.InventoryAPI.Controllers
         public APIResult TokenCheck(TokenDto token)
         {
             try
-            {
-                DateTime start = DateTime.Now;
-                for (int i = 0; i < 200; i++)
-                {
-                    TokenHelper.DecryptDES(token.TokenString);
-                }
-                TimeSpan  span = DateTime.Now-start;
-                return new APIResult() { Status = true, Body = CommonHelper.Encode(span.ToString()) };
+            { 
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(TokenHelper.DecryptDES(token.TokenString)) };
             }
             catch (Exception ex)
             {

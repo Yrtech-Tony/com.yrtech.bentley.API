@@ -66,7 +66,7 @@ namespace com.bentley.retailsupport.web.Controllers
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             //发送请求并接受返回的值
             String shop = TokenHelper.DecryptDES(token);
-            string getUserApi = string.Format("bentley/api/Master/UserInfoSearch?userId=&accountId=&accountName={0}", shop);
+            string getUserApi = string.Format("bentley/api/Master/UserInfoSearch?userId=&accountId=&accountName={0}&shopCode=&shopName", shop);
             HttpResponseMessage message = client.GetAsync(getUserApi).Result;
             string json = message.Content.ReadAsStringAsync().Result;
             APIResult result = CommonHelper.DecodeString<APIResult>(json);

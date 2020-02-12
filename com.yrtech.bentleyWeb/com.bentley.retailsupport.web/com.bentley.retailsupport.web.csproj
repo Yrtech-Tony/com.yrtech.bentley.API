@@ -124,6 +124,7 @@
     <Compile Include="Attributes\LogFilter.cs" />
     <Compile Include="Common\APIResult.cs" />
     <Compile Include="Common\CommonHelper.cs" />
+    <Compile Include="Common\TokenHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DMFController.cs" />

@@ -1,4 +1,4 @@
-<form action="/Account/LogOff" class="navbar-right" id="logoutForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="t9r-XqKm4YL1BIb6CVEU7kZ1xH-LFg-Yr-NgqNQ8UonljhtBPLNtLgM_zdJr8Idwgetl2PPVnfhnLwstlw2cCw3ks-CFmA4UiClEIYkLHNeJgvzmsICyeD_LvlJpzlENE3YBnnqqZJX4xS-AxvL41A2" /></form>
+﻿<form action="/Account/LogOff" class="navbar-right" id="logoutForm" method="post"><input name="__RequestVerificationToken" type="hidden" value="t9r-XqKm4YL1BIb6CVEU7kZ1xH-LFg-Yr-NgqNQ8UonljhtBPLNtLgM_zdJr8Idwgetl2PPVnfhnLwstlw2cCw3ks-CFmA4UiClEIYkLHNeJgvzmsICyeD_LvlJpzlENE3YBnnqqZJX4xS-AxvL41A2" /></form>
 
 <!DOCTYPE html>
 <html ng-app="MyApp">
@@ -859,9 +859,6 @@
                 contentType: false
             }).done(function (res) {
                 EProcessing();
-                console.log(res.returnValue);
-
-
                 window.location.reload();
             }).fail(function (res) { EProcessing(); window.location.reload(); });
         }

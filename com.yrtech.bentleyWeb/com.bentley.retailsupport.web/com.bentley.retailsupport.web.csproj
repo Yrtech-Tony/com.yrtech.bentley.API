@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\curtom\DESUtil.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\plugins\bootstrap-datetimepicker\css\bootstrap-datetimepicker.min.css" />
@@ -252,6 +253,7 @@
     <Content Include="Scripts\bower_components\layer\layer.js" />
     <Content Include="Scripts\bower_components\layer\skin\default\layer.css" />
     <Content Include="Scripts\bower_components\layer\skin\default\loading-1.gif" />
+    <Content Include="Scripts\crypto-js.js" />
     <Content Include="Scripts\curtom\ActionTypeCreate.js" />
     <Content Include="Scripts\curtom\AgentCreate.js" />
     <Content Include="Scripts\curtom\AreaCreate.js" />

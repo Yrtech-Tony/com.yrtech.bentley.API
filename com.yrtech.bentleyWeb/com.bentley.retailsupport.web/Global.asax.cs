@@ -1,5 +1,7 @@
-﻿using System;
+﻿using com.yrtech.InventoryAPI.Common;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,6 +18,8 @@ namespace com.bentley.retailsupport.web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            Debug.WriteLine(TokenHelper.EncryptDES("宾利青岛"));
         }
     }
 }

@@ -432,7 +432,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 {
                     marketactionName = marketAction[0].ActionName;
                     shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
-                    userinfo = masterService.UserInfoSearch("", "", shop[0].ShopName.ToString(),"","");
+                    userinfo = masterService.UserInfoSearch("", "", shop[0].ShopName.ToString(),"","","");
                 }
                 SendEmail(userinfo[0].Email, WebConfigurationManager.AppSettings["KeyVisionEmail_CC"], "主视觉审批修改意见", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核意见已更新,请登陆DMN系统查看，并按要求完成更新", "", "");
                 return new APIResult() { Status = true, Body = "" };
@@ -1205,6 +1205,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                     {
                         if (expenseAccountDto.ShopId == shop.ShopId)
                         {
+                            expenseAccountDto.ExpenseAmt = Convert.ToDecimal(TokenHelper.DecryptDES(Convert.ToString(expenseAccountDto.ExpenseAmt)));
                             expenseAccountList.Add(expenseAccountDto);
 
                         }

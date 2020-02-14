@@ -13,7 +13,7 @@ namespace com.yrtech.InventoryAPI.Controllers
     {
         AccountService accountService = new AccountService();
 
-        [HttpGet]
+        [HttpPost]
         [Route("Account/Login")]
         public APIResult Login(string accountId, string password)
         {

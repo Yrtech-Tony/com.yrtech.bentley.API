@@ -1103,11 +1103,12 @@ namespace com.yrtech.SurveyAPI.Controllers
                 {
                     return new APIResult() { Status = false, Body = "保存失败,同一经销商不能添加重复项目" };
                 }
-                List<DMFItem> itemList = dmfService.DMFItemSearch(dmfDetail.DMFItemId.ToString(), "", "", null, null);
-                if (itemList != null && itemList.Count > 0 && itemList[0].ExpenseAccountChk == false)
-                {
-                    return new APIResult() { Status = false, Body = "保存失败,不能添加费用报销项目" };
-                }
+                //勾选了费用报销的项目在费用报销申请，不在此处添加。暂时注释
+                //List<DMFItem> itemList = dmfService.DMFItemSearch(dmfDetail.DMFItemId.ToString(), "", "", null, null);
+                //if (itemList != null && itemList.Count > 0 && itemList[0].ExpenseAccountChk == false)
+                //{
+                //    return new APIResult() { Status = false, Body = "保存失败,不能添加费用报销项目" };
+                //}
                 dmfDetail = dmfService.DMFDetailSave(dmfDetail);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfDetail) };
             }

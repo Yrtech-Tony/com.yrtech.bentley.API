@@ -270,7 +270,8 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(DMFDto);
 
             string sql = "";
-            sql = @"                 
+            sql += MonthSaleDesryptSearch("", shopId, "");
+            sql += @"                 
                 SELECT DISTINCT A.ShopId,A.ShopCode,A.ShopName,A.ShopNameEn
 			                ,ISNULL(B.ActualMonthSaleCount,0) AS ActualMonthSaleCount
 			                ,ISNULL(B.ActualMonthSaleAmt,0) AS ActualMonthSaleAmt
@@ -278,7 +279,7 @@ namespace com.yrtech.InventoryAPI.Service
                             (SELECT ShopId
 		                            ,ISNULL(SUM(ActualSaleCount),0) AS ActualMonthSaleCount
 		                            ,ISNULL(SUM(ActualSaleAmt),0) AS ActualMonthSaleAmt
-                            FROM dbo.MonthSale GROUP BY ShopId) B ON A.ShopId = B.ShopId
+                            FROM #MonthSale GROUP BY ShopId) B ON A.ShopId = B.ShopId
                WHERE 1=1";
             if (!string.IsNullOrEmpty(shopId))
             {
@@ -316,7 +317,8 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(DMFDto);
 
             string sql = "";
-            sql = @"                 
+            sql += MonthSaleDesryptSearch("", shopId, "");
+            sql += @"                 
                 SELECT A.ShopId,A.ShopName,A.ShopNameEn,Y.Quarters
 	                ,ISNULL(SUM(Y.ActualSaleCount),0) AS ActualMonthSaleCount
 	                ,ISNULL(SUM(Y.ActualSaleAmt),0) AS ActualMonthSaleAmt

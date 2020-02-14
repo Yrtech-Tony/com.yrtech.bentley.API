@@ -21,7 +21,7 @@ namespace com.yrtech.InventoryAPI.Service
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@AccountId", accountId),
                                                        new SqlParameter("@Password",password)};
             Type t = typeof(AccountDto);
-            string sql = @"SELECT TOP 1 UserId,AccountId,AccountName,AccountNameEn,RoleTypeCode FROM UserInfo
+            string sql = @"SELECT TOP 1 UserId,AccountId,AccountName,AccountNameEn,RoleTypeCode,Email FROM UserInfo
                             WHERE AccountId = @AccountId AND [Password] = @Password";
             return db.Database.SqlQuery(t, sql, para).Cast<AccountDto>().ToList();
         }

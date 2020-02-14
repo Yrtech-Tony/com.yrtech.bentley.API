@@ -22,7 +22,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             try
             {
                
-                return new APIResult() { Status = true, Body = CommonHelper.Encode(TokenHelper.EncryptDES(encryptString)) };
+                return new APIResult() { Status = true, Body = TokenHelper.EncryptDES(encryptString) };
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace com.yrtech.InventoryAPI.Controllers
             try
             { 
 
-                return new APIResult() { Status = true, Body = CommonHelper.Encode(TokenHelper.DecryptDES(token.TokenString)) };
+                return new APIResult() { Status = true, Body = TokenHelper.DecryptDES(token.TokenString) };
             }
             catch (Exception ex)
             {

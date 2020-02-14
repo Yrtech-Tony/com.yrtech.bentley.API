@@ -13,8 +13,8 @@ namespace com.yrtech.InventoryAPI.DTO
         public string ShopCode { get; set; }
         public string ShopName { get; set; }
         public string ShopNameEn { get; set; }
-        public Nullable<int> ActualSaleCount { get; set; }
-        public Nullable<decimal> ActualSaleAmt { get; set; }
+        public string ActualSaleCount { get; set; }
+        public string ActualSaleAmt { get; set; }
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
         public Nullable<int> ModifyUserId { get; set; }

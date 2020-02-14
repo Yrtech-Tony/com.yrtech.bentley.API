@@ -1205,7 +1205,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                     {
                         if (expenseAccountDto.ShopId == shop.ShopId)
                         {
-                            expenseAccountDto.ExpenseAmt = Convert.ToDecimal(TokenHelper.DecryptDES(Convert.ToString(expenseAccountDto.ExpenseAmt)));
+                            expenseAccountDto.ExpenseAmt = TokenHelper.DecryptDES(expenseAccountDto.ExpenseAmt);
                             expenseAccountList.Add(expenseAccountDto);
 
                         }
@@ -1329,7 +1329,11 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch(monthSaleId, shopId, "");
-
+                foreach (MonthSaleDto monthSale in monthSaleList)
+                {
+                    monthSale.ActualSaleAmt = TokenHelper.DecryptDES(monthSale.ActualSaleAmt);
+                    monthSale.ActualSaleCount = TokenHelper.DecryptDES(monthSale.ActualSaleCount);
+                }
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(monthSaleList) };
             }
             catch (Exception ex)

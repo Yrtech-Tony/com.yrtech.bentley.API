@@ -17,8 +17,8 @@ namespace com.yrtech.bentley.DAL
         public int DMFDetailId { get; set; }
         public Nullable<int> ShopId { get; set; }
         public Nullable<int> DMFItemId { get; set; }
-        public Nullable<decimal> Budget { get; set; }
-        public Nullable<decimal> AcutalAmt { get; set; }
+        public string Budget { get; set; }
+        public string AcutalAmt { get; set; }
         public string Remark { get; set; }
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }

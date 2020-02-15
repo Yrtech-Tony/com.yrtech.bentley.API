@@ -334,7 +334,7 @@ namespace com.yrtech.InventoryAPI.Service
 						                   WHEN LEN(YearMonth)=6 THEN LEFT(YearMonth,1)
 						                   ELSE '' END AS MonthStr
 					                ,ActualSaleAmt,ActualSaleCount
-				                FROM MonthSale) X) Y ON A.ShopId = Y.ShopId
+				                FROM #MonthSale) X) Y ON A.ShopId = Y.ShopId
                 WHERE 1=1 
                ";
             if (!string.IsNullOrEmpty(shopId))

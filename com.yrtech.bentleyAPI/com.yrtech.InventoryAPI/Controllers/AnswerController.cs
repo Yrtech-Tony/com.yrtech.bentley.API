@@ -432,7 +432,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 {
                     marketactionName = marketAction[0].ActionName;
                     shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
-                    userinfo = masterService.UserInfoSearch("", "", shop[0].ShopName.ToString(),"","");
+                    userinfo = masterService.UserInfoSearch("", "", shop[0].ShopName.ToString(),"","","");
                 }
                 SendEmail(userinfo[0].Email, WebConfigurationManager.AppSettings["KeyVisionEmail_CC"], "主视觉审批修改意见", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核意见已更新,请登陆DMN系统查看，并按要求完成更新", "", "");
                 return new APIResult() { Status = true, Body = "" };
@@ -1103,11 +1103,12 @@ namespace com.yrtech.SurveyAPI.Controllers
                 {
                     return new APIResult() { Status = false, Body = "保存失败,同一经销商不能添加重复项目" };
                 }
-                List<DMFItem> itemList = dmfService.DMFItemSearch(dmfDetail.DMFItemId.ToString(), "", "", null, null);
-                if (itemList != null && itemList.Count > 0 && itemList[0].ExpenseAccountChk == false)
-                {
-                    return new APIResult() { Status = false, Body = "保存失败,不能添加费用报销项目" };
-                }
+                //勾选了费用报销的项目在费用报销申请，不在此处添加。暂时注释
+                //List<DMFItem> itemList = dmfService.DMFItemSearch(dmfDetail.DMFItemId.ToString(), "", "", null, null);
+                //if (itemList != null && itemList.Count > 0 && itemList[0].ExpenseAccountChk == false)
+                //{
+                //    return new APIResult() { Status = false, Body = "保存失败,不能添加费用报销项目" };
+                //}
                 dmfDetail = dmfService.DMFDetailSave(dmfDetail);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(dmfDetail) };
             }
@@ -1205,6 +1206,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                     {
                         if (expenseAccountDto.ShopId == shop.ShopId)
                         {
+                            expenseAccountDto.ExpenseAmt = TokenHelper.DecryptDES(expenseAccountDto.ExpenseAmt);
                             expenseAccountList.Add(expenseAccountDto);
 
                         }
@@ -1328,7 +1330,11 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch(monthSaleId, shopId, "");
-
+                foreach (MonthSaleDto monthSale in monthSaleList)
+                {
+                    monthSale.ActualSaleAmt = TokenHelper.DecryptDES(monthSale.ActualSaleAmt);
+                    monthSale.ActualSaleCount = TokenHelper.DecryptDES(monthSale.ActualSaleCount);
+                }
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(monthSaleList) };
             }
             catch (Exception ex)

@@ -4,6 +4,7 @@ using com.yrtech.bentley.DAL;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using com.yrtech.InventoryAPI.Common;
 
 namespace com.yrtech.InventoryAPI.Service
 {
@@ -84,7 +85,92 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region DMFDetail
-        public List<DMFDetailDto> DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId,string dmfItemName)
+        public string DMFDetailDecryptSearch(string dmfDetailId, string shopId, string dmfItemId)
+        {
+            if (dmfDetailId == null) dmfDetailId = "";
+            if (shopId == null) shopId = "";
+            if (dmfItemId == null) dmfItemId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@DMFDetailId", dmfDetailId),
+                                                    new SqlParameter("@ShopId", shopId),
+                                                    new SqlParameter("@DMFItemId", dmfItemId)};
+
+            Type t = typeof(DMFDetail);
+
+            string sql = "";
+            sql = @" SELECT * FROM DMFDetail WHERE 1=1";
+            if (!string.IsNullOrEmpty(dmfDetailId))
+            {
+                sql += " AND DMFDetailId = @DMFDetailId";
+            }
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND ShopId = @ShopId";
+            }
+            if (!string.IsNullOrEmpty(dmfItemId))
+            {
+                sql += " AND DMFItemId = @DMFItemId";
+            }
+            List<DMFDetail> list = db.Database.SqlQuery(t, sql, para).Cast<DMFDetail>().ToList();
+            
+            string sqlReturn = @"CREATE TABLE #DMFDetail(
+                                                        [DMFDetailId][int]  NOT NULL,
+                                                        [ShopId] [int] NULL,
+	                                                    [DMFItemId] [int] NULL,
+	                                                    [Budget] [decimal](19, 2) NULL,
+	                                                    [AcutalAmt] [decimal](19, 2) NULL,
+	                                                    [Remark] [nvarchar](max) NULL
+                                                     )";
+
+            foreach (DMFDetail dmfDetail in list)
+            {
+                sqlReturn += " INSERT INTO #DMFDetail VALUES(";
+                sqlReturn += dmfDetail.DMFDetailId + ",'";
+                if (dmfDetail.ShopId == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else
+                {
+                    sqlReturn += dmfDetail.ShopId + "','";
+                }
+                if (dmfDetail.DMFItemId == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else
+                {
+                    sqlReturn += dmfDetail.DMFItemId + "','";
+                }
+                if (dmfDetail.Budget == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else
+                {
+                    sqlReturn += TokenHelper.DecryptDES(dmfDetail.Budget) + "','";
+                }
+                if (dmfDetail.AcutalAmt == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else
+                {
+                    sqlReturn += TokenHelper.DecryptDES(dmfDetail.AcutalAmt) + "','";
+                }
+                if (dmfDetail.Remark == null)
+                {
+                    sqlReturn += "null')";
+                }
+                else
+                {
+                    sqlReturn += dmfDetail.Remark + "')";
+                }
+            }
+
+            return sqlReturn;
+        }
+        public List<DMFDetailDto> DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId, string dmfItemName)
         {
             if (dmfDetailId == null) dmfDetailId = "";
             if (shopId == null) shopId = "";
@@ -99,24 +185,28 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(DMFDetailDto);
 
             string sql = "";
-            sql = @"  SELECT * FROM (
-                        SELECT ISNULL(D.DMFDetailId,0) AS DMFDetailId,A.ShopId,A.DMFItemId,ISNULL(D.Budget,0) AS Budget
-							    ,A.AcutalAmt,ISNULL(D.Remark,'') AS Remark
+            sql += DMFDetailDecryptSearch(dmfDetailId, shopId, dmfItemId);
+            sql += ExpenseAccountDecryptSearch("", shopId, dmfItemId, "");
+            sql += MonthSaleDesryptSearch("", shopId, "");
+
+            sql += @"  SELECT * FROM (
+                        SELECT ISNULL(D.DMFDetailId,0) AS DMFDetailId,A.ShopId,A.DMFItemId,CAST(ISNULL(D.Budget,0) AS NVARCHAR) AS Budget
+							    ,CAST(A.AcutalAmt AS NVARCHAR) AS AcutalAmt,ISNULL(D.Remark,'') AS Remark
 							    ,B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
 					    FROM (
 							    SELECT ShopId,DMFItemId,ISNULL(SUM(ExpenseAmt),0) AS AcutalAmt
-							    FROM ExpenseAccount  
+							    FROM #ExpenseAccount  
 							    WHERE ApplyStatus='通过'
 							    GROUP BY ShopId,DMFItemId) A INNER JOIN Shop B ON A.ShopId = B.ShopId
 														    INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
-														LEFT JOIN DMFDetail D ON A.ShopId = D.ShopId AND A.DMFItemId = D.DMFItemId	
+														LEFT JOIN #DMFDetail D ON A.ShopId = D.ShopId AND A.DMFItemId = D.DMFItemId	
                     UNION ALL
 					 
-					SELECT A.[DMFDetailId],A.[ShopId],A.[DMFItemId],A.[Budget],ISNULL(A.[AcutalAmt],0) AS AcutalAmt
+					SELECT A.[DMFDetailId],A.[ShopId],A.[DMFItemId],CAST(A.[Budget] AS NVARCHAR) AS Budget,CAST(ISNULL(A.[AcutalAmt],0) AS NVARCHAR) AS AcutalAmt
                            ,ISNULL(A.[Remark],'') AS Remark,B.ShopCode,B.ShopName,B.ShopNameEn,C.DMFItemName,C.DMFItemNameEn 
-                    FROM DMFDetail A INNER JOIN Shop B ON A.ShopId = B.ShopId
+                    FROM #DMFDetail A INNER JOIN Shop B ON A.ShopId = B.ShopId
                                     INNER JOIN DMFItem C ON A.DMFItemId = C.DMFItemId
-                    WHERE NOT EXISTS(SELECT 1 FROM ExpenseAccount WHERE ShopId = A.ShopId AND DMFItemId = A.DMFItemId AND  ApplyStatus='通过')
+                    WHERE NOT EXISTS(SELECT 1 FROM #ExpenseAccount WHERE ShopId = A.ShopId AND DMFItemId = A.DMFItemId AND  ApplyStatus='通过')
                     ) X WHERE 1=1";
             if (!string.IsNullOrEmpty(dmfDetailId))
             {
@@ -134,6 +224,9 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND X.dmfItemName LIKE '%'+ @DMFItemName+ '%'";
             }
+            sql += " DROP TABLE #ExpenseAccount";
+            sql += " DROP TABLE #MonthSale";
+            sql += " DROP TABLE #DMFDetail";
             return db.Database.SqlQuery(t, sql, para).Cast<DMFDetailDto>().ToList();
         }
         public DMFDetail DMFDetailSave(DMFDetail dmfDetail)
@@ -172,12 +265,13 @@ namespace com.yrtech.InventoryAPI.Service
         public List<DMFDto> DMFSearch(string shopId)
         {
             if (shopId == null) shopId = "";
-             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
 
             Type t = typeof(DMFDto);
 
             string sql = "";
-            sql = @"                 
+            sql += MonthSaleDesryptSearch("", shopId, "");
+            sql += @"                 
                 SELECT DISTINCT A.ShopId,A.ShopCode,A.ShopName,A.ShopNameEn
 			                ,ISNULL(B.ActualMonthSaleCount,0) AS ActualMonthSaleCount
 			                ,ISNULL(B.ActualMonthSaleAmt,0) AS ActualMonthSaleAmt
@@ -185,13 +279,13 @@ namespace com.yrtech.InventoryAPI.Service
                             (SELECT ShopId
 		                            ,ISNULL(SUM(ActualSaleCount),0) AS ActualMonthSaleCount
 		                            ,ISNULL(SUM(ActualSaleAmt),0) AS ActualMonthSaleAmt
-                            FROM dbo.MonthSale GROUP BY ShopId) B ON A.ShopId = B.ShopId
+                            FROM #MonthSale GROUP BY ShopId) B ON A.ShopId = B.ShopId
                WHERE 1=1";
             if (!string.IsNullOrEmpty(shopId))
             {
                 sql += " AND A.ShopId = @ShopId";
             }
-            List<DMFDto> dmfList =  db.Database.SqlQuery(t, sql, para).Cast<DMFDto>().ToList();
+            List<DMFDto> dmfList = db.Database.SqlQuery(t, sql, para).Cast<DMFDto>().ToList();
 
             // 实际费用和差额赋值
             var detailList = DMFDetailSearch("", shopId, "", "").GroupBy(x => new { x.ShopId, x.ShopName, x.ShopNameEn }).Select(y => new
@@ -199,7 +293,7 @@ namespace com.yrtech.InventoryAPI.Service
                 ShopId = y.Key.ShopId,
                 ShopName = y.Key.ShopName,
                 ShopNameEn = y.Key.ShopNameEn,
-                ActualAmt = y.Sum(x => x.AcutalAmt)
+                ActualAmt = y.Sum(x => Convert.ToDecimal(x.AcutalAmt))
             }).ToList();
 
             foreach (DMFDto dmf in dmfList)
@@ -218,12 +312,13 @@ namespace com.yrtech.InventoryAPI.Service
         public List<DMFDto> DMFQuarterSearch(string shopId)
         {
             if (shopId == null) shopId = "";
-             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ShopId", shopId) };
 
             Type t = typeof(DMFDto);
 
             string sql = "";
-            sql = @"                 
+            sql += MonthSaleDesryptSearch("", shopId, "");
+            sql += @"                 
                 SELECT A.ShopId,A.ShopName,A.ShopNameEn,Y.Quarters
 	                ,ISNULL(SUM(Y.ActualSaleCount),0) AS ActualMonthSaleCount
 	                ,ISNULL(SUM(Y.ActualSaleAmt),0) AS ActualMonthSaleAmt
@@ -251,6 +346,118 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region ExpenseAccount
+        public string ExpenseAccountDecryptSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId)
+        {
+            if (expenseAccountId == null) expenseAccountId = "";
+            if (shopId == null) shopId = "";
+            if (dmfItemId == null) dmfItemId = "";
+            if (marketActionId == null) marketActionId = "";
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ExpenseAccountId", expenseAccountId),
+                                                    new SqlParameter("@ShopId", shopId),
+                                                    new SqlParameter("@DMFItemId", dmfItemId),
+                                                    new SqlParameter("@MarketActionId", marketActionId)};
+            Type t = typeof(ExpenseAccount);
+            string sql = "";
+            sql = @"SELECT * FROM ExpenseAccount A
+                    WHERE 1=1";
+            if (!string.IsNullOrEmpty(expenseAccountId))
+            {
+                sql += " AND A.ExpenseAccountId = @ExpenseAccountId";
+            }
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND A.ShopId = @ShopId";
+            }
+            if (!string.IsNullOrEmpty(dmfItemId))
+            {
+                sql += " AND A.DMFItemId = @DMFItemId";
+            }
+            if (!string.IsNullOrEmpty(marketActionId))
+            {
+                sql += " AND A.MarketActionId = @MarketActionId";
+            }
+
+            List<ExpenseAccount> list = db.Database.SqlQuery(t, sql, para).Cast<ExpenseAccount>().ToList();
+            string sqlReturn = @"CREATE TABLE #ExpenseAccount(
+	                                            [ExpenseAccountId] [int]  NOT NULL,
+	                                            [ShopId] [int] NULL,
+	                                            [DMFItemId] [int] NULL,
+	                                            [MarketActionId] [int] NULL,
+	                                            [ExpenseAmt] [decimal](19, 2) NULL,
+	                                            [ApplyStatus] [nvarchar](50) NULL,
+	                                            [ApprovalReason] [nvarchar](max) NULL,
+	                                            [ReplyStatus] [nvarchar](50) NULL,
+	                                            [ReplyReason] [nvarchar](max) NULL )";
+
+            foreach (ExpenseAccount expenseAccount in list)
+            {
+                sqlReturn += " INSERT INTO #ExpenseAccount VALUES('";
+                sqlReturn += expenseAccount.ExpenseAccountId + "','";
+                if (expenseAccount.ShopId == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else {
+                    sqlReturn += expenseAccount.ShopId + "','";
+                }
+                if (expenseAccount.DMFItemId == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else {
+                    sqlReturn += expenseAccount.DMFItemId  + "','";
+                }
+                if (expenseAccount.MarketActionId == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else
+                {
+                    sqlReturn += expenseAccount.MarketActionId + "','";
+                }
+                if (expenseAccount.ExpenseAmt == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else
+                {
+                    sqlReturn += TokenHelper.DecryptDES(expenseAccount.ExpenseAmt) + "','";
+                }
+                if (expenseAccount.ApplyStatus == null)
+                {
+                    sqlReturn += "null','";
+                }
+                else
+                {
+                    sqlReturn += expenseAccount.ApplyStatus + "','";
+                }
+                if (expenseAccount.ApprovalReason == null)
+                {
+                    sqlReturn += "null','";
+                }
+                else
+                {
+                    sqlReturn += expenseAccount.ApprovalReason + "','";
+                }
+                if (expenseAccount.ReplyStatus == null)
+                {
+                    sqlReturn += "null','";
+                }
+                else
+                {
+                    sqlReturn += expenseAccount.ReplyStatus + "','";
+                }
+                if (expenseAccount.ReplyReason == null)
+                {
+                    sqlReturn += "null')";
+                }
+                else
+                {
+                    sqlReturn += expenseAccount.ReplyReason + "')";
+                }
+            }
+            return sqlReturn;
+        }
         public List<ExpenseAccountDto> ExpenseAccountSearch(string expenseAccountId, string shopId, string dmfItemId, string marketActionId)
         {
             if (expenseAccountId == null) expenseAccountId = "";
@@ -398,12 +605,88 @@ namespace com.yrtech.InventoryAPI.Service
         }
         #endregion
         #region MonthSale
-        public List<MonthSaleDto> MonthSaleSearch(string monthSaleId, string shopId,string yearMonth)
+        public string MonthSaleDesryptSearch(string monthSaleId, string shopId, string yearMonth)
         {
             if (monthSaleId == null) monthSaleId = "";
             if (shopId == null) shopId = "";
             if (yearMonth == null) yearMonth = "";
-            
+
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MonthSaleId", monthSaleId),
+                                                    new SqlParameter("@ShopId", shopId),
+                                                 new SqlParameter("@YearMonth", yearMonth)};
+
+            Type t = typeof(MonthSale);
+
+            string sql = "";
+            sql = @"SELECT * 
+                    FROM MonthSale A
+                    WHERE 1=1";
+            if (!string.IsNullOrEmpty(monthSaleId))
+            {
+                sql += " AND MonthSaleId = @MonthSaleId";
+            }
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND A.ShopId = @ShopId";
+            }
+            if (!string.IsNullOrEmpty(yearMonth))
+            {
+                sql += " AND A.YearMonth = @YearMonth";
+            }
+            List<MonthSale> list =  db.Database.SqlQuery(t, sql, para).Cast<MonthSale>().ToList();
+            string sqlReturn = @"CREATE TABLE #MonthSale(
+	                                                [MonthSaleId] [int]  NOT NULL,
+	                                                [YearMonth] [nvarchar](500) NULL,
+	                                                [ShopId] [int] NULL,
+	                                                [ActualSaleCount] [int] NULL,
+	                                                [ActualSaleAmt] [decimal](19, 2) NULL)";
+
+            foreach (MonthSale monthSale in list)
+            {
+                sqlReturn += " INSERT INTO #MonthSale VALUES(";
+                sqlReturn += monthSale.MonthSaleId + ",'";
+                if (monthSale.YearMonth == null)
+                {
+                    sqlReturn += "null','";
+                }
+                else
+                {
+                    sqlReturn += monthSale.YearMonth + "','";
+                }
+                if (monthSale.ShopId == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else
+                {
+                    sqlReturn += monthSale.ShopId + "','";
+                }
+                if (monthSale.ActualSaleCount == null)
+                {
+                    sqlReturn += "0','";
+                }
+                else
+                {
+                    sqlReturn += TokenHelper.DecryptDES(monthSale.ActualSaleCount) + "','";
+                }if (monthSale.ActualSaleAmt == null)
+                {
+                    sqlReturn += "0')";
+
+                }
+                else
+                {
+                    sqlReturn += TokenHelper.DecryptDES(monthSale.ActualSaleAmt) + "')";
+                }
+            }
+            return sqlReturn;
+        }
+        public List<MonthSaleDto> MonthSaleSearch(string monthSaleId, string shopId, string yearMonth)
+        {
+            if (monthSaleId == null) monthSaleId = "";
+            if (shopId == null) shopId = "";
+            if (yearMonth == null) yearMonth = "";
+
 
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MonthSaleId", monthSaleId),
                                                     new SqlParameter("@ShopId", shopId),

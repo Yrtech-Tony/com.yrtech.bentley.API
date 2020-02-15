@@ -16,7 +16,7 @@ namespace com.yrtech.InventoryAPI.DTO
         public string DMFItemNameEn { get; set; }
         public Nullable<int> MarketActionId { get; set; }
         public string ActionName{get;set;}
-        public Nullable<decimal> ExpenseAmt { get; set; }
+        public string ExpenseAmt { get; set; }
         public string ApplyStatus { get; set; }
         public string ApprovalReason { get; set; }
         public string ReplyStatus { get; set; }

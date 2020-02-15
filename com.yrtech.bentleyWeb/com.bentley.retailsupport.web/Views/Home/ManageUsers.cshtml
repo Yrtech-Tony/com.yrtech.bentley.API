@@ -99,7 +99,10 @@
             $.commonGet("/Master/UserInfoSearch", {
                 userId: '',
                 accountId: '',
-                accountName: ''
+                accountName: '',
+                shopCode: '',
+                shopName: '',
+                email:''
             }, function (data) {
                 $('#userTable').bootstrapTable("load", data);
             })

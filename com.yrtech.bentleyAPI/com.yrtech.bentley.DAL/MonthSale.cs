@@ -17,8 +17,8 @@ namespace com.yrtech.bentley.DAL
         public int MonthSaleId { get; set; }
         public string YearMonth { get; set; }
         public Nullable<int> ShopId { get; set; }
-        public Nullable<int> ActualSaleCount { get; set; }
-        public Nullable<decimal> ActualSaleAmt { get; set; }
+        public string ActualSaleCount { get; set; }
+        public string ActualSaleAmt { get; set; }
         public Nullable<int> InUserId { get; set; }
         public Nullable<System.DateTime> InDateTime { get; set; }
         public Nullable<int> ModifyUserId { get; set; }

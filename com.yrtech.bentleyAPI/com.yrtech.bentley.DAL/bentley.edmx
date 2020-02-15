@@ -39,8 +39,8 @@
           <Property Name="DMFDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ShopId" Type="int" />
           <Property Name="DMFItemId" Type="int" />
-          <Property Name="Budget" Type="decimal" Precision="19" Scale="2" />
-          <Property Name="AcutalAmt" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="Budget" Type="nvarchar(max)" />
+          <Property Name="AcutalAmt" Type="nvarchar(max)" />
           <Property Name="Remark" Type="nvarchar(max)" />
           <Property Name="InUserId" Type="int" />
           <Property Name="InDateTime" Type="datetime" />
@@ -86,7 +86,7 @@
           <Property Name="ShopId" Type="int" />
           <Property Name="DMFItemId" Type="int" />
           <Property Name="MarketActionId" Type="int" />
-          <Property Name="ExpenseAmt" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="ExpenseAmt" Type="nvarchar(max)" />
           <Property Name="ApplyStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="ApprovalReason" Type="nvarchar(max)" />
           <Property Name="ReplyStatus" Type="nvarchar" MaxLength="50" />
@@ -424,8 +424,8 @@
           <Property Name="MonthSaleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="YearMonth" Type="nvarchar" MaxLength="500" />
           <Property Name="ShopId" Type="int" />
-          <Property Name="ActualSaleCount" Type="int" />
-          <Property Name="ActualSaleAmt" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="ActualSaleCount" Type="nvarchar(max)" />
+          <Property Name="ActualSaleAmt" Type="nvarchar(max)" />
           <Property Name="InUserId" Type="int" />
           <Property Name="InDateTime" Type="datetime" />
           <Property Name="ModifyUserId" Type="int" />
@@ -696,10 +696,10 @@
           <EntitySet Name="MarketActionAfter7" EntityType="BentleyModel.MarketActionAfter7" />
           <EntitySet Name="MarketActionBefore21" EntityType="BentleyModel.MarketActionBefore21" />
           <EntitySet Name="ExpenseAccountFile" EntityType="BentleyModel.ExpenseAccountFile" />
-          <EntitySet Name="MonthSale" EntityType="BentleyModel.MonthSale" />
-          <EntitySet Name="ExpenseAccount" EntityType="BentleyModel.ExpenseAccount" />
           <EntitySet Name="MarketAction" EntityType="BentleyModel.MarketAction" />
+          <EntitySet Name="ExpenseAccount" EntityType="BentleyModel.ExpenseAccount" />
           <EntitySet Name="DMFDetail" EntityType="BentleyModel.DMFDetail" />
+          <EntitySet Name="MonthSale" EntityType="BentleyModel.MonthSale" />
         </EntityContainer>
         <EntityType Name="UserInfo">
           <Key>
@@ -976,38 +976,6 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="MonthSale">
-          <Key>
-            <PropertyRef Name="MonthSaleId" />
-          </Key>
-          <Property Name="MonthSaleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="YearMonth" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ShopId" Type="Int32" />
-          <Property Name="ActualSaleCount" Type="Int32" />
-          <Property Name="ActualSaleAmt" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="ExpenseAccount">
-          <Key>
-            <PropertyRef Name="ExpenseAccountId" />
-          </Key>
-          <Property Name="ExpenseAccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ShopId" Type="Int32" />
-          <Property Name="DMFItemId" Type="Int32" />
-          <Property Name="MarketActionId" Type="Int32" />
-          <Property Name="ExpenseAmt" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="ApplyStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ApprovalReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ReplyStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ReplyReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="MarketAction">
           <Key>
             <PropertyRef Name="MarketActionId" />
@@ -1028,6 +996,24 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="ExpenseAccount">
+          <Key>
+            <PropertyRef Name="ExpenseAccountId" />
+          </Key>
+          <Property Name="ExpenseAccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShopId" Type="Int32" />
+          <Property Name="DMFItemId" Type="Int32" />
+          <Property Name="MarketActionId" Type="Int32" />
+          <Property Name="ExpenseAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApplyStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovalReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReplyReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="DMFDetail">
           <Key>
             <PropertyRef Name="DMFDetailId" />
@@ -1035,9 +1021,23 @@
           <Property Name="DMFDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ShopId" Type="Int32" />
           <Property Name="DMFItemId" Type="Int32" />
-          <Property Name="Budget" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="AcutalAmt" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="Budget" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AcutalAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MonthSale">
+          <Key>
+            <PropertyRef Name="MonthSaleId" />
+          </Key>
+          <Property Name="MonthSaleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YearMonth" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ShopId" Type="Int32" />
+          <Property Name="ActualSaleCount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ActualSaleAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InUserId" Type="Int32" />
           <Property Name="InDateTime" Type="DateTime" Precision="3" />
           <Property Name="ModifyUserId" Type="Int32" />
@@ -1480,18 +1480,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MonthSale">
-            <EntityTypeMapping TypeName="BentleyModel.MonthSale">
-              <MappingFragment StoreEntitySet="MonthSale">
+          <EntitySetMapping Name="MarketAction">
+            <EntityTypeMapping TypeName="BentleyModel.MarketAction">
+              <MappingFragment StoreEntitySet="MarketAction">
                 <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
                 <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
                 <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
                 <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="ActualSaleAmt" ColumnName="ActualSaleAmt" />
-                <ScalarProperty Name="ActualSaleCount" ColumnName="ActualSaleCount" />
+                <ScalarProperty Name="ExpenseAccount" ColumnName="ExpenseAccount" />
+                <ScalarProperty Name="ActionPlace" ColumnName="ActionPlace" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="MarketActionTargetModelCode" ColumnName="MarketActionTargetModelCode" />
+                <ScalarProperty Name="MarketActionStatusCode" ColumnName="MarketActionStatusCode" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
+                <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
                 <ScalarProperty Name="ShopId" ColumnName="ShopId" />
-                <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
-                <ScalarProperty Name="MonthSaleId" ColumnName="MonthSaleId" />
+                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1514,27 +1520,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MarketAction">
-            <EntityTypeMapping TypeName="BentleyModel.MarketAction">
-              <MappingFragment StoreEntitySet="MarketAction">
-                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="ExpenseAccount" ColumnName="ExpenseAccount" />
-                <ScalarProperty Name="ActionPlace" ColumnName="ActionPlace" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="MarketActionTargetModelCode" ColumnName="MarketActionTargetModelCode" />
-                <ScalarProperty Name="MarketActionStatusCode" ColumnName="MarketActionStatusCode" />
-                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
-                <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
-                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DMFDetail">
             <EntityTypeMapping TypeName="BentleyModel.DMFDetail">
               <MappingFragment StoreEntitySet="DMFDetail">
@@ -1548,6 +1533,21 @@
                 <ScalarProperty Name="DMFItemId" ColumnName="DMFItemId" />
                 <ScalarProperty Name="ShopId" ColumnName="ShopId" />
                 <ScalarProperty Name="DMFDetailId" ColumnName="DMFDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MonthSale">
+            <EntityTypeMapping TypeName="BentleyModel.MonthSale">
+              <MappingFragment StoreEntitySet="MonthSale">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="ActualSaleAmt" ColumnName="ActualSaleAmt" />
+                <ScalarProperty Name="ActualSaleCount" ColumnName="ActualSaleCount" />
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
+                <ScalarProperty Name="MonthSaleId" ColumnName="MonthSaleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

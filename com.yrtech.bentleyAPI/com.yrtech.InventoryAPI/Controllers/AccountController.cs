@@ -13,13 +13,13 @@ namespace com.yrtech.InventoryAPI.Controllers
     {
         AccountService accountService = new AccountService();
 
-        [HttpGet]
+        [HttpPost]
         [Route("Account/Login")]
-        public APIResult Login(string accountId, string password)
+        public APIResult Login(AccountDto account)
         {
             try
             {
-                List<AccountDto> accountlist = accountService.Login(accountId, password);
+                List<AccountDto> accountlist = accountService.Login(account.AccountId, account.Password);
                 if (accountlist != null && accountlist.Count != 0)
                 {
                     string roleTypeCode = accountlist[0].RoleTypeCode;

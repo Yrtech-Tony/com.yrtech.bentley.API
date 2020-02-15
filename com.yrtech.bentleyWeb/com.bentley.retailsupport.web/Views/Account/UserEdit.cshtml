@@ -202,7 +202,10 @@
                 $.commonGet("Master/UserInfoSearch", {
                     userId: id,
                     accountId: '',
-                    accountName: ''
+                    accountName: '',
+                    shopCode: '',
+                    shopName: '',
+                    email:''
                 }, function (data) {
                     if (data && data.length > 0) {
                         $('#userCreate').setForm(data[0]);

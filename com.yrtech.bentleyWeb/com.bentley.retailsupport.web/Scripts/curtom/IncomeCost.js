@@ -184,12 +184,15 @@ function InitIncomeCostList() {
             if (row.YearMonth && row.ShopId) {
                 row.InUserId = $("#G_UserId").val();
                 row.ModifyUserId = $("#G_UserId").val();
+                row.ActualSaleCount = DESEncrypt(row.ActualSaleCount);
+                row.ActualSaleAmt = DESEncrypt(row.ActualSaleAmt);
                 $.commonPost("DMF/MonthSaleSave", row, function (data) {
                     if (data) {
                         row.MonthSaleId  = data.MonthSaleId ;
                     }
                     curRow = row;
                     IsEdit = true;
+                    loadMonthSale();
                 }, function (msg) {
                     var error = isZH() ? '编辑失败!' : 'Edit failure!';
                     error += (msg ||'')

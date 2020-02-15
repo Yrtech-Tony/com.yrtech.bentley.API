@@ -171,6 +171,8 @@
     <script src="~/Scripts/api/common.js"></script>
     <script src="~/Scripts/curtom/BudgetCost.js"></script>
     <script src="~/Scripts/xlsx.core.min.js"></script>
+    <script src="~/Scripts/crypto-js.js"></script>
+    <script src="~/Scripts/curtom/DESUtil.js"></script>
 
     <script type="text/javascript">
         if (!$("#ShopId").val()) {
@@ -288,8 +290,8 @@
             var sumBuget = 0;
             var sumCost = 0;
             for (var i = start; i < end; i++) {
-                sumBuget += rows[i]["Budget"];
-                sumCost += rows[i]["AcutalAmt"];
+                sumBuget += parseFloat(rows[i]["Budget"]);
+                sumCost += parseFloat(rows[i]["AcutalAmt"]);
             }
             $("#totalDiv").html("<span>" + (isZH() ? "预算花费总计" : "Total Budget Amount") + "：" + dealNumber(sumBuget) + "</span/> &nbsp;&nbsp; &nbsp;&nbsp; " + (isZH() ? "实际花费总计" : "Total Actual Expense") + "：" + dealNumber(sumCost));
 

@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    <div id="main-content">                       
+                    <div id="main-content">
                         <div class="container-fluid">
                             <p id="phbuttons">
                                 <a class="btn btn-primary" style="margin-left:2px;" onclick="uploadFile()"><i class="icon-upload-alt"></i><span translate>Import</span></a>
@@ -111,6 +111,8 @@
     <script src="~/Scripts/api/common.js?20200202"></script>
     <script src="~/Scripts/curtom/IncomeCost.js"></script>
     <script src="~/Scripts/xlsx.core.min.js"></script>
+    <script src="~/Scripts/crypto-js.js"></script>
+    <script src="~/Scripts/curtom/DESUtil.js"></script>
 
     <script type="text/javascript">
         $("#nav_IncomeCost").addClass("active");
@@ -141,11 +143,11 @@
             InitIncomeCostList();
             loadMonthSale();
         })
-        
+
         function NameQuery() {
             loadMonthSale();
         }
-        
+
         function loadMonthSale() {
             $.commonGet("DMF/MonthSaleSearch", {
                 monthSaleId: '',

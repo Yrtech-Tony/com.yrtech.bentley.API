@@ -57,6 +57,7 @@ namespace com.bentley.retailsupport.web.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult TokenLogin(string token)
         {
             HttpClient client = new HttpClient();
@@ -65,8 +66,8 @@ namespace com.bentley.retailsupport.web.Controllers
             //添加请求的头文件
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             //发送请求并接受返回的值
-            String shop = TokenHelper.DecryptDES(token);
-            string getUserApi = string.Format("bentley/api/Master/UserInfoSearch?userId=&accountId=&accountName={0}&shopCode=&shopName", shop);
+            String email = TokenHelper.DecryptDES(token);
+            string getUserApi = string.Format("bentley/api/Master/UserInfoSearch?userId=&accountId=&accountName=&shopCode=&shopName&email={0}", email);
             HttpResponseMessage message = client.GetAsync(getUserApi).Result;
             string json = message.Content.ReadAsStringAsync().Result;
             APIResult result = CommonHelper.DecodeString<APIResult>(json);
@@ -77,8 +78,13 @@ namespace com.bentley.retailsupport.web.Controllers
                 {
                    string AccountId = userList[0].AccountId;
                    string password = userList[0].Password;
-                   string loginApi = string.Format("bentley/api/Account/Login?accountId={0}&password={1}", AccountId, password);
-                   message = client.GetAsync(loginApi).Result;
+                   Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                   keyValues.Add("accountId", AccountId);
+                   keyValues.Add("password", password);
+                   HttpContent content = new FormUrlEncodedContent(keyValues);
+                   string loginApi = string.Format("bentley/api/Account/Login", AccountId, password);
+                   content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                   message = client.PostAsync(loginApi, content).Result;//改成自己的
                    json = message.Content.ReadAsStringAsync().Result;
                    result = CommonHelper.DecodeString<APIResult>(json);
                    List<AccountDto> accountList = CommonHelper.DecodeString<List<AccountDto>>(result.Body);
@@ -87,7 +93,11 @@ namespace com.bentley.retailsupport.web.Controllers
                        AccountDto user = accountList[0];
                        Session["LoginUser"] = user;
                        FormsAuthentication.SetAuthCookie(user.AccountId, false);
-                   }                   
+                   }
+                }
+                else
+                {
+                    throw new Exception("没有查询到用户信息！");
                 }
             }
             else

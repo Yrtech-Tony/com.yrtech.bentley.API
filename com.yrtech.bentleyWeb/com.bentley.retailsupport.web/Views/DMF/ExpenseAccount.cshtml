@@ -54,7 +54,7 @@
     <input id="NAE" type="hidden" value="{{'Non-approval Explanation'|translate}}" />
     <input id="ExpenseItem" type="hidden" value="{{'Tick-box Item'|translate}}" />
     <input id="_hd_dealName" type="hidden" value="" />
-    <input id="ShopId" type="hidden" value="" />    
+    <input id="ShopId" type="hidden" value="" />
 </div>
 <div id="page-wrapper">
     <!--BEGIN CONTENT-->
@@ -121,6 +121,8 @@
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
     <script src="~/Scripts/curtom/Reimbursement.js"></script>
+    <script src="~/Scripts/crypto-js.js"></script>
+    <script src="~/Scripts/curtom/DESUtil.js"></script>
     <script type="text/javascript">
         $("#nav_reimbursement").addClass("active");
 
@@ -144,14 +146,14 @@
                     var shopName = isZH() ? shop.ShopName : shop.ShopNameEn;
                     $('#_hd_dealName').val(shopName);
                     $('#ShopId').val(shop.ShopId);
-                }                
+                }
             } else {
                 loadShops().forEach(function (item) {
                     var shopName = isZH() ? item.ShopName : item.ShopNameEn;
                     $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
-                });                
-            }           
-           
+                });
+            }
+
             $.ajaxSettings.async = false;
             $.commonGet("DMF/DMFItemSearch", {
                 DMFItemId: '',
@@ -166,7 +168,7 @@
                     })
                 }
             });
-            
+
             $.commonGet("MarketAction/MarketActionNotCancelSearch", {
                 eventTypeId: ' ',
                 userId: $("#G_UserId").val(),
@@ -180,7 +182,7 @@
             });
             $.ajaxSettings.async = true;
             if (window.localStorage) {
-                $('#pdealer').val(window.localStorage["_reimbursement"]||'');
+                $('#pdealer').val(window.localStorage["_reimbursement"] || '');
             }
 
             var clientWidth = document.body.clientWidth;
@@ -192,12 +194,12 @@
                     loadExpenseAccount();
                 }
             });
-           
+
             InitMarketFundLst();
             HidenField();
             loadExpenseAccount();
         })
-            
+
         function downloadFile() {
             $.commonGet("DMF/ExpenseAccountExport", { shopId: $("#pdealer").val() }, function (data) {
                 if (data) {
@@ -209,7 +211,7 @@
         function NameQuery() {
             if (window.localStorage) {
                 var storage = window.localStorage;
-                storage["_reimbursement"] = $('#pdealer').val();               
+                storage["_reimbursement"] = $('#pdealer').val();
             }
             if ($('#pdealer').length > 0) {
                 if ($('#pdealer').val()) {
@@ -231,7 +233,7 @@
             window.localStorage.Empty = "true";
         }
 
-        function HidenField() {            
+        function HidenField() {
             if (roleType == 'SHOP') {
                 $table.bootstrapTable('hideColumn', 'Ischecked');
             }
@@ -240,7 +242,7 @@
         function loadExpenseAccount() {
             $.commonGet("DMF/ExpenseAccountSearch", {
                 expenseAccountId: '',
-                shopId: $('#pdealer').val()||'',
+                shopId: $('#pdealer').val() || '',
                 dmfItemId: '',
                 marketActionId: '',
                 userId: $('#G_UserId').val(),

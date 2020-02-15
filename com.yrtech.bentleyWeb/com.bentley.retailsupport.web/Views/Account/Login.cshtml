@@ -27,6 +27,8 @@
     <script src="~/Scripts/bootstrapValidator/js/language/zh_CN.js"></script>
     <script src="~/Scripts/api/common.js"></script>
     <script src="/Scripts/bower_components/layer/layer.js"></script>
+    <script src="~/Scripts/crypto-js.js"></script>
+    <script src="~/Scripts/curtom/DESUtil.js"></script>
     <script>
 
         var app = angular.module("MyApp", ['gettext']);
@@ -56,11 +58,13 @@
                 setTimeout(function () { $("#Password").popover("hide"); }, 1000);
                 return;
             }
-
+            
+            var password = $("#Password").val();
+            password = DESEncrypt(password);
             $("#btnLogin").button('loading');
-            $.get(baseApi + "Account/Login", {
+            $.post(baseApi + "Account/Login", {
                 accountId: $("#UserName").val(),
-                password: $("#Password").val()
+                password: password
             }, function (data) {
                 if (data && data.Status) {
                     $.post("../Account/AfterLogin", { loginUser: data.Body }, function () {

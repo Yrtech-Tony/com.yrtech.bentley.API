@@ -234,12 +234,16 @@ function InitDMFDetail() {
             if (row.DMFItemId && row.ShopId) {
                 row.InUserId = $("#G_UserId").val();
                 row.ModifyUserId = $("#G_UserId").val();
+                row.Budget = DESEncrypt(row.Budget);
+                row.AcutalAmt = DESEncrypt(row.AcutalAmt);
+
                 $.commonPost("DMF/DMFDetailSave", row, function (data) {
                     if (data) {
                         row.DMFDetailId = data.DMFDetailId;
                     }
                     curRow = row;
                     IsEdit = true;
+                    loadDMFDetailOrQuarter();
                 }, function (msg) {
                     var error = isZH() ? '编辑失败!' : 'Edit failure!';
                     error += (msg || '')

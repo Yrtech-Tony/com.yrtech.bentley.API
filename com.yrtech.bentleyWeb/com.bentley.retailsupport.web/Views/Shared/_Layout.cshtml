@@ -135,6 +135,7 @@
     <input id="G_RoleTypeCode" type="hidden" value="@LoginUser.RoleTypeCode" />
     <input id="G_AccountName" type="hidden" value="@LoginUser.AccountName" />
     <input id="G_AccountNameEn" type="hidden" value="@LoginUser.AccountNameEn" />
+    <input id="G_Email" type="hidden" value="@LoginUser.Email" />
     <input id="G_Shops" type="hidden" value="@Json.Encode(LoginUser.ShopList)" />
 
     <input id="G_ResetPassword" type="hidden" value="{{'ResetPassword'|translate}}" />
@@ -206,9 +207,6 @@
                 <span id="yearDisplay" style="line-height: 45px; font-size: 28px; font-family: 黑体; color: aquamarine; ">
                     2020
                 </span>
-                @*<span style="width: 50%; line-height: 40px; text-align: center; font-size: 18px; ">
-                    <a href="javascript:window.open('http://39.106.71.65:8019/')" style="font-family: 黑体"> >>>2019年数据入口</a>
-                </span>*@
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
 
                     <li class="dropdown topbar-user">
@@ -217,6 +215,7 @@
                             <li><a href="javascript:" onclick="ChangeLanguage()" id="setLanguage"><i class="fa fa-star"></i><span translate>To Chinese</span></a></li>
                             <li><a href="/Account/ResetPassword"><i class="fa fa-key"></i><span translate>Change Password</span></a></li>
                             <li><a href="/Account/Logout"><i class="fa fa-lock"></i><span translate>Logout</span></a></li>
+                            <li><a href="javascript:openHisData()"><i class="fa fa-lock"></i><span>2019年数据入口</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -370,6 +369,10 @@
             </div>
         </nav>
         @RenderBody()
+
+        <form id="tokenForm">
+            <input id="token" name="token" type="hidden" value="" />
+        </form>
     </div>
 
     <script src="/Scripts/Dark/jquery-migrate-1.2.1.min.js"></script>
@@ -443,7 +446,7 @@
 
         });
     </script>
-
+    <script src="~/Scripts/crypto-js.js"></script>
     <script>
 
         var app = angular.module("MyApp", ['gettext']);
@@ -511,6 +514,26 @@
             }
 
             setTimeout("window.location.reload()", 200);
+        }
+
+        function openHisData() {
+            var email = $("#G_Email").val();
+            $.get("http://retailmarketing.bentleydmn.com:8099/Token/api/Token/TokenCreate", {
+                encryptString: email || ''
+            }, function (data) {
+                debugger
+                console.log(data);
+                if (data && data.Status) {
+                    $("#tokenForm").attr("action", "/Account/TokenLogin");
+                    $("#tokenForm").attr("method", "post");
+                    $("#token").val(data.Body);
+                    $("#tokenForm").submit();
+                } else {
+                    console.log(" execute error " + data.Body);
+                }
+            }).error(function (jqXHR, textStatus, errorThrown) {
+                console.log(url + " execute error ");
+            })         
         }
 
         //切换数据库

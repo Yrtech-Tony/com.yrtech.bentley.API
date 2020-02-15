@@ -280,12 +280,14 @@ function InitMarketFundLst() {
         onEditableSave: function (field, row, oldValue, $el) {
             row.InUserId = $("#G_UserId").val();
             row.ModifyUserId = $("#G_UserId").val();
+            row.ExpenseAmt = DESEncrypt(row.ExpenseAmt);
             $.commonPost("DMF/ExpenseAccountSave", row, function (data) {
                 if (data) {
                     row.ExpenseAccountId = data.ExpenseAccountId;
                 }
                 curRow = row;
                 IsEdit = true;
+                loadExpenseAccount();
             }, function (msg) {
                 var error = isZH() ? '编辑失败!' : 'Edit failure!';
                 error += (msg || '')

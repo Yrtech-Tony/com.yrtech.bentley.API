@@ -87,7 +87,7 @@
                                                 <span class="span12">
                                                     <div id="formsousuo" style="margin-bottom:5px">
                                                         <a class="btn btn-default" href="javascript:;" onclick="Add()"><i class="glyphicon glyphicon-plus"></i><span translate>Add</span></a>
-                                                        <a class="btn btn-default" href="javascript:;" onclick="Del()"><i class="glyphicon glyphicon-trash"></i><span translate>Delete</span></a>
+                                                        <a id="delBtn" class="btn btn-default" href="javascript:;" onclick="Del()"><i class="glyphicon glyphicon-trash"></i><span translate>Delete</span></a>
                                                         <select class="input-small m-wrap no-margin" id="pdealer" name="pdealer" style="background-color: white;" onchange="NameQuery()">
                                                             <option value="" translate>Dealer Name</option>
                                                         </select>
@@ -140,6 +140,7 @@
         var account = $("#G_AccountId").val();
         $(function () {
             if (roleType != "SYSADMIN") {
+                $("#delBtn").remove();
                 $("#pdealer").remove();
                 var shop = loadShops()[0];
                 if (shop) {
@@ -148,6 +149,7 @@
                     $('#ShopId').val(shop.ShopId);
                 }
             } else {
+               
                 loadShops().forEach(function (item) {
                     var shopName = isZH() ? item.ShopName : item.ShopNameEn;
                     $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));

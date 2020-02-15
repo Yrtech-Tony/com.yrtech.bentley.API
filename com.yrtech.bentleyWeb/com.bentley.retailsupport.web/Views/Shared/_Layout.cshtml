@@ -521,10 +521,8 @@
             $.get("http://retailmarketing.bentleydmn.com:8099/Token/api/Token/TokenCreate", {
                 encryptString: email || ''
             }, function (data) {
-                debugger
-                console.log(data);
                 if (data && data.Status) {
-                    $("#tokenForm").attr("action", "/Account/TokenLogin");
+                    $("#tokenForm").attr("action", "http://retailmarketing.bentleydmn.com:8019/Account/TokenLogin");
                     $("#tokenForm").attr("method", "post");
                     $("#token").val(data.Body);
                     $("#tokenForm").submit();

@@ -74,7 +74,7 @@ namespace com.bentley.retailsupport.web.Controllers
             if (result != null && result.Status)
             {
                 List<UserInfoDto> userList = CommonHelper.DecodeString<List<UserInfoDto>>(result.Body);
-                if (userList != null && userList.Count > 0)
+                if (userList != null && userList.Count == 0)
                 {
                    string AccountId = userList[0].AccountId;
                    string password = userList[0].Password;
@@ -95,14 +95,18 @@ namespace com.bentley.retailsupport.web.Controllers
                        FormsAuthentication.SetAuthCookie(user.AccountId, false);
                    }
                 }
+                else if (userList != null && userList.Count >1)
+                {
+                    throw new Exception("经销商信息重复，请联系管理员！");
+                }
                 else
                 {
-                    throw new Exception("没有查询到用户信息！");
+                    throw new Exception("该经销商数据在系统不存在，请联系管理员！");
                 }
             }
             else
             {
-                throw new Exception("查询用户信息失败！");
+                throw new Exception("查询经销商信息失败！" + result.Body);
             }
 
             return this.Redirect("~/");

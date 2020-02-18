@@ -121,6 +121,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Attributes\AuthenAdminAttribute.cs" />
     <Compile Include="Attributes\CustomHandleErrorAttribute.cs" />
+    <Compile Include="Attributes\ErrorFilter.cs" />
     <Compile Include="Attributes\LogFilter.cs" />
     <Compile Include="Common\APIResult.cs" />
     <Compile Include="Common\CommonHelper.cs" />
@@ -401,6 +402,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\xlsx.core.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="TestTokenLogin.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

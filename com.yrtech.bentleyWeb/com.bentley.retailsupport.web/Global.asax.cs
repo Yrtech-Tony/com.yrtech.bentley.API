@@ -18,8 +18,6 @@ namespace com.bentley.retailsupport.web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            Debug.WriteLine(TokenHelper.EncryptDES("宾利青岛"));
         }
     }
 }

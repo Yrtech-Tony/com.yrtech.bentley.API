@@ -11,8 +11,18 @@
 </head>
 <body>
     <hgroup>
-        <h1>错误。</h1>
-        <h2>处理你的请求时出错。</h2>
+        <h1>@ViewData["errorMsg"] <span id="delayMsg">5秒后跳转到登录界面！</span></h1>
     </hgroup>
+    <script>
+        var delay = 1;        
+        setInterval(function () {
+            var curRemin = 5 - delay;
+            delayMsg.innerHTML = curRemin+"秒后跳转到登录界面！";
+            if (curRemin <= 0) {
+                window.location.href = "/Account/Login";
+            }
+            delay++;
+        },1000)
+    </script>
 </body>
 </html>

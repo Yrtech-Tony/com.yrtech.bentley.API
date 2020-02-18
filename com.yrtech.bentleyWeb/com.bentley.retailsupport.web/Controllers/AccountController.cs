@@ -74,7 +74,7 @@ namespace com.bentley.retailsupport.web.Controllers
             if (result != null && result.Status)
             {
                 List<UserInfoDto> userList = CommonHelper.DecodeString<List<UserInfoDto>>(result.Body);
-                if (userList != null && userList.Count == 0)
+                if (userList != null && userList.Count == 1)
                 {
                    string AccountId = userList[0].AccountId;
                    string password = userList[0].Password;

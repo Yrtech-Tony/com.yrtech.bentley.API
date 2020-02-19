@@ -228,11 +228,11 @@ namespace com.yrtech.InventoryAPI.Controllers
                 {
                     return new APIResult() { Status = false, Body = "保存失败,账号重复" };
                 }
-                List<UserInfoDto> userInfoList1 = masterService.UserInfoSearch("", "", userInfo.AccountName,"","","");
-                if (userInfoList1 != null && userInfoList1.Count != 0 && userInfoList1[0].UserId != userInfo.UserId)
-                {
-                    return new APIResult() { Status = false, Body = "保存失败,账号名称重复" };
-                }
+                //List<UserInfoDto> userInfoList1 = masterService.UserInfoSearch("", "", userInfo.AccountName,"","","");
+                //if (userInfoList1 != null && userInfoList1.Count != 0 && userInfoList1[0].UserId != userInfo.UserId)
+                //{
+                //    return new APIResult() { Status = false, Body = "保存失败,账号名称重复" };
+                //}
                 userInfo = masterService.UserInfoSave(userInfo);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfo) };
             }

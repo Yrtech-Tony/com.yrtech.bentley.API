@@ -105,6 +105,7 @@
                 email:''
             }, function (data) {
                 $('#userTable').bootstrapTable("load", data);
+                $("#userTable").bootstrapTable("selectPage", parseInt(window.localStorage.pageNumberUser) || 1);
             })
         }
         loadUser();

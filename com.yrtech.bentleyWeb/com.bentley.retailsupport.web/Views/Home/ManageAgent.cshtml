@@ -104,6 +104,7 @@
                 shopNameEn: ''
             }, function (data) {
                 $('#AgentTable').bootstrapTable("load", data);
+                $("#AgentTable").bootstrapTable("selectPage", parseInt(window.localStorage.pageNumberAgent) || 1);
             })
         }
         loadAgent();

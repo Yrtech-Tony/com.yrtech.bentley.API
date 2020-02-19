@@ -47,5 +47,8 @@ $('#ActionTypeTable').bootstrapTable({
             var e = '<a href="/Home/ActionTypeEdit?Id=' + value + '" class="btn btn-link" style="width:auto !important"><i class="icon-pencil icon-white"></i>' + $('#G_Edit').val() + '</a>';
             return e;
         }
-    }]
+    }],
+    onPageChange: function (number, size) {
+        window.localStorage.pageNumberMA = number;
+    }
 });

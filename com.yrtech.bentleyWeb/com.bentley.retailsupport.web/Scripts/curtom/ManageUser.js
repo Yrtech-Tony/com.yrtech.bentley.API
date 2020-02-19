@@ -37,11 +37,14 @@ $('#userTable').bootstrapTable({
             //e += '<a href="/Account/ResetToPassword?Id=' + value + '" onclick="return reset_confirm()" class="btn btn-link" style="width:auto !important"><i class="fa fa-key"></i>' + $('#G_ResetPassword').val() + '</a>';
             return e;
         }
-    }]
+    }],
+    onPageChange: function (number, size) {
+        window.localStorage.pageNumberUser = number;
+    }
 });
 
 function del(id) {
-    var row = [{ UserId: id }];
+    var rows = [{ UserId: id }];
     $.commonPost("Master/UserInfoDelete", {
         ListJson:JSON.stringify( rows)
     }, function () {

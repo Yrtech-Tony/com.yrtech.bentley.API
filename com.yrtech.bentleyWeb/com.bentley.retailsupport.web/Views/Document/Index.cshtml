@@ -183,14 +183,16 @@
 
                     columns.push(firstHearder);
                     columns.push(secondHearder);
-                    console.log(columns)
+
                     if (shopid) {
                         $("#myPromotion").bootstrapTable("refreshOptions", {
                             columns: columns,
                             data: datas,
                             pageSize: 20,
-                            pagination:true
+                            pagination: true,
+                            pageNumber:parseInt(window.localStorage.pageNumberDocument) || 1
                         });
+
                     } else {
                         $("#myPromotion").bootstrapTable({
                             columns: columns,
@@ -202,9 +204,12 @@
                             sortable: true,
                             sortName: isZH() ? 'ShopName' : 'ShopNameEn',
                             sortOrder: 'asc',
-                            pageNumber: 1,
+                            pageNumber: parseInt(window.localStorage.pageNumberDocument) || 1,
                             pageSize: 20,
-                            pagination: true
+                            pagination: true,
+                            onPageChange: function (number, size) {
+                                window.localStorage.pageNumberDocument = number;
+                            }
                         });
                     }
                 }

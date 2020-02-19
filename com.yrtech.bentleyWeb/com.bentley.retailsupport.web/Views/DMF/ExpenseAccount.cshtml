@@ -252,6 +252,7 @@
             }, function (data) {
                 if (data) {
                     $('#myReimbursement').bootstrapTable("load", data);
+                    $("#myReimbursement").bootstrapTable("selectPage", parseInt(window.localStorage.pageNumberReimb) || 1);
                 }
             });
         }

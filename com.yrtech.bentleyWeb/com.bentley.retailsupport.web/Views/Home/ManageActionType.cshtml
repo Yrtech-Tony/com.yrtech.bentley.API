@@ -106,6 +106,7 @@
                 showStatus:''
             }, function (data) {
                 $('#ActionTypeTable').bootstrapTable("load", data);
+                $("#ActionTypeTable").bootstrapTable("selectPage", parseInt(window.localStorage.pageNumberMA) || 1);
             })
         }
         loadActionType();

@@ -5,7 +5,7 @@ $('#AgentTable').bootstrapTable({
     striped: true, //是否显示行间隔色
     pageNumber: 1,
     pageSize: 10,
-    height:getClientHeight() - 150,
+    height: getClientHeight() - 150,
     pageList: [5, 10, 20, 50],
     columns: [{
         title: "{{'Name'|translate}}",
@@ -28,13 +28,15 @@ $('#AgentTable').bootstrapTable({
     }, {
         title: "{{'Edit'|translate}}",
         field: "ShopId",
-        formatter: function (value,row) {
+        formatter: function (value, row) {
             var e = '<a href="/Home/AgentEdit?Id=' + value + '" class="btn btn-link" style="width:auto !important"><i class="icon-pencil icon-white"></i>' + $('#G_Edit').val() + '</a>';
             e += '<a href="javascript:delShop(' + value + ')" class="btn btn-link" style="width:auto !important"><i class="icon-remove icon-white"></i>' + $('#G_Delete').val() + '</a>';
             return e;
         }
+    }],
+    onPageChange: function (number, size) {
+        window.localStorage.pageNumberAgent = number;
     }
-    ]
 });
 
 function delShop(id) {

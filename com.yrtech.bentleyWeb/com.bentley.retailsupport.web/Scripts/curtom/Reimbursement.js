@@ -237,7 +237,7 @@ function InitMarketFundLst() {
                             real = ary[i].text;
                         }
                     }
-                    
+
                     if (roleType != 'SHOP') {
                         var html = '<a href="javascript:void(0)" data-name="ReplyStatus" data-pk="undefined" data-value="">' + real + '</a>';
                         if (!real || real == '未提交') {
@@ -269,8 +269,10 @@ function InitMarketFundLst() {
                     } else { return value; }
                 }
             }
-        }
-        ],
+        }],
+        onPageChange: function (number, size) {
+            window.localStorage.pageNumberReimb = number;
+        },
         onClickCell: function (field, value, row, $element) {
             return false;
         },

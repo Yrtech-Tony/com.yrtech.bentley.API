@@ -41,7 +41,7 @@ $('#userTable').bootstrapTable({
 });
 
 function del(id) {
-    var row = [{ UserId: id }];
+    var rows = [{ UserId: id }];
     $.commonPost("Master/UserInfoDelete", {
         ListJson:JSON.stringify( rows)
     }, function () {

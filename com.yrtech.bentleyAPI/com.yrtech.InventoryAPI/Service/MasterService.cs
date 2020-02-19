@@ -306,7 +306,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (!string.IsNullOrEmpty(email))
             {
-                sql += " AND Email = @Email";
+                sql += " AND Email  LIKE '%'+@Email+'%'";
             }
             return db.Database.SqlQuery(t, sql, para).Cast<UserInfoDto>().ToList();
         }

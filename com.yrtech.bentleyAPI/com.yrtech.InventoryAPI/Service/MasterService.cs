@@ -268,12 +268,12 @@ namespace com.yrtech.InventoryAPI.Service
 		                ELSE '' END AS ShopNameEn
 	                ,CASE WHEN [RoleTypeCode] IN ('SYSADMIN','BMC') THEN ''
 		                WHEN [RoleTypeCode] IN ('Shop') 
-		                THEN (SELECT TOP 1 AreaName FROM Shop A INNER JOIN Area B ON A.AreaId = B.AreaId) 
+		                THEN (SELECT TOP 1 AreaName FROM Shop X INNER JOIN Area Y ON X.AreaId = Y.AreaId) 
 		                WHEN [RoleTypeCode] IN ('AREA') THEN C.AreaName
 		                ELSE '' END AS AreaName
 		            ,CASE WHEN [RoleTypeCode] IN ('SYSADMIN','BMC') THEN ''
 		                WHEN [RoleTypeCode] IN ('Shop') 
-		                THEN (SELECT TOP 1 AreaNameEn FROM Shop A INNER JOIN Area B ON A.AreaId = B.AreaId) 
+		                THEN (SELECT TOP 1 AreaNameEn FROM Shop X INNER JOIN Area Y ON X.AreaId = Y.AreaId) 
 		                WHEN [RoleTypeCode] IN ('AREA') THEN C.AreaNameEn
 		                ELSE '' END AS AreaNameEn
                     ,A.[AreaId]
@@ -308,6 +308,7 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND Email  LIKE '%'+@Email+'%'";
             }
+            sql += " ORDER BY AccountId";
             return db.Database.SqlQuery(t, sql, para).Cast<UserInfoDto>().ToList();
         }
         public UserInfo UserInfoSave(UserInfo userInfo)

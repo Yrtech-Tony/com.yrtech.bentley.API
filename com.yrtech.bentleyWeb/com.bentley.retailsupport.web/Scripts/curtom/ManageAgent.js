@@ -5,6 +5,7 @@ $('#AgentTable').bootstrapTable({
     striped: true, //是否显示行间隔色
     pageNumber: 1,
     pageSize: 10,
+    height:getClientHeight() - 150,
     pageList: [5, 10, 20, 50],
     columns: [{
         title: "{{'Name'|translate}}",

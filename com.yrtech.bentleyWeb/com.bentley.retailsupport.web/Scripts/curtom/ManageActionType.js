@@ -6,6 +6,7 @@ $('#ActionTypeTable').bootstrapTable({
     pageNumber: 1,
     pageSize: 10,
     pageList: [5, 10, 20, 50],
+    height: getClientHeight() - 150,
     columns: [{
         title: "{{'Name'|translate}}",
         field: 'EventTypeName'

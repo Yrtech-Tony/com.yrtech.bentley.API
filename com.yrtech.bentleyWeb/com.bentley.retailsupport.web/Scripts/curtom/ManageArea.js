@@ -2,6 +2,7 @@
 $('#AreaTable').bootstrapTable({
     pagination: true,
     pageNumber: 1,
+    height: getClientHeight() - 160,
     striped: true, //是否显示行间隔色
     columns: [
     {

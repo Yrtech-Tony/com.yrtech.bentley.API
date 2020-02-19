@@ -11,6 +11,7 @@ $(function () {
 
         var mainHeight = winHeight - $("#header-topbar-option-demo").height();
         $('#sidebar').css('height', mainHeight + "px");
+        $('#sidebar').css('max-height', mainHeight + "px");
     }
     window.onresize = autoheight;
 

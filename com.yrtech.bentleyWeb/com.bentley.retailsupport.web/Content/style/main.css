@@ -50,6 +50,27 @@ html {
     font-family: BentleySemiBold;
     src: url("fonts/BentleySemiBold.otf");
 }
+
+@font-face {
+    font-family: 'BentleyRegular';
+    src: url("../../fonts/BentleyRegular/Bentley-Regular.otf") format("otf"), url("../../fonts/BentleyRegular/Bentley-Regular_web.ttf") format("ttf"), url("../../fonts/BentleyRegular/Bentley-Regular.eot") format("eot"), url("../../fonts/BentleyRegular/Bentley-Regular.woff") format("woff"), url("../../fonts/BentleyRegular/Bentley-Regular.svg") format("svg");
+}
+
+@font-face {
+    font-family: 'BentleySemiBold';
+    src: url("../../fonts/BentleySemiBold/Bentley-SemiBold.otf") format("otf"), url("../../fonts/BentleySemiBold/Bentley-Expanded-Bold_web.ttf") format("ttf"), url("../../fonts/BentleySemiBold/Bentley-Expanded-Bold.eot") format("eot"), url("../../fonts/BentleySemiBold/Bentley-Expanded-Bold.woff") format("woff"), url("../font/BentleySemiBold/Bentley-Expanded-Bold.svg") format("svg");
+}
+
+body {
+  font-family: 'BentleyRegular';
+  /*font:bold 12px/0.75em 'BentleySemiBold';*/
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #999999;
+  background-color: #f0f2f5;
+  height: 100%;
+}
+
 body {
   font-family: 'BentleyLight';
   /*font:bold 12px/0.75em 'BentleySemiBold';*/
@@ -3999,15 +4020,7 @@ a:focus,
 .img-circle {
   border-radius: 50% !important;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 300;
-}
+
 .note {
   margin: 0 0 20px 0;
   padding: 15px 30px 15px 15px;

@@ -209,6 +209,10 @@ namespace com.yrtech.InventoryAPI.Controllers
             try
             {
                 List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userId,accountId,accountName, shopCode,shopName,email);
+                foreach (UserInfoDto userinfo in userInfoList)
+                {
+                    userinfo.Password = TokenHelper.DecryptDES(userinfo.Password);
+                }
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfoList) };
             }
@@ -233,6 +237,7 @@ namespace com.yrtech.InventoryAPI.Controllers
                 //{
                 //    return new APIResult() { Status = false, Body = "保存失败,账号名称重复" };
                 //}
+                userInfo.Password = TokenHelper.EncryptDES(userInfo.Password);
                 userInfo = masterService.UserInfoSave(userInfo);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfo) };
             }

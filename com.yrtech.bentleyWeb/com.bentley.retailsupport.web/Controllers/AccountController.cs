@@ -4,6 +4,7 @@ using com.yrtech.InventoryAPI.DTO;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -67,18 +68,24 @@ namespace com.bentley.retailsupport.web.Controllers
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             //发送请求并接受返回的值
             String email = TokenHelper.DecryptDES(token);
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new Exception("该用户数据在系统不存在或邮箱信息不正确，请联系管理员！");
+            }
             string getUserApi = string.Format("bentley/api/Master/UserInfoSearch?userId=&accountId=&accountName=&shopCode=&shopName&email={0}", email);
             HttpResponseMessage message = client.GetAsync(getUserApi).Result;
             string json = message.Content.ReadAsStringAsync().Result;
             APIResult result = CommonHelper.DecodeString<APIResult>(json);
             if (result != null && result.Status)
             {
-                List<UserInfoDto> userList = CommonHelper.DecodeString<List<UserInfoDto>>(result.Body);
+                List<UserInfoDto> userList = CommonHelper.DecodeString<List<UserInfoDto>>(result.Body);  
                 if (userList != null && userList.Count == 1)
                 {
-                   string AccountId = userList[0].AccountId;
-                   string password = userList[0].Password;
-                   Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                    //CommonHelper.log(userList[0].AccountId+ "  " +userList[0].Password);
+                    string AccountId = userList[0].AccountId;
+                   string password = TokenHelper.EncryptDES(userList[0].Password);
+                   // CommonHelper.log(userList[0].AccountId + "  " + userList[0].Password);
+                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
                    keyValues.Add("accountId", AccountId);
                    keyValues.Add("password", password);
                    HttpContent content = new FormUrlEncodedContent(keyValues);
@@ -101,7 +108,7 @@ namespace com.bentley.retailsupport.web.Controllers
                 }
                 else
                 {
-                    throw new Exception("该用户数据在系统不存在，请联系管理员！");
+                    throw new Exception("该用户数据在系统不存在或邮箱信息不正确，请联系管理员！");
                 }
             }
             else

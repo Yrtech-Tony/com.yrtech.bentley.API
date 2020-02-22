@@ -14,6 +14,9 @@ $('#userTable').bootstrapTable({
         title: "{{'Name'|translate}}",
         field: 'AccountName'
     }, {
+        title: "{{'EnName'|translate}}",
+        field: 'AccountNameEn'
+    }, {
         title: "{{'Phone'|translate}}",
         field: 'TelNO'
     }, {

@@ -169,6 +169,8 @@
 @section scripts{
     <script src="~/Scripts/api/common.js"></script>
     <script src="~/Scripts/curtom/UserCreate.js"></script>
+    <script src="~/Scripts/crypto-js.js"></script>
+    <script src="~/Scripts/curtom/DESUtil.js"></script>
     <script>
         $("#nav_user").addClass("active");
 
@@ -205,7 +207,7 @@
                     accountName: '',
                     shopCode: '',
                     shopName: '',
-                    email:''
+                    email: ''
                 }, function (data) {
                     if (data && data.length > 0) {
                         $('#userCreate').setForm(data[0]);
@@ -236,6 +238,7 @@
                 else {
                     try {
                         var oMyForm = $('#userCreate').serializeObject();
+                        oMyForm.Password = DESEncrypt(oMyForm.Password);
                         if (!oMyForm.InUserId) {
                             oMyForm.InUserId = $("#G_UserId").val();
                             oMyForm.ModifyUserId = $("#G_UserId").val();

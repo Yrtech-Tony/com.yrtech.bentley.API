@@ -237,7 +237,7 @@ namespace com.yrtech.InventoryAPI.Controllers
                 //{
                 //    return new APIResult() { Status = false, Body = "保存失败,账号名称重复" };
                 //}
-                userInfo.Password = TokenHelper.EncryptDES(userInfo.Password);
+                //userInfo.Password = TokenHelper.EncryptDES(userInfo.Password);
                 userInfo = masterService.UserInfoSave(userInfo);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfo) };
             }

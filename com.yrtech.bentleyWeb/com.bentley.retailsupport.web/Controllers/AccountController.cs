@@ -61,6 +61,7 @@ namespace com.bentley.retailsupport.web.Controllers
         [HttpPost]
         public ActionResult TokenLogin(string token)
         {
+            //token = "BDdjcXwSGmOQpMpHusDub2GtWKmxItTt";
             HttpClient client = new HttpClient();
             Uri uri = new Uri("http://" + WebConfigurationManager.AppSettings["APIHost"]);
             client.BaseAddress = uri;
@@ -68,6 +69,8 @@ namespace com.bentley.retailsupport.web.Controllers
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             //发送请求并接受返回的值
             String email = TokenHelper.DecryptDES(token);
+            CommonHelper.log(email);
+            Thread.Sleep(1000);
             if (string.IsNullOrEmpty(email))
             {
                 throw new Exception("该用户数据在系统不存在或邮箱信息不正确，请联系管理员！");
@@ -75,10 +78,16 @@ namespace com.bentley.retailsupport.web.Controllers
             string getUserApi = string.Format("bentley/api/Master/UserInfoSearch?userId=&accountId=&accountName=&shopCode=&shopName&email={0}", email);
             HttpResponseMessage message = client.GetAsync(getUserApi).Result;
             string json = message.Content.ReadAsStringAsync().Result;
+            CommonHelper.log("1");
+            Thread.Sleep(1000);
             APIResult result = CommonHelper.DecodeString<APIResult>(json);
+            CommonHelper.log("2");
+            Thread.Sleep(1000);
             if (result != null && result.Status)
             {
-                List<UserInfoDto> userList = CommonHelper.DecodeString<List<UserInfoDto>>(result.Body);  
+                List<UserInfoDto> userList = CommonHelper.DecodeString<List<UserInfoDto>>(result.Body);
+                CommonHelper.log("数量:"+userList.Count.ToString());
+                Thread.Sleep(1000);
                 if (userList != null && userList.Count == 1)
                 {
                     //CommonHelper.log(userList[0].AccountId+ "  " +userList[0].Password);

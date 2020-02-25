@@ -1,11 +1,3 @@
-var $table = $('#myMarketFund');
-InitMarketFundLst();
-
-$(window).resize(function () {
-    $('#myMarketFund').bootstrapTable('destroy');// 销毁表格数据
-    InitMarketFundLst();
-    loadDMFItem();
-});
 
 function GetTransName(columnName) {
     return document.getElementById(columnName).value;

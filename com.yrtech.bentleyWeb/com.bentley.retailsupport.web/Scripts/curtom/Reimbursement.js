@@ -38,7 +38,6 @@ function InitMarketFundLst() {
         sortable: true,
         sortName: 'ExpenseAccountId',
         sortOrder: 'asc',
-        pageNumber: 1,
         pageSize: 10,
         pageList: [5, 10, 20, 50],
         columns: [{

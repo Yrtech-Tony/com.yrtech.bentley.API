@@ -164,7 +164,7 @@
         function readWorkbookFromLocalFile(file, callback) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                var data = e.target.result;
+                var data = data.content;
                 var workbook = XLSX.read(data, { type: 'binary' });
                 if (callback) callback(workbook);
             };

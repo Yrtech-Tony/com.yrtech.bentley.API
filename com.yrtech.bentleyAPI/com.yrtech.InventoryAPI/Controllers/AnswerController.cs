@@ -1374,7 +1374,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 {
                     foreach (MonthSaleDto monthSaleDto1 in list)
                     {
-                        if (monthSaleDto != monthSaleDto1 && monthSaleDto.ShopId == monthSaleDto1.ShopId && monthSaleDto.YearMonth == monthSaleDto1.YearMonth)
+                        if (monthSaleDto != monthSaleDto1 && monthSaleDto.ShopName == monthSaleDto1.ShopName && monthSaleDto.YearMonth == monthSaleDto1.YearMonth)
                         {
                             return new APIResult() { Status = false, Body = "导入失败,经销商名称及年月重复，请检查文件" };
                         }

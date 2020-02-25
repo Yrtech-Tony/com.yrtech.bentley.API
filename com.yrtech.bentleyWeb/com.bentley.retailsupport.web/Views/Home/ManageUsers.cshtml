@@ -36,10 +36,16 @@
     }
 </style>
 
-
 <div style="display:none">
     <input id="NO" type="hidden" value="{{'NO'|translate}}" />
     <input id="Dealer" type="hidden" value="{{'Dealer'|translate}}" />
+    <input id="T_Account" type="hidden" value="{{'Account'|translate}}" />
+    <input id="T_Name" type="hidden" value="{{'Name'|translate}}" />
+    <input id="T_EnName" type="hidden" value="{{'EnName'|translate}}" />
+    <input id="T_Phone" type="hidden" value="{{'Phone'|translate}}" />
+    <input id="T_Email" type="hidden" value="{{'Email'|translate}}" />
+    <input id="T_Role" type="hidden" value="{{'Role'|translate}}" />
+    <input id="T_AreaName" type="hidden" value="{{'AreaName'|translate}}" />
 </div>
 
 <div id="page-wrapper">
@@ -94,6 +100,17 @@
     <script src="~/Scripts/curtom/ManageUser.js"></script>
     <script>
         $("#nav_user").addClass("active");
+
+        $(function () {
+            var clientWidth = document.body.clientWidth;
+            $(window).resize(function () {
+                if (document.body.clientWidth != clientWidth) {
+                    $('#userTable').bootstrapTable('destroy');// 销毁表格数据
+                    initTable();
+                    loadUser();
+                }
+            });
+        })
 
         function loadUser() {
             $.commonGet("/Master/UserInfoSearch", {

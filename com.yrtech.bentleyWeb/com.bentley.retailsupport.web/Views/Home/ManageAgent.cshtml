@@ -40,6 +40,13 @@
 <div style="display:none">
     <input id="NO" type="hidden" value="{{'NO'|translate}}" />
     <input id="Dealer" type="hidden" value="{{'Dealer'|translate}}" />
+
+    <input id="T_City" type="hidden" value="{{'City'|translate}}" />
+    <input id="T_Balance" type="hidden" value="{{'Balance'|translate}}" />
+    <input id="T_Name" type="hidden" value="{{'Name'|translate}}" />
+    <input id="T_EnName" type="hidden" value="{{'EnName'|translate}}" />
+    <input id="T_Budget" type="hidden" value="{{'Budget'|translate}}" />
+    <input id="T_AreaName" type="hidden" value="{{'AreaName'|translate}}" />
 </div>
 
 <div id="page-wrapper">
@@ -96,6 +103,17 @@
     <script>
         $("#nav_dealer").addClass("active");
         
+        $(function () {
+            var clientWidth = document.body.clientWidth;
+            $(window).resize(function () {
+                if (document.body.clientWidth != clientWidth) {
+                    $('#AgentTable').bootstrapTable('destroy');// 销毁表格数据
+                    initTable();
+                    loadAgent();
+                }
+            });
+        })
+
         function loadAgent() {
             $.commonGet("/Master/ShopSearch", {
                 shopId: '',

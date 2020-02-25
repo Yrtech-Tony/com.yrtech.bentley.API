@@ -189,12 +189,13 @@
 
             var clientWidth = document.body.clientWidth;
             $(window).resize(function () {
-                if (document.body.clientWidth != clientWidth) {
+                if (!clientWidth && document.body.clientWidth != clientWidth) {
                     $table.bootstrapTable('destroy');// 销毁表格数据
                     InitMarketFundLst();
                     HidenField();
                     loadExpenseAccount();
                 }
+                clientWidth = document.body.clientWidth;
             });
 
             InitMarketFundLst();

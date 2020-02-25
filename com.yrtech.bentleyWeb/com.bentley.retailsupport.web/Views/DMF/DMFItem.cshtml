@@ -97,10 +97,17 @@
     <script type="text/javascript">
         $("#nav_dealer_funds").addClass("active");
         $(function () {
+            var $table = $('#myMarketFund');
+
+            $(window).resize(function () {
+                $('#myMarketFund').bootstrapTable('destroy');// 销毁表格数据
+                InitMarketFundLst();
+                loadDMFItem();
+            });
+
             InitMarketFundLst();
             loadDMFItem();
         })
-
 
         function loadDMFItem() {
             $.commonGet("DMF/DMFItemSearch", {

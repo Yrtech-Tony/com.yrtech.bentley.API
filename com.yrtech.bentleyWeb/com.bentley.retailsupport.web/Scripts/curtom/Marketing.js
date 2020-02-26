@@ -306,7 +306,11 @@ function EnterPress(e) { //传入 event
 }
 
 function downloadByClueReportFile() {
-    $.commonGet("MarketAction/MarketActionAllLeadsReportExport", { year: '' }, function (data) {
+    $.commonGet("MarketAction/MarketActionAllLeadsReportExport", { 
+        year: '',  
+        userId: $("#G_UserId").val(),
+        roleTypeCode: $("#G_RoleTypeCode").val()
+    }, function (data) {
         if (data) {
             window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
         }

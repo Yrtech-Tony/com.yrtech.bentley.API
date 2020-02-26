@@ -18,9 +18,23 @@ namespace com.yrtech.InventoryAPI.Service
         DMFService dmfService = new DMFService();
 
         // 导出所有线索报告
-        public string MarketActionAllLeadsReportExport(string year)
+        public string MarketActionAllLeadsReportExport(string year, string userId, string roleTypeCode)
         {
-            List<MarketActionAfter2LeadsReportDto> list = marketActionService.MarketActionAfter2LeadsReportSearch("", year);
+            List<MarketActionAfter2LeadsReportDto> listTemp = marketActionService.MarketActionAfter2LeadsReportSearch("", year);
+            List<MarketActionAfter2LeadsReportDto> list = new List<MarketActionAfter2LeadsReportDto>();
+            List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+
+            foreach (MarketActionAfter2LeadsReportDto leadsReport in listTemp)
+            {
+                foreach (Shop shop in roleTypeShopList)
+                {
+                    if (leadsReport.ShopId == shop.ShopId)
+                    {
+                        list.Add(leadsReport);
+                    }
+                }
+            }
+
             Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "LeadsReportAll.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];

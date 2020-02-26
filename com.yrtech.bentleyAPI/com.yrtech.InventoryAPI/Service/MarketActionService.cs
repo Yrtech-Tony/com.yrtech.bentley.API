@@ -566,8 +566,7 @@ namespace com.yrtech.InventoryAPI.Service
         {
             if (marketActionId == null) marketActionId = "";
             if (year == null) year = "";
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId),
-                                                        new SqlParameter("@Year", year) };
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
             Type t = typeof(MarketActionAfter2LeadsReportDto);
             string sql = "";
             sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn,D.HiddenCodeName AS InterestedModelName,D.HiddenCodeNameEn AS InterestedModelNameEn
@@ -588,7 +587,7 @@ namespace com.yrtech.InventoryAPI.Service
             }
             if (!string.IsNullOrEmpty(year))
             {
-                sql += " AND Year(A.StartDate) = @Year";
+                sql += " AND Year(B.StartDate) = @Year";
 
             }
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionAfter2LeadsReportDto>().ToList();
@@ -954,6 +953,7 @@ namespace com.yrtech.InventoryAPI.Service
                             ,CASE WHEN NOT EXISTS(SELECT 1 FROM MarketActionBefore3BugetDetail WHERE MarketActionId = A.MarketActionId)
 		                            AND NOT EXISTS(SELECT 1 FROM MarketActionBefore3DisplayModel WHERE MarketActionId = A.MarketActionId)
 		                            AND NOT EXISTS(SELECT 1 FROM MarketActionBefore3TestDriver WHERE MarketActionId = A.MarketActionId)
+                                    AND EXISTS (SELECT TOP 1 EventTypeName FROM EventType WHERE EventTypeId = A.EventTypeId AND EventTypeName NOT IN ('数字营销','广告及宣传','线上平台线索获取'))
 				                            THEN 1
 				                            ELSE 0
 			                            END AS Before3Count

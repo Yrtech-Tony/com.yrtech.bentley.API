@@ -233,11 +233,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("MarketAction/MarketActionAllLeadsReportExport")]
-        public APIResult MarketActionAllLeadsReportExport(string year)
+        public APIResult MarketActionAllLeadsReportExport(string year, string userId, string roleTypeCode)
         {
             try
             {
-                string filePath = excelDataService.MarketActionAllLeadsReportExport(year);
+                string filePath = excelDataService.MarketActionAllLeadsReportExport(year,userId,roleTypeCode);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
             }

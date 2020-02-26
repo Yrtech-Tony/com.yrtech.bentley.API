@@ -569,7 +569,7 @@ namespace com.yrtech.InventoryAPI.Service
             SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId) };
             Type t = typeof(MarketActionAfter2LeadsReportDto);
             string sql = "";
-            sql += @"SELECT A.*,B.ActionName,C.ShopName,C.ShopNameEn,D.HiddenCodeName AS InterestedModelName,D.HiddenCodeNameEn AS InterestedModelNameEn
+            sql += @"SELECT A.*,B.ActionName,B.ShopId,C.ShopName,C.ShopNameEn,D.HiddenCodeName AS InterestedModelName,D.HiddenCodeNameEn AS InterestedModelNameEn
                     ,E.HiddenCodeName AS DealModelName,E.HiddenCodeNameEn AS DealModelNameEn
                    , CASE WHEN OwnerCheck=1 THEN '是' ELSE '否' END AS OwnerCheckName
                     ,CASE WHEN TestDriverCheck=1 THEN '是' ELSE '否' END AS TestDriverCheckName

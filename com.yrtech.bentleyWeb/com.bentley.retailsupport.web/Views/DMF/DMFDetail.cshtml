@@ -400,7 +400,7 @@
         // 读取本地excel文件
         function readWorkbookFromLocalFile(file, callback) {
             var reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function (data) {
                 var data = data.content;
                 var workbook = XLSX.read(data, { type: 'binary' });
                 if (callback) callback(workbook);

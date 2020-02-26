@@ -971,7 +971,7 @@ namespace com.yrtech.InventoryAPI.Service
 				                            THEN 1
 				                            ELSE 0
 			                            END AS After30Count
-                            FROM MarketAction A WHERE 1=1 ";
+                            FROM MarketAction A WHERE 1=1 AND A.MarketActionStatusCode<>2 ";
             if (!string.IsNullOrEmpty(year))
             {
                 sql += " AND Year(A.StartDate) = @Year";

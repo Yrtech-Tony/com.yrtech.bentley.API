@@ -36,5 +36,21 @@ namespace com.yrtech.InventoryAPI.Common
                 return false;
             }
         }
+        public static void GetObject(string key, string fileToDownload)
+        {
+            OssClient ossClient = new OssClient(endpoin, accessid, accessKey);
+            var o = ossClient.GetObject(bucket, key);
+            using (var requestStream = o.Content)
+            {
+                byte[] buf = new byte[1024];
+                var fs = File.Open(fileToDownload, FileMode.OpenOrCreate);
+                var len = 0;
+                while ((len = requestStream.Read(buf, 0, 1024)) != 0)
+                {
+                    fs.Write(buf, 0, len);
+                }
+                fs.Close();
+            }
+        }
     }
 }

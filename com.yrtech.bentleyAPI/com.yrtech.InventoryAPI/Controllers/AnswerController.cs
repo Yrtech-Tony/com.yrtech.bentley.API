@@ -687,6 +687,73 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
 
         }
+        [HttpGet]
+        [Route("MarketAction/MarketActionAfter2LeadsReportImportServer")]
+        public APIResult MarketActionAfter2LeadsReportImportServer(string marketActionId,string userId,string path)
+        {
+            try
+            {
+                List<MarketActionAfter2LeadsReportDto> list = excelDataService.LeadsReportImport(marketActionId, userId, path);
+                foreach (MarketActionAfter2LeadsReportDto leadsReportDto in list)
+                {
+                    MarketActionAfter2LeadsReport leadsReport = new MarketActionAfter2LeadsReport();
+                    leadsReport.BPNO = leadsReportDto.BPNO;
+                    leadsReport.CustomerName = leadsReportDto.CustomerName;
+                    if (leadsReportDto.DealCheckName == "是")
+                    { leadsReport.DealCheck = true; }
+                    else
+                    {
+                        leadsReport.DealCheck = false;
+                    }
+                    if (!string.IsNullOrEmpty(leadsReportDto.DealModelName))
+                    {
+                        List<HiddenCode> hiddenCodeList = masterService.HiddenCodeSearch("TargetModels", "", leadsReportDto.DealModelName);
+                        if (hiddenCodeList != null && hiddenCodeList.Count > 0)
+                        {
+                            leadsReport.DealModel = hiddenCodeList[0].HiddenCodeId;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(leadsReportDto.InterestedModelName))
+                    {
+                        List<HiddenCode> hiddenCodeList_Insterested = masterService.HiddenCodeSearch("TargetModels", "", leadsReportDto.InterestedModelName);
+                        if (hiddenCodeList_Insterested != null && hiddenCodeList_Insterested.Count > 0)
+                        {
+                            leadsReport.InterestedModel = hiddenCodeList_Insterested[0].HiddenCodeId;
+                        }
+                    }
+                    leadsReport.InUserId = leadsReportDto.InUserId;
+                    if (leadsReportDto.LeadsCheckName == "是")
+                    { leadsReport.LeadsCheck = true; }
+                    else
+                    {
+                        leadsReport.LeadsCheck = false;
+                    }
+                    leadsReport.MarketActionId = leadsReportDto.MarketActionId;
+                    leadsReport.ModifyDateTime = DateTime.Now;
+                    leadsReport.ModifyUserId = leadsReportDto.ModifyUserId;
+                    if (leadsReportDto.OwnerCheckName == "是")
+                    { leadsReport.OwnerCheck = true; }
+                    else
+                    {
+                        leadsReport.OwnerCheck = false;
+                    }
+                    leadsReport.TelNO = leadsReportDto.TelNO;
+                    if (leadsReportDto.TestDriverCheckName == "是")
+                    { leadsReport.TestDriverCheck = true; }
+                    else
+                    {
+                        leadsReport.TestDriverCheck = false;
+                    }
+                    marketActionService.MarketActionAfter2LeadsReportSave(leadsReport);
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
         [HttpPost]
         [Route("MarketAction/MarketActionAfter2LeadsReportSave")]
         public APIResult MarketActionAfter2LeadsReportSave(MarketActionAfter2LeadsReport marketActionAfter2LeadsReport)
@@ -1342,7 +1409,6 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
-
         [HttpPost]
         [Route("DMF/MonthSaleSave")]
         public APIResult MonthSaleSave(MonthSale monthSale)

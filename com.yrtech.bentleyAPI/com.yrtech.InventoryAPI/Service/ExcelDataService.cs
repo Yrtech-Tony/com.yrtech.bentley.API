@@ -1,4 +1,5 @@
 ﻿using com.yrtech.bentley.DAL;
+using com.yrtech.InventoryAPI.Common;
 using com.yrtech.InventoryAPI.DTO;
 using Infragistics.Documents.Excel;
 using System;
@@ -360,6 +361,26 @@ namespace com.yrtech.InventoryAPI.Service
             book.Save(filePath);
 
             return filePath;
+        }
+
+        // 导入线索报告
+        public List<MarketActionAfter2LeadsReportDto> LeadsReportImport(string marketActionId,string userId,string ossPath)
+        {
+            // 从OSS下载文件
+            string downLoadFilePath = basePath + @"Content\Excel\ExcelImport"+ DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            OSSClientHelper.GetObject(ossPath, downLoadFilePath);
+            Workbook book = Workbook.Load(downLoadFilePath, false);
+            Worksheet sheet = book.Worksheets[0];
+            List<MarketActionAfter2LeadsReportDto> list = new List<MarketActionAfter2LeadsReportDto>();
+            for (int i = 0; i < 10000; i++)
+            {
+                MarketActionAfter2LeadsReportDto report = new MarketActionAfter2LeadsReportDto();
+                //report.BPNO = sheet.GetCell("F" + (rowIndex + 3)).Value.ToString();
+                list.Add(report);
+            }
+
+            return list;
+            
         }
     }
 }

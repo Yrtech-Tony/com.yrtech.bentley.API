@@ -613,17 +613,26 @@ namespace com.yrtech.InventoryAPI.Service
             else
             {
                 MarketActionAfter2LeadsReport findOne = db.MarketActionAfter2LeadsReport.Where(x => (x.MarketActionId == marketActionAfter2LeadsReport.MarketActionId && x.SeqNO == marketActionAfter2LeadsReport.SeqNO)).FirstOrDefault();
-                findOne.BPNO = marketActionAfter2LeadsReport.BPNO;
-                findOne.CustomerName = marketActionAfter2LeadsReport.CustomerName;
-                findOne.TelNO = marketActionAfter2LeadsReport.TelNO;
-                findOne.DealCheck = marketActionAfter2LeadsReport.DealCheck;
-                findOne.DealModel = marketActionAfter2LeadsReport.DealModel;
-                findOne.InterestedModel = marketActionAfter2LeadsReport.InterestedModel;
-                findOne.LeadsCheck = marketActionAfter2LeadsReport.LeadsCheck;
-                findOne.ModifyDateTime = DateTime.Now;
-                findOne.ModifyUserId = marketActionAfter2LeadsReport.ModifyUserId;
-                findOne.OwnerCheck = marketActionAfter2LeadsReport.OwnerCheck;
-                findOne.TestDriverCheck = marketActionAfter2LeadsReport.TestDriverCheck;
+                if (findOne == null)
+                {
+                    marketActionAfter2LeadsReport.InDateTime = DateTime.Now;
+                    marketActionAfter2LeadsReport.ModifyDateTime = DateTime.Now;
+                    db.MarketActionAfter2LeadsReport.Add(marketActionAfter2LeadsReport);
+                }
+                else
+                {
+                    findOne.BPNO = marketActionAfter2LeadsReport.BPNO;
+                    findOne.CustomerName = marketActionAfter2LeadsReport.CustomerName;
+                    findOne.TelNO = marketActionAfter2LeadsReport.TelNO;
+                    findOne.DealCheck = marketActionAfter2LeadsReport.DealCheck;
+                    findOne.DealModel = marketActionAfter2LeadsReport.DealModel;
+                    findOne.InterestedModel = marketActionAfter2LeadsReport.InterestedModel;
+                    findOne.LeadsCheck = marketActionAfter2LeadsReport.LeadsCheck;
+                    findOne.ModifyDateTime = DateTime.Now;
+                    findOne.ModifyUserId = marketActionAfter2LeadsReport.ModifyUserId;
+                    findOne.OwnerCheck = marketActionAfter2LeadsReport.OwnerCheck;
+                    findOne.TestDriverCheck = marketActionAfter2LeadsReport.TestDriverCheck;
+                }
             }
             db.SaveChanges();
             return marketActionAfter2LeadsReport;

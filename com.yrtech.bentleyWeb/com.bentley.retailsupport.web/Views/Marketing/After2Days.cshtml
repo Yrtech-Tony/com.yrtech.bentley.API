@@ -133,9 +133,9 @@
                             var InterestedModel = $.trim(item["LikeModel"]);
                             var DealCheck = $.trim(item["IsDealName"]);
                             var DealModel = $.trim(item["Model"]);
-                                                        
+
                             leadsReports.push({
-                                MarketActionId:id,
+                                MarketActionId: id,
                                 CustomerName: CustomerName,
                                 BPNO: BPNO,
                                 OwnerCheckName: OwnerCheck,
@@ -163,11 +163,17 @@
         // 读取本地excel文件
         function readWorkbookFromLocalFile(file, callback) {
             var reader = new FileReader();
-            reader.onload = function (data) {
-                var data = data.content;
+            //reader.onload = function (data) {
+            //    var data = data.content;
+            //    var workbook = XLSX.read(data, { type: 'binary' });
+            //    if (callback) callback(workbook);
+            //};
+            reader.onload = function (e) {
+                var data = e.target.result;
                 var workbook = XLSX.read(data, { type: 'binary' });
                 if (callback) callback(workbook);
             };
+
             reader.readAsBinaryString(file);
         }
 
@@ -183,7 +189,7 @@
                 loadCueReport();
             }, EProcessing);
         }
-        
+
         function SProcessing() {
             //loading层
             var index = layer.load(1, {

@@ -86,7 +86,7 @@ function InitIncomeCostList() {
             sortable: false,
             align: 'left',
             formatter: function (value, row, index) {
-                var name = isZH()?row.ShopName:row.ShopNameEn;
+                var name = isZH() ? row.ShopName : row.ShopNameEn;
                 return '<div style="min-width:100px">' + name + '</div>';
             },
             editable: {
@@ -132,7 +132,7 @@ function InitIncomeCostList() {
                 },
                 noeditFormatter: function (value, row, index) {
                     var result = { filed: "ActualSaleCount", value: value };
-                     if (roleType != "SHOP") {
+                    if (roleType != "SHOP") {
                         var html = '<a href="javascript:void(0)" data-name="ActualSaleCount" data-pk="undefined" data-value="" class="editable editable-click">' + result.value + '</a>';
                         if (!result.value) {
                             html = '<a href="javascript:void(0)" data-name="ActualSaleCount" data-pk="undefined" data-value="" class="editable editable-click">0</a>';
@@ -141,7 +141,7 @@ function InitIncomeCostList() {
                     } else { return result.value; }
                 }
             }
-        },{
+        }, {
             title: $('#RMB').val(),
             valign: "middle",
             align: "center",
@@ -160,14 +160,14 @@ function InitIncomeCostList() {
                 },
                 noeditFormatter: function (value, row, index) {
                     var result = { filed: "ActualSaleAmt", value: value };
-                     if (roleType != "SHOP") {
-                         var html = '<a href="javascript:void(0)" data-name="ActualSaleAmt" data-pk="undefined" data-value="" class="editable editable-click">' + dealNumber(result.value) + '</a>';
+                    if (roleType != "SHOP") {
+                        var html = '<a href="javascript:void(0)" data-name="ActualSaleAmt" data-pk="undefined" data-value="" class="editable editable-click">' + dealNumber(result.value) + '</a>';
                         if (result.value == "") {
                             html = '<a href="javascript:void(0)" data-name="ActualSaleAmt" data-pk="undefined" data-value="" class="editable editable-click">0</a>';
                         }
                         return html;
                     } else {
-                         return dealNumber(result.value);
+                        return dealNumber(result.value);
                     }
                 }
             }
@@ -177,8 +177,8 @@ function InitIncomeCostList() {
         },
         onClickRow: function (row, $element) {
             curRow = row;
-        }
-        , onLoadSuccess: function (data) {
+        },
+        onLoadSuccess: function (data) {
         },
         onEditableSave: function (field, row, oldValue, $el) {
             if (row.YearMonth && row.ShopId) {
@@ -188,14 +188,14 @@ function InitIncomeCostList() {
                 row.ActualSaleAmt = DESEncrypt(row.ActualSaleAmt);
                 $.commonPost("DMF/MonthSaleSave", row, function (data) {
                     if (data) {
-                        row.MonthSaleId  = data.MonthSaleId ;
+                        row.MonthSaleId = data.MonthSaleId;
                     }
                     curRow = row;
                     IsEdit = true;
                     loadMonthSale();
                 }, function (msg) {
                     var error = isZH() ? '编辑失败!' : 'Edit failure!';
-                    error += (msg ||'')
+                    error += (msg || '')
                     layer.alert(error);
                 })
             }
@@ -215,21 +215,21 @@ function DeleteBudgetCost() {
     }, function () {
         console.log('删除数据成功');
         loadMonthSale();
-    });    
+    });
 }
 
 function Add() {
     var index = $table.bootstrapTable('getData').length;
-    var newRow =  {
+    var newRow = {
         MonthSaleId: 0,
         YearMonth: '',
-        ShopId: '',            
+        ShopId: '',
         ActualSaleCount: 0,
         ActualSaleAmt: 0
     }
     $table.bootstrapTable('insertRow', {
         index: index,
-        row:newRow
+        row: newRow
     });
     curRow = newRow;
 }

@@ -28,7 +28,7 @@ function Del() {
     });
 }
 
-function Update() {    
+function Update() {
     $.commonPost("MarketAction/MarketActionAfter30LeadsReportUpdate", {
         MarketActionId: $("#MarketActionId").val(),
         InUserId: $("#G_UserId").val(),
@@ -43,12 +43,19 @@ function Update() {
     });
 }
 
+var maxSeqNO = 0;
 function Add() {
+    var rows = $table.bootstrapTable('getData');
+    rows.forEach(function (row) {
+        if (maxSeqNO < row.SeqNO) {
+            maxSeqNO = row.SeqNO;
+        }
+    });
     var index = $table.bootstrapTable('getData').length;
     $table.bootstrapTable('insertRow', {
-        // index: $table.bootstrapTable('getOptions').totalRows,
         index: index,
         row: {
+            SeqNO : ++maxSeqNO,
             ShopName: $('#ShopName').val(),
             ActionName: $('#ActionName').val(),
             MarketActionId: $('#MarketActionId').val(),
@@ -67,6 +74,7 @@ function Add() {
         }
     });
 }
+
 
 function InitCueLst() {
     //生成用户数据
@@ -98,21 +106,21 @@ function InitCueLst() {
             colspan: 1,
             rowspan: 2,
             formatter: function (value, row, index) {
-                return index + 1;
+                row.index = index + 1;                
+                return row.index;
+            }
+        }, {
+            title: $("#Dealer").val(),
+            field: "ShopName",
+            width: "100px",
+            valign: "middle",
+            align: "center",
+            colspan: 1,
+            rowspan: 2,
+            formatter: function (value, row, index) {
+                return '<div style="min-width:100px">' + value + '</div>';
             }
         },
-         {
-             title: $("#Dealer").val(),
-             field: "ShopName",
-             width: "100px",
-             valign: "middle",
-             align: "center",
-             colspan: 1,
-             rowspan: 2,
-             formatter: function (value, row, index) {
-                 return '<div style="min-width:100px">' + value + '</div>';
-             }
-         },
         {
             title: $('#Promotion_Name').val(),
             field: 'ActionName',
@@ -265,18 +273,17 @@ function InitCueLst() {
                 title: '请选择车型',
                 source: carTypeArr
             }
-        }
-        ]],
+        }]],
         onClickCell: function (field, value, row, $element) {
             if ($element.find(":checkbox").length == 0) {
                 return false;
-            }            
+            }
             row[field] = !value;
             $element.find(":checkbox").prop("checked", !value);
             saveLeadsReport(row);
         },
         onEditableSave: function (field, row, oldValue, $el) {
-            console.log("onEditableSave");
+            console.log("onEditableSave", row);
             saveLeadsReport(row);
         }
     });
@@ -286,9 +293,13 @@ function saveLeadsReport(row) {
     row.InUserId = $("#G_UserId").val();
     row.ModifyUserId = $("#G_UserId").val();
     $.commonPost("MarketAction/MarketActionAfter2LeadsReportSave", row, function (data) {
-        console.log(data);
-        row = data;
-        //loadCueReport();
+        console.log("MarketActionAfter2LeadsReportSave", data);
+        //if (row.index) {
+        //    row = data
+        //    data.index = row.index;
+        //    $('#myCueReport').bootstrapTable('updateRow', { index:4, row: data }, true);
+           
+        //}
     });
 }
 

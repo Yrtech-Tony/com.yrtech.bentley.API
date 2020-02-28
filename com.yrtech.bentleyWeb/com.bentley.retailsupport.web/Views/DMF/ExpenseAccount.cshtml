@@ -139,23 +139,23 @@
         var roleType = $("#G_RoleTypeCode").val();
         var account = $("#G_AccountId").val();
         $(function () {
-            if (roleType != "SYSADMIN") {
+            if (roleType == "SYSADMIN" || roleType == "AREA") {
+                if (roleType == "AREA") {
+                    $("#delBtn").remove();
+                }
+                loadShops().forEach(function (item) {
+                    var shopName = isZH() ? item.ShopName : item.ShopNameEn;
+                    $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
+                });
+            } else {
                 $("#delBtn").remove();
-                if (roleType != "AREA") {
-                    $("#pdealer").remove();
-                }               
+                $("#pdealer").remove();
                 var shop = loadShops()[0];
                 if (shop) {
                     var shopName = isZH() ? shop.ShopName : shop.ShopNameEn;
                     $('#_hd_dealName').val(shopName);
                     $('#ShopId').val(shop.ShopId);
                 }
-            } else {
-               
-                loadShops().forEach(function (item) {
-                    var shopName = isZH() ? item.ShopName : item.ShopNameEn;
-                    $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
-                });
             }
 
             $.ajaxSettings.async = false;

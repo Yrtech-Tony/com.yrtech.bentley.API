@@ -39,7 +39,7 @@ namespace com.bentley.retailsupport.web.Controllers
             }
         }
 
-        public void DownloadFile(string ossPath, string fileName)
+        public ActionResult DownloadFile(string ossPath, string fileName)
         {
             byte[] fileContent = null;
             if (ossPath.StartsWith("Bentley"))
@@ -59,20 +59,21 @@ namespace com.bentley.retailsupport.web.Controllers
                 string localFileDic = WebConfigurationManager.AppSettings["localFileDic"];
                 string filePath = Server.MapPath("~") + localFileDic + ossPath;
                 FileStream fs = new FileStream(filePath,FileMode.Open);
-                if (fs == null) return;
+                if (fs == null) return null;
                 fileContent = new byte[(int)fs.Length];
                 fs.Position = 0;
                 fs.Read(fileContent, 0, (int)fs.Length);
                 fs.Close();
             }
 
-            Response.Clear();
-            Response.Charset = "UTF-8";
-            Response.ContentEncoding = Encoding.GetEncoding("UTF-8");
-            Response.AddHeader("content-type", "application/x-msdownload");
-            Response.AddHeader("Content-Disposition", "attachment; ");
-            Response.BinaryWrite(fileContent);
-            Response.End();
+            return File(fileContent, "application/x-msdownload", fileName);
+            //Response.Clear();
+            //Response.Charset = "UTF-8";
+            //Response.ContentEncoding = Encoding.GetEncoding("UTF-8");
+            //Response.AddHeader("content-type", "application/x-msdownload");
+            //Response.AddHeader("Content-Disposition", "attachment; F ");
+            //Response.BinaryWrite(fileContent);
+            //Response.End();
         }
     }
 }

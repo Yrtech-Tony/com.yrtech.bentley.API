@@ -133,7 +133,7 @@
     })
 
     function fileNameFormatter(value, row, index) {
-        return '<a href="/Base/DownloadFile?ossPath=' + row.ShopCommitFileNameUrl + '" download="' + row.ShopCommitFileName + '">' + value + '</a>';
+        return '<a href="/Base/DownloadFile?ossPath=' + row.ShopCommitFileNameUrl + '&fileName=' + row.ShopCommitFileName + '" download="' + row.ShopCommitFileName + '">' + value + '</a>';
     }
 
     function operateFormatter(value, row, index) {

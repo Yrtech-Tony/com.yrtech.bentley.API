@@ -141,7 +141,9 @@
         $(function () {
             if (roleType != "SYSADMIN") {
                 $("#delBtn").remove();
-                $("#pdealer").remove();
+                if (roleType != "AREA") {
+                    $("#pdealer").remove();
+                }               
                 var shop = loadShops()[0];
                 if (shop) {
                     var shopName = isZH() ? shop.ShopName : shop.ShopNameEn;
@@ -204,7 +206,11 @@
         })
 
         function downloadFile() {
-            $.commonGet("DMF/ExpenseAccountExport", { shopId: $("#pdealer").val() }, function (data) {
+            $.commonGet("DMF/ExpenseAccountExport", {
+                shopId: $("#pdealer").val(),
+                userId: $("#G_UserId").val(),
+                roleTypeCode: $("#G_RoleTypeCode").val()
+            }, function (data) {
                 if (data) {
                     window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
                 }

@@ -193,10 +193,15 @@
                 $("#pdealer").append($("<option>").val(item.ShopId).text(shopName));
                 hdData.push({ value: item.ShopId, text: shopName });
             });
+
+            if (roleType != "SYSADMIN") {
+                $("#formsousuo").parent().remove();
+            }
+
             if (roleType == "SHOP" || $("#ShopId").val()) {
                 $('#toptable').show();
                 $('#phbuttons').hide();
-                $("#pdealer").remove();
+                $("#pdealer").remove();                           
             }
             else {
                 $('#toptable').hide();

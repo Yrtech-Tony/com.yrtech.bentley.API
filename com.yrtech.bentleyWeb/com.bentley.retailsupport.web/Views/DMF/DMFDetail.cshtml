@@ -343,7 +343,9 @@
         function downloadFile() {
             $.commonGet("DMF/DMFDetailExport", {
                 shopId: $("#pdealer").val(),
-                dmfItemName: $('#pname').val()
+                dmfItemName: $('#pname').val(),
+                userId: $("#G_UserId").val(),
+                roleTypeCode: $("#G_RoleTypeCode").val()
             }, function (data) {
                 if (data) {
                     window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;

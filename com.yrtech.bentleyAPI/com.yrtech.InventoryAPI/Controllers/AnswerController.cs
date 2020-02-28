@@ -1206,11 +1206,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("DMF/DMFDetailExport")]
-        public APIResult DMFDetailExport(string shopId, string dmfItemName)
+        public APIResult DMFDetailExport(string shopId, string dmfItemName,string userId,string roleTypeCode)
         {
             try
             {
-                string filePath = excelDataService.DMFDetailExport(shopId, dmfItemName);
+                string filePath = excelDataService.DMFDetailExport(shopId, dmfItemName, userId,roleTypeCode);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
 
             }
@@ -1324,11 +1324,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("DMF/ExpenseAccountExport")]
-        public APIResult ExpenseAccountExport(string shopId)
+        public APIResult ExpenseAccountExport(string shopId,string userId, string roleTypeCode)
         {
             try
             {
-                string filePath = excelDataService.ExpenseAccountExport(shopId);
+                string filePath = excelDataService.ExpenseAccountExport(shopId, userId,roleTypeCode);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
 

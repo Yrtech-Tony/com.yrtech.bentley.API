@@ -282,9 +282,22 @@ namespace com.yrtech.InventoryAPI.Service
         }
 
         // ExpenseAccount Export
-        public string ExpenseAccountExport(string shopId)
+        public string ExpenseAccountExport(string shopId,string userId,string roleTypeCode)
         {
-            List<ExpenseAccountDto> list = dmfService.ExpenseAccountSearch("",shopId,"","");
+            List<ExpenseAccountDto> listTemp = dmfService.ExpenseAccountSearch("",shopId,"","");
+            List<ExpenseAccountDto> list = new List<ExpenseAccountDto>();
+            List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+
+            foreach (ExpenseAccountDto expenseAccount in listTemp)
+            {
+                foreach (Shop shop in roleTypeShopList)
+                {
+                    if (expenseAccount.ShopId == shop.ShopId)
+                    {
+                        list.Add(expenseAccount);
+                    }
+                }
+            }
             Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "ExpenseAccount.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];
@@ -326,9 +339,22 @@ namespace com.yrtech.InventoryAPI.Service
             return filePath;
         }
         // DMFDetail Export
-        public string DMFDetailExport(string shopId,string dmfItemName)
+        public string DMFDetailExport(string shopId,string dmfItemName,string userId,string roleTypeCode)
         {
-            List<DMFDetailDto> list = dmfService.DMFDetailSearch("",shopId,"", dmfItemName);
+            List<DMFDetailDto> listTemp = dmfService.DMFDetailSearch("",shopId,"", dmfItemName);
+            List<DMFDetailDto> list = new List<DMFDetailDto>();
+            List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
+
+            foreach (DMFDetailDto dmfDetail in listTemp)
+            {
+                foreach (Shop shop in roleTypeShopList)
+                {
+                    if (dmfDetail.ShopId == shop.ShopId)
+                    {
+                        list.Add(dmfDetail);
+                    }
+                }
+            }
             Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "DMFDetail.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];

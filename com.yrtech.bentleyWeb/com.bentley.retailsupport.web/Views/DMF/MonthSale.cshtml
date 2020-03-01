@@ -58,7 +58,10 @@
                     <div id="main-content">
                         <div class="container-fluid">
                             <p id="phbuttons">
-                                <a class="btn btn-primary" style="margin-left:2px;" onclick="uploadFile()"><i class="icon-upload-alt"></i><span translate>Import</span></a>
+                               <a id="selectfiles" class="btn btn-primary" style="margin-left:2px;"><i class="icon-upload-alt"></i><span translate>Import</span></a>
+                                <div id="upload-container" class="container-fluid" style="margin:0;padding:0">
+                                    <div id="ossfile"></div>
+                                </div> 
                                 <a id="templateDownloadA" class="btn btn-link" href=""><i class="icon-plus icon-white"></i><span translate>Download Templates</span></a>
                             </p>
 
@@ -114,6 +117,13 @@
     <script src="~/Scripts/crypto-js.js"></script>
     <script src="~/Scripts/curtom/DESUtil.js"></script>
 
+<script src="~/Scripts/oss-upload-direct/lib/crypto1/crypto/crypto.js"></script>
+<script src="~/Scripts/oss-upload-direct/lib/crypto1/hmac/hmac.js"></script>
+<script src="~/Scripts/oss-upload-direct/lib/crypto1/sha1/sha1.js"></script>
+<script src="~/Scripts/oss-upload-direct/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+<script src="~/Scripts/oss-upload-direct/lib/base64.js"></script>
+<script src="~/Scripts/oss-upload-direct/upload.js?20200229"></script>
+
     <script type="text/javascript">
         $("#nav_IncomeCost").addClass("active");
 
@@ -121,7 +131,12 @@
         var roleType = $("#G_RoleTypeCode").val();
         var account = $("#G_AccountId").val();
         var hdData = [];
+        var osspath = "Bentley/" + year + "/ImportData/";
+        var ossClient;
         $(function () {
+            //初始化LexusReport OSS 数据源
+            initOssClient();
+
             //下载模板地址
             templateDownloadA.href = host + "/Content/Excel/MonthSaleImport.xlsx";
 
@@ -143,6 +158,27 @@
             InitIncomeCostList();
             loadMonthSale();
         })
+
+
+        function initOssClient() {
+            ossClient = new OSSClient({
+                fileAddCheck: function () {
+                    return true;
+                },
+                fileAddCheckMsg: "",
+                osspath: osspath,
+                uploaded: function (args) {
+                    //调用导入方法
+                    $.commonPost("DMF/MonthSaleImportServer", {
+                        userId: $("#G_UserId").val(),
+                        path: args.osspath
+                    }, function (data) {
+                        loadCommitFiles(true);
+                    });
+                }
+            });
+        }
+
 
         function NameQuery() {
             loadMonthSale();

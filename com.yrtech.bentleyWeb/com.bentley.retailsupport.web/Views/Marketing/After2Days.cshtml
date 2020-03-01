@@ -127,7 +127,7 @@
                 uploaded: function (args) {
                     //调用导入方法
                     $.commonGet("MarketAction/MarketActionAfter2LeadsReportImportServer", {
-                        marketActionId: id,
+                        marketActionId: $("#MarketActionId").val(),
                         userId: $("#G_UserId").val(),
                         path: args.osspath
                     }, function (data) {

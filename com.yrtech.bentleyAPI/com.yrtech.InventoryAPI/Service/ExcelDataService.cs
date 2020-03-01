@@ -400,11 +400,19 @@ namespace com.yrtech.InventoryAPI.Service
             List<MarketActionAfter2LeadsReportDto> list = new List<MarketActionAfter2LeadsReportDto>();
             for (int i = 0; i < 10000; i++)
             {
+                string customerName = sheet.GetCell("A" + (i + 3)).Value.ToString();
+                if (string.IsNullOrEmpty(customerName)) break;
                 MarketActionAfter2LeadsReportDto report = new MarketActionAfter2LeadsReportDto();
-                //report.BPNO = sheet.GetCell("F" + (rowIndex + 3)).Value.ToString();
+                report.BPNO = sheet.GetCell("B" + (i + 3)).Value.ToString();
+                report.CustomerName = customerName;
+                report.DealCheckName = sheet.GetCell("G" + (i + 3)).Value.ToString();
+                report.DealModelName = sheet.GetCell("H" + (i + 3)).Value.ToString();
+                report.InterestedModelName = sheet.GetCell("F" + (i + 3)).Value.ToString();
+                report.LeadsCheckName = sheet.GetCell("E" + (i + 3)).Value.ToString();
+                report.OwnerCheckName = sheet.GetCell("C" + (i + 3)).Value.ToString();
+                report.TestDriverCheckName = sheet.GetCell("D" + (i + 3)).Value.ToString();
                 list.Add(report);
             }
-
             return list;
             
         }

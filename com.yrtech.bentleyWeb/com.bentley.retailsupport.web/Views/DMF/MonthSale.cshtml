@@ -58,11 +58,11 @@
                     <div id="main-content">
                         <div class="container-fluid">
                             <p id="phbuttons">
-                               <a id="selectfiles" class="btn btn-primary" style="margin-left:2px;"><i class="icon-upload-alt"></i><span translate>Import</span></a>
+                               <a id="selectfiles" class="btn btn-primary" style="margin-left:2px;"><i class="icon-upload-alt"></i><span translate>Import</span></a>                              
+                                <a id="templateDownloadA" class="btn btn-link" href=""><i class="icon-plus icon-white"></i><span translate>Download Templates</span></a>
                                 <div id="upload-container" class="container-fluid" style="margin:0;padding:0">
                                     <div id="ossfile"></div>
                                 </div> 
-                                <a id="templateDownloadA" class="btn btn-link" href=""><i class="icon-plus icon-white"></i><span translate>Download Templates</span></a>
                             </p>
 
                             <div class="row-fluid">
@@ -169,9 +169,9 @@
                 osspath: osspath,
                 uploaded: function (args) {
                     //调用导入方法
-                    $.commonPost("DMF/MonthSaleImportServer", {
+                    $.commonGet("DMF/MonthSaleImportServer", {
                         userId: $("#G_UserId").val(),
-                        path: args.osspath
+                        ossPath: args.osspath
                     }, function (data) {
                         loadCommitFiles(true);
                     });

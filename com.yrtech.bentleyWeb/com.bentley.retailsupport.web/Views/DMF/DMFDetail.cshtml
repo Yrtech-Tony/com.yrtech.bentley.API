@@ -67,7 +67,10 @@
                         <div class="container-fluid">
                             <p id="phbuttons">
                                 <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadFile()"><i class="icon-download-alt"></i><span translate>Export</span></a>
-                                <a class="btn btn-primary" style="margin-left:2px;" onclick="uploadFile()"><i class="icon-upload-alt"></i><span translate>Import</span></a>
+                                <a id="selectfiles" class="btn btn-primary" style="margin-left:2px;"><i class="icon-upload-alt"></i><span translate>Import</span></a>
+                                <div id="upload-container" class="container-fluid" style="margin:0;padding:0;float:left">
+                                    <div id="ossfile"></div>
+                                </div> 
                                 <a class="btn btn-link" id="templateDownloadA"><i class="icon-plus icon-white"></i><span translate>Download Templates</span></a>
                             </p>
 
@@ -257,17 +260,12 @@
                 osspath: osspath,
                 uploaded: function (args) {
                     //调用导入方法
-
-                    //$.commonPost("CommitFile/ShopCommitFileRecordSave", {
-                    //    ShopId: shopId,
-                    //    FileId: fileId,
-                    //    ShopCommitFileName: args.fileName,
-                    //    ShopCommitFileNameUrl: args.osspath,
-                    //    InUserId: UserId,
-                    //    ModifyUserId: UserId
-                    //}, function (data) {
-                    //    loadCommitFiles(true);
-                    //});
+                    $.commonPost("DMF/DMFDetailImportServer", {
+                        userId: $("#G_UserId").val(),
+                        path: args.osspath
+                    }, function (data) {
+                        loadCommitFiles(true);
+                    });
                 }
             });
         }

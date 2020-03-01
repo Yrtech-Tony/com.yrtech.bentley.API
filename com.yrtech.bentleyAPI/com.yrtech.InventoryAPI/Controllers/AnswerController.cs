@@ -139,12 +139,12 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("MarketAction/MarketActionNotCancelSearch")]
-        public APIResult MarketActionNotCancelSearch(string eventTypeId,string userId, string roleTypeCode)
+        public APIResult MarketActionNotCancelSearch(string eventTypeId, string userId, string roleTypeCode)
         {
             try
             {
 
-                List<MarketAction> marketActionListTemp = marketActionService.MarketActionNotCancelSearch( eventTypeId);
+                List<MarketAction> marketActionListTemp = marketActionService.MarketActionNotCancelSearch(eventTypeId);
                 List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
                 List<MarketAction> marketActionList = new List<MarketAction>();
 
@@ -237,7 +237,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         {
             try
             {
-                string filePath = excelDataService.MarketActionAllLeadsReportExport(year,userId,roleTypeCode);
+                string filePath = excelDataService.MarketActionAllLeadsReportExport(year, userId, roleTypeCode);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
             }
@@ -432,7 +432,7 @@ namespace com.yrtech.SurveyAPI.Controllers
                 {
                     marketactionName = marketAction[0].ActionName;
                     shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
-                    userinfo = masterService.UserInfoSearch("", "", shop[0].ShopName.ToString(),"","","");
+                    userinfo = masterService.UserInfoSearch("", "", shop[0].ShopName.ToString(), "", "", "");
                 }
                 SendEmail(userinfo[0].Email, WebConfigurationManager.AppSettings["KeyVisionEmail_CC"], "主视觉审批修改意见", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核意见已更新,请登陆DMN系统查看，并按要求完成更新", "", "");
                 return new APIResult() { Status = true, Body = "" };
@@ -689,11 +689,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("MarketAction/MarketActionAfter2LeadsReportImportServer")]
-        public APIResult MarketActionAfter2LeadsReportImportServer(string marketActionId,string userId,string path)
+        public APIResult MarketActionAfter2LeadsReportImportServer(string marketActionId, string userId, string path)
         {
             try
             {
-                List<MarketActionAfter2LeadsReportDto> list = excelDataService.LeadsReportImport(marketActionId, userId, path);
+                List<MarketActionAfter2LeadsReportDto> list = excelDataService.LeadsReportImport(path);
                 foreach (MarketActionAfter2LeadsReportDto leadsReportDto in list)
                 {
                     MarketActionAfter2LeadsReport leadsReport = new MarketActionAfter2LeadsReport();
@@ -721,16 +721,16 @@ namespace com.yrtech.SurveyAPI.Controllers
                             leadsReport.InterestedModel = hiddenCodeList_Insterested[0].HiddenCodeId;
                         }
                     }
-                    leadsReport.InUserId = leadsReportDto.InUserId;
+                    leadsReport.InUserId = Convert.ToInt32(userId);
                     if (leadsReportDto.LeadsCheckName == "是")
                     { leadsReport.LeadsCheck = true; }
                     else
                     {
                         leadsReport.LeadsCheck = false;
                     }
-                    leadsReport.MarketActionId = leadsReportDto.MarketActionId;
+                    leadsReport.MarketActionId = Convert.ToInt32(marketActionId);
                     leadsReport.ModifyDateTime = DateTime.Now;
-                    leadsReport.ModifyUserId = leadsReportDto.ModifyUserId;
+                    leadsReport.ModifyUserId = Convert.ToInt32(userId);
                     if (leadsReportDto.OwnerCheckName == "是")
                     { leadsReport.OwnerCheck = true; }
                     else
@@ -1084,7 +1084,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region DMF
         [HttpGet]
         [Route("DMF/DMFSearch")]
-        public APIResult DMFSearch(string shopId,string userId,string roleTypeCode)
+        public APIResult DMFSearch(string shopId, string userId, string roleTypeCode)
         {
             try
             {
@@ -1145,7 +1145,7 @@ namespace com.yrtech.SurveyAPI.Controllers
         #region DMFDetail
         [HttpGet]
         [Route("DMF/DMFDetailSearch")]
-        public APIResult DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId,string dmfItemName)
+        public APIResult DMFDetailSearch(string dmfDetailId, string shopId, string dmfItemId, string dmfItemName)
         {
             try
             {
@@ -1206,11 +1206,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("DMF/DMFDetailExport")]
-        public APIResult DMFDetailExport(string shopId, string dmfItemName,string userId,string roleTypeCode)
+        public APIResult DMFDetailExport(string shopId, string dmfItemName, string userId, string roleTypeCode)
         {
             try
             {
-                string filePath = excelDataService.DMFDetailExport(shopId, dmfItemName, userId,roleTypeCode);
+                string filePath = excelDataService.DMFDetailExport(shopId, dmfItemName, userId, roleTypeCode);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
 
             }
@@ -1243,6 +1243,54 @@ namespace com.yrtech.SurveyAPI.Controllers
                     dmfDetail.Budget = dmfDetailDto.Budget;
                     dmfDetail.InUserId = dmfDetailDto.InUserId;
                     dmfDetail.ModifyUserId = dmfDetailDto.ModifyUserId;
+                    dmfDetail.Remark = dmfDetailDto.Remark;
+                    dmfService.DMFDetailSave(dmfDetail);
+
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+
+        [HttpGet]
+        [Route("DMF/DMFDetailImportServer")]
+        public APIResult DMFDetailImportServer(string userId, string ossPath)
+        {
+            try
+            {
+                List<DMFDetailDto> list = excelDataService.DMFDetailImport(ossPath);
+
+                foreach (DMFDetailDto dmfDetail in list)
+                {
+                    foreach (DMFDetailDto dmfDetail1 in list)
+                    {
+                        if (dmfDetail != dmfDetail1 && dmfDetail.ShopName == dmfDetail1.ShopName && dmfDetail.DMFItemName == dmfDetail1.DMFItemName)
+                        {
+                            return new APIResult() { Status = false, Body = "导入失败,存在经销商名称和市场基金项目重复的数据，请检查文件" };
+                        }
+                    }
+                }
+                foreach (DMFDetailDto dmfDetailDto in list)
+                {
+                    DMFDetail dmfDetail = new DMFDetail();
+                    List<ShopDto> shopList = masterService.ShopSearch("", "", dmfDetailDto.ShopName, "");
+                    if (shopList != null && shopList.Count > 0)
+                    {
+                        dmfDetail.ShopId = shopList[0].ShopId;
+                    }
+                    List<DMFItem> dmfItemList = dmfService.DMFItemSearch("", dmfDetailDto.DMFItemName, "", null, null);
+                    if (dmfItemList != null && dmfItemList.Count > 0)
+                    {
+                        dmfDetail.DMFItemId = dmfItemList[0].DMFItemId;
+                    }
+                    dmfDetail.AcutalAmt = dmfDetailDto.AcutalAmt;
+                    dmfDetail.Budget = dmfDetailDto.Budget;
+                    dmfDetail.InUserId = Convert.ToInt32(userId);
+                    dmfDetail.ModifyUserId = Convert.ToInt32(userId);
                     dmfDetail.Remark = dmfDetailDto.Remark;
                     dmfService.DMFDetailSave(dmfDetail);
 
@@ -1324,11 +1372,11 @@ namespace com.yrtech.SurveyAPI.Controllers
         }
         [HttpGet]
         [Route("DMF/ExpenseAccountExport")]
-        public APIResult ExpenseAccountExport(string shopId,string userId, string roleTypeCode)
+        public APIResult ExpenseAccountExport(string shopId, string userId, string roleTypeCode)
         {
             try
             {
-                string filePath = excelDataService.ExpenseAccountExport(shopId, userId,roleTypeCode);
+                string filePath = excelDataService.ExpenseAccountExport(shopId, userId, roleTypeCode);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
 
@@ -1416,7 +1464,7 @@ namespace com.yrtech.SurveyAPI.Controllers
             try
             {
                 List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch("", monthSale.ShopId.ToString(), monthSale.YearMonth);
-                if (monthSaleList != null && monthSaleList.Count != 0&& monthSaleList[0].MonthSaleId!= monthSale.MonthSaleId)
+                if (monthSaleList != null && monthSaleList.Count != 0 && monthSaleList[0].MonthSaleId != monthSale.MonthSaleId)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,同一经销商年月不能重复" };
                 }
@@ -1442,24 +1490,80 @@ namespace com.yrtech.SurveyAPI.Controllers
                     {
                         if (monthSaleDto != monthSaleDto1 && monthSaleDto.ShopName == monthSaleDto1.ShopName && monthSaleDto.YearMonth == monthSaleDto1.YearMonth)
                         {
-                            return new APIResult() { Status = false, Body = "导入失败,经销商名称及年月重复，请检查文件" };
+                            return new APIResult() { Status = false, Body = "导入失败,存在经销商名称及年月重复数据，请检查文件" };
                         }
                     }
                 }
+                // 暂时不验证，如果系统中已经存在的进行更新
+                //foreach (MonthSaleDto monthSaleDto in list)
+                //{
+                //    List<ShopDto> shopList = masterService.ShopSearch("", "", monthSaleDto.ShopName, "");
+                //    if (shopList != null && shopList.Count > 0)
+                //    {
+                //        monthSaleDto.ShopId = shopList[0].ShopId;
+                //    }
+                //    List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch("", monthSaleDto.ShopId.ToString(), monthSaleDto.YearMonth);
+                //    if (monthSaleList != null && monthSaleList.Count != 0 && monthSaleDto.MonthSaleId != monthSaleList[0].MonthSaleId)
+                //    {
+                //        return new APIResult() { Status = false, Body = "导入失败,同一经销商年月不能重复，请检查文件" };
+                //    }
+                //}
                 foreach (MonthSaleDto monthSaleDto in list)
                 {
+                    MonthSale monthSale = new MonthSale();
                     List<ShopDto> shopList = masterService.ShopSearch("", "", monthSaleDto.ShopName, "");
                     if (shopList != null && shopList.Count > 0)
                     {
-                        monthSaleDto.ShopId = shopList[0].ShopId;
+                        monthSale.ShopId = shopList[0].ShopId;
                     }
-                    List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch("", monthSaleDto.ShopId.ToString(), monthSaleDto.YearMonth);
-                    if (monthSaleList != null && monthSaleList.Count != 0&& monthSaleDto.MonthSaleId!= monthSaleList[0].MonthSaleId)
+                    monthSale.ActualSaleAmt = monthSaleDto.ActualSaleAmt;
+                    monthSale.ActualSaleCount = monthSaleDto.ActualSaleCount;
+                    monthSale.InUserId = monthSaleDto.InUserId;
+                    monthSale.ModifyUserId = monthSaleDto.ModifyUserId;
+                    monthSale.YearMonth = monthSaleDto.YearMonth;
+                    dmfService.MonthSaleSave(monthSale);
+
+                }
+                return new APIResult() { Status = true, Body = "" };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("DMF/MonthSaleImportServer")]
+        public APIResult MonthSaleImportServer(string userId,string ossPath)
+        {
+            try
+            {
+                List<MonthSaleDto> list = excelDataService.MonthSaleImport(ossPath);
+                foreach (MonthSaleDto monthSaleDto in list)
+                {
+                    foreach (MonthSaleDto monthSaleDto1 in list)
                     {
-                        return new APIResult() { Status = false, Body = "导入失败,同一经销商年月不能重复，请检查文件" }; 
+                        if (monthSaleDto != monthSaleDto1 && monthSaleDto.ShopName == monthSaleDto1.ShopName && monthSaleDto.YearMonth == monthSaleDto1.YearMonth)
+                        {
+                            return new APIResult() { Status = false, Body = "导入失败,存在经销商名称及年月重复数据，请检查文件" };
+                        }
                     }
                 }
-                    foreach (MonthSaleDto monthSaleDto in list)
+                // 暂时不验证，如果系统中已经存在的进行更新
+                //foreach (MonthSaleDto monthSaleDto in list)
+                //{
+                //    List<ShopDto> shopList = masterService.ShopSearch("", "", monthSaleDto.ShopName, "");
+                //    if (shopList != null && shopList.Count > 0)
+                //    {
+                //        monthSaleDto.ShopId = shopList[0].ShopId;
+                //    }
+                //    List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch("", monthSaleDto.ShopId.ToString(), monthSaleDto.YearMonth);
+                //    if (monthSaleList != null && monthSaleList.Count != 0 && monthSaleDto.MonthSaleId != monthSaleList[0].MonthSaleId)
+                //    {
+                //        return new APIResult() { Status = false, Body = "导入失败,同一经销商年月不能重复，请检查文件" };
+                //    }
+                //}
+                foreach (MonthSaleDto monthSaleDto in list)
                 {
                     MonthSale monthSale = new MonthSale();
                     List<ShopDto> shopList = masterService.ShopSearch("", "", monthSaleDto.ShopName, "");

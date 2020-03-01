@@ -390,31 +390,80 @@ namespace com.yrtech.InventoryAPI.Service
         }
 
         // 导入线索报告
-        public List<MarketActionAfter2LeadsReportDto> LeadsReportImport(string marketActionId,string userId,string ossPath)
+        public List<MarketActionAfter2LeadsReportDto> LeadsReportImport(string ossPath)
         {
             // 从OSS下载文件
-            string downLoadFilePath = basePath + @"Content\Excel\ExcelImport"+ DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string downLoadFilePath = basePath + @"Content\Excel\ExcelImport\"+ DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
             OSSClientHelper.GetObject(ossPath, downLoadFilePath);
             Workbook book = Workbook.Load(downLoadFilePath, false);
             Worksheet sheet = book.Worksheets[0];
             List<MarketActionAfter2LeadsReportDto> list = new List<MarketActionAfter2LeadsReportDto>();
             for (int i = 0; i < 10000; i++)
             {
-                string customerName = sheet.GetCell("A" + (i + 3)).Value.ToString();
+                string customerName = sheet.GetCell("A" + (i + 3)).Value==null?"":sheet.GetCell("A" + (i + 3)).Value.ToString();
                 if (string.IsNullOrEmpty(customerName)) break;
                 MarketActionAfter2LeadsReportDto report = new MarketActionAfter2LeadsReportDto();
-                report.BPNO = sheet.GetCell("B" + (i + 3)).Value.ToString();
+                report.BPNO = sheet.GetCell("B" + (i + 3)).Value==null?"":sheet.GetCell("B" + (i + 3)).Value.ToString();
                 report.CustomerName = customerName;
-                report.DealCheckName = sheet.GetCell("G" + (i + 3)).Value.ToString();
-                report.DealModelName = sheet.GetCell("H" + (i + 3)).Value.ToString();
-                report.InterestedModelName = sheet.GetCell("F" + (i + 3)).Value.ToString();
-                report.LeadsCheckName = sheet.GetCell("E" + (i + 3)).Value.ToString();
-                report.OwnerCheckName = sheet.GetCell("C" + (i + 3)).Value.ToString();
-                report.TestDriverCheckName = sheet.GetCell("D" + (i + 3)).Value.ToString();
+                report.DealCheckName = sheet.GetCell("G" + (i + 3)).Value==null?"":sheet.GetCell("G" + (i + 3)).Value.ToString();
+                report.DealModelName = sheet.GetCell("H" + (i + 3)).Value==null?"":sheet.GetCell("H" + (i + 3)).Value.ToString();
+                report.InterestedModelName = sheet.GetCell("F" + (i + 3)).Value==null?"":sheet.GetCell("F" + (i + 3)).Value.ToString();
+                report.LeadsCheckName = sheet.GetCell("E" + (i + 3)).Value==null?"":sheet.GetCell("E" + (i + 3)).Value.ToString();
+                report.OwnerCheckName = sheet.GetCell("C" + (i + 3)).Value==null?"":sheet.GetCell("C" + (i + 3)).Value.ToString();
+                report.TestDriverCheckName = sheet.GetCell("D" + (i + 3)).Value==null?"":sheet.GetCell("D" + (i + 3)).Value.ToString();
                 list.Add(report);
             }
             return list;
             
+        }
+
+        // 导入市场基金详情
+        public List<DMFDetailDto> DMFDetailImport(string ossPath)
+        {
+            // 从OSS下载文件
+            string downLoadFilePath = basePath + @"Content\Excel\ExcelImport\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            OSSClientHelper.GetObject(ossPath, downLoadFilePath);
+            Workbook book = Workbook.Load(downLoadFilePath, false);
+            Worksheet sheet = book.Worksheets[0];
+            List<DMFDetailDto> list = new List<DMFDetailDto>();
+            for (int i = 0; i < 10000; i++)
+            {
+                string shopName = sheet.GetCell("A" + (i + 3)).Value == null ? "" : sheet.GetCell("A" + (i + 3)).Value.ToString();
+                if (string.IsNullOrEmpty(shopName)) break;
+                DMFDetailDto dmfDetail = new DMFDetailDto();
+                dmfDetail.ShopName = shopName;
+                dmfDetail.DMFItemName = sheet.GetCell("B" + (i + 3)).Value == null ? "" : sheet.GetCell("B" + (i + 3)).Value.ToString();
+                dmfDetail.Budget = sheet.GetCell("C" + (i + 3)).Value == null ? "" : sheet.GetCell("C" + (i + 3)).Value.ToString();
+                dmfDetail.AcutalAmt = sheet.GetCell("D" + (i + 3)).Value == null ? "" : sheet.GetCell("D" + (i + 3)).Value.ToString();
+                dmfDetail.Remark = sheet.GetCell("E" + (i + 3)).Value == null ? "" : sheet.GetCell("E" + (i + 3)).Value.ToString();
+                list.Add(dmfDetail);
+            }
+            return list;
+
+        }
+
+        // 导入月批售概况
+        public List<MonthSaleDto> MonthSaleImport(string ossPath)
+        {
+            // 从OSS下载文件
+            string downLoadFilePath = basePath + @"Content\Excel\ExcelImport\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            OSSClientHelper.GetObject(ossPath, downLoadFilePath);
+            Workbook book = Workbook.Load(downLoadFilePath, false);
+            Worksheet sheet = book.Worksheets[0];
+            List<MonthSaleDto> list = new List<MonthSaleDto>();
+            for (int i = 0; i < 10000; i++)
+            {
+                string shopName = sheet.GetCell("A" + (i + 3)).Value == null ? "" : sheet.GetCell("A" + (i + 3)).Value.ToString();
+                if (string.IsNullOrEmpty(shopName)) break;
+                MonthSaleDto monthSale = new MonthSaleDto();
+                monthSale.ShopName = shopName;
+                monthSale.YearMonth = sheet.GetCell("B" + (i + 3)).Value == null ? "" : sheet.GetCell("B" + (i + 3)).Value.ToString();
+                monthSale.ActualSaleCount = sheet.GetCell("C" + (i + 3)).Value == null ? "" : sheet.GetCell("C" + (i + 3)).Value.ToString();
+                monthSale.ActualSaleAmt = sheet.GetCell("D" + (i + 3)).Value == null ? "" : sheet.GetCell("D" + (i + 3)).Value.ToString();
+                list.Add(monthSale);
+            }
+            return list;
+
         }
     }
 }

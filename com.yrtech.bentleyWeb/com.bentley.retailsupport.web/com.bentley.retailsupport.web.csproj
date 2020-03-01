@@ -396,8 +396,8 @@
     <Content Include="Scripts\oss-upload-direct\lib\plupload-2.1.2\js\plupload.full.min.js" />
     <Content Include="Scripts\oss-upload-direct\lib\plupload-2.1.2\js\plupload.min.js" />
     <Content Include="Scripts\oss-upload-direct\lib\plupload-2.1.2\license.txt" />
-    <Content Include="Scripts\oss-upload-direct\upload.js" />
     <Content Include="Scripts\curtom\PromotionCreate.js" />
+    <Content Include="Scripts\oss-upload-direct\upload.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\xlsx.core.min.js" />

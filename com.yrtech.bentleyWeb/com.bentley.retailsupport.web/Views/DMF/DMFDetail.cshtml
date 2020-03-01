@@ -174,6 +174,13 @@
     <script src="~/Scripts/crypto-js.js"></script>
     <script src="~/Scripts/curtom/DESUtil.js"></script>
 
+    <script src="~/Scripts/oss-upload-direct/lib/crypto1/crypto/crypto.js"></script>
+    <script src="~/Scripts/oss-upload-direct/lib/crypto1/hmac/hmac.js"></script>
+    <script src="~/Scripts/oss-upload-direct/lib/crypto1/sha1/sha1.js"></script>
+    <script src="~/Scripts/oss-upload-direct/lib/plupload-2.1.2/js/plupload.full.min.js"></script>
+    <script src="~/Scripts/oss-upload-direct/lib/base64.js"></script>
+    <script src="~/Scripts/oss-upload-direct/upload.js?20200229"></script>
+
     <script type="text/javascript">
         if (!$("#ShopId").val()) {
             $("#nav_budget_cost").addClass("active");
@@ -184,7 +191,13 @@
         var account = $("#G_AccountId").val();
         var hdData = [];
         var dmfData = [];
+
+        var osspath = "Bentley/" + year + "/ImportData/";
+        var ossClient;
         $(function () {
+            //初始化LexusReport OSS 数据源
+            initOssClient();
+
             //下载模板地址
             templateDownloadA.href = host + "/Content/Excel/DMFDetail.xlsx";
 
@@ -234,6 +247,30 @@
             });
             loadDMFDetailOrQuarter();
         })
+        
+        function initOssClient() {
+            ossClient = new OSSClient({
+                fileAddCheck: function () {
+                    return true;
+                },
+                fileAddCheckMsg: "",
+                osspath: osspath,
+                uploaded: function (args) {
+                    //调用导入方法
+
+                    //$.commonPost("CommitFile/ShopCommitFileRecordSave", {
+                    //    ShopId: shopId,
+                    //    FileId: fileId,
+                    //    ShopCommitFileName: args.fileName,
+                    //    ShopCommitFileNameUrl: args.osspath,
+                    //    InUserId: UserId,
+                    //    ModifyUserId: UserId
+                    //}, function (data) {
+                    //    loadCommitFiles(true);
+                    //});
+                }
+            });
+        }
 
         function loadDMFDetailOrQuarter() {
             InitDMFDetail();

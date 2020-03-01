@@ -130,7 +130,7 @@
                     //调用导入方法
                     $.commonPost("CommitFile/MarketActionAfter2LeadsReportImportServer", {
                         marketActionId: id,
-                        userId: UserId,
+                        userId: $("#G_UserId").val(),
                         path: args.osspath
                     }, function (data) {
                         loadCueReport();

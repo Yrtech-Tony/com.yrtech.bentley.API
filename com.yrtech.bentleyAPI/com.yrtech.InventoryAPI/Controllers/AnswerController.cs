@@ -1532,7 +1532,7 @@ namespace com.yrtech.SurveyAPI.Controllers
             }
 
         }
-        [HttpPost]
+        [HttpGet]
         [Route("DMF/MonthSaleImportServer")]
         public APIResult MonthSaleImportServer(string userId,string ossPath)
         {

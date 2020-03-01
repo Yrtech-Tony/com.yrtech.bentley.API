@@ -112,7 +112,7 @@ namespace com.yrtech.InventoryAPI.Service
                 sql += " AND DMFItemId = @DMFItemId";
             }
             List<DMFDetail> list = db.Database.SqlQuery(t, sql, para).Cast<DMFDetail>().ToList();
-            
+
             string sqlReturn = @"CREATE TABLE #DMFDetail(
                                                         [DMFDetailId][int]  NOT NULL,
                                                         [ShopId] [int] NULL,
@@ -142,7 +142,7 @@ namespace com.yrtech.InventoryAPI.Service
                 {
                     sqlReturn += dmfDetail.DMFItemId + "','";
                 }
-                if (dmfDetail.Budget == null)
+                if (string.IsNullOrEmpty(dmfDetail.Budget)||string.IsNullOrEmpty(TokenHelper.DecryptDES(dmfDetail.Budget)))
                 {
                     sqlReturn += "0','";
                 }
@@ -150,7 +150,7 @@ namespace com.yrtech.InventoryAPI.Service
                 {
                     sqlReturn += TokenHelper.DecryptDES(dmfDetail.Budget) + "','";
                 }
-                if (dmfDetail.AcutalAmt == null)
+                if (string.IsNullOrEmpty(dmfDetail.AcutalAmt)||string.IsNullOrEmpty(TokenHelper.DecryptDES(dmfDetail.AcutalAmt)))
                 {
                     sqlReturn += "0','";
                 }
@@ -397,15 +397,17 @@ namespace com.yrtech.InventoryAPI.Service
                 {
                     sqlReturn += "0','";
                 }
-                else {
+                else
+                {
                     sqlReturn += expenseAccount.ShopId + "','";
                 }
                 if (expenseAccount.DMFItemId == null)
                 {
                     sqlReturn += "0','";
                 }
-                else {
-                    sqlReturn += expenseAccount.DMFItemId  + "','";
+                else
+                {
+                    sqlReturn += expenseAccount.DMFItemId + "','";
                 }
                 if (expenseAccount.MarketActionId == null)
                 {
@@ -415,7 +417,8 @@ namespace com.yrtech.InventoryAPI.Service
                 {
                     sqlReturn += expenseAccount.MarketActionId + "','";
                 }
-                if (expenseAccount.ExpenseAmt == null)
+                if (string.IsNullOrEmpty(expenseAccount.ExpenseAmt) ||
+                    string.IsNullOrEmpty(TokenHelper.DecryptDES(expenseAccount.ExpenseAmt)))
                 {
                     sqlReturn += "0','";
                 }
@@ -634,7 +637,7 @@ namespace com.yrtech.InventoryAPI.Service
             {
                 sql += " AND A.YearMonth = @YearMonth";
             }
-            List<MonthSale> list =  db.Database.SqlQuery(t, sql, para).Cast<MonthSale>().ToList();
+            List<MonthSale> list = db.Database.SqlQuery(t, sql, para).Cast<MonthSale>().ToList();
             string sqlReturn = @"CREATE TABLE #MonthSale(
 	                                                [MonthSaleId] [int]  NOT NULL,
 	                                                [YearMonth] [nvarchar](500) NULL,
@@ -662,14 +665,15 @@ namespace com.yrtech.InventoryAPI.Service
                 {
                     sqlReturn += monthSale.ShopId + "','";
                 }
-                if (monthSale.ActualSaleCount == null)
+                if (string.IsNullOrEmpty(monthSale.ActualSaleCount)||string.IsNullOrEmpty(TokenHelper.DecryptDES(monthSale.ActualSaleCount)))
                 {
                     sqlReturn += "0','";
                 }
                 else
                 {
                     sqlReturn += TokenHelper.DecryptDES(monthSale.ActualSaleCount) + "','";
-                }if (monthSale.ActualSaleAmt == null)
+                }
+                if (string.IsNullOrEmpty(monthSale.ActualSaleAmt)||string.IsNullOrEmpty(TokenHelper.DecryptDES(monthSale.ActualSaleAmt)))
                 {
                     sqlReturn += "0')";
 

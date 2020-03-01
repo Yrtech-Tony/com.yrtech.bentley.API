@@ -1274,6 +1274,34 @@ namespace com.yrtech.SurveyAPI.Controllers
                         }
                     }
                 }
+                // 验证数据库和excel里面是否有重复数据
+                foreach (DMFDetailDto dmfDetailDto in list)
+                {
+                    List<ShopDto> shopList = masterService.ShopSearch("", "", dmfDetailDto.ShopName.Trim(), "");
+                    if (shopList == null
+                        || shopList.Count == 0)
+                    {
+                        return new APIResult() { Status = false, Body = "导入失败,文件中存在系统中未登记的经销商，请检查文件" };
+                    }
+                    if (shopList != null && shopList.Count > 0)
+                    {
+                        dmfDetailDto.ShopId = shopList[0].ShopId;
+                    }
+                    List<DMFItem> dmfItemList = dmfService.DMFItemSearch("", dmfDetailDto.DMFItemName.Trim(), "", null, null);
+                    if (dmfItemList == null || dmfItemList.Count == 0)
+                    {
+                        return new APIResult() { Status = false, Body = "导入失败,文件中存在系统中未登记的市场基金项目，请检查文件" };
+                    }
+                    if (dmfItemList != null && dmfItemList.Count > 0)
+                    {
+                        dmfDetailDto.DMFItemId = dmfItemList[0].DMFItemId;
+                    }
+                    List<DMFDetailDto> dmfDetailList = dmfService.DMFDetailSearch("",dmfDetailDto.ShopId.ToString(),dmfDetailDto.DMFItemId.ToString(),"");
+                    if (dmfDetailList != null && dmfDetailList.Count != 0 && dmfDetailDto.DMFDetailId != dmfDetailList[0].DMFDetailId)
+                    {
+                        return new APIResult() { Status = false, Body = "导入失败,文件中存在和系统重复的数据(经销商和市场基金项目同时重复)，请检查文件" };
+                    }
+                }
                 foreach (DMFDetailDto dmfDetailDto in list)
                 {
                     DMFDetail dmfDetail = new DMFDetail();
@@ -1549,20 +1577,24 @@ namespace com.yrtech.SurveyAPI.Controllers
                         }
                     }
                 }
-                // 暂时不验证，如果系统中已经存在的进行更新
-                //foreach (MonthSaleDto monthSaleDto in list)
-                //{
-                //    List<ShopDto> shopList = masterService.ShopSearch("", "", monthSaleDto.ShopName, "");
-                //    if (shopList != null && shopList.Count > 0)
-                //    {
-                //        monthSaleDto.ShopId = shopList[0].ShopId;
-                //    }
-                //    List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch("", monthSaleDto.ShopId.ToString(), monthSaleDto.YearMonth);
-                //    if (monthSaleList != null && monthSaleList.Count != 0 && monthSaleDto.MonthSaleId != monthSaleList[0].MonthSaleId)
-                //    {
-                //        return new APIResult() { Status = false, Body = "导入失败,同一经销商年月不能重复，请检查文件" };
-                //    }
-                //}
+              // 验证数据库和excel里面是否有重复数据
+                foreach (MonthSaleDto monthSaleDto in list)
+                {
+                    List<ShopDto> shopList = masterService.ShopSearch("", "", monthSaleDto.ShopName.Trim(), "");
+                    if (shopList == null || shopList.Count == 0)
+                    {
+                        return new APIResult() { Status = false, Body = "导入失败,文件中存在系统中未登记的经销商，请检查文件" };
+                    }
+                    if (shopList != null && shopList.Count > 0)
+                    {
+                        monthSaleDto.ShopId = shopList[0].ShopId;
+                    }
+                    List<MonthSaleDto> monthSaleList = dmfService.MonthSaleSearch("", monthSaleDto.ShopId.ToString(), monthSaleDto.YearMonth);
+                    if (monthSaleList != null && monthSaleList.Count != 0 && monthSaleDto.MonthSaleId != monthSaleList[0].MonthSaleId)
+                    {
+                        return new APIResult() { Status = false, Body = "导入失败,文件中存在和系统重复的数据(经销商和年月同时重复)，请检查文件" };
+                    }
+                }
                 foreach (MonthSaleDto monthSaleDto in list)
                 {
                     MonthSale monthSale = new MonthSale();

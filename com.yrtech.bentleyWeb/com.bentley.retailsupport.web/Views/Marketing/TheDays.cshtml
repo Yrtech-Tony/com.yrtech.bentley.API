@@ -126,7 +126,7 @@
 
             window.operateEvents = {
                 'click .remove': function (e, value, row, index) {
-                    deleleCommitFile([row]);
+                    deleleMarketActionTheDayFile([row]);
                 }
             }
         })
@@ -159,6 +159,7 @@
                 }
             })
         }
+
         //删除文件
         function deleleMarketActionTheDayFile(rows) {
             $.commonPost("MarketAction/MarketActionTheDayFileDelete", {

@@ -45,6 +45,7 @@
                 <span style="padding-left:10px;" />
                 <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadFile()"><i class="icon-download-alt"></i><span translate>Export</span></a>
                 <a id="selectfiles" class="btn btn-primary" style="margin-left:2px;"><i class="icon-upload-alt"></i><span translate>Import</span></a> 
+                <a id="templateDownloadA" class="btn btn-link" href=""><i class="icon-plus icon-white"></i><span translate>Download Templates</span></a>
                 <div id="upload-container" class="container-fluid" style="margin:0;padding:0">
                     <div id="ossfile"></div>
                 </div>              
@@ -115,6 +116,9 @@
             initOssClient();
 
             loadCueReport();
+
+            //下载模板地址
+            templateDownloadA.href = host + "/Content/Excel/LeadsReport.xlsx";
         });
 
         function initOssClient() {

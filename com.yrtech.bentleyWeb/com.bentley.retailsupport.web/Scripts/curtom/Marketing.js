@@ -129,7 +129,15 @@ function initTable() {
         formatter: expenseAccountFormatter,
         events: {
             'change .check': function (e, value, row, index) {
-                deleleCommitFile([row]);
+                var chhecked = $(e.target).is(":checked");
+                $.commonGet("MarketAction/MarketActionSearchById", { marketActionId: row.MarketActionId }, function (data) {
+                    if (data && data.length > 0) {
+                        data[0].ExpenseAccount = chhecked;
+                        $.commonPost('MarketAction/MarketActionSave', data[0], function (res) {
+                            //window.location.href = "/Marketing/Index";
+                        })
+                    }
+                });
             }
         }
     }, {

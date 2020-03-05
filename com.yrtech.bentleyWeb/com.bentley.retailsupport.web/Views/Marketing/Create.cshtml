@@ -231,9 +231,9 @@
                 $("#EndDate").datetimepicker('hide');
             });
 
+            $('#ActiveShow').show();
             var roleName = $('#G_RoleTypeCode').val();
-            if (roleName == "SYSADMIN" || roleName == "AREA") {
-                $('#ActiveShow').show();
+            if (roleName == "SYSADMIN" || roleName == "AREA") {                
                 $('#btnDel').show();
             }
             

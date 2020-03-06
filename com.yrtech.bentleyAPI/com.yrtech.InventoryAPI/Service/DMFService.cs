@@ -516,6 +516,14 @@ namespace com.yrtech.InventoryAPI.Service
         }
         public ExpenseAccount ExpenseAccountSave(ExpenseAccount expenseAccount)
         {
+            if (expenseAccount.ApplyStatus == "未提交")
+            {
+                expenseAccount.ApplyStatus = "";
+            }
+            if (expenseAccount.ReplyStatus == "未提交")
+            {
+                expenseAccount.ReplyStatus = "";
+            }
             ExpenseAccount findOne = db.ExpenseAccount.Where(x => (x.ExpenseAccountId == expenseAccount.ExpenseAccountId)).FirstOrDefault();
             if (findOne == null)
             {

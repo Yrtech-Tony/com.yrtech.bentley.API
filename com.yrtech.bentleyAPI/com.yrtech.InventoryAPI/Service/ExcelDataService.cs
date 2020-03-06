@@ -287,13 +287,13 @@ namespace com.yrtech.InventoryAPI.Service
             List<ExpenseAccountDto> listTemp = dmfService.ExpenseAccountSearch("",shopId,"","");
             List<ExpenseAccountDto> list = new List<ExpenseAccountDto>();
             List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
-
             foreach (ExpenseAccountDto expenseAccount in listTemp)
             {
                 foreach (Shop shop in roleTypeShopList)
                 {
                     if (expenseAccount.ShopId == shop.ShopId)
                     {
+                        expenseAccount.ExpenseAmt = TokenHelper.DecryptDES(expenseAccount.ExpenseAmt);
                         list.Add(expenseAccount);
                     }
                 }

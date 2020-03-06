@@ -8,6 +8,7 @@ namespace com.yrtech.InventoryAPI.DTO
         public int UserId { get; set; }
         public string AccountId { get; set; }
         public string Password { get; set; }
+        public string OldPassword { get; set; }
         public string AccountName { get; set; }
         public string AccountNameEn { get; set; }
         public string TelNO { get; set; }

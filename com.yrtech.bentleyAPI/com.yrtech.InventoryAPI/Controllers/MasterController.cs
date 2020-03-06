@@ -20,7 +20,7 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<ShopDto> shopList = masterService.ShopSearch(shopId,shopCode,shopName,shopNameEn);
+                List<ShopDto> shopList = masterService.ShopSearch(shopId, shopCode, shopName, shopNameEn);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(shopList) };
             }
@@ -35,7 +35,7 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<ShopDto> shopList = masterService.ShopSearch("","",shop.ShopName,"");
+                List<ShopDto> shopList = masterService.ShopSearch("", "", shop.ShopName, "");
                 if (shopList != null && shopList.Count != 0 && shopList[0].ShopId != shop.ShopId)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,经销商名称重复" };
@@ -92,7 +92,7 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<Area> areaList = masterService.AreaSearch("",area.AreaName,"");
+                List<Area> areaList = masterService.AreaSearch("", area.AreaName, "");
                 if (areaList != null && areaList.Count != 0 && areaList[0].AreaId != area.AreaId)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,区域中文名称重复" };
@@ -130,11 +130,11 @@ namespace com.yrtech.InventoryAPI.Controllers
         #region EventType
         [HttpGet]
         [Route("Master/EventTypeSearch")]
-        public APIResult EventTypeSearch(string eventTypeId, string eventTypeName, string eventTypeNameEn,bool? showStatus)
+        public APIResult EventTypeSearch(string eventTypeId, string eventTypeName, string eventTypeNameEn, bool? showStatus)
         {
             try
             {
-                List<EventTypeDto> eventTypeList = masterService.EventTypeSearch(eventTypeId,eventTypeName,eventTypeNameEn, showStatus);
+                List<EventTypeDto> eventTypeList = masterService.EventTypeSearch(eventTypeId, eventTypeName, eventTypeNameEn, showStatus);
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(eventTypeList) };
             }
@@ -149,7 +149,7 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<EventTypeDto> eventTypeList = masterService.EventTypeSearch("",eventType.EventTypeName,"",null);
+                List<EventTypeDto> eventTypeList = masterService.EventTypeSearch("", eventType.EventTypeName, "", null);
                 if (eventTypeList != null && eventTypeList.Count != 0 && eventTypeList[0].EventTypeId != eventType.EventTypeId)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,活动类型名称重复" };
@@ -191,7 +191,7 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<HiddenCode> hiddenCodeList = masterService.HiddenCodeSearch(hiddenCodeGroup, hiddenCode,"");
+                List<HiddenCode> hiddenCodeList = masterService.HiddenCodeSearch(hiddenCodeGroup, hiddenCode, "");
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(hiddenCodeList) };
             }
@@ -204,11 +204,11 @@ namespace com.yrtech.InventoryAPI.Controllers
         #region UserInfo
         [HttpGet]
         [Route("Master/UserInfoSearch")]
-        public APIResult UserInfoSearch(string userId, string accountId, string accountName,string shopCode,string shopName,string email)
+        public APIResult UserInfoSearch(string userId, string accountId, string accountName, string shopCode, string shopName, string email)
         {
             try
             {
-                List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userId,accountId,accountName, shopCode,shopName,email);
+                List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userId, accountId, accountName, shopCode, shopName, email);
                 foreach (UserInfoDto userinfo in userInfoList)
                 {
                     userinfo.Password = TokenHelper.DecryptDES(userinfo.Password);
@@ -227,7 +227,8 @@ namespace com.yrtech.InventoryAPI.Controllers
         {
             try
             {
-                List<UserInfoDto> userInfoList = masterService.UserInfoSearch("",userInfo.AccountId,"","","","");
+                List<UserInfoDto> userInfoList = masterService.UserInfoSearch("", userInfo.AccountId, "", "", "", "");
+
                 if (userInfoList != null && userInfoList.Count != 0 && userInfoList[0].UserId != userInfo.UserId)
                 {
                     return new APIResult() { Status = false, Body = "保存失败,账号重复" };
@@ -240,6 +241,37 @@ namespace com.yrtech.InventoryAPI.Controllers
                 //userInfo.Password = TokenHelper.EncryptDES(userInfo.Password);
                 userInfo = masterService.UserInfoSave(userInfo);
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfo) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+
+        }
+        [HttpPost]
+        [Route("Master/UserInfoPasswordChange")]
+        public APIResult UserInfoPasswordChange(UserInfoDto userInfo)
+        {
+            try
+            {
+                List<UserInfoDto> userInfoList = masterService.UserInfoSearch(userInfo.UserId.ToString(), "", "", "", "", "");
+                if (userInfoList == null || userInfoList.Count == 0)
+                {
+                    return new APIResult() { Status = false, Body = "该账号不存在，请确认账号" };
+                }
+                if (userInfoList[0].Password != userInfo.OldPassword)
+                {
+                    return new APIResult() { Status = false, Body = "原密码不正确，请确认密码" };
+                }
+
+                //List<UserInfoDto> userInfoList1 = masterService.UserInfoSearch("", "", userInfo.AccountName,"","","");
+                //if (userInfoList1 != null && userInfoList1.Count != 0 && userInfoList1[0].UserId != userInfo.UserId)
+                //{
+                //    return new APIResult() { Status = false, Body = "保存失败,账号名称重复" };
+                //}
+                //userInfo.Password = TokenHelper.EncryptDES(userInfo.Password);
+                masterService.UserInfoPasswordChange(userInfo.Password, userInfo.UserId.ToString());
+                return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)
             {

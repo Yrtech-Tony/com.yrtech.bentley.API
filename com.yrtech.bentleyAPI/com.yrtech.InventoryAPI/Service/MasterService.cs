@@ -311,6 +311,7 @@ namespace com.yrtech.InventoryAPI.Service
             sql += " ORDER BY AccountId";
             return db.Database.SqlQuery(t, sql, para).Cast<UserInfoDto>().ToList();
         }
+
         public UserInfo UserInfoSave(UserInfo userInfo)
         {
             UserInfo findOne = db.UserInfo.Where(x => (x.UserId == userInfo.UserId)).FirstOrDefault();
@@ -337,6 +338,23 @@ namespace com.yrtech.InventoryAPI.Service
             }
             db.SaveChanges();
             return userInfo;
+        }
+        public void UserInfoPasswordChange(string password,string userId)
+        {
+            int userIdInt = Convert.ToInt32(userId);
+            UserInfo findOne = db.UserInfo.Where(x => (x.UserId == userIdInt)).FirstOrDefault();
+            //if (findOne == null)
+            //{
+            //    userInfo.InDateTime = DateTime.Now;
+            //    userInfo.ModifyDateTime = DateTime.Now;
+            //    db.UserInfo.Add(userInfo);
+            //}
+            //else
+            //{
+            findOne.Password = password;
+            findOne.ModifyDateTime = DateTime.Now;
+            //}
+            db.SaveChanges();
         }
         public void UserInfoDelete(string userId)
         {

@@ -17,6 +17,7 @@ namespace com.yrtech.InventoryAPI.Service
         MarketActionService marketActionService = new MarketActionService();
         AccountService accountService = new AccountService();
         DMFService dmfService = new DMFService();
+        MasterService masterService = new MasterService();
 
         // 导出所有线索报告
         public string MarketActionAllLeadsReportExport(string year, string userId, string roleTypeCode)
@@ -377,6 +378,44 @@ namespace com.yrtech.InventoryAPI.Service
 
             //保存excel文件
             string fileName = "预算与费用" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string dirPath = basePath + @"\Temp\";
+            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+            string filePath = dirPath + fileName;
+            book.Save(filePath);
+
+            return filePath;
+        }
+
+        // UserInfo Export
+        public string UserInfoExport()
+        {
+            List<UserInfoDto> list = masterService.UserInfoSearch("","","","","","");
+            Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "UserInfo.xlsx", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
+            int rowIndex = 2;
+
+            foreach (UserInfoDto item in list)
+            {
+                //账号
+                sheet.GetCell("A" + (rowIndex + 1)).Value = item.AccountId;
+                //账号名称
+                sheet.GetCell("B" + (rowIndex + 1)).Value = item.AccountName;
+                //账号名称中文
+                sheet.GetCell("C" + (rowIndex + 1)).Value = item.AccountNameEn;
+                // 邮箱
+                sheet.GetCell("D" + (rowIndex + 1)).Value = item.Email;
+                // 权限
+                sheet.GetCell("E" + (rowIndex + 1)).Value = item.RoleTypeName;
+                rowIndex++;
+            }
+
+            //保存excel文件
+            string fileName = "用户信息" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
             string dirPath = basePath + @"\Temp\";
             DirectoryInfo dir = new DirectoryInfo(dirPath);
             if (!dir.Exists)

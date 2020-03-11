@@ -13,6 +13,7 @@ namespace com.yrtech.InventoryAPI.Controllers
     public class MasterController : BaseController
     {
         MasterService masterService = new MasterService();
+        ExcelDataService excelDataService = new ExcelDataService();
         #region Shop
         [HttpGet]
         [Route("Master/ShopSearch")]
@@ -215,6 +216,22 @@ namespace com.yrtech.InventoryAPI.Controllers
                 }
 
                 return new APIResult() { Status = true, Body = CommonHelper.Encode(userInfoList) };
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
+        [HttpGet]
+        [Route("Master/UserInfoExport")]
+        public APIResult UserInfoExport()
+        {
+            try
+            {
+                string filePath = excelDataService.UserInfoExport();
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
+
             }
             catch (Exception ex)
             {

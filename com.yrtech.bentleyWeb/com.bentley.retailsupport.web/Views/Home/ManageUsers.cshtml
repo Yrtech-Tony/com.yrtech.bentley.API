@@ -62,7 +62,10 @@
                 <div class="col-lg-12">
                     <div id="main-content">
                         <div class="container-fluid">
-                            <p><a class="btn btn-primary" id="btnNew" href="/Account/UserCreate"><i class="icon-plus icon-white"></i><span translate>Add</span></a></p>
+                            <p>
+                                <a class="btn btn-primary" id="btnNew" href="/Account/UserCreate"><i class="icon-plus icon-white"></i><span translate>Add</span></a>
+                                <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadFile()"><i class="icon-download-alt"></i><span translate>Export</span></a>
+                            </p>
 
                             <div class="row-fluid">
                                 <div class="span12">
@@ -120,12 +123,21 @@
                 accountName: '',
                 shopCode: '',
                 shopName: '',
-                email:''
+                email: ''
             }, function (data) {
                 $('#userTable').bootstrapTable("load", data);
                 $("#userTable").bootstrapTable("selectPage", parseInt(window.localStorage.pageNumberUser) || 1);
             })
         }
         loadUser();
+        
+        function downloadFile() {
+            $.commonGet("Master/UserInfoExport", {
+            }, function (data) {
+                if (data) {
+                    window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
+                }
+            })
+        }
     </script>
 }

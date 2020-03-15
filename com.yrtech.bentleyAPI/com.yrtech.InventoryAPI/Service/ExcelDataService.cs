@@ -397,7 +397,7 @@ namespace com.yrtech.InventoryAPI.Service
             Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "UserInfo.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];
-            int rowIndex = 2;
+            int rowIndex = 1;
 
             foreach (UserInfoDto item in list)
             {

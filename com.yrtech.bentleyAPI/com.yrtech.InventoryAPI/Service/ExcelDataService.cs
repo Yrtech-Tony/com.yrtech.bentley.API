@@ -313,7 +313,14 @@ namespace com.yrtech.InventoryAPI.Service
                 //活动名称
                 sheet.GetCell("C" + (rowIndex + 1)).Value = item.ActionName;
                 // 费用金额
-                sheet.GetCell("D" + (rowIndex + 1)).Value = item.ExpenseAmt;
+                if (string.IsNullOrEmpty(item.ExpenseAmt))
+                {
+                    sheet.GetCell("D" + (rowIndex + 1)).Value = "";
+                }
+                else
+                {
+                    sheet.GetCell("D" + (rowIndex + 1)).Value = Convert.ToDecimal(item.ExpenseAmt);
+                }
                 // 申请状态
                 sheet.GetCell("E" + (rowIndex + 1)).Value = item.ApplyStatus;
                 //申请说明

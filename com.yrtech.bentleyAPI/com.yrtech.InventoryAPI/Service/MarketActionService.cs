@@ -639,7 +639,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         public void MarketActionAfter2LeadsReportDelete(string marketActionId, string seqNO)
         {
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO) };
             string sql = @"DELETE MarketActionAfter2LeadsReport WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
                         ";
             db.Database.ExecuteSqlCommand(sql, para);

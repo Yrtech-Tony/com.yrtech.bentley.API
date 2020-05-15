@@ -1240,11 +1240,17 @@ namespace com.yrtech.SurveyAPI.Controllers
                     {
                         dmfDetail.DMFItemId = dmfItemList[0].DMFItemId;
                     }
+                    List<DMFDetailDto> detailList = dmfService.DMFDetailSearch("", dmfDetail.ShopId.ToString(), dmfDetail.DMFItemId.ToString(), "");
+                    
                     dmfDetail.AcutalAmt = dmfDetailDto.AcutalAmt;
                     dmfDetail.Budget = dmfDetailDto.Budget;
                     dmfDetail.InUserId = dmfDetailDto.InUserId;
                     dmfDetail.ModifyUserId = dmfDetailDto.ModifyUserId;
                     dmfDetail.Remark = dmfDetailDto.Remark;
+                    if (detailList != null && detailList.Count != 0 && detailList[0].DMFDetailId != dmfDetail.DMFDetailId)
+                    {
+                        return new APIResult() { Status = false, Body = "保存失败,同一经销商不能添加重复项目" };
+                    }
                     dmfService.DMFDetailSave(dmfDetail);
 
                 }

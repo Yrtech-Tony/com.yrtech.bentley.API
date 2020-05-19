@@ -375,9 +375,24 @@ namespace com.yrtech.InventoryAPI.Service
                 //项目
                 sheet.GetCell("B" + (rowIndex + 1)).Value = item.DMFItemName;
                 //预算花费
-                sheet.GetCell("C" + (rowIndex + 1)).Value = item.Budget;
+                if (string.IsNullOrEmpty(item.Budget))
+                {
+                    sheet.GetCell("C" + (rowIndex + 1)).Value = "";
+                }
+                else
+                {
+                    sheet.GetCell("C" + (rowIndex + 1)).Value = Convert.ToDecimal(item.Budget);
+                }
                 // 实际花费
-                sheet.GetCell("D" + (rowIndex + 1)).Value = item.AcutalAmt;
+                if (string.IsNullOrEmpty(item.AcutalAmt))
+                {
+                    sheet.GetCell("D" + (rowIndex + 1)).Value = "";
+                }
+                else
+                {
+                    
+                    sheet.GetCell("D" + (rowIndex + 1)).Value = Convert.ToDecimal(item.AcutalAmt);
+                }
                 // 备注
                 sheet.GetCell("E" + (rowIndex + 1)).Value = item.Remark;
                 rowIndex++;

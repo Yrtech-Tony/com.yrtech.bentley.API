@@ -2,6 +2,13 @@
 var IsEdit = false;
 var curRow;
 function GoUpload(id, type) {
+    var rows = $table.bootstrapTable('getData');
+    rows.forEach(function (row) {
+        if (row.ExpenseAccountId == id) {
+            curRow = row;
+            return false;
+        }
+    })
     if (!curRow || curRow.ExpenseAccountId == 0) {
         var rows = $table.bootstrapTable('getData');
         var filters = rows.filter(function (item) {

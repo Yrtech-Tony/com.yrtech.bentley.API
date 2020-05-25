@@ -327,6 +327,9 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , 'Email Screenshot': '邮件截图'
             , 'PType': '线上线下类型'  //线上线下类型
             , 'Modification Instructions': '修改说明'
+
+             , 'Activity Budget': '活动预算'
+            , 'Expect Leads': '预计线索'
         });
     /* jshint +W100 Tick-box Items*/
 }]);

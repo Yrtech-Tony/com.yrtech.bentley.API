@@ -268,7 +268,8 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
             , "2019 Coop Fund": "2019 Coop Fund"
             , 'Email Screenshot': 'Email Screenshot'
             , 'PType': 'Promotion Type'  //������������
-             , 'Modification Instructions': 'Modification Instructions'
+            , 'Activity Budget': 'Activity Budget'
+            , 'Expect Leads': 'Expect Leads'
         });
     /* jshint +W100 */
 }]);

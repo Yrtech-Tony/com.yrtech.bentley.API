@@ -1,3 +1,4 @@
+/// <reference path="Reimbursement.js" />
 var $table = $('#myBudgetCost');
 var role = $('#G_RoleName').val();
 

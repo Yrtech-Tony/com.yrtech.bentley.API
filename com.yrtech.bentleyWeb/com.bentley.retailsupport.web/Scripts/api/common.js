@@ -3,9 +3,9 @@
 API 公用方法
 需要引用jquery
 */
-var year = 2020;
-//var host = "http://39.106.71.65:8119/"
-var host = "http://localhost:57328/"
+var year = 2019;
+var host = "http://39.106.71.65:8091/"
+//var host = "http://localhost:57328/"
 var baseApi = host+"bentley/api/";
 
 

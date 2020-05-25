@@ -214,9 +214,9 @@ namespace com.yrtech.InventoryAPI.Service
                 // 活动类型
                 sheet.GetCell("E" + (rowIndex + 1)).Value = item.EventTypeName;
                 // 活动预算
-                sheet.GetCell("F" + (rowIndex + 1)).Value = item.ActionName;
+                sheet.GetCell("F" + (rowIndex + 1)).Value = item.ActivityBudget;
                 // 预计线索
-                sheet.GetCell("G" + (rowIndex + 1)).Value = item.EventTypeName;
+                sheet.GetCell("G" + (rowIndex + 1)).Value = item.ExpectLeadsCount;
                 //开始日期
                 sheet.GetCell("H" + (rowIndex + 1)).Value = item.StartDate;
                 //结束日期

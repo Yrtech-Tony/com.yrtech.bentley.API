@@ -135,6 +135,8 @@
           <Property Name="EventTypeId" Type="int" />
           <Property Name="MarketActionStatusCode" Type="nvarchar" MaxLength="50" />
           <Property Name="MarketActionTargetModelCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActivityBudget" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="ExpectLeadsCount" Type="int" />
           <Property Name="StartDate" Type="datetime" />
           <Property Name="EndDate" Type="datetime" />
           <Property Name="ActionPlace" Type="nvarchar" MaxLength="500" />
@@ -696,10 +698,10 @@
           <EntitySet Name="MarketActionAfter7" EntityType="BentleyModel.MarketActionAfter7" />
           <EntitySet Name="MarketActionBefore21" EntityType="BentleyModel.MarketActionBefore21" />
           <EntitySet Name="ExpenseAccountFile" EntityType="BentleyModel.ExpenseAccountFile" />
-          <EntitySet Name="MarketAction" EntityType="BentleyModel.MarketAction" />
           <EntitySet Name="ExpenseAccount" EntityType="BentleyModel.ExpenseAccount" />
           <EntitySet Name="DMFDetail" EntityType="BentleyModel.DMFDetail" />
           <EntitySet Name="MonthSale" EntityType="BentleyModel.MonthSale" />
+          <EntitySet Name="MarketAction" EntityType="BentleyModel.MarketAction" />
         </EntityContainer>
         <EntityType Name="UserInfo">
           <Key>
@@ -976,26 +978,6 @@
           <Property Name="ModifyUserId" Type="Int32" />
           <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="MarketAction">
-          <Key>
-            <PropertyRef Name="MarketActionId" />
-          </Key>
-          <Property Name="MarketActionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ShopId" Type="Int32" />
-          <Property Name="ActionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ActionCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EventTypeId" Type="Int32" />
-          <Property Name="MarketActionStatusCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MarketActionTargetModelCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StartDate" Type="DateTime" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Precision="3" />
-          <Property Name="ActionPlace" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ExpenseAccount" Type="Boolean" />
-          <Property Name="InUserId" Type="Int32" />
-          <Property Name="InDateTime" Type="DateTime" Precision="3" />
-          <Property Name="ModifyUserId" Type="Int32" />
-          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="ExpenseAccount">
           <Key>
             <PropertyRef Name="ExpenseAccountId" />
@@ -1038,6 +1020,28 @@
           <Property Name="ShopId" Type="Int32" />
           <Property Name="ActualSaleCount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ActualSaleAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InUserId" Type="Int32" />
+          <Property Name="InDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ModifyUserId" Type="Int32" />
+          <Property Name="ModifyDateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MarketAction">
+          <Key>
+            <PropertyRef Name="MarketActionId" />
+          </Key>
+          <Property Name="MarketActionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShopId" Type="Int32" />
+          <Property Name="ActionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ActionCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EventTypeId" Type="Int32" />
+          <Property Name="MarketActionStatusCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MarketActionTargetModelCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityBudget" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="ExpectLeadsCount" Type="Int32" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="ActionPlace" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ExpenseAccount" Type="Boolean" />
           <Property Name="InUserId" Type="Int32" />
           <Property Name="InDateTime" Type="DateTime" Precision="3" />
           <Property Name="ModifyUserId" Type="Int32" />
@@ -1480,27 +1484,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MarketAction">
-            <EntityTypeMapping TypeName="BentleyModel.MarketAction">
-              <MappingFragment StoreEntitySet="MarketAction">
-                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
-                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
-                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
-                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
-                <ScalarProperty Name="ExpenseAccount" ColumnName="ExpenseAccount" />
-                <ScalarProperty Name="ActionPlace" ColumnName="ActionPlace" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="MarketActionTargetModelCode" ColumnName="MarketActionTargetModelCode" />
-                <ScalarProperty Name="MarketActionStatusCode" ColumnName="MarketActionStatusCode" />
-                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
-                <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
-                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ExpenseAccount">
             <EntityTypeMapping TypeName="BentleyModel.ExpenseAccount">
               <MappingFragment StoreEntitySet="ExpenseAccount">
@@ -1548,6 +1531,29 @@
                 <ScalarProperty Name="ShopId" ColumnName="ShopId" />
                 <ScalarProperty Name="YearMonth" ColumnName="YearMonth" />
                 <ScalarProperty Name="MonthSaleId" ColumnName="MonthSaleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarketAction">
+            <EntityTypeMapping TypeName="BentleyModel.MarketAction">
+              <MappingFragment StoreEntitySet="MarketAction">
+                <ScalarProperty Name="ModifyDateTime" ColumnName="ModifyDateTime" />
+                <ScalarProperty Name="ModifyUserId" ColumnName="ModifyUserId" />
+                <ScalarProperty Name="InDateTime" ColumnName="InDateTime" />
+                <ScalarProperty Name="InUserId" ColumnName="InUserId" />
+                <ScalarProperty Name="ExpenseAccount" ColumnName="ExpenseAccount" />
+                <ScalarProperty Name="ActionPlace" ColumnName="ActionPlace" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ExpectLeadsCount" ColumnName="ExpectLeadsCount" />
+                <ScalarProperty Name="ActivityBudget" ColumnName="ActivityBudget" />
+                <ScalarProperty Name="MarketActionTargetModelCode" ColumnName="MarketActionTargetModelCode" />
+                <ScalarProperty Name="MarketActionStatusCode" ColumnName="MarketActionStatusCode" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
+                <ScalarProperty Name="ActionCode" ColumnName="ActionCode" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ShopId" ColumnName="ShopId" />
+                <ScalarProperty Name="MarketActionId" ColumnName="MarketActionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

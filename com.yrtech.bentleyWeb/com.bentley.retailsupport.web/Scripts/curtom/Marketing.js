@@ -220,11 +220,6 @@ function initTable() {
         field: '',
         align: 'center',
         valign: 'middle'
-    }, {
-        title: $("#G_AfterMonth3").val(),
-        field: '',
-        align: 'center',
-        valign: 'middle'
     }], [{
         title: $("#PlanPPT").val(),
         field: 'Before3Weeks',
@@ -273,16 +268,8 @@ function initTable() {
         formatter: function (value, row, index) {
             return statusFormatter(value, row, index, 'After1Months');
         }
-    }, {
-        title: $("#G_ProofDocument").val(),
-        field: 'After3Months',
-        align: 'center',
-        valign: 'middle',
-        formatter: function (value, row, index) {
-            return statusFormatter(value, row, index, 'After3Months');
-        }
     }]];
-
+   
     $("#myMarketing").bootstrapTable({
         columns: columns,
         pagination: true,
@@ -297,7 +284,7 @@ function initTable() {
         onPageChange: function (number, size) {
             window.localStorage.pageNumberMarket = number;
         }
-    });
+    }); 
 }
 
 function refreshTable(data) {

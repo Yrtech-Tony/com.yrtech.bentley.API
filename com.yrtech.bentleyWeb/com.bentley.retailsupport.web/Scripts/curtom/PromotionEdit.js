@@ -727,10 +727,10 @@ function InitActualCost() {
                     validate: function (v) {
                         v = $.trim(v);
                         if (!v) {
-                            return isZH() ? '数量不能为空，且必须是整数' : 'Quantities cannot be empty and  only numbers accepted';
+                            return isZH() ? '数量不能为空，且必须是整数' : 'Quantities cannot be empty and only numbers accepted';
                         }
                         if (!/^\+?[1-9]\d*$/.test(v)) {
-                            return isZH() ? '数量不能为空，且必须是整数' : 'Quantities cannot be empty and  only numbers accepted';
+                            return isZH() ? '数量不能为空，且必须是整数' : 'Quantities cannot be empty and only numbers accepted';
                         }
                     },
                     noeditFormatter: function (value, row, index) {

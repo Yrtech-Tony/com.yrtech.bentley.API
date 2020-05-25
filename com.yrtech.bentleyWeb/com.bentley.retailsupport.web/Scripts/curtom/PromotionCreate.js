@@ -44,6 +44,30 @@ $('#PromotionCreate').bootstrapValidator({
                     message: isZH() ? '日期格式不正确' : 'The date format is not correct'
                 }
             }
+        },
+        ActivityBudget: {
+            message: isZH() ? '活动预算无效' : 'The activity budget is invalid',
+            validators: {
+                notEmpty: {
+                    message: isZH() ? '活动预算不能为空' : 'The activity budget cannot be blank',
+                },
+                regexp: {
+                    regexp: /^[0-9_\.]+$/,
+                    message: isZH() ? '活动预算只能是数字' : 'The activity budget can only be figures',
+                }
+            }
+        },
+        ExpectLeadsCount: {
+            message: isZH() ? '预计线索无效' : 'The expect leads is invalid',
+            validators: {
+                notEmpty: {
+                    message: isZH() ? '预计线索不能为空' : 'The expect leads cannot be blank',
+                },
+                regexp: {
+                    regexp: /^\+?[1-9]\d*$/,
+                    message: isZH() ? '预计线索只能是整数' : 'The expect leads only integer accepted',
+                }
+            }
         }
     }
 });

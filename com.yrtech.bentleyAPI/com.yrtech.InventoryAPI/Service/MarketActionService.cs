@@ -36,7 +36,7 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(MarketActionDto);
             string sql = "";
             sql += @"SELECT A.MarketActionId,A.ShopId,B.ShopCode,B.ShopName,B.ShopNameEn,A.ActionCode,A.ActionName
-		                    ,A.EventTypeId,C.EventTypeName,C.EventTypeNameEn,A.StartDate,A.EndDate,A.ActionPlace
+		                    ,A.EventTypeId,C.EventTypeName,C.EventTypeNameEn,A.ActivityBudget,A.ExpectLeadsCount,A.StartDate,A.EndDate,A.ActionPlace
                             ,A.ExpenseAccount,A.InUserId,A.InDateTime,A.ModifyUserId,A.ModifyDateTime
 		                    ,A.MarketActionStatusCode,D.HiddenCodeName AS MarketActionStatusName,D.HiddenCodeNameEn AS MarketActionStatusNameEn
 		                    ,A.MarketActionTargetModelCode,E.HiddenCodeName AS MarketActionTargetModelName,E.HiddenCodeNameEn AS MarketActionTargetModelNameEn
@@ -181,6 +181,8 @@ namespace com.yrtech.InventoryAPI.Service
                 findOne.ActionCode = marketAction.ActionCode;
                 findOne.ActionName = marketAction.ActionName;
                 findOne.ActionPlace = marketAction.ActionPlace;
+                findOne.ActivityBudget = marketAction.ActivityBudget;
+                findOne.ExpectLeadsCount = marketAction.ExpectLeadsCount;
                 findOne.EndDate = marketAction.EndDate;
                 findOne.StartDate = marketAction.StartDate;
                 findOne.EventTypeId = marketAction.EventTypeId;
@@ -639,7 +641,7 @@ namespace com.yrtech.InventoryAPI.Service
         }
         public void MarketActionAfter2LeadsReportDelete(string marketActionId, string seqNO)
         {
-            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO), };
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@MarketActionId", marketActionId), new SqlParameter("@SeqNO", seqNO) };
             string sql = @"DELETE MarketActionAfter2LeadsReport WHERE MarketActionId = @MarketActionId AND SeqNO = @SeqNO
                         ";
             db.Database.ExecuteSqlCommand(sql, para);

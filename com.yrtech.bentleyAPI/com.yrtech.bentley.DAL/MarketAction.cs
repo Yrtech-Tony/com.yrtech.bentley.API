@@ -21,6 +21,8 @@ namespace com.yrtech.bentley.DAL
         public Nullable<int> EventTypeId { get; set; }
         public string MarketActionStatusCode { get; set; }
         public string MarketActionTargetModelCode { get; set; }
+        public Nullable<decimal> ActivityBudget { get; set; }
+        public Nullable<int> ExpectLeadsCount { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public string ActionPlace { get; set; }

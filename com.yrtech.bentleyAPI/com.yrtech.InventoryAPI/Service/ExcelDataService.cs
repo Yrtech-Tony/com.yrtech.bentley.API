@@ -152,6 +152,8 @@ namespace com.yrtech.InventoryAPI.Service
                 exportDto.ActionCode = marketActiondto.ActionCode;
                 exportDto.ActionName = marketActiondto.ActionName;
                 exportDto.ActionPlace = marketActiondto.ActionPlace;
+                exportDto.ActivityBudget = marketActiondto.ActivityBudget;
+                exportDto.ExpectLeadsCount = marketActiondto.ExpectLeadsCount;
                 exportDto.EndDate = marketActiondto.EndDate;
                 exportDto.EventTypeId = marketActiondto.EventTypeId;
                 exportDto.EventTypeName = marketActiondto.EventTypeName;
@@ -211,57 +213,61 @@ namespace com.yrtech.InventoryAPI.Service
                 sheet.GetCell("D" + (rowIndex + 1)).Value = item.ActionName;
                 // 活动类型
                 sheet.GetCell("E" + (rowIndex + 1)).Value = item.EventTypeName;
+                // 活动预算
+                sheet.GetCell("F" + (rowIndex + 1)).Value = item.ActionName;
+                // 预计线索
+                sheet.GetCell("G" + (rowIndex + 1)).Value = item.EventTypeName;
                 //开始日期
-                sheet.GetCell("F" + (rowIndex + 1)).Value = item.StartDate;
+                sheet.GetCell("H" + (rowIndex + 1)).Value = item.StartDate;
                 //结束日期
-                sheet.GetCell("G" + (rowIndex + 1)).Value = item.EndDate;
+                sheet.GetCell("I" + (rowIndex + 1)).Value = item.EndDate;
                 // 主推车型
-                sheet.GetCell("H" + (rowIndex + 1)).Value = item.MarketActionTargetModelName;
+                sheet.GetCell("J" + (rowIndex + 1)).Value = item.MarketActionTargetModelName;
                 if (item.MarketActionBefore21 != null)
                 {
                     // 活动预算
-                    sheet.GetCell("I" + (rowIndex + 1)).Value = item.MarketActionBefore21.Budget;
+                    sheet.GetCell("K" + (rowIndex + 1)).Value = item.MarketActionBefore21.Budget;
                     // 预计参加（车主)
-                    sheet.GetCell("J" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetParticipationPCCount;
+                    sheet.GetCell("L" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetParticipationPCCount;
                     // 预计参加（潜客）
-                    sheet.GetCell("K" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetParticipationPCCount;
+                    sheet.GetCell("M" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetParticipationPCCount;
                     // 预期线索（车主）
-                    sheet.GetCell("L" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetLeadsOwnerCount;
+                    sheet.GetCell("N" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetLeadsOwnerCount;
                     // 预期线索（潜客）
-                    sheet.GetCell("M" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetLeadsPCCount;
+                    sheet.GetCell("O" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetLeadsPCCount;
                     // 预计试驾（车主)
-                    sheet.GetCell("N" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetTestDriveOwnerCount;
+                    sheet.GetCell("P" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetTestDriveOwnerCount;
                     // 预计试驾（潜客）
-                    sheet.GetCell("O" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetTestDrivePCCount;
+                    sheet.GetCell("Q" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetTestDrivePCCount;
                     // 预计订单（车主）
-                    sheet.GetCell("P" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetOrdersOwnerCount;
+                    sheet.GetCell("R" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetOrdersOwnerCount;
                     // 预计订单（潜客）
-                    sheet.GetCell("Q" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetOrdersPCCount;
+                    sheet.GetCell("S" + (rowIndex + 1)).Value = item.MarketActionBefore21.TargetOrdersPCCount;
                 }
 
                 // 实际花费
-                sheet.GetCell("R" + (rowIndex + 1)).Value = item.ActualExpenseSum;
+                sheet.GetCell("T" + (rowIndex + 1)).Value = item.ActualExpenseSum;
                 if (item.MarketActionAfter7 != null)
                 {
                     // 到场人数（车主）
-                    sheet.GetCell("S" + (rowIndex + 1)).Value = item.MarketActionAfter7.AttendenceOwnerCount;
+                    sheet.GetCell("U" + (rowIndex + 1)).Value = item.MarketActionAfter7.AttendenceOwnerCount;
                     // 预计试驾（潜客）
-                    sheet.GetCell("T" + (rowIndex + 1)).Value = item.MarketActionAfter7.AttendencePCCount;
+                    sheet.GetCell("V" + (rowIndex + 1)).Value = item.MarketActionAfter7.AttendencePCCount;
                 }
                 if (item.LeadsCount != null)
                 {
                     // 线索数量（车主）
-                    sheet.GetCell("U" + (rowIndex + 1)).Value = item.LeadsCount.LeadOwnerCount;
+                    sheet.GetCell("W" + (rowIndex + 1)).Value = item.LeadsCount.LeadOwnerCount;
                     // 线索数量（潜客）
-                    sheet.GetCell("V" + (rowIndex + 1)).Value = item.LeadsCount.LeadPCCount;
+                    sheet.GetCell("X" + (rowIndex + 1)).Value = item.LeadsCount.LeadPCCount;
                     // 试驾人数（车主）
-                    sheet.GetCell("W" + (rowIndex + 1)).Value = item.LeadsCount.TestDriverOwnerCount;
+                    sheet.GetCell("Y" + (rowIndex + 1)).Value = item.LeadsCount.TestDriverOwnerCount;
                     // 试驾人数（潜客）
-                    sheet.GetCell("X" + (rowIndex + 1)).Value = item.LeadsCount.TestDriverPCCount;
+                    sheet.GetCell("Z" + (rowIndex + 1)).Value = item.LeadsCount.TestDriverPCCount;
                     // 实际订单（车主）
-                    sheet.GetCell("Y" + (rowIndex + 1)).Value = item.LeadsCount.ActualOrderOwnerCount;
+                    sheet.GetCell("AA" + (rowIndex + 1)).Value = item.LeadsCount.ActualOrderOwnerCount;
                     // 实际订单（潜客）
-                    sheet.GetCell("Z" + (rowIndex + 1)).Value = item.LeadsCount.ActualOrderPCCount;
+                    sheet.GetCell("AB" + (rowIndex + 1)).Value = item.LeadsCount.ActualOrderPCCount;
                 }
                 rowIndex++;
             }
@@ -313,7 +319,14 @@ namespace com.yrtech.InventoryAPI.Service
                 //活动名称
                 sheet.GetCell("C" + (rowIndex + 1)).Value = item.ActionName;
                 // 费用金额
-                sheet.GetCell("D" + (rowIndex + 1)).Value = item.ExpenseAmt;
+                if (string.IsNullOrEmpty(item.ExpenseAmt))
+                {
+                    sheet.GetCell("D" + (rowIndex + 1)).Value = "";
+                }
+                else
+                {
+                    sheet.GetCell("D" + (rowIndex + 1)).Value = Convert.ToDecimal(item.ExpenseAmt);
+                }
                 // 申请状态
                 sheet.GetCell("E" + (rowIndex + 1)).Value = item.ApplyStatus;
                 //申请说明
@@ -368,9 +381,24 @@ namespace com.yrtech.InventoryAPI.Service
                 //项目
                 sheet.GetCell("B" + (rowIndex + 1)).Value = item.DMFItemName;
                 //预算花费
-                sheet.GetCell("C" + (rowIndex + 1)).Value = item.Budget;
+                if (string.IsNullOrEmpty(item.Budget))
+                {
+                    sheet.GetCell("C" + (rowIndex + 1)).Value = "";
+                }
+                else
+                {
+                    sheet.GetCell("C" + (rowIndex + 1)).Value = Convert.ToDecimal(item.Budget);
+                }
                 // 实际花费
-                sheet.GetCell("D" + (rowIndex + 1)).Value = item.AcutalAmt;
+                if (string.IsNullOrEmpty(item.AcutalAmt))
+                {
+                    sheet.GetCell("D" + (rowIndex + 1)).Value = "";
+                }
+                else
+                {
+                    
+                    sheet.GetCell("D" + (rowIndex + 1)).Value = Convert.ToDecimal(item.AcutalAmt);
+                }
                 // 备注
                 sheet.GetCell("E" + (rowIndex + 1)).Value = item.Remark;
                 rowIndex++;
@@ -397,7 +425,7 @@ namespace com.yrtech.InventoryAPI.Service
             Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "UserInfo.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];
-            int rowIndex = 2;
+            int rowIndex = 1;
 
             foreach (UserInfoDto item in list)
             {

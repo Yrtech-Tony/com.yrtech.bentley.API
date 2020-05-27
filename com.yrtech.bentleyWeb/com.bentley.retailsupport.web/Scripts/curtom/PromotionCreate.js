@@ -12,11 +12,6 @@ $('#PromotionCreate').bootstrapValidator({
             validators: {
                 notEmpty: {
                     message: isZH() ? '活动名称不能为空' : 'The activity name cannot be empty',
-                },
-                stringLength: {
-                    min: 2,
-                    max: 30,
-                    message: isZH() ? '活动名称不能小于2个字符' : 'The activity name cannot be less than 2 characters',
                 }
             }
         },

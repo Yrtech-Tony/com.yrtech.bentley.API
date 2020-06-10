@@ -58,6 +58,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
 
             , "Export": "导出"
             , "Export Clue Report Excel": "导出所有线索报告"
+            , "Export Marketing activities": "导出市场活动计划"
             , "Import": "导入"
 
             , "NO": "编号"

@@ -156,6 +156,8 @@ function InitMarketFundLst() {
             formatter: function (value, row, index) {
                 var cnt = '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'1\');">' + $('#TRAN_Quotation').val() + '</button> &nbsp;';
                 cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'2\');">' + $('#_ht_emailSnapshot').val() + '</button>';
+                cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'7\');">' + $('#_ht_eventPlan').val() + '</button>';
+                
                 return cnt;
             }
         }, {
@@ -223,7 +225,9 @@ function InitMarketFundLst() {
                 var cnt = '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'3\');">' + $('#TContract').val() + '</button> &nbsp;';
                 cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'4\');">' + $('#TInvoice').val() + '</button> &nbsp;';
                 cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'5\');">' + $('#TRAN_Quotation').val() + '</button> &nbsp;';
-                cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'6\');">' + $('#TRAN_OTHERS').val() + '</button>';
+                //cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'6\');">' + $('#TRAN_OTHERS').val() + '</button>';
+                cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'8\');">' + $('#_ht_eventReportPPT').val() + '</button>';
+                cnt += '<button onclick="GoUpload(\'' + row.ExpenseAccountId + '\',\'9\');">' + $('#_ht_emailSnapshot').val() + '</button>';
                 return cnt;
             }
         }, {

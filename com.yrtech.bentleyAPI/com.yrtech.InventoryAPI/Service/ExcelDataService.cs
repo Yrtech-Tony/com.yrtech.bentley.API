@@ -82,7 +82,69 @@ namespace com.yrtech.InventoryAPI.Service
 
             return filePath;
         }
+        // 导出活动计划
+        public string MarketActionExport(string year, string userId, string roleTypeCode)
+        {
+            List<MarketActionAfter2LeadsReportDto> listTemp = marketActionService.MarketActionAfter2LeadsReportSearch("", year);
+            List<MarketActionAfter2LeadsReportDto> list = new List<MarketActionAfter2LeadsReportDto>();
+            List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
 
+            foreach (MarketActionAfter2LeadsReportDto leadsReport in listTemp)
+            {
+                foreach (Shop shop in roleTypeShopList)
+                {
+                    if (leadsReport.ShopId == shop.ShopId)
+                    {
+                        list.Add(leadsReport);
+                    }
+                }
+            }
+
+            Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "LeadsReportAll.xlsx", false);
+            //填充数据
+            Worksheet sheet = book.Worksheets[0];
+            int rowIndex = 1;
+
+            foreach (MarketActionAfter2LeadsReportDto item in list)
+            {
+                //经销商名称
+                sheet.GetCell("A" + (rowIndex + 2)).Value = item.ShopName;
+                //活动名称
+                sheet.GetCell("B" + (rowIndex + 2)).Value = item.ActionName;
+                //客户姓名
+                sheet.GetCell("C" + (rowIndex + 2)).Value = item.CustomerName;
+                //联系方式
+                sheet.GetCell("D" + (rowIndex + 2)).Value = item.TelNO;
+                //BPNO
+                sheet.GetCell("E" + (rowIndex + 2)).Value = item.BPNO;
+                //是否车主
+                sheet.GetCell("F" + (rowIndex + 2)).Value = item.OwnerCheckName;
+                // 是否试驾
+                sheet.GetCell("G" + (rowIndex + 2)).Value = item.TestDriverCheckName;
+                // 是否线索
+                sheet.GetCell("H" + (rowIndex + 2)).Value = item.LeadsCheckName;
+                //感兴趣车型
+                sheet.GetCell("I" + (rowIndex + 2)).Value = item.InterestedModelName;
+                //是否成交
+                sheet.GetCell("J" + (rowIndex + 2)).Value = item.DealCheckName;
+                // 成交车型
+                sheet.GetCell("K" + (rowIndex + 2)).Value = item.DealModelName;
+                rowIndex++;
+            }
+
+            //保存excel文件
+            string fileName = "线索报告" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string dirPath = basePath + @"\Temp\";
+            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+            string filePath = dirPath + fileName;
+            book.Save(filePath);
+
+            return filePath;
+        }
         //导出线索报告
         public string MarketActionAfter2LeadsReportExport(string marketActionId)
         {

@@ -197,6 +197,22 @@ namespace com.yrtech.SurveyAPI.Controllers
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
+        [HttpGet]
+        [Route("MarketAction/MarketActionPlanExport")]
+        public APIResult MarketActionExportPlanSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId,string userId, string roleTypeCode)
+        {
+            try
+            {
+                string filePath = excelDataService.MarketActionPlanExport(actionName, year, month, marketActionStatusCode, shopId, eventTypeId, userId, roleTypeCode);
+
+                return new APIResult() { Status = true, Body = CommonHelper.Encode(new { FilePath = filePath }) };
+
+            }
+            catch (Exception ex)
+            {
+                return new APIResult() { Status = false, Body = ex.Message.ToString() };
+            }
+        }
         [HttpPost]
         [Route("MarketAction/MarketActionSave")]
         public APIResult MarketActionSave(MarketAction marketAction)

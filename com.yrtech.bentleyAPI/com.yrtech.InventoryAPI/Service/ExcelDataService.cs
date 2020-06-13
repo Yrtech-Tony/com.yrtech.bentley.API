@@ -83,57 +83,59 @@ namespace com.yrtech.InventoryAPI.Service
             return filePath;
         }
         // 导出活动计划
-        public string MarketActionExport(string year, string userId, string roleTypeCode)
+        public string MarketActionPlanExport(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId, string userId, string roleTypeCode)
         {
-            List<MarketActionAfter2LeadsReportDto> listTemp = marketActionService.MarketActionAfter2LeadsReportSearch("", year);
-            List<MarketActionAfter2LeadsReportDto> list = new List<MarketActionAfter2LeadsReportDto>();
+            List<MarketActionPlanDto> listTemp = marketActionService.MarketActionPlanSearch(actionName,year,month,marketActionStatusCode,shopId,eventTypeId);
+            List<MarketActionPlanDto> list = new List<MarketActionPlanDto>();
             List<Shop> roleTypeShopList = accountService.GetShopByRole(userId, roleTypeCode);
 
-            foreach (MarketActionAfter2LeadsReportDto leadsReport in listTemp)
+            foreach (MarketActionPlanDto marketAction in listTemp)
             {
                 foreach (Shop shop in roleTypeShopList)
                 {
-                    if (leadsReport.ShopId == shop.ShopId)
+                    if (marketAction.ShopId == shop.ShopId)
                     {
-                        list.Add(leadsReport);
+                        list.Add(marketAction);
                     }
                 }
             }
 
-            Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "LeadsReportAll.xlsx", false);
+            Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "MarketActionPlan.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];
             int rowIndex = 1;
 
-            foreach (MarketActionAfter2LeadsReportDto item in list)
+            foreach (MarketActionPlanDto item in list)
             {
                 //经销商名称
-                sheet.GetCell("A" + (rowIndex + 2)).Value = item.ShopName;
+                sheet.GetCell("A" + (rowIndex + 3)).Value = item.ShopName;
                 //活动名称
-                sheet.GetCell("B" + (rowIndex + 2)).Value = item.ActionName;
+                sheet.GetCell("B" + (rowIndex + 3)).Value = item.AreaName;
                 //客户姓名
-                sheet.GetCell("C" + (rowIndex + 2)).Value = item.CustomerName;
+                sheet.GetCell("C" + (rowIndex + 3)).Value = item.MarketActionStatusName;
                 //联系方式
-                sheet.GetCell("D" + (rowIndex + 2)).Value = item.TelNO;
+                sheet.GetCell("D" + (rowIndex + 3)).Value = item.ExpenseAccount;
                 //BPNO
-                sheet.GetCell("E" + (rowIndex + 2)).Value = item.BPNO;
+                sheet.GetCell("E" + (rowIndex + 3)).Value = item.ActionName;
                 //是否车主
-                sheet.GetCell("F" + (rowIndex + 2)).Value = item.OwnerCheckName;
+                sheet.GetCell("F" + (rowIndex + 3)).Value = item.EventModeName;
                 // 是否试驾
-                sheet.GetCell("G" + (rowIndex + 2)).Value = item.TestDriverCheckName;
+                sheet.GetCell("G" + (rowIndex + 3)).Value = item.EventTypeName;
                 // 是否线索
-                sheet.GetCell("H" + (rowIndex + 2)).Value = item.LeadsCheckName;
+                sheet.GetCell("H" + (rowIndex + 3)).Value = item.ActivityBudget;
                 //感兴趣车型
-                sheet.GetCell("I" + (rowIndex + 2)).Value = item.InterestedModelName;
+                sheet.GetCell("I" + (rowIndex + 3)).Value = item.ExpectLeadsCount;
                 //是否成交
-                sheet.GetCell("J" + (rowIndex + 2)).Value = item.DealCheckName;
+                sheet.GetCell("J" + (rowIndex + 3)).Value = item.Quarter;
                 // 成交车型
-                sheet.GetCell("K" + (rowIndex + 2)).Value = item.DealModelName;
+                sheet.GetCell("K" + (rowIndex + 3)).Value = item.StartDate;
+                sheet.GetCell("L" + (rowIndex + 3)).Value = item.EndDate;
+                sheet.GetCell("M" + (rowIndex + 3)).Value = item.MarketActionTargetModelName;
                 rowIndex++;
             }
 
             //保存excel文件
-            string fileName = "线索报告" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
+            string fileName = "活动计划" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".xlsx";
             string dirPath = basePath + @"\Temp\";
             DirectoryInfo dir = new DirectoryInfo(dirPath);
             if (!dir.Exists)

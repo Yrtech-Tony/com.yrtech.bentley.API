@@ -136,6 +136,70 @@ namespace com.yrtech.InventoryAPI.Service
             sql += " ORDER BY A.StartDate DESC";
             return db.Database.SqlQuery(t, sql, para).Cast<MarketActionDto>().ToList();
         }
+        public List<MarketActionPlanDto> MarketActionPlanSearch(string actionName, string year, string month, string marketActionStatusCode, string shopId, string eventTypeId)
+        {
+            if (actionName == null) actionName = "";
+            if (year == null) year = "";
+            if (month == null) month = "";
+            if (marketActionStatusCode == null) marketActionStatusCode = "";
+            if (shopId == null) shopId = "";
+            if (eventTypeId == null) eventTypeId = "";
+
+            SqlParameter[] para = new SqlParameter[] { new SqlParameter("@ActionName", actionName),
+                                                        new SqlParameter("@Year", year),
+                                                        new SqlParameter("@Month", month),
+                                                        new SqlParameter("@MarketActionStatusCode", marketActionStatusCode),
+                                                        new SqlParameter("@ShopId", shopId),
+                                                        new SqlParameter("@EventTypeId", eventTypeId)};
+            Type t = typeof(MarketActionPlanDto);
+            string sql = "";
+            sql += @"SELECT A.MarketActionId,A.ShopId,B.ShopCode,B.ShopName,
+                            ISNULL((SELECT TOP 1 AreaName FROM Area WHERE AreaId = B.AreaId),'') AS AreaName,
+                            A.ActionCode,A.ActionName
+		                    ,A.EventTypeId,C.EventTypeName,
+                            ISNULL((SELECT TOP 1 HiddenCodeName FROM HiddenCode WHERE HiddenCodeGroup = 'EventMode' AND HiddenCodeId = C.EventMode),'') AS EventModeName
+                            ,A.ActivityBudget,A.ExpectLeadsCount,A.StartDate,A.EndDate
+                            ,CASE WHEN Month(A.StartDate) IN (1,2,3) THEN 'Q1'
+                                  WHEN Month(A.StartDate) IN (4,5,6) THEN 'Q2'
+                                  WHEN Month(A.StartDate) IN (7,8,9) THEN 'Q3'
+                                  WHEN Month(A.StartDate) IN (10,11,12) THEN 'Q4'
+                             ELSE ''
+                             END AS Quarter
+                            ,CASE WHEN A.ExpenseAccount=1 THEN 'Y' ELSE '' END AS ExpenseAccount
+		                    ,A.MarketActionStatusCode,D.HiddenCodeName AS MarketActionStatusName,D.HiddenCodeNameEn AS MarketActionStatusNameEn
+		                    ,A.MarketActionTargetModelCode,E.HiddenCodeName AS MarketActionTargetModelName,E.HiddenCodeNameEn AS MarketActionTargetModelNameEn
+                    FROM MarketAction A LEFT JOIN Shop B ON A.ShopId = B.ShopId
+					                    LEFT JOIN EventType C ON A.EventTypeId = C.EventTypeId
+					                    LEFT JOIN HiddenCode D ON A.MarketActionStatusCode = D.HiddenCodeId AND D.HiddenCodeGroup = 'MarketActionStatus'
+					                    LEFT JOIN HiddenCode E ON A.MarketActionTargetModelCode  = E.HiddenCodeId AND E.HiddenCodeGroup = 'TargetModels'
+                    WHERE 1=1";
+            if (!string.IsNullOrEmpty(actionName))
+            {
+                sql += " AND A.ActionName LIKE '%'+@ActionName+'%'";
+            }
+            if (!string.IsNullOrEmpty(year))
+            {
+                sql += " AND Year(A.StartDate)= @Year";
+            }
+            if (!string.IsNullOrEmpty(month))
+            {
+                sql += " AND Month(A.StartDate)= @Month";
+            }
+            if (!string.IsNullOrEmpty(marketActionStatusCode))
+            {
+                sql += " AND A.MarketActionStatusCode =@MarketActionStatusCode";
+            }
+            if (!string.IsNullOrEmpty(shopId))
+            {
+                sql += " AND A.ShopId =@ShopId";
+            }
+            if (!string.IsNullOrEmpty(eventTypeId))
+            {
+                sql += " AND A.EventTypeId =@EventTypeId";
+            }
+            sql += " ORDER BY A.StartDate DESC";
+            return db.Database.SqlQuery(t, sql, para).Cast<MarketActionPlanDto>().ToList();
+        }
         // 查询未取消的市场活动
         public List<MarketAction> MarketActionNotCancelSearch(string eventTypeId)
         {

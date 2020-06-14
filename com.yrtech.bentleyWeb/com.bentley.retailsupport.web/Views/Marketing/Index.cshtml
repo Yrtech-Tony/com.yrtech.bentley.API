@@ -154,8 +154,21 @@
 
         })
 
-        function downloadMarketingEvent() {
-
+        function downloadMarketingEvent() { 
+            $.commonGet("MarketAction/MarketActionPlanExport", {
+                actionName: $('#pname').val() || '',
+                year: $('#pyear').val() || '',
+                month: $('#pmonth').val() || '',
+                marketActionStatusCode: $('#pstate').val() || '',
+                shopId: $('#pdealer').val() || ' ',
+                eventTypeId: $('#ptype').val() || ' ',
+                userId: $("#G_UserId").val(),
+                roleTypeCode: $("#G_RoleTypeCode").val()
+            }, function (data) {
+                if (data) {
+                    window.location.href = host + "download/DownloadFile?filepath=" + data.FilePath;
+                }
+            })
         }
     </script>
 }

@@ -263,7 +263,7 @@ namespace com.yrtech.InventoryAPI.Service
             Workbook book = Workbook.Load(basePath + @"Content\Excel\" + "MarketAction.xlsx", false);
             //填充数据
             Worksheet sheet = book.Worksheets[0];
-            int rowIndex = 3;
+            int rowIndex = 2;
 
             foreach (MarketActionExportDto item in list)
             {
@@ -494,15 +494,15 @@ namespace com.yrtech.InventoryAPI.Service
             foreach (UserInfoDto item in list)
             {
                 //账号
-                sheet.GetCell("A" + (rowIndex + 1)).Value = item.AccountId;
+                sheet.GetCell("A" + (rowIndex + 2)).Value = item.AccountId;
                 //账号名称
-                sheet.GetCell("B" + (rowIndex + 1)).Value = item.AccountName;
+                sheet.GetCell("B" + (rowIndex + 2)).Value = item.AccountName;
                 //账号名称中文
-                sheet.GetCell("C" + (rowIndex + 1)).Value = item.AccountNameEn;
+                sheet.GetCell("C" + (rowIndex + 2)).Value = item.AccountNameEn;
                 // 邮箱
-                sheet.GetCell("D" + (rowIndex + 1)).Value = item.Email;
+                sheet.GetCell("D" + (rowIndex + 2)).Value = item.Email;
                 // 权限
-                sheet.GetCell("E" + (rowIndex + 1)).Value = item.RoleTypeName;
+                sheet.GetCell("E" + (rowIndex + 2)).Value = item.RoleTypeName;
                 rowIndex++;
             }
 

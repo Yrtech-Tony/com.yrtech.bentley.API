@@ -80,8 +80,7 @@ function InitMarketFundLst() {
             width: "400px",
             valign: "middle",
             align: "center",
-            sortable: false
-                ,
+            sortable: false,
             formatter: function (value, row, index) {
                 return value;
             }
@@ -91,8 +90,7 @@ function InitMarketFundLst() {
             width: "400px",
             valign: "middle",
             align: "center",
-            sortable: false
-                ,
+            sortable: false,
             formatter: function (value, row, index) {
                 return dealNumber(value);
             }
@@ -102,8 +100,7 @@ function InitMarketFundLst() {
             width: "400px",
             valign: "middle",
             align: "center",
-            sortable: false
-                ,
+            sortable: false,
             formatter: function (value, row, index) {
                 return dealNumber(value);
             }
@@ -113,8 +110,7 @@ function InitMarketFundLst() {
             width: "400px",
             valign: "middle",
             align: "center",
-            sortable: false
-                ,
+            sortable: false,
             formatter: function (value, row, index) {
                 return dealNumber(value);
             }

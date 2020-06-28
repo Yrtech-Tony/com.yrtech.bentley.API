@@ -69,7 +69,7 @@
                                 <a class="btn btn-primary" style="margin-left:2px;" onclick="downloadFile()"><i class="icon-download-alt"></i><span translate>Export</span></a>
                                 <a id="selectfiles" class="btn btn-primary" style="margin-left:2px;"><i class="icon-upload-alt"></i><span translate>Import</span></a>                               
                                 <a class="btn btn-link" id="templateDownloadA"><i class="icon-plus icon-white"></i><span translate>Download Templates</span></a>
-                                <div id="upload-container" class="container-fluid" style="margin:0;padding:0;float:left">
+                                <div id="upload-container" class="container-fluid" style="display:none">
                                     <div id="ossfile"></div>
                                 </div> 
                             </p>
@@ -336,7 +336,6 @@
                 sumCost += parseFloat(rows[i]["AcutalAmt"]);
             }
             $("#totalDiv").html("<span>" + (isZH() ? "预算花费总计" : "Total Budget Amount") + "：" + dealNumber(sumBuget) + "</span/> &nbsp;&nbsp; &nbsp;&nbsp; " + (isZH() ? "实际花费总计" : "Total Actual Expense") + "：" + dealNumber(sumCost));
-
         }
 
         function loadTopTable(quarterList) {

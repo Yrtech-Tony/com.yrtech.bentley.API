@@ -47,15 +47,16 @@ namespace com.yrtech.InventoryAPI.Common
         {
             try
             {
-                byte[] rgbKey = Encoding.UTF8.GetBytes(_encryptKey);
-                byte[] rgbIV = Encoding.UTF8.GetBytes(iv);
-                byte[] inputByteArray = Convert.FromBase64String(decryptString);
-                DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
-                MemoryStream mStream = new MemoryStream();
-                CryptoStream cStream = new CryptoStream(mStream, DCSP.CreateDecryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
-                cStream.Write(inputByteArray, 0, inputByteArray.Length);
-                cStream.FlushFinalBlock();
-                return Encoding.UTF8.GetString(mStream.ToArray());
+                //byte[] rgbKey = Encoding.UTF8.GetBytes(_encryptKey);
+                //byte[] rgbIV = Encoding.UTF8.GetBytes(iv);
+                //byte[] inputByteArray = Convert.FromBase64String(decryptString);
+                //DESCryptoServiceProvider DCSP = new DESCryptoServiceProvider();
+                //MemoryStream mStream = new MemoryStream();
+                //CryptoStream cStream = new CryptoStream(mStream, DCSP.CreateDecryptor(rgbKey, rgbIV), CryptoStreamMode.Write);
+                //cStream.Write(inputByteArray, 0, inputByteArray.Length);
+                //cStream.FlushFinalBlock();
+                //return Encoding.UTF8.GetString(mStream.ToArray());
+                return decryptString;
             }
             catch
             {

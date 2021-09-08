@@ -33,6 +33,7 @@ namespace com.yrtech.InventoryAPI.Common
                 cStream.Write(inputByteArray, 0, inputByteArray.Length);
                 cStream.FlushFinalBlock();
                 return Convert.ToBase64String(mStream.ToArray());
+                //return encryptString;
             }
             catch
             {
@@ -56,6 +57,8 @@ namespace com.yrtech.InventoryAPI.Common
                 cStream.Write(inputByteArray, 0, inputByteArray.Length);
                 cStream.FlushFinalBlock();
                 return Encoding.UTF8.GetString(mStream.ToArray());
+                // CommonHelper.log(decryptString);
+                //return decryptString;
             }
             catch
             {

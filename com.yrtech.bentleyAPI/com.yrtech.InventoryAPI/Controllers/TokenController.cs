@@ -22,7 +22,8 @@ namespace com.yrtech.InventoryAPI.Controllers
             try
             {
                
-                return new APIResult() { Status = true, Body = TokenHelper.EncryptDES(encryptString) };
+               // return new APIResult() { Status = true, Body = TokenHelper.EncryptDES(encryptString) };
+                return new APIResult() { Status = true, Body = encryptString };
             }
             catch (Exception ex)
             {

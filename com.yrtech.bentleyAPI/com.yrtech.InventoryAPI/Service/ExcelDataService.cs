@@ -107,34 +107,36 @@ namespace com.yrtech.InventoryAPI.Service
 
             foreach (MarketActionPlanDto item in list)
             {
+                //ID
+                sheet.GetCell("A" + (rowIndex + 3)).Value = item.MarketActionId.ToString();
                 //经销商名称
-                sheet.GetCell("A" + (rowIndex + 3)).Value = item.ShopName;
+                sheet.GetCell("B" + (rowIndex + 3)).Value = item.ShopName;
                 //区域名称
-                sheet.GetCell("B" + (rowIndex + 3)).Value = item.AreaName;
+                sheet.GetCell("C" + (rowIndex + 3)).Value = item.AreaName;
                 //活动状态
-                sheet.GetCell("C" + (rowIndex + 3)).Value = item.MarketActionStatusName;
+                sheet.GetCell("D" + (rowIndex + 3)).Value = item.MarketActionStatusName;
                 //费用报销
-                sheet.GetCell("D" + (rowIndex + 3)).Value = item.ExpenseAccount;
+                sheet.GetCell("E" + (rowIndex + 3)).Value = item.ExpenseAccount;
                 //活动名称
-                sheet.GetCell("E" + (rowIndex + 3)).Value = item.ActionName;
+                sheet.GetCell("F" + (rowIndex + 3)).Value = item.ActionName;
                 //活动ID
-                sheet.GetCell("F" + (rowIndex + 3)).Value = item.ActionCode;
+                sheet.GetCell("G" + (rowIndex + 3)).Value = item.ActionCode;
                 //活动方式
-                sheet.GetCell("G" + (rowIndex + 3)).Value = item.EventModeName;
+                sheet.GetCell("H" + (rowIndex + 3)).Value = item.EventModeName;
                 // 活动类型
-                sheet.GetCell("H" + (rowIndex + 3)).Value = item.EventTypeName;
+                sheet.GetCell("I" + (rowIndex + 3)).Value = item.EventTypeName;
                 // 活动预算
-                sheet.GetCell("I" + (rowIndex + 3)).Value = item.ActivityBudget;
+                sheet.GetCell("J" + (rowIndex + 3)).Value = item.ActivityBudget;
                 //预计线索数
-                sheet.GetCell("J" + (rowIndex + 3)).Value = item.ExpectLeadsCount;
+                sheet.GetCell("K" + (rowIndex + 3)).Value = item.ExpectLeadsCount;
                 //季度
-                sheet.GetCell("K" + (rowIndex + 3)).Value = item.Quarter;
+                sheet.GetCell("L" + (rowIndex + 3)).Value = item.Quarter;
                 // 开始时间
-                sheet.GetCell("L" + (rowIndex + 3)).Value = item.StartDate;
+                sheet.GetCell("M" + (rowIndex + 3)).Value = item.StartDate;
                 // 结束时间
-                sheet.GetCell("M" + (rowIndex + 3)).Value = item.EndDate;
+                sheet.GetCell("N" + (rowIndex + 3)).Value = item.EndDate;
                 //主推车型
-                sheet.GetCell("N" + (rowIndex + 3)).Value = item.MarketActionTargetModelName;
+                sheet.GetCell("O" + (rowIndex + 3)).Value = item.MarketActionTargetModelName;
                 rowIndex++;
             }
 

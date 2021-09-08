@@ -98,7 +98,7 @@ namespace com.yrtech.InventoryAPI.Service
             Type t = typeof(DMFDetail);
 
             string sql = "";
-            sql = @" SELECT * FROM DMFDetail WHERE 1=1";
+            sql = @" SELECT * FROM DMFDetail WHERE 1=1 ";
             if (!string.IsNullOrEmpty(dmfDetailId))
             {
                 sql += " AND DMFDetailId = @DMFDetailId";

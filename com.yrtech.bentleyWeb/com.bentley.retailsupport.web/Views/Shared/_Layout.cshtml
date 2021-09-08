@@ -206,7 +206,7 @@
                 <span id="yearDisplay" style="line-height: 45px; font-size: 28px; font-family: 黑体; color: aquamarine; ">
                     2020
                 </span>
-                <a href="javascript:openHisData()"><span style="line-height: 35px; font-size: 15px; font-family: 黑体; color: white; text-decoration: underline">2019年数据入口</span></a>
+                <a href="javascript:openHisData()"><span style="line-height: 35px; font-size: 15px; font-family: 黑体; color: white; text-decoration: underline">2020年数据入口</span></a>
                 <ul class="nav navbar navbar-top-links navbar-right mbn">
                     <li class="dropdown topbar-user">
                         <a data-hover="dropdown" href="#" class="dropdown-toggle"><span id="G_userName" class="hidden-xs"></span>&nbsp;<span class="caret"></span></a>
@@ -517,11 +517,12 @@
 
         function openHisData() {
             var email = $("#G_Email").val();
-            $.get("http://retailmarketing.bentleydmn.com:8099/Token/api/Token/TokenCreate", {
+            //$.get("http://retailmarketing.bentleydmn.com:8099/Token/api/Token/TokenCreate", {
+            $.get("http://39.106.71.65:8099/Token/api/Token/TokenCreate", {
                 encryptString: email || ''
             }, function (data) {
                 if (data && data.Status) {
-                    $("#tokenForm").attr("action", "http://retailmarketing.bentleydmn.com:8019/Account/TokenLogin");
+                    $("#tokenForm").attr("action", "http://39.106.71.65:8020/Account/TokenLogin");
                     $("#tokenForm").attr("method", "post");
                     $("#token").val(data.Body);
                     $("#tokenForm").submit();

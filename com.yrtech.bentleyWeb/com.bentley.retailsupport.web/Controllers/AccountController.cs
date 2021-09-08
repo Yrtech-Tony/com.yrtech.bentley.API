@@ -68,7 +68,8 @@ namespace com.bentley.retailsupport.web.Controllers
             //添加请求的头文件
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             //发送请求并接受返回的值
-            String email = TokenHelper.DecryptDES(token);
+            // String email = TokenHelper.DecryptDES(token);
+            string email = token;
             //CommonHelper.log(email);
             //Thread.Sleep(1000);
             if (string.IsNullOrEmpty(email))

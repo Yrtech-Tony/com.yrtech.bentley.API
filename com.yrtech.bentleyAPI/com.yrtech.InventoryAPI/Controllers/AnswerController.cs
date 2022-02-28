@@ -414,23 +414,24 @@ namespace com.yrtech.SurveyAPI.Controllers
         [Route("MarketAction/KeyVisionSendEmailToBMC")]
         public APIResult KeyVisionSendEmailToBMC(string marketActionId)
         {
+            string marketactionName = "";
+            List<MarketAction> marketAction = marketActionService.MarketActionSearchById(marketActionId);
+            List<ShopDto> shop = new List<ShopDto>();
+            if (marketAction != null && marketAction.Count > 0)
+            {
+                marketactionName = marketAction[0].ActionName;
+                shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
+            }
             try
             {
-                string marketactionName = "";
-                List<MarketAction> marketAction = marketActionService.MarketActionSearchById(marketActionId);
-                List<ShopDto> shop = new List<ShopDto>();
-                if (marketAction != null && marketAction.Count > 0)
-                {
-                    marketactionName = marketAction[0].ActionName;
-                    shop = masterService.ShopSearch(marketAction[0].ShopId.ToString(), "", "", "");
-                }
+                CommonHelper.log("开始调用"+marketActionId + "-" + shop[0].ShopName+"-"+ marketactionName);
                 SendEmail(WebConfigurationManager.AppSettings["KeyVisionEmail_To"], WebConfigurationManager.AppSettings["KeyVisionEmail_CC"]
                         , "主视觉画面审批", "宾利经销商【" + shop[0].ShopName + "】的市场活动【" + marketactionName + "】的画面审核已提交，请审核", "", "");
                 return new APIResult() { Status = true, Body = "" };
             }
             catch (Exception ex)
             {
-                //CommonHelper.log(ex.Message.ToString());
+                CommonHelper.log("邮件异常"+marketActionId+"-"+shop[0].ShopName+"-"+marketactionName+"-" + ex.Message.ToString());
                 return new APIResult() { Status = false, Body = ex.Message.ToString() };
             }
         }
